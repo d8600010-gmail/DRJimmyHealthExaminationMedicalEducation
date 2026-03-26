@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ST-T 變化一定是心肌缺氧嗎？ · Dr. Jimmy 診間故事集</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #faf8f3;
+      --warm-white: #f5f2ec;
+      --ink: #1a1a2e;
+      --ink-soft: #3d3d55;
+      --muted: #8a8a9a;
+      --accent-teal: #2c9b8a;
+      --accent-teal-light: #e8f5f3;
+      --accent-gold: #c8974a;
+      --accent-gold-light: #fdf4e7;
+      --accent-rose: #c0566a;
+      --accent-rose-light: #fdf0f2;
+      --accent-indigo: #4a6fa5;
+      --accent-indigo-light: #eef2f9;
+      --border: #e8e4da;
+      --shadow-soft: 0 4px 20px rgba(26,26,46,0.06);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Noto Sans TC", sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--ink);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.82em;
+      font-weight: 500;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.18s;
+    }
+    .back-link:hover { color: var(--accent-indigo); }
+    .back-link .arrow { font-size: 0.85em; }
+
+    .topbar-sep { color: rgba(255,255,255,0.2); font-size: 0.8em; }
+    .topbar-current { font-size: 0.82em; color: rgba(255,255,255,0.35); letter-spacing: 0.03em; }
+
+    /* ── HERO ── */
+    .modal-hero {
+      background: var(--ink);
+      position: relative;
+      padding: 52px 48px 44px;
+      overflow: hidden;
+    }
+
+    .modal-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 75% 80% at 15% 55%, rgba(74,111,165,0.32) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 55% at 82% 18%, rgba(44,155,138,0.18) 0%, transparent 55%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .modal-tag {
+      position: relative; z-index: 1;
+      display: inline-block;
+      font-size: 0.68em; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent-indigo);
+      background: rgba(74,111,165,0.14);
+      border: 1px solid rgba(74,111,165,0.32);
+      padding: 3px 12px; border-radius: 20px;
+      margin-bottom: 18px;
+    }
+
+    .modal-hero h1 {
+      position: relative; z-index: 1;
+      font-family: "Noto Serif TC", serif;
+      font-size: clamp(1.6em, 4vw, 2.2em);
+      color: white; font-weight: 700;
+      line-height: 1.3; margin-bottom: 14px;
+    }
+
+    .modal-hero p.hero-sub {
+      position: relative; z-index: 1;
+      font-size: 0.95em; color: rgba(255,255,255,0.58);
+      font-weight: 300; line-height: 1.65;
+      max-width: 580px;
+    }
+
+    .hero-line {
+      position: relative; z-index: 1;
+      width: 50px; height: 2px;
+      background: linear-gradient(90deg, var(--accent-indigo), var(--accent-teal));
+      margin-top: 24px; border-radius: 2px;
+    }
+
+    /* ── CONTENT ── */
+    .page-body {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 40px 28px 72px;
+    }
+
+    .kb-section { margin-bottom: 32px; }
+
+    .kb-title {
+      font-family: "Noto Serif TC", serif;
+      font-size: 1.08em; font-weight: 700;
+      color: var(--ink);
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .kb-title-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95em; background: var(--accent-indigo-light);
+      flex-shrink: 0;
+    }
+
+    .kb-prose {
+      font-size: 0.93em; color: var(--ink-soft);
+      line-height: 1.9; font-weight: 300;
+    }
+
+    .kb-divider {
+      height: 1px; background: var(--border);
+      margin: 28px 0;
+    }
+
+    /* ── ECG 示意圖 ── */
+    .ecg-demo {
+      background: #0f1020;
+      border-radius: 14px;
+      padding: 24px 20px 18px;
+      margin: 18px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ecg-label {
+      font-size: 0.72em; letter-spacing: 0.14em;
+      color: rgba(74,111,165,0.7); text-transform: uppercase;
+      margin-bottom: 12px; font-weight: 500;
+    }
+
+    .ecg-svg-wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .ecg-col {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .ecg-col-label {
+      font-size: 0.72em; color: rgba(255,255,255,0.35);
+      margin-bottom: 6px; letter-spacing: 0.08em;
+    }
+
+    /* ── 原因卡片 ── */
+    .cause-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px; margin-top: 12px;
+    }
+
+    .cause-card {
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.87em; line-height: 1.55;
+    }
+
+    .cause-card .cause-label {
+      font-weight: 600; margin-bottom: 5px; font-size: 0.92em;
+    }
+
+    .cause-card .cause-desc { color: var(--ink-soft); font-weight: 300; }
+    .cause-card.benign  { background: var(--accent-indigo-light); border-left: 3px solid var(--accent-indigo); }
+    .cause-card.caution { background: #fdf4e7; border-left: 3px solid var(--accent-gold); }
+    .cause-card.serious { background: var(--accent-rose-light); border-left: 3px solid var(--accent-rose); }
+
+    /* ── 症狀對比表 ── */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88em;
+      margin-top: 14px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .compare-table th {
+      background: var(--accent-indigo);
+      color: white;
+      padding: 11px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.9em;
+      letter-spacing: 0.03em;
+    }
+
+    .compare-table th:first-child { border-radius: 0; }
+
+    .compare-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--ink-soft);
+      font-weight: 300;
+      line-height: 1.55;
+      vertical-align: top;
+    }
+
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table tr:nth-child(even) td { background: var(--warm-white); }
+
+    .compare-table .col-head {
+      font-weight: 600; color: var(--ink);
+      width: 130px;
+    }
+
+    /* ── 流程步驟 ── */
+    .flow-steps { margin-top: 16px; }
+
+    .flow-step {
+      display: flex; gap: 16px; margin-bottom: 16px;
+    }
+
+    .flow-num {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--accent-indigo); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78em; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    }
+
+    .flow-content { flex: 1; }
+    .flow-content strong { font-size: 0.9em; color: var(--ink); display: block; margin-bottom: 4px; }
+    .flow-content span { font-size: 0.85em; color: var(--ink-soft); font-weight: 300; line-height: 1.6; }
+
+    /* ── 自律神經 highlight box ── */
+    .ans-box {
+      background: var(--accent-indigo-light);
+      border-left: 4px solid var(--accent-indigo);
+      border-radius: 0 12px 12px 0;
+      padding: 18px 22px;
+      margin: 18px 0;
+      font-size: 0.88em;
+      color: var(--ink-soft);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .ans-box strong { color: var(--accent-indigo); font-weight: 600; }
+
+    .ans-box ul {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    .ans-box li {
+      margin-bottom: 6px;
+    }
+
+    /* ── callout ── */
+    .callout {
+      background: var(--accent-indigo-light);
+      border-left: 4px solid var(--accent-indigo);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      font-size: 0.88em; color: var(--ink-soft);
+      line-height: 1.75; font-weight: 300;
+      margin-top: 16px;
+    }
+
+    .callout strong { color: var(--accent-indigo); font-weight: 600; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 24px;
+      text-align: center;
+      font-size: 0.82em;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+
+    footer .footer-brand {
+      font-family: "DM Serif Display", serif;
+      font-style: italic;
+      color: var(--ink-soft);
+      font-size: 1.1em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .modal-hero { padding: 40px 22px 36px; }
+      .page-body { padding: 32px 18px 60px; }
+      .cause-grid { grid-template-columns: 1fr; }
+      .compare-table .col-head { width: 90px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 頂部導覽列 -->
+<nav class="topbar">
+  <a href="../index.html" class="back-link">
+    <span class="arrow">←</span> 診間故事集
+  </a>
+  <span class="topbar-sep">/</span>
+  <span class="topbar-current">ST-T 變化一定是心肌缺氧嗎？</span>
+</nav>
+
+<!-- Hero -->
+<div class="modal-hero">
+  <div class="hero-grid"></div>
+  <div class="modal-tag">健診常見心電圖變化 · 04</div>
+  <h1>ST-T 變化一定是心肌缺氧嗎？</h1>
+  <p class="hero-sub">健檢心電圖報告寫著「ST-T change」，很多人立刻聯想到心肌梗塞——但其實，絕大多數無症狀的 ST-T 變化，背後藏的是壓力與自律神經，而非阻塞的冠狀動脈。</p>
+  <div class="hero-line"></div>
+</div>
+
+<!-- 內文 -->
+<div class="page-body">
+
+  <!-- 1. 什麼是 ST-T 變化 -->
+  <div class="kb-section">
+    <div class="kb-title">
+      <div class="kb-title-icon">📈</div>
+      什麼是 ST-T 變化？
+    </div>
+    <p class="kb-prose">
+      心電圖中，<strong>ST 段</strong>代表心室去極化結束到復極化開始的過渡期，<strong>T 波</strong>則反映心室復極化的電訊號。當這兩段出現偏移、壓低、倒置或形態改變，統稱為「ST-T change（ST-T 變化）」。
+    </p>
+    <p class="kb-prose" style="margin-top:12px">
+      ST-T 變化是心電圖中<strong>最常見、也最容易被過度解讀</strong>的發現之一。它的成因非常廣泛，從生理性波動到嚴重心臟病都可能造成相似的外觀，因此單靠心電圖圖形本身，無法直接下診斷。
+    </p>
+
+    <!-- SVG 示意圖 -->
+    <div class="ecg-demo">
+      <div class="ecg-label">心電圖示意 — ST-T 變化類型</div>
+      <div class="ecg-svg-wrap">
+        <div class="ecg-col">
+          <div class="ecg-col-label">正常 ST-T</div>
+          <svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px">
+            <polyline points="0,55 20,55 28,20 33,65 40,55 70,55 75,30 85,55 160,55"
+              fill="none" stroke="#4a6fa5" stroke-width="2.2" stroke-linejoin="round"/>
+            <line x1="40" y1="55" x2="70" y2="55" stroke="rgba(74,111,165,0.3)" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="52" y="72" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="middle" font-family="sans-serif">ST 等電位</text>
+          </svg>
+        </div>
+        <div class="ecg-col">
+          <div class="ecg-col-label">ST 壓低（自律神經／缺血）</div>
+          <svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px">
+            <polyline points="0,48 20,48 28,13 33,58 40,48 70,62 75,38 85,48 160,48"
+              fill="none" stroke="#c8974a" stroke-width="2.2" stroke-linejoin="round"/>
+            <line x1="40" y1="48" x2="40" y2="62" stroke="rgba(200,151,74,0.5)" stroke-width="1" stroke-dasharray="2,2"/>
+            <text x="55" y="76" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="middle" font-family="sans-serif">ST 壓低</text>
+          </svg>
+        </div>
+        <div class="ecg-col">
+          <div class="ecg-col-label">T 波倒置（非特異性）</div>
+          <svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px">
+            <polyline points="0,48 20,48 28,13 33,58 40,48 70,48 75,66 85,48 160,48"
+              fill="none" stroke="#c0566a" stroke-width="2.2" stroke-linejoin="round"/>
+            <text x="77" y="76" fill="rgba(255,255,255,0.4)" font-size="9" text-anchor="middle" font-family="sans-serif">T 波倒置</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kb-divider"></div>
+
+  <!-- 2. 常見原因 -->
+  <div class="kb-section">
+    <div class="kb-title">
+      <div class="kb-title-icon">📋</div>
+      常見原因一覽
+    </div>
+    <div class="cause-grid">
+      <div class="cause-card benign">
+        <div class="cause-label">💙 壓力 / 焦慮</div>
+        <div class="cause-desc">情緒壓力活化交感神經，改變心肌復極化電流，是健檢族群中最常見的成因</div>
+      </div>
+      <div class="cause-card benign">
+        <div class="cause-label">💙 自律神經失調</div>
+        <div class="cause-desc">交感／副交感失衡直接影響 ST-T 形態，常見於過勞、睡眠不足、換氣過度族群</div>
+      </div>
+      <div class="cause-card benign">
+        <div class="cause-label">💙 體位性 / 過度換氣</div>
+        <div class="cause-desc">站姿心電圖、深呼吸、焦慮性換氣均可暫時性改變 ST-T，重複測量即恢復</div>
+      </div>
+      <div class="cause-card benign">
+        <div class="cause-label">💙 荷爾蒙 / 月經週期</div>
+        <div class="cause-desc">女性雌激素波動可影響心臟電氣活動，導致非特異性 T 波變化</div>
+      </div>
+      <div class="cause-card caution">
+        <div class="cause-label">⚠️ 電解質異常</div>
+        <div class="cause-desc">低血鉀（低鉀血症）是最常見的非心因性 ST-T 壓低原因，需抽血確認</div>
+      </div>
+      <div class="cause-card caution">
+        <div class="cause-label">⚠️ 左心室肥大</div>
+        <div class="cause-desc">長期高血壓導致心肌增厚，繼發性 ST-T 變化常見於側壁導程</div>
+      </div>
+      <div class="cause-card caution">
+        <div class="cause-label">⚠️ 藥物影響</div>
+        <div class="cause-desc">毛地黃、抗心律不整藥、三環抗鬱劑等均可造成 ST-T 形態改變</div>
+      </div>
+      <div class="cause-card serious">
+        <div class="cause-label">🔴 心肌缺血 / 心絞痛</div>
+        <div class="cause-desc">冠狀動脈狹窄造成心肌供氧不足，ST 壓低或 T 波倒置可能是唯一線索，需搭配症狀評估</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kb-divider"></div>
+
+  <!-- 3. 自律神經失調深入說明 -->
+  <div class="kb-section">
+    <div class="kb-title">
+      <div class="kb-title-icon">🧠</div>
+      為什麼壓力和自律神經失調會影響心電圖？
+    </div>
+    <p class="kb-prose">
+      心臟的電氣活動受<strong>自律神經系統</strong>密切調控。交感神經興奮時（如緊張、焦慮、過勞），腎上腺素升高，心肌細胞的離子通道開關時序改變，進而影響復極化速度與均勻性——心電圖上就出現 ST 段輕微壓低或 T 波形態改變。
+    </p>
+    <div class="ans-box">
+      <strong>常見觸發情境</strong>
+      <ul>
+        <li>長期工作壓力大、睡眠不足、慢性焦慮</li>
+        <li>健檢當天緊張、過度換氣（焦慮性呼吸）</li>
+        <li>咖啡因攝取過量、交感亢進體質</li>
+        <li>更年期前後荷爾蒙波動伴隨自律神經不穩</li>
+        <li>甲狀腺功能異常（甲亢可類似交感過度興奮）</li>
+      </ul>
+    </div>
+    <p class="kb-prose">
+      這類 ST-T 變化的特徵是<strong>動態性</strong>——換個時間點、放鬆後重測，或在不同體位下描圖，結果往往不同。這與真正心肌缺血造成的固定性或運動誘發性變化有本質上的區別。
+    </p>
+  </div>
+
+  <div class="kb-divider"></div>
+
+  <!-- 4. 判斷表格 -->
+  <div class="kb-section">
+    <div class="kb-title">
+      <div class="kb-title-icon">🔍</div>
+      如何區分「無害的 ST-T 變化」與「需要擔心的缺血訊號」？
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>特徵</th>
+          <th>自律神經／功能性</th>
+          <th>心肌缺血</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-head">有無胸痛</td>
+          <td>無，或僅有壓迫感、胸悶（非典型）</td>
+          <td>常有典型胸悶、胸痛，可放射至左臂或下巴</td>
+        </tr>
+        <tr>
+          <td class="col-head">誘發因素</td>
+          <td>壓力、疲勞、過度換氣、體位改變</td>
+          <td>運動、爬樓梯、飯後、情緒激動</td>
+        </tr>
+        <tr>
+          <td class="col-head">重複心電圖</td>
+          <td>不同時間結果不一致、可自行恢復</td>
+          <td>運動後或症狀發作時更明顯，較固定</td>
+        </tr>
+        <tr>
+          <td class="col-head">心臟標記物</td>
+          <td>肌鈣蛋白（Troponin）正常</td>
+          <td>急性缺血時 Troponin 可能升高</td>
+        </tr>
+        <tr>
+          <td class="col-head">風險因子</td>
+          <td>年輕、無高血壓 / 糖尿病 / 高血脂史</td>
+          <td>中高齡、有代謝症候群、吸菸史</td>
+        </tr>
+        <tr>
+          <td class="col-head">運動心電圖</td>
+          <td>運動後 ST-T 反而改善或不變</td>
+          <td>運動後 ST 壓低加深（陽性反應）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="kb-divider"></div>
+
+  <!-- 5. 接下來怎麼辦 -->
+  <div class="kb-section">
+    <div class="kb-title">
+      <div class="kb-title-icon">🗺️</div>
+      健檢發現 ST-T 變化，接下來怎麼辦？
+    </div>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-content">
+          <strong>確認有無症狀</strong>
+          <span>近期有無胸悶、胸痛、喘、運動後不適？若完全無症狀，急性缺血機率極低</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-content">
+          <strong>評估心血管風險因子</strong>
+          <span>年齡、性別、血壓、血脂、血糖、吸菸史——風險低者優先考慮功能性原因</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-content">
+          <strong>抽血檢查</strong>
+          <span>電解質（鉀、鎂）、甲狀腺功能（TSH）、空腹血糖、血脂四項；必要時加做 Troponin</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-content">
+          <strong>放鬆後重複心電圖</strong>
+          <span>休息 10–15 分鐘、深呼吸後重測；若 ST-T 回復正常，自律神經因素可能性大</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <div class="flow-content">
+          <strong>進一步評估（視風險決定）</strong>
+          <span>中高風險者安排運動心電圖或心臟超音波；有症狀者轉介心臟科做冠狀動脈評估</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Dr. Jimmy 提醒：</strong>健檢發現 ST-T 變化，最重要的第一個問題是——「你有沒有症狀？」
+    無症狀、年輕、無心血管風險因子的族群，十之八九是壓力或自律神經在作怪，調整生活步調、改善睡眠品質往往比做一堆檢查更有效。但如果你的風險因子多，或是偶爾有胸悶，千萬不要用「可能是自律神經」說服自己不去看診。
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-brand">Dr. Jimmy 診間故事集</div>
+  <div style="margin-top:6px">© 2026 · 用醫學說故事 · 內容僅供衛教參考，不替代個人醫療建議</div>
+</footer>
+
+</body>
+</html>
