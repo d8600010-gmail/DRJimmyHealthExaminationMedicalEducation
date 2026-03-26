@@ -21,550 +21,142 @@
       --accent-rose-light: #fdf0f2;
       --accent-indigo: #4a6fa5;
       --accent-indigo-light: #eef2f9;
+      --accent-lime: #5a8a3c;
+      --accent-lime-light: #f0f7ea;
       --border: #e8e4da;
       --shadow-soft: 0 4px 20px rgba(26,26,46,0.06);
       --shadow-hover: 0 16px 40px rgba(26,26,46,0.13);
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
+    body { font-family: "Noto Sans TC", sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
 
-    body {
-      font-family: "Noto Sans TC", sans-serif;
-      background: var(--cream);
-      color: var(--ink);
-      overflow-x: hidden;
-    }
-
-    /* ── HEADER ── */
+    /* HEADER */
     header {
-      position: relative;
-      min-height: 340px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 70px 24px 60px;
-      overflow: hidden;
+      position: relative; min-height: 340px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 70px 24px 60px; overflow: hidden;
     }
-
-    .header-bg {
-      position: absolute;
-      inset: 0;
-      background: var(--ink);
-      z-index: 0;
-    }
-
+    .header-bg { position: absolute; inset: 0; background: var(--ink); z-index: 0; }
     .header-bg::before {
-      content: '';
-      position: absolute;
-      inset: 0;
+      content: ''; position: absolute; inset: 0;
       background:
         radial-gradient(ellipse 70% 60% at 20% 30%, rgba(44,155,138,0.28) 0%, transparent 60%),
         radial-gradient(ellipse 50% 70% at 80% 70%, rgba(74,111,165,0.22) 0%, transparent 55%),
         radial-gradient(ellipse 40% 40% at 60% 10%, rgba(200,151,74,0.12) 0%, transparent 50%);
     }
-
     .header-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
       background-size: 40px 40px;
     }
-
     .header-badge {
-      position: relative;
-      z-index: 1;
-      display: inline-block;
-      font-family: "Noto Sans TC", sans-serif;
-      font-size: 0.72em;
-      font-weight: 500;
-      letter-spacing: 0.22em;
-      color: var(--accent-teal);
-      text-transform: uppercase;
-      margin-bottom: 18px;
-      padding: 5px 14px;
-      border: 1px solid rgba(44,155,138,0.4);
-      border-radius: 20px;
+      position: relative; z-index: 1;
+      display: inline-block; font-size: 0.72em; font-weight: 500; letter-spacing: 0.22em;
+      color: var(--accent-teal); text-transform: uppercase; margin-bottom: 18px;
+      padding: 5px 14px; border: 1px solid rgba(44,155,138,0.4); border-radius: 20px;
       background: rgba(44,155,138,0.08);
     }
-
     header h1 {
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
       font-family: "DM Serif Display", "Noto Serif TC", serif;
-      font-size: clamp(2.2em, 5vw, 3.4em);
-      color: white;
-      font-weight: 400;
-      letter-spacing: -0.01em;
-      line-height: 1.15;
-      margin-bottom: 14px;
+      font-size: clamp(2.2em, 5vw, 3.4em); color: white; font-weight: 400;
+      letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 14px;
     }
+    header h1 span { font-style: italic; color: rgba(255,255,255,0.7); }
+    .header-sub { position: relative; z-index: 1; font-size: 1.05em; font-weight: 300; color: rgba(255,255,255,0.6); letter-spacing: 0.04em; margin-top: 4px; }
+    .header-line { position: relative; z-index: 1; width: 60px; height: 2px; background: linear-gradient(90deg, var(--accent-teal), var(--accent-indigo)); margin: 22px auto 0; border-radius: 2px; }
 
-    header h1 span {
-      font-style: italic;
-      color: rgba(255,255,255,0.7);
-    }
-
-    .header-sub {
-      position: relative;
-      z-index: 1;
-      font-size: 1.05em;
-      font-weight: 300;
-      color: rgba(255,255,255,0.6);
-      letter-spacing: 0.04em;
-      margin-top: 4px;
-    }
-
-    .header-line {
-      position: relative;
-      z-index: 1;
-      width: 60px;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent-teal), var(--accent-indigo));
-      margin: 22px auto 0;
-      border-radius: 2px;
-    }
-
-    /* ── MAIN ── */
-    .container {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 56px 24px 80px;
-    }
-
+    /* MAIN */
+    .container { max-width: 1080px; margin: 0 auto; padding: 56px 24px 80px; }
     .section-label {
-      font-size: 0.72em;
-      letter-spacing: 0.18em;
-      font-weight: 500;
-      color: var(--muted);
-      text-transform: uppercase;
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      font-size: 0.72em; letter-spacing: 0.18em; font-weight: 500; color: var(--muted);
+      text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px;
     }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* ── CARDS ── */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-      gap: 24px;
-    }
-
+    /* CARDS */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 24px; }
     .card {
-      background: white;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-      box-shadow: var(--shadow-soft);
-      transition: transform 0.28s cubic-bezier(.22,.68,0,1.2), box-shadow 0.28s ease;
-      cursor: pointer;
+      background: white; border-radius: 20px; border: 1px solid var(--border);
+      overflow: hidden; box-shadow: var(--shadow-soft);
+      transition: transform 0.28s cubic-bezier(.22,.68,0,1.2), box-shadow 0.28s ease; cursor: pointer;
     }
-
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .card-header {
-      padding: 28px 28px 0;
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-    }
-
+    .card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+    .card-header { padding: 28px 28px 0; display: flex; align-items: flex-start; gap: 16px; }
     .card-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3em;
-      flex-shrink: 0;
-      margin-top: 2px;
+      width: 46px; height: 46px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3em; flex-shrink: 0; margin-top: 2px;
     }
-
-    .card-icon.teal  { background: var(--accent-teal-light);  }
-    .card-icon.gold  { background: var(--accent-gold-light);  }
-    .card-icon.rose  { background: var(--accent-rose-light);  }
+    .card-icon.teal   { background: var(--accent-teal-light); }
+    .card-icon.gold   { background: var(--accent-gold-light); }
+    .card-icon.rose   { background: var(--accent-rose-light); }
     .card-icon.indigo { background: var(--accent-indigo-light); }
-
+    .card-icon.lime   { background: var(--accent-lime-light); }
     .card-title-wrap { flex: 1; }
-
-    .card h2 {
-      font-family: "Noto Serif TC", serif;
-      font-size: 1.25em;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.3;
-      margin-bottom: 6px;
-    }
-
-    .card-count {
-      font-size: 0.74em;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-    }
-
-    .card-desc {
-      padding: 14px 28px 22px;
-      font-size: 0.9em;
-      color: var(--ink-soft);
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
+    .card h2 { font-family: "Noto Serif TC", serif; font-size: 1.25em; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 6px; }
+    .card-count { font-size: 0.74em; color: var(--muted); letter-spacing: 0.04em; }
+    .card-desc { padding: 14px 28px 22px; font-size: 0.9em; color: var(--ink-soft); line-height: 1.7; font-weight: 300; }
     .card-toggle-btn {
-      margin: 0 28px 22px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.82em;
-      font-weight: 500;
-      padding: 8px 16px;
-      border-radius: 8px;
-      border: 1.5px solid transparent;
-      cursor: pointer;
-      transition: all 0.2s;
-      background: transparent;
-      font-family: inherit;
+      margin: 0 28px 22px; display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.82em; font-weight: 500; padding: 8px 16px; border-radius: 8px;
+      border: 1.5px solid transparent; cursor: pointer; transition: all 0.2s;
+      background: transparent; font-family: inherit;
     }
-
-    .card-toggle-btn.teal {
-      color: var(--accent-teal);
-      border-color: rgba(44,155,138,0.35);
-    }
-    .card-toggle-btn.teal:hover, .card-toggle-btn.teal.open {
-      background: var(--accent-teal-light);
-    }
-    .card-toggle-btn.gold {
-      color: var(--accent-gold);
-      border-color: rgba(200,151,74,0.35);
-    }
-    .card-toggle-btn.gold:hover, .card-toggle-btn.gold.open {
-      background: var(--accent-gold-light);
-    }
-    .card-toggle-btn.rose {
-      color: var(--accent-rose);
-      border-color: rgba(192,86,106,0.35);
-    }
-    .card-toggle-btn.rose:hover, .card-toggle-btn.rose.open {
-      background: var(--accent-rose-light);
-    }
-    .card-toggle-btn.indigo {
-      color: var(--accent-indigo);
-      border-color: rgba(74,111,165,0.35);
-    }
-    .card-toggle-btn.indigo:hover, .card-toggle-btn.indigo.open {
-      background: var(--accent-indigo-light);
-    }
-
-    .btn-arrow {
-      display: inline-block;
-      transition: transform 0.25s;
-    }
+    .card-toggle-btn.teal   { color: var(--accent-teal);   border-color: rgba(44,155,138,0.35); }
+    .card-toggle-btn.indigo { color: var(--accent-indigo); border-color: rgba(74,111,165,0.35); }
+    .card-toggle-btn.gold   { color: var(--accent-gold);   border-color: rgba(200,151,74,0.35); }
+    .card-toggle-btn.rose   { color: var(--accent-rose);   border-color: rgba(192,86,106,0.35); }
+    .card-toggle-btn.lime   { color: var(--accent-lime);   border-color: rgba(90,138,60,0.35); }
+    .card-toggle-btn.teal:hover,   .card-toggle-btn.teal.open   { background: var(--accent-teal-light); }
+    .card-toggle-btn.indigo:hover, .card-toggle-btn.indigo.open { background: var(--accent-indigo-light); }
+    .card-toggle-btn.gold:hover,   .card-toggle-btn.gold.open   { background: var(--accent-gold-light); }
+    .card-toggle-btn.rose:hover,   .card-toggle-btn.rose.open   { background: var(--accent-rose-light); }
+    .card-toggle-btn.lime:hover,   .card-toggle-btn.lime.open   { background: var(--accent-lime-light); }
+    .btn-arrow { display: inline-block; transition: transform 0.25s; }
     .card-toggle-btn.open .btn-arrow { transform: rotate(180deg); }
 
-    /* ── STORY LIST ── */
-    .story-list {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
+    /* STORY LIST */
+    .story-list { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
     .story-list.open { max-height: 600px; }
-
-    .story-list-inner {
-      padding: 0 16px 16px;
-    }
-
-    .story-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 0 12px 16px;
-    }
-
+    .story-list-inner { padding: 0 16px 16px; }
+    .story-divider { height: 1px; background: var(--border); margin: 0 12px 16px; }
     .story-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: 10px;
-      font-size: 0.9em;
-      color: var(--ink-soft);
-      font-weight: 400;
-      cursor: pointer;
-      transition: background 0.18s, color 0.18s;
-      line-height: 1.5;
+      display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+      border-radius: 10px; font-size: 0.9em; color: var(--ink-soft); font-weight: 400;
+      cursor: pointer; transition: background 0.18s, color 0.18s; line-height: 1.5;
     }
-
     .story-item:hover { background: var(--warm-white); color: var(--ink); }
-
-    .story-num {
-      font-size: 0.7em;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      color: var(--muted);
-      width: 22px;
-      flex-shrink: 0;
-      text-align: right;
-    }
-
-    .story-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      opacity: 0.5;
-    }
+    .story-num { font-size: 0.7em; font-weight: 600; letter-spacing: 0.05em; color: var(--muted); width: 22px; flex-shrink: 0; text-align: right; }
+    .story-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; opacity: 0.5; }
     .teal-dot   { background: var(--accent-teal); }
     .gold-dot   { background: var(--accent-gold); }
     .rose-dot   { background: var(--accent-rose); }
     .indigo-dot { background: var(--accent-indigo); }
+    .lime-dot   { background: var(--accent-lime); }
 
-    /* ── COMING SOON ── */
+    /* COMING SOON */
     .soon-badge {
-      display: inline-block;
-      font-size: 0.65em;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      padding: 2px 8px;
-      border-radius: 6px;
-      background: #f0ede8;
-      color: var(--muted);
-      text-transform: uppercase;
-      vertical-align: middle;
-      margin-left: 8px;
+      display: inline-block; font-size: 0.65em; font-weight: 600; letter-spacing: 0.08em;
+      padding: 2px 8px; border-radius: 6px; background: #f0ede8; color: var(--muted);
+      text-transform: uppercase; vertical-align: middle; margin-left: 8px;
     }
-
     .card.disabled { opacity: 0.7; cursor: default; }
     .card.disabled:hover { transform: none; box-shadow: var(--shadow-soft); }
 
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 28px 24px;
-      text-align: center;
-      font-size: 0.82em;
-      color: var(--muted);
-      letter-spacing: 0.03em;
-    }
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 28px 24px; text-align: center; font-size: 0.82em; color: var(--muted); letter-spacing: 0.03em; }
+    footer .footer-brand { font-family: "DM Serif Display", serif; font-style: italic; color: var(--ink-soft); font-size: 1.1em; }
 
-    footer .footer-brand {
-      font-family: "DM Serif Display", serif;
-      font-style: italic;
-      color: var(--ink-soft);
-      font-size: 1.1em;
-    }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(22px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
     .card { animation: fadeUp 0.55s ease both; }
     .card:nth-child(1) { animation-delay: 0.05s; }
     .card:nth-child(2) { animation-delay: 0.15s; }
     .card:nth-child(3) { animation-delay: 0.25s; }
     .card:nth-child(4) { animation-delay: 0.35s; }
-
-    /* ── STORY DETAIL OVERLAY ── */
-    .overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: rgba(20, 20, 35, 0.55);
-      backdrop-filter: blur(4px);
-      overflow-y: auto;
-      padding: 40px 16px;
-      animation: fadeOverlay 0.25s ease;
-    }
-    .overlay.active { display: flex; align-items: flex-start; justify-content: center; }
-
-    @keyframes fadeOverlay {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    .story-modal {
-      background: var(--cream);
-      border-radius: 24px;
-      max-width: 720px;
-      width: 100%;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.22);
-      animation: slideModal 0.3s cubic-bezier(.22,.68,0,1.1);
-      overflow: hidden;
-    }
-
-    @keyframes slideModal {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .modal-hero {
-      background: var(--ink);
-      position: relative;
-      padding: 36px 36px 32px;
-      overflow: hidden;
-    }
-    .modal-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 80% at 10% 50%, rgba(44,155,138,0.3) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 60% at 85% 20%, rgba(74,111,165,0.2) 0%, transparent 55%);
-    }
-    .modal-close {
-      position: absolute;
-      top: 16px; right: 18px;
-      background: rgba(255,255,255,0.12);
-      border: none; cursor: pointer;
-      color: rgba(255,255,255,0.7);
-      font-size: 1.1em;
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s, color 0.2s;
-      z-index: 2;
-    }
-    .modal-close:hover { background: rgba(255,255,255,0.22); color: white; }
-    .modal-tag {
-      position: relative; z-index: 1;
-      display: inline-block;
-      font-size: 0.68em; font-weight: 500;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--accent-teal);
-      background: rgba(44,155,138,0.12);
-      border: 1px solid rgba(44,155,138,0.3);
-      padding: 3px 12px; border-radius: 20px;
-      margin-bottom: 14px;
-    }
-    .modal-hero h2 {
-      position: relative; z-index: 1;
-      font-family: "Noto Serif TC", serif;
-      font-size: clamp(1.4em, 3vw, 1.9em);
-      color: white; font-weight: 700;
-      line-height: 1.3; margin-bottom: 10px;
-    }
-    .modal-hero p {
-      position: relative; z-index: 1;
-      font-size: 0.9em; color: rgba(255,255,255,0.6);
-      font-weight: 300; line-height: 1.6;
-    }
-
-    .modal-body {
-      padding: 32px 36px 36px;
-    }
-
-    /* ─ Knowledge blocks ─ */
-    .kb-section { margin-bottom: 28px; }
-
-    .kb-title {
-      font-family: "Noto Serif TC", serif;
-      font-size: 1.05em; font-weight: 700;
-      color: var(--ink);
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 14px;
-    }
-    .kb-title-icon {
-      width: 30px; height: 30px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.95em; background: var(--accent-teal-light);
-    }
-
-    .kb-prose {
-      font-size: 0.92em; color: var(--ink-soft);
-      line-height: 1.85; font-weight: 300;
-    }
-
-    .kb-divider {
-      height: 1px; background: var(--border);
-      margin: 24px 0;
-    }
-
-    /* 原因列表 */
-    .cause-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px; margin-top: 12px;
-    }
-    .cause-card {
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 0.86em; line-height: 1.5;
-    }
-    .cause-card .cause-label {
-      font-weight: 600; margin-bottom: 4px; font-size: 0.92em;
-    }
-    .cause-card .cause-desc { color: var(--ink-soft); font-weight: 300; }
-    .cause-card.benign  { background: #eef8f6; border-left: 3px solid var(--accent-teal); }
-    .cause-card.warning { background: #fdf4e7; border-left: 3px solid var(--accent-gold); }
-    .cause-card.serious { background: #fdf0f2; border-left: 3px solid var(--accent-rose); }
-
-    /* 嚴重度量表 */
-    .severity-bar-wrap { margin-top: 14px; }
-    .severity-row {
-      display: flex; align-items: center; gap: 12px;
-      margin-bottom: 10px; font-size: 0.87em;
-    }
-    .severity-label { width: 96px; flex-shrink: 0; color: var(--ink-soft); font-weight: 400; }
-    .severity-bar-bg {
-      flex: 1; height: 8px; border-radius: 6px;
-      background: #ece9e2; overflow: hidden;
-    }
-    .severity-bar { height: 100%; border-radius: 6px; }
-    .s-low    { background: var(--accent-teal); width: 25%; }
-    .s-mid    { background: var(--accent-gold); width: 55%; }
-    .s-high   { background: var(--accent-rose); width: 85%; }
-    .severity-pct { font-size: 0.8em; color: var(--muted); width: 36px; text-align: right; }
-
-    /* 處置流程 */
-    .flow-steps { margin-top: 14px; }
-    .flow-step {
-      display: flex; gap: 14px; margin-bottom: 14px;
-    }
-    .flow-num {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: var(--accent-teal); color: white;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.75em; font-weight: 700; flex-shrink: 0; margin-top: 1px;
-    }
-    .flow-content { flex: 1; }
-    .flow-content strong { font-size: 0.9em; color: var(--ink); display: block; margin-bottom: 3px; }
-    .flow-content span { font-size: 0.84em; color: var(--ink-soft); font-weight: 300; line-height: 1.5; }
-
-    /* 醫師提醒 callout */
-    .callout {
-      background: #eef8f6;
-      border-left: 4px solid var(--accent-teal);
-      border-radius: 0 12px 12px 0;
-      padding: 14px 18px;
-      font-size: 0.87em; color: var(--ink-soft);
-      line-height: 1.7; font-weight: 300;
-      margin-top: 14px;
-    }
-    .callout strong { color: var(--accent-teal); font-weight: 600; }
-
-    @media (max-width: 600px) {
-      .modal-hero, .modal-body { padding-left: 22px; padding-right: 22px; }
-      .cause-grid { grid-template-columns: 1fr; }
-    }
+    .card:nth-child(5) { animation-delay: 0.45s; }
   </style>
 </head>
 <body>
@@ -580,7 +172,6 @@
 
 <div class="container">
   <div class="section-label">精選主題</div>
-
   <div class="grid">
 
     <!-- 健診常見問題 -->
@@ -593,13 +184,13 @@
         </div>
       </div>
       <p class="card-desc">從患者最常問的問題出發，用故事解析健康檢查的迷思與真相。</p>
-      <button class="card-toggle-btn teal" id="btn-faq">
-        展開故事 <span class="btn-arrow">▾</span>
-      </button>
+      <button class="card-toggle-btn teal" id="btn-faq">展開故事 <span class="btn-arrow">▾</span></button>
       <div class="story-list" id="faq">
         <div class="story-list-inner">
           <div class="story-divider"></div>
-          <div class="story-item" onclick="event.stopPropagation(); window.location.href='HealthExamCommonProblem/UrineOccult.html'"><span class="story-num">01</span><span class="story-dot teal-dot"></span>尿潛血是什麼問題？ 🔎</div>
+          <div class="story-item" onclick="event.stopPropagation(); window.location.href='HealthExamCommonProblem/UrineOccult.html'">
+            <span class="story-num">01</span><span class="story-dot teal-dot"></span>尿潛血是什麼問題？ 🔎
+          </div>
           <div class="story-item"><span class="story-num">02</span><span class="story-dot teal-dot"></span>腫瘤指數升高＝癌症嗎？</div>
           <div class="story-item"><span class="story-num">03</span><span class="story-dot teal-dot"></span>高階健檢真的比較好嗎？</div>
           <div class="story-item"><span class="story-num">04</span><span class="story-dot teal-dot"></span>為什麼醫師說不用做那麼多檢查？</div>
@@ -617,16 +208,37 @@
         </div>
       </div>
       <p class="card-desc">解析體檢報告中的心電圖異常，用臨床故事帶你看懂真正風險。</p>
-      <button class="card-toggle-btn indigo" id="btn-ecg">
-        展開故事 <span class="btn-arrow">▾</span>
-      </button>
+      <button class="card-toggle-btn indigo" id="btn-ecg">展開故事 <span class="btn-arrow">▾</span></button>
       <div class="story-list" id="ecg">
         <div class="story-list-inner">
           <div class="story-divider"></div>
           <div class="story-item"><span class="story-num">01</span><span class="story-dot indigo-dot"></span>竇性心律不整，是正常還是異常？</div>
           <div class="story-item"><span class="story-num">02</span><span class="story-dot indigo-dot"></span>心跳太快（竇性心搏過速）代表什麼？</div>
           <div class="story-item"><span class="story-num">03</span><span class="story-dot indigo-dot"></span>早期收縮（PVC / PAC）需要擔心嗎？</div>
-          <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/STTchange.html'"><span class="story-num">04</span><span class="story-dot indigo-dot"></span>ST-T 變化一定是心肌缺氧嗎？ 🔎</div>
+          <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/STTchange.html'">
+            <span class="story-num">04</span><span class="story-dot indigo-dot"></span>ST-T 變化一定是心肌缺氧嗎？ 🔎
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 肝膽胃腸科 ← NEW -->
+    <div class="card" onclick="toggleCard('hep', this)">
+      <div class="card-header">
+        <div class="card-icon lime">🫀</div>
+        <div class="card-title-wrap">
+          <h2>肝膽胃腸科</h2>
+          <div class="card-count">1 個故事</div>
+        </div>
+      </div>
+      <p class="card-desc">B 型肝炎標記判讀、肝功能異常追蹤、腸胃道常見症狀——從門診案例學起。</p>
+      <button class="card-toggle-btn lime" id="btn-hep">展開故事 <span class="btn-arrow">▾</span></button>
+      <div class="story-list" id="hep">
+        <div class="story-list-inner">
+          <div class="story-divider"></div>
+          <div class="story-item" onclick="event.stopPropagation(); window.location.href='Hepatobiliary/HBcAb.html'">
+            <span class="story-num">01</span><span class="story-dot lime-dot"></span>HBcAb 的真正意義——兩個陰性≠沒事 🔎
+          </div>
         </div>
       </div>
     </div>
@@ -641,9 +253,7 @@
         </div>
       </div>
       <p class="card-desc">CBC、鐵蛋白、維生素 B12⋯⋯讀懂你的血球報告，不再一頭霧水。</p>
-      <button class="card-toggle-btn gold" style="pointer-events:none; opacity:0.5;">
-        即將推出 <span class="btn-arrow">▾</span>
-      </button>
+      <button class="card-toggle-btn gold" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
 
     <!-- 影像報告解讀 — Coming Soon -->
@@ -656,9 +266,7 @@
         </div>
       </div>
       <p class="card-desc">X 光、超音波、CT⋯⋯影像報告裡的「疑似」與「建議追蹤」，到底該怎麼看？</p>
-      <button class="card-toggle-btn rose" style="pointer-events:none; opacity:0.5;">
-        即將推出 <span class="btn-arrow">▾</span>
-      </button>
+      <button class="card-toggle-btn rose" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
 
   </div>
@@ -668,137 +276,6 @@
   <div class="footer-brand">Dr. Jimmy 診間故事集</div>
   <div style="margin-top:6px">© 2026 · 用醫學說故事 · 內容僅供衛教參考，不替代個人醫療建議</div>
 </footer>
-
-<!-- ── STORY OVERLAY ── -->
-<div class="overlay" id="storyOverlay" onclick="closeStoryIfBg(event)">
-  <div class="story-modal">
-    <div class="modal-hero">
-      <button class="modal-close" onclick="closeStory()">✕</button>
-      <div class="modal-tag">健診常見問題 · 01</div>
-      <h2>尿潛血是什麼問題？</h2>
-      <p>健檢報告出現「潛血 ＋」，很多人當場愣住——我又沒有血尿，怎麼會這樣？</p>
-    </div>
-    <div class="modal-body">
-
-      <div class="kb-section">
-        <div class="kb-title">
-          <div class="kb-title-icon">🔬</div>
-          什麼是尿潛血（Occult Blood）？
-        </div>
-        <p class="kb-prose">
-          尿液試紙的「潛血」欄位，偵測的是尿中<strong>血紅素（hemoglobin）或肌紅素（myoglobin）</strong>，而非肉眼可見的血液。即使外觀完全澄清，試紙也可能出現陽性反應。報告通常以「＋、＋＋、＋＋＋」或「1＋ ∼ 3＋」表示程度。
-        </p>
-      </div>
-
-      <div class="kb-divider"></div>
-
-      <div class="kb-section">
-        <div class="kb-title">
-          <div class="kb-title-icon">📋</div>
-          常見原因一覽
-        </div>
-        <div class="cause-grid">
-          <div class="cause-card benign">
-            <div class="cause-label">✅ 生理性／良性</div>
-            <div class="cause-desc">劇烈運動後、月經汙染、發燒、脫水、長時間站立</div>
-          </div>
-          <div class="cause-card benign">
-            <div class="cause-label">✅ 泌尿道感染</div>
-            <div class="cause-desc">膀胱炎、尿道炎（常伴有頻尿、灼熱感）</div>
-          </div>
-          <div class="cause-card warning">
-            <div class="cause-label">⚠️ 結石</div>
-            <div class="cause-desc">腎結石、輸尿管結石刮傷黏膜，可能有腰側絞痛</div>
-          </div>
-          <div class="cause-card warning">
-            <div class="cause-label">⚠️ 腎絲球腎炎</div>
-            <div class="cause-desc">免疫相關腎臟發炎，有時合併蛋白尿，需追蹤腎功能</div>
-          </div>
-          <div class="cause-card serious">
-            <div class="cause-label">🔴 泌尿道腫瘤</div>
-            <div class="cause-desc">膀胱癌、腎細胞癌，無症狀潛血是重要早期訊號</div>
-          </div>
-          <div class="cause-card serious">
-            <div class="cause-label">🔴 多囊腎 / 腎盂腎炎</div>
-            <div class="cause-desc">結構性或嚴重感染，需影像確認</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="kb-divider"></div>
-
-      <div class="kb-section">
-        <div class="kb-title">
-          <div class="kb-title-icon">📊</div>
-          臨床上需要多擔心？
-        </div>
-        <p class="kb-prose" style="margin-bottom:14px">健檢發現無症狀潛血，絕大多數（約 70–80%）最終找不到嚴重原因，但仍有約 5% 隱藏泌尿道腫瘤風險，尤其高齡、吸菸者需提高警覺。</p>
-        <div class="severity-bar-wrap">
-          <div class="severity-row">
-            <span class="severity-label">良性／生理性</span>
-            <div class="severity-bar-bg"><div class="severity-bar s-low"></div></div>
-            <span class="severity-pct">~50%</span>
-          </div>
-          <div class="severity-row">
-            <span class="severity-label">結石 / 感染</span>
-            <div class="severity-bar-bg"><div class="severity-bar s-mid"></div></div>
-            <span class="severity-pct">~30%</span>
-          </div>
-          <div class="severity-row">
-            <span class="severity-label">腫瘤 / 腎炎</span>
-            <div class="severity-bar-bg"><div class="severity-bar s-high"></div></div>
-            <span class="severity-pct">~5–10%</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="kb-divider"></div>
-
-      <div class="kb-section">
-        <div class="kb-title">
-          <div class="kb-title-icon">🗺️</div>
-          發現尿潛血，接下來怎麼辦？
-        </div>
-        <div class="flow-steps">
-          <div class="flow-step">
-            <div class="flow-num">1</div>
-            <div class="flow-content">
-              <strong>重複尿液檢查（尿沉渣）</strong>
-              <span>排除月經汙染、劇烈運動等干擾因素；觀察是否有紅血球、膿球、管型</span>
-            </div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-num">2</div>
-            <div class="flow-content">
-              <strong>確認是否有伴隨症狀</strong>
-              <span>頻尿、燒灼感 → 泌尿道感染；腰側疼痛 → 結石；無症狀反覆潛血 → 需進一步追蹤</span>
-            </div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-num">3</div>
-            <div class="flow-content">
-              <strong>影像檢查（腎臟超音波）</strong>
-              <span>排除結石、腫瘤、囊腫等結構性病灶，建議 40 歲以上無症狀潛血者優先安排</span>
-            </div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-num">4</div>
-            <div class="flow-content">
-              <strong>轉介泌尿科／腎臟科</strong>
-              <span>反覆陽性、影像有異常、年齡 ≥50 歲、有吸菸史者，建議膀胱鏡評估</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="callout">
-        <strong>Dr. Jimmy 提醒：</strong>單次尿潛血陽性不需要恐慌，但也不要輕易忽略。
-        關鍵在於「有沒有症狀、有沒有重複出現」——若下次健檢仍持續陽性，務必告知醫師，安排腎臟超音波是最基本且有效的下一步。
-      </div>
-
-    </div>
-  </div>
-</div>
 
 <script>
   function toggleCard(id, cardEl) {
@@ -810,19 +287,6 @@
     btn.classList.toggle('open', !isOpen);
     btn.childNodes[0].textContent = isOpen ? '展開故事 ' : '收起故事 ';
   }
-
-  function openStory() {
-    document.getElementById('storyOverlay').classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeStory() {
-    document.getElementById('storyOverlay').classList.remove('active');
-    document.body.style.overflow = '';
-  }
-  function closeStoryIfBg(e) {
-    if (e.target === document.getElementById('storyOverlay')) closeStory();
-  }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeStory(); });
 </script>
 </body>
 </html>
