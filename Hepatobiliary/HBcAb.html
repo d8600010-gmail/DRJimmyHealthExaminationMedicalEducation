@@ -1,1 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HBcAb 的意義</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans TC", sans-serif;
+    background: linear-gradient(135deg, #e8f4fd 0%, #f0f4f8 50%, #fef9f0 100%);
+    min-height: 100vh;
+    padding: 24px 16px;
+  }
+  .container { max-width: 720px; margin: auto; }
 
+  h1 {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #1e3a5f;
+    margin-bottom: 24px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Story card */
+  .story {
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    border: 1.5px solid #fcd34d;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    line-height: 1.9;
+    color: #78350f;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 12px rgba(251,191,36,0.15);
+  }
+  .story .badge {
+    display: inline-block;
+    background: #f59e0b;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 99px;
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+  }
+  .report-box {
+    background: white;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: #374151;
+    border-left: 4px solid #10b981;
+  }
+  .highlight-line {
+    margin-top: 10px;
+    font-weight: 700;
+    color: #b45309;
+  }
+
+  /* Q&A cards */
+  .card {
+    background: white;
+    border-radius: 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.12); }
+
+  .question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    cursor: pointer;
+    font-weight: 700;
+    color: #dc2626;
+    font-size: 0.95rem;
+    user-select: none;
+    transition: background 0.15s;
+    gap: 12px;
+  }
+  .question:hover { background: #fef2f2; }
+  .question .q-text { flex: 1; }
+  .chevron {
+    font-size: 0.75rem;
+    color: #dc2626;
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+  .chevron.open { transform: rotate(180deg); }
+
+  .answer {
+    display: none;
+    padding: 0 20px 18px;
+    color: #374151;
+    line-height: 1.85;
+    font-size: 0.92rem;
+    border-top: 1px solid #fee2e2;
+    background: #fffafa;
+  }
+  .answer.visible { display: block; }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 99px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin: 2px 3px 2px 0;
+  }
+  .tag-red { background: #fee2e2; color: #b91c1c; }
+  .tag-green { background: #d1fae5; color: #065f46; }
+  .tag-blue { background: #dbeafe; color: #1e40af; }
+  .tag-orange { background: #ffedd5; color: #9a3412; }
+
+  .answer ul { padding-left: 1.2em; margin: 8px 0; }
+  .answer li { margin: 5px 0; }
+  .answer .warn {
+    background: #fff7ed;
+    border-left: 3px solid #f97316;
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-top: 12px;
+    color: #7c2d12;
+    font-size: 0.88rem;
+  }
+  .answer .tip {
+    background: #f0fdf4;
+    border-left: 3px solid #22c55e;
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-top: 10px;
+    color: #14532d;
+    font-size: 0.88rem;
+  }
+
+  /* Summary cards */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .summary-item {
+    background: white;
+    border-radius: 14px;
+    padding: 16px 14px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .summary-item .icon { font-size: 1.6rem; margin-bottom: 8px; }
+  .summary-item .label { font-size: 0.78rem; font-weight: 700; color: #6b7280; margin-bottom: 4px; }
+  .summary-item .desc { font-size: 0.82rem; color: #1f2937; font-weight: 500; line-height: 1.4; }
+
+  /* Clinical card */
+  .clinical {
+    background: linear-gradient(135deg, #1e3a5f, #1e40af);
+    color: white;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 20px rgba(30,58,95,0.3);
+  }
+  .clinical h2 { font-size: 1rem; font-weight: 800; margin-bottom: 14px; color: #93c5fd; }
+  .clinical-row {
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+  .clinical-row .condition { font-weight: 700; color: #bfdbfe; font-family: monospace; }
+  .clinical-row .action { color: #d1fae5; }
+
+  @media (max-width: 500px) {
+    .summary-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 1.3rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🧬 HBcAb 檢查的真正意義</h1>
+
+  <div class="story">
+    <div class="badge">👨‍⚕️ 門診情境</div><br>
+    阿宏拿著健檢報告問：<br>
+    「醫師，我 B 肝是不是沒事？」<br><br>
+    <div class="report-box">
+      ✔ HBsAg &nbsp;(-)<br>
+      ✔ HBsAb &nbsp;(-)
+    </div>
+    <div class="highlight-line">他鬆了一口氣，但你心裡知道——<br>👉 這其實還沒結束</div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="card">
+    <div class="question" onclick="toggle(this, 'q1')">
+      <span class="q-text">❓ 反直覺問題：兩個都陰性 ＝ 安全？</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div id="q1" class="answer">
+      <br>
+      <span class="tag tag-red">❌ 不一定！</span><br><br>
+      這代表三種可能：
+      <ul>
+        <li>1️⃣ 從未感染、也沒打疫苗 → <strong>完全沒有保護力</strong></li>
+        <li>2️⃣ 過去感染但抗體已消失</li>
+        <li>3️⃣ 隱匿性感染（Occult HBV）</li>
+      </ul>
+      <div class="warn">👉 這時候，<strong>HBcAb 就是關鍵！</strong></div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="card">
+    <div class="question" onclick="toggle(this, 'q2')">
+      <span class="q-text">❓ HBcAb 是在看什麼？</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div id="q2" class="answer">
+      <br>
+      HBcAb（核心抗體）代表：<br><br>
+      <span class="tag tag-blue">👉 你有沒有曾經接觸過病毒</span><br><br>
+      <ul>
+        <li>✔ <strong>疫苗不會</strong>讓 HBcAb 陽性</li>
+        <li>✔ 只有「<strong>真的感染過</strong>」才會出現</li>
+      </ul>
+      <div class="tip">👉 它是「人生是否遇過 HBV」的紀錄器</div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="card">
+    <div class="question" onclick="toggle(this, 'q3')">
+      <span class="q-text">❓ HBcAb 陽性代表什麼？</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div id="q3" class="answer">
+      <br>
+      <span class="tag tag-orange">👉 你曾經感染過 B 型肝炎</span><br><br>
+      但有三種情況：
+      <ul>
+        <li>🔹 已痊癒（最常見）</li>
+        <li>🔹 抗體消失（HBsAb 降到測不到）</li>
+        <li>🔹 低量潛伏感染（Occult HBV）</li>
+      </ul>
+      <div class="warn">
+        ⚠️ <strong>特別重要：</strong><br>
+        免疫低下（化療、免疫抑制劑）時<br>
+        👉 可能「<strong>再活化</strong>」！務必預防性投藥評估。
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="card">
+    <div class="question" onclick="toggle(this, 'q4')">
+      <span class="q-text">❓ HBcAb 陰性呢？</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div id="q4" class="answer">
+      <br>
+      <span class="tag tag-green">👉 幾乎可確定：從來沒感染過</span><br><br>
+      但問題來了：<br>
+      HBsAb 也是 (-)，代表——
+      <div class="warn">⚠️ <strong>完全沒有防護力</strong></div>
+      <div class="tip">✔ 建議：立即安排 <strong>B 肝疫苗接種</strong>！</div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary-grid">
+    <div class="summary-item">
+      <div class="icon">🦠</div>
+      <div class="label">HBsAg</div>
+      <div class="desc">現在有沒有病毒</div>
+    </div>
+    <div class="summary-item">
+      <div class="icon">🛡️</div>
+      <div class="label">HBsAb</div>
+      <div class="desc">有沒有保護力</div>
+    </div>
+    <div class="summary-item">
+      <div class="icon">📖</div>
+      <div class="label">HBcAb</div>
+      <div class="desc">過去有沒有感染過</div>
+    </div>
+  </div>
+
+  <!-- Clinical -->
+  <div class="clinical">
+    <h2>🚨 臨床思維流程</h2>
+    <div class="clinical-row">
+      <div class="condition">HBsAg(-) + HBsAb(-)</div>
+      <div class="action">→ 一定要補查 HBcAb，不能就此結束</div>
+    </div>
+    <div class="clinical-row">
+      <div class="condition">HBcAb(+)</div>
+      <div class="action">→ 注意免疫抑制再活化風險，必要時預防性投藥</div>
+    </div>
+    <div class="clinical-row">
+      <div class="condition">HBcAb(-)</div>
+      <div class="action">→ 從未感染，直接建議補打疫苗</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function toggle(el, id) {
+    const answer = document.getElementById(id);
+    const chevron = el.querySelector('.chevron');
+    const isOpen = answer.classList.contains('visible');
+    answer.classList.toggle('visible', !isOpen);
+    chevron.classList.toggle('open', !isOpen);
+  }
+</script>
+</body>
+</html>
