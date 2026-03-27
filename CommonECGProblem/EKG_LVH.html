@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>健檢發現LVH？一張圖看懂心臟在求救！</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Noto Sans TC",Arial,sans-serif;background:#f0f4f8;color:#2d3748;line-height:1.8}
+.container{max-width:860px;margin:auto;padding:24px 16px}
+.hero{background:linear-gradient(135deg,#c0392b,#e74c3c,#e84393 120%);border-radius:20px;padding:36px 28px;margin-bottom:24px;color:white;text-align:center;box-shadow:0 8px 32px rgba(231,76,60,.35)}
+.hero h1{font-size:clamp(22px,4vw,32px);font-weight:900;line-height:1.4;margin-bottom:10px}
+.hero p{font-size:clamp(14px,2vw,17px);opacity:.92}
+.badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:4px 14px;font-size:13px;margin-bottom:14px}
+.card{background:white;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,.07);border-left:4px solid transparent}
+.card.blue{border-left-color:#3498db}
+.card.red{border-left-color:#e74c3c}
+.card.green{border-left-color:#27ae60}
+.card.orange{border-left-color:#e67e22}
+.card.purple{border-left-color:#9b59b6}
+.card h2{font-size:clamp(16px,2.5vw,20px);font-weight:700;color:#1a202c;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.story-box{background:#fef9e7;border-radius:12px;padding:18px;border:1px solid #f9e79f;font-size:15px}
+.story-box .name{font-weight:700;color:#c0392b;font-size:16px}
+.toggle-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;margin-top:14px;background:linear-gradient(135deg,#3498db,#2980b9);color:white;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;border:none;transition:all .2s;box-shadow:0 3px 10px rgba(52,152,219,.3)}
+.toggle-btn:hover{transform:translateY(-1px);box-shadow:0 5px 15px rgba(52,152,219,.4)}
+.toggle-btn .arrow{transition:transform .3s;display:inline-block}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer-box{margin-top:14px;background:#f8faff;border-radius:12px;padding:18px;border:1px solid #d6e4ff;display:none;animation:fadeIn .3s ease}
+.answer-box.show{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}
+@media(max-width:500px){.two-col{grid-template-columns:1fr}}
+.col-box{border-radius:12px;padding:16px}
+.col-box.good{background:#eafaf1;border:1px solid #a9dfbf}
+.col-box.bad{background:#fdedec;border:1px solid #f5b7b1}
+.col-box h3{font-size:14px;font-weight:700;margin-bottom:8px}
+.col-box.good h3{color:#1e8449}
+.col-box.bad h3{color:#c0392b}
+.col-box ul{padding-left:18px;font-size:14px}
+.ecg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:10px}
+@media(max-width:500px){.ecg-grid{grid-template-columns:1fr}}
+.ecg-item{background:#f0f4f8;border-radius:10px;padding:12px 14px;font-size:14px;display:flex;gap:10px;align-items:flex-start}
+.ecg-icon{font-size:20px;flex-shrink:0}
+.cause-item{display:flex;gap:14px;align-items:flex-start;padding:14px;background:#f8f9fa;border-radius:12px;margin-bottom:12px}
+.cause-num{background:linear-gradient(135deg,#e74c3c,#c0392b);color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+.cause-text h4{font-weight:700;color:#2d3748;margin-bottom:4px;font-size:15px}
+.cause-text p{font-size:14px;color:#4a5568}
+.risk-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+@media(max-width:500px){.risk-list{grid-template-columns:1fr}}
+.risk-item{background:#fff5f5;border:1px solid #feb2b2;border-radius:10px;padding:12px;font-size:14px;text-align:center;color:#c53030;font-weight:600}
+.action-list{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+.action-item{display:flex;align-items:center;gap:12px;background:#f0fff4;border:1px solid #9ae6b4;border-radius:10px;padding:12px 16px;font-size:15px;font-weight:500;color:#276749}
+.action-item .icon{font-size:20px}
+.final-card{background:linear-gradient(135deg,#2c3e50,#3d5a7a);border-radius:16px;padding:28px;color:white;text-align:center;margin-bottom:24px}
+.final-card p{font-size:clamp(16px,2.5vw,22px);font-weight:700;line-height:2;margin-bottom:6px}
+.final-card p span{color:#f39c12}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hero">
+    <div class="badge">💓 健康衛教</div>
+    <h1>健檢報告出現「LVH」？<br>心臟在變強，還是在求救？</h1>
+    <p>醫師沒說清楚，但你心裡有點毛毛的……這篇帶你看懂</p>
+  </div>
+
+  <div class="card blue">
+    <h2>📖 一個常見的故事</h2>
+    <div class="story-box">
+      <p class="name">阿宏，45歲，科技業主管</p>
+      <br>
+      <p>健檢時被告知：「心電圖有<strong>左心室肥厚（LVH）</strong>」。</p>
+      <br>
+      <p>他心想：👉「我有在運動，心臟變強應該是好事吧？」</p>
+      <br>
+      <p>但醫師卻皺了一下眉頭……</p>
+    </div>
+  </div>
+
+  <div class="card red">
+    <h2>🧠 反直覺關鍵問題</h2>
+    <p style="font-size:16px;font-weight:700;color:#c0392b">👉 心臟變大 ≠ 一定健康</p>
+    <button class="toggle-btn" onclick="toggleAns(this,'ans1')">點我看答案 <span class="arrow">▼</span></button>
+    <div id="ans1" class="answer-box">
+      <p style="margin-bottom:12px;font-weight:600">心臟肥厚有兩種完全不同的意義：</p>
+      <div class="two-col">
+        <div class="col-box good">
+          <h3>✅ 好的肥厚（運動型）</h3>
+          <ul>
+            <li>規律有氧運動</li>
+            <li>心臟效率提升</li>
+            <li>每次打出更多血</li>
+          </ul>
+        </div>
+        <div class="col-box bad">
+          <h3>⚠️ 壞的肥厚（壓力型）</h3>
+          <ul>
+            <li>長期高血壓</li>
+            <li>壓力大、自律神經失調</li>
+            <li>心臟被迫「用力打」</li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:14px;font-weight:700;color:#c0392b">👉 健檢LVH通常偏向後者</p>
+    </div>
+  </div>
+
+  <div class="card orange">
+    <h2>📊 心電圖LVH常見變化</h2>
+    <div class="ecg-grid">
+      <div class="ecg-item"><span class="ecg-icon">📈</span><div><strong>R波變高</strong><br><span style="font-size:13px;color:#666">特別在 V5、V6</span></div></div>
+      <div class="ecg-item"><span class="ecg-icon">📉</span><div><strong>S波變深</strong><br><span style="font-size:13px;color:#666">V1、V2 更明顯</span></div></div>
+      <div class="ecg-item"><span class="ecg-icon">⚡</span><div><strong>ST-T 改變</strong><br><span style="font-size:13px;color:#666">看起來像缺氧訊號</span></div></div>
+      <div class="ecg-item"><span class="ecg-icon">🔄</span><div><strong>心電軸偏移</strong><br><span style="font-size:13px;color:#666">電氣傳導路徑改變</span></div></div>
+    </div>
+    <p style="margin-top:14px;font-weight:700;color:#e67e22">👉 心臟肌肉變厚 → 電訊號變「誇張」</p>
+  </div>
+
+  <div class="card red">
+    <h2>⚠️ 為什麼會出現LVH？</h2>
+    <div class="cause-item">
+      <div class="cause-num">1</div>
+      <div class="cause-text">
+        <h4>血壓（最關鍵）</h4>
+        <p>長期高血壓 = 心臟每天對抗阻力，就像天天負重訓練，久了心肌只好「變厚」來應付。</p>
+      </div>
+    </div>
+    <div class="cause-item">
+      <div class="cause-num">2</div>
+      <div class="cause-text">
+        <h4>體重過重</h4>
+        <p>體重越高 → 全身血流需求越大 → 心臟工作量持續增加。</p>
+      </div>
+    </div>
+    <div class="cause-item">
+      <div class="cause-num">3</div>
+      <div class="cause-text">
+        <h4>壓力 & 自律神經失調</h4>
+        <p>長期壓力 → 交感神經過度活化 → 心跳快、血壓波動、心臟長期緊繃。</p>
+      </div>
+    </div>
+    <p style="font-weight:700;color:#c0392b;margin-top:6px">👉 不是你心臟強，是你心臟太累了</p>
+  </div>
+
+  <div class="card purple">
+    <h2>🧪 如果不處理，會發生什麼？</h2>
+    <button class="toggle-btn" onclick="toggleAns(this,'ans2')">點我看後果 <span class="arrow">▼</span></button>
+    <div id="ans2" class="answer-box">
+      <div class="risk-list">
+        <div class="risk-item">💔 心臟衰竭風險上升</div>
+        <div class="risk-item">⚡ 心律不整</div>
+        <div class="risk-item">🫀 心肌缺氧</div>
+        <div class="risk-item">🧠 中風風險增加</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card green">
+    <h2>💡 逆轉關鍵（比檢查更重要）</h2>
+    <div class="action-list">
+      <div class="action-item"><span class="icon">💊</span> 控制血壓，目標低於 130/80 mmHg</div>
+      <div class="action-item"><span class="icon">⚖️</span> 體重管理，減少心臟每日負擔</div>
+      <div class="action-item"><span class="icon">😴</span> 壓力調整，睡眠品質＋規律運動</div>
+      <div class="action-item"><span class="icon">🔬</span> 做心臟超音波，確認肥厚程度</div>
+    </div>
+    <p style="margin-top:14px;font-weight:700;color:#27ae60">👉 LVH 不是終點，而是「警告訊號」——現在改變還來得及</p>
+  </div>
+
+  <div class="final-card">
+    <p>心臟變厚，不代表你<span>更強</span></p>
+    <p>可能代表你<span>撐太久了</span></p>
+    <p style="font-size:15px;font-weight:400;opacity:.8;margin-top:12px">聽懂警告，才是真正的強</p>
+  </div>
+
+</div>
+<script>
+function toggleAns(btn, id) {
+  var box = document.getElementById(id);
+  var isOpen = box.classList.contains('show');
+  box.classList.toggle('show', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.childNodes[0].textContent = isOpen ? '點我看答案 ' : '收起 ';
+}
+// Fix button text for risk button
+document.querySelectorAll('.toggle-btn').forEach(function(b,i){
+  if(i===1) b.childNodes[0].textContent = '點我看後果 ';
+});
+</script>
+</body>
+</html>
