@@ -30,8 +30,6 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { font-family: "Noto Sans TC", sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
-
-    /* HEADER */
     header {
       position: relative; min-height: 340px;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -66,16 +64,12 @@
     header h1 span { font-style: italic; color: rgba(255,255,255,0.7); }
     .header-sub { position: relative; z-index: 1; font-size: 1.05em; font-weight: 300; color: rgba(255,255,255,0.6); letter-spacing: 0.04em; margin-top: 4px; }
     .header-line { position: relative; z-index: 1; width: 60px; height: 2px; background: linear-gradient(90deg, var(--accent-teal), var(--accent-indigo)); margin: 22px auto 0; border-radius: 2px; }
-
-    /* MAIN */
     .container { max-width: 1080px; margin: 0 auto; padding: 56px 24px 80px; }
     .section-label {
       font-size: 0.72em; letter-spacing: 0.18em; font-weight: 500; color: var(--muted);
       text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px;
     }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-    /* CARDS */
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 24px; }
     .card {
       background: white; border-radius: 20px; border: 1px solid var(--border);
@@ -116,8 +110,6 @@
     .card-toggle-btn.lime:hover,   .card-toggle-btn.lime.open   { background: var(--accent-lime-light); }
     .btn-arrow { display: inline-block; transition: transform 0.25s; }
     .card-toggle-btn.open .btn-arrow { transform: rotate(180deg); }
-
-    /* STORY LIST */
     .story-list { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
     .story-list.open { max-height: 600px; }
     .story-list-inner { padding: 0 16px 16px; }
@@ -135,8 +127,6 @@
     .rose-dot   { background: var(--accent-rose); }
     .indigo-dot { background: var(--accent-indigo); }
     .lime-dot   { background: var(--accent-lime); }
-
-    /* COMING SOON */
     .soon-badge {
       display: inline-block; font-size: 0.65em; font-weight: 600; letter-spacing: 0.08em;
       padding: 2px 8px; border-radius: 6px; background: #f0ede8; color: var(--muted);
@@ -144,12 +134,8 @@
     }
     .card.disabled { opacity: 0.7; cursor: default; }
     .card.disabled:hover { transform: none; box-shadow: var(--shadow-soft); }
-
-    /* FOOTER */
     footer { border-top: 1px solid var(--border); padding: 28px 24px; text-align: center; font-size: 0.82em; color: var(--muted); letter-spacing: 0.03em; }
     footer .footer-brand { font-family: "DM Serif Display", serif; font-style: italic; color: var(--ink-soft); font-size: 1.1em; }
-
-    /* ANIMATIONS */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
     .card { animation: fadeUp 0.55s ease both; }
     .card:nth-child(1) { animation-delay: 0.05s; }
@@ -160,7 +146,6 @@
   </style>
 </head>
 <body>
-
 <header>
   <div class="header-bg"></div>
   <div class="header-grid"></div>
@@ -169,7 +154,6 @@
   <p class="header-sub">用故事，讓健康變得更容易理解</p>
   <div class="header-line"></div>
 </header>
-
 <div class="container">
   <div class="section-label">精選主題</div>
   <div class="grid">
@@ -204,7 +188,7 @@
         <div class="card-icon indigo">📈</div>
         <div class="card-title-wrap">
           <h2>健診常見心電圖變化</h2>
-          <div class="card-count">4 個故事</div>
+          <div class="card-count">5 個故事</div>
         </div>
       </div>
       <p class="card-desc">解析體檢報告中的心電圖異常，用臨床故事帶你看懂真正風險。</p>
@@ -218,11 +202,14 @@
           <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/STTchange.html'">
             <span class="story-num">04</span><span class="story-dot indigo-dot"></span>ST-T 變化一定是心肌缺氧嗎？ 🔎
           </div>
+          <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonEKGProblem/EKG_LVH.html'">
+            <span class="story-num">05</span><span class="story-dot indigo-dot"></span>健檢發現 LVH？心臟在變強還是求救？ 🔎
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- 肝膽胃腸科 ← NEW -->
+    <!-- 肝膽胃腸科 -->
     <div class="card" onclick="toggleCard('hep', this)">
       <div class="card-header">
         <div class="card-icon lime">🫀</div>
@@ -271,12 +258,10 @@
 
   </div>
 </div>
-
 <footer>
   <div class="footer-brand">Dr. Jimmy 診間故事集</div>
   <div style="margin-top:6px">© 2026 · 用醫學說故事 · 內容僅供衛教參考，不替代個人醫療建議</div>
 </footer>
-
 <script>
   function toggleCard(id, cardEl) {
     if (cardEl.classList.contains('disabled')) return;
