@@ -24,10 +24,9 @@ body {
     margin-bottom: 20px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
-h1 {
-    color: #e63946;
-}
-button {
+h1 { color: #e63946; margin-top: 0; }
+h3 { margin-top: 0; }
+button.quiz-btn {
     display: block;
     width: 100%;
     margin: 10px 0;
@@ -38,85 +37,223 @@ button {
     color: white;
     font-size: 16px;
     cursor: pointer;
+    text-align: left;
 }
-button:hover {
-    background: #1d3557;
-}
+button.quiz-btn:hover { background: #1d3557; }
 .result {
     padding: 10px;
     border-radius: 10px;
     margin-top: 10px;
     display: none;
 }
-.correct {
-    background: #d4edda;
-    color: #155724;
+.correct { background: #d4edda; color: #155724; }
+.wrong { background: #f8d7da; color: #721c24; }
+.highlight { color: #e63946; font-weight: bold; }
+
+/* Cause cards */
+.cause-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
 }
-.wrong {
-    background: #f8d7da;
-    color: #721c24;
+@media(max-width:480px){ .cause-grid { grid-template-columns: 1fr; } }
+.cause-item {
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 14px;
 }
-.highlight {
-    color: #e63946;
+.cause-benign { background: #e8f5e9; border-left: 4px solid #43a047; }
+.cause-attention { background: #fff3e0; border-left: 4px solid #fb8c00; }
+.cause-serious { background: #fce4ec; border-left: 4px solid #e53935; }
+.cause-item strong { display: block; margin-bottom: 4px; font-size: 15px; }
+
+/* Accordion */
+.accordion { margin-top: 10px; }
+.acc-btn {
+    width: 100%;
+    background: none;
+    border: 2px solid #457b9d;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 15px;
+    color: #1d3557;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    transition: background 0.2s;
+}
+.acc-btn:hover { background: #eaf2fb; }
+.acc-btn .arrow { transition: transform 0.3s; font-style: normal; }
+.acc-btn.open .arrow { transform: rotate(90deg); }
+.acc-content {
+    display: none;
+    background: #f0f7ff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.8;
+}
+.acc-content ul { margin: 6px 0 0 0; padding-left: 20px; }
+.acc-content li { margin-bottom: 4px; }
+.tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 12px;
     font-weight: bold;
+    margin-bottom: 6px;
 }
+.tag-green { background: #c8e6c9; color: #2e7d32; }
+.tag-orange { background: #ffe0b2; color: #e65100; }
+.tag-red { background: #ffcdd2; color: #b71c1c; }
 </style>
 </head>
 <body>
 <div class="container">
+
 <div class="card">
-<h1>⚡ 健檢出現 RBBB = 心臟壞掉？</h1>
-<p>👉 先別緊張，先來測試一下你的直覺 👇</p>
+  <h1>⚡ 健檢出現 RBBB = 心臟壞掉？</h1>
+  <p>👉 先別緊張，先來測試一下你的直覺 👇</p>
 </div>
+
 <div class="card">
-<h3>🤔 問題1</h3>
-<p>如果心臟的電流「慢一點」，代表一定有病嗎？</p>
-<button onclick="showResult('q1','wrong')">A️⃣ 一定是心臟病</button>
-<button onclick="showResult('q1','correct')">B️⃣ 不一定</button>
-<div id="q1" class="result"></div>
+  <h3>🤔 問題1</h3>
+  <p>如果心臟的電流「慢一點」，代表一定有病嗎？</p>
+  <button class="quiz-btn" onclick="showResult('q1','wrong')">A️⃣ 一定是心臟病</button>
+  <button class="quiz-btn" onclick="showResult('q1','correct')">B️⃣ 不一定</button>
+  <div id="q1" class="result"></div>
 </div>
+
 <div class="card">
-<h3>🧠 解釋</h3>
-<p>
-RBBB（右束支傳導阻滯）<br>
-👉 就像「右邊房間的燈比較晚亮」
-</p>
-<p>
-正常：左右同時亮 💡💡<br>
-RBBB：左邊先亮，右邊慢一點亮 💡…💡
-</p>
-<p class="highlight">👉 重點：慢 ≠ 壞</p>
+  <h3>🧠 什麼是 RBBB？</h3>
+  <p>RBBB（右束支傳導阻滯）👉 就像「右邊房間的燈比較晚亮」</p>
+  <p>正常：左右同時亮 💡💡<br>
+  RBBB：左邊先亮，右邊慢一點亮 💡…💡</p>
+  <p class="highlight">👉 重點：慢 ≠ 壞</p>
 </div>
+
 <div class="card">
-<h3>🤯 再來一題（更關鍵）</h3>
-<p>哪一種情況比較危險？</p>
-<button onclick="showResult('q2','wrong')">A️⃣ 健檢偶然發現，沒症狀</button>
-<button onclick="showResult('q2','correct')">B️⃣ 突然出現＋胸痛或喘</button>
-<div id="q2" class="result"></div>
+  <h3>🤯 再來一題（更關鍵）</h3>
+  <p>哪一種情況比較危險？</p>
+  <button class="quiz-btn" onclick="showResult('q2','wrong')">A️⃣ 健檢偶然發現，沒症狀</button>
+  <button class="quiz-btn" onclick="showResult('q2','correct')">B️⃣ 突然出現＋胸痛或喘</button>
+  <div id="q2" class="result"></div>
 </div>
+
+<!-- 可能原因 -->
 <div class="card">
-<h3>🚨 關鍵觀念</h3>
-<p class="highlight">👉 RBBB 不是病，是一個「線索」</p>
-<p>
-✔ 有些人：只是電線繞路（沒事）<br>
-⚠ 有些人：電線變慢（需要檢查）
-</p>
+  <h3>🔍 RBBB 可能的原因</h3>
+  <p>RBBB 不是單一疾病，背後可能有很多種情況：</p>
+  <div class="cause-grid">
+    <div class="cause-item cause-benign">
+      <strong>😌 良性（最常見）</strong>
+      先天性電路變異、正常老化、長期運動員體質，完全不需要治療
+    </div>
+    <div class="cause-item cause-benign">
+      <strong>😴 生活因素</strong>
+      長期睡眠不足、慢性壓力、肥胖、久坐不動，可透過生活調整改善
+    </div>
+    <div class="cause-item cause-attention">
+      <strong>⚠️ 需要追蹤</strong>
+      高血壓、肺部疾病（如肺栓塞）、右心室負擔過重，需定期回診
+    </div>
+    <div class="cause-item cause-serious">
+      <strong>🚨 需積極處理</strong>
+      急性心肌梗塞、心肌炎、嚴重心臟結構問題，有症狀請立即就醫
+    </div>
+  </div>
 </div>
+
+<!-- 建議處置 accordion -->
 <div class="card">
-<h3>❤️ 你該怎麼做？</h3>
-<p>
-✔ 沒症狀 👉 定期追蹤<br>
-⚠ 有胸痛、喘、暈 👉 盡快就醫<br>
-🤔 不確定 👉 問醫師最安全
-</p>
+  <h3>💊 建議處置方式</h3>
+  <p>大多數無症狀的 RBBB，從生活習慣下手效果最好：</p>
+  <div class="accordion">
+
+    <button class="acc-btn" onclick="toggleAcc(this)">
+      🧘 舒壓減壓 <span class="arrow">▶</span>
+    </button>
+    <div class="acc-content">
+      <span class="tag tag-green">為什麼重要？</span>
+      長期壓力會讓自律神經失調，增加心臟電氣不穩定的機會。
+      <ul>
+        <li>每天 10–15 分鐘腹式呼吸或冥想</li>
+        <li>下班後設定「不看工作訊息」的緩衝時間</li>
+        <li>培養非競爭性興趣（畫畫、音樂、園藝）</li>
+        <li>必要時尋求心理諮商或支持</li>
+      </ul>
+    </div>
+
+    <button class="acc-btn" onclick="toggleAcc(this)">
+      🌙 改善睡眠 <span class="arrow">▶</span>
+    </button>
+    <div class="acc-content">
+      <span class="tag tag-green">為什麼重要？</span>
+      睡眠不足會升高發炎指數、影響心臟修復機制。
+      <ul>
+        <li>固定就寢與起床時間（即使假日）</li>
+        <li>睡前 1 小時避免手機藍光</li>
+        <li>臥室保持涼爽黑暗（建議 18–22°C）</li>
+        <li>目標每晚 7–8 小時高品質睡眠</li>
+        <li>若有打鼾或睡眠呼吸中止，建議就醫評估</li>
+      </ul>
+    </div>
+
+    <button class="acc-btn" onclick="toggleAcc(this)">
+      🥗 飲食控制 <span class="arrow">▶</span>
+    </button>
+    <div class="acc-content">
+      <span class="tag tag-orange">為什麼重要？</span>
+      高鈉、高糖、高脂飲食會加重心臟負擔，影響傳導系統。
+      <ul>
+        <li>減少加工食品、醃漬品（控制鈉攝取 ＜2000mg/天）</li>
+        <li>多吃富含鉀、鎂的食物（香蕉、菠菜、堅果）</li>
+        <li>減少含糖飲料與精緻澱粉</li>
+        <li>適量魚類（Omega-3 有助心臟健康）</li>
+        <li>避免過度咖啡因（每天不超過 2 杯咖啡）</li>
+      </ul>
+    </div>
+
+    <button class="acc-btn" onclick="toggleAcc(this)">
+      🏃 規律運動 <span class="arrow">▶</span>
+    </button>
+    <div class="acc-content">
+      <span class="tag tag-green">為什麼重要？</span>
+      適度有氧運動能強化心肌、改善自律神經平衡。
+      <ul>
+        <li>每週至少 150 分鐘中等強度有氧（快走、游泳、騎車）</li>
+        <li>避免突然劇烈運動，循序漸進增加強度</li>
+        <li>加入每週 2 次輕度肌力訓練</li>
+        <li>運動前後充分暖身與緩和</li>
+        <li>若運動中出現胸悶、喘、暈眩，立即停止並就醫</li>
+      </ul>
+    </div>
+
+  </div>
 </div>
+
 <div class="card">
-<h3>💬 最後問你</h3>
-<p>如果你看到 RBBB，你會？</p>
-<button onclick="alert('😅 很多人都會這樣，但會越查越焦慮')">A️⃣ 瘋狂Google</button>
-<button onclick="alert('⚠ 小心忽略重要訊號')">B️⃣ 直接忽略</button>
-<button onclick="alert('👍 最安全的選擇！')">C️⃣ 找醫師確認</button>
+  <h3>❤️ 總結：你該怎麼做？</h3>
+  <p>
+    ✔ 沒症狀 👉 調整生活習慣＋定期追蹤<br>
+    ⚠️ 有胸痛、喘、暈 👉 盡快就醫<br>
+    🤔 不確定嚴重程度 👉 問醫師最安全
+  </p>
 </div>
+
+<div class="card">
+  <h3>💬 最後問你</h3>
+  <p>如果你看到 RBBB 報告，你會？</p>
+  <button class="quiz-btn" onclick="alert('😅 很多人都會這樣，但會越查越焦慮，反而加重壓力！')">A️⃣ 瘋狂 Google</button>
+  <button class="quiz-btn" onclick="alert('⚠️ 小心忽略重要訊號，尤其有症狀時不能輕忽！')">B️⃣ 直接忽略</button>
+  <button class="quiz-btn" onclick="alert('👍 最安全的選擇！同時記得從生活習慣開始改善。')">C️⃣ 找醫師確認＋改善生活習慣</button>
+</div>
+
 </div>
 <script>
 function showResult(id, type) {
@@ -124,11 +261,17 @@ function showResult(id, type) {
     el.style.display = "block";
     if(type === 'correct') {
         el.className = "result correct";
-        el.innerHTML = "✅ 正確！重點不是有沒有RBBB，而是它出現的『背景』";
+        el.innerHTML = "✅ 正確！重點不是有沒有RBBB，而是它出現的『背景』與伴隨症狀";
     } else {
         el.className = "result wrong";
-        el.innerHTML = "❌ 不完全正確！很多RBBB其實是良性的喔";
+        el.innerHTML = "❌ 不完全正確！很多RBBB其實是良性的，尤其是健檢偶然發現且無症狀者";
     }
+}
+function toggleAcc(btn) {
+    var content = btn.nextElementSibling;
+    var isOpen = btn.classList.contains('open');
+    btn.classList.toggle('open', !isOpen);
+    content.style.display = isOpen ? 'none' : 'block';
 }
 </script>
 </body>
