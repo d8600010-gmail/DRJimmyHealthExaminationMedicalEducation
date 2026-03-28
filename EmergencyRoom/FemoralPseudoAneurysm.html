@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>大腿動脈偽動脈瘤個案衛教</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", sans-serif;
+      line-height: 1.8;
+      color: #1f2937;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.1); opacity: 0.5; }
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .progress-bar {
+      background: #e5e7eb;
+      height: 8px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+      border-color: #3b82f6;
+    }
+
+    .card.expanded {
+      border-color: #3b82f6;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .card-title {
+      color: #1e40af;
+      font-size: 1.4rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-icon {
+      font-size: 1.6rem;
+    }
+
+    .expand-icon {
+      font-size: 1.5rem;
+      color: #6b7280;
+      transition: transform 0.3s ease;
+    }
+
+    .card.expanded .expand-icon {
+      transform: rotate(180deg);
+    }
+
+    .card-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .card.expanded .card-content {
+      max-height: 2000px;
+    }
+
+    h3 {
+      color: #1e40af;
+      font-size: 1.15rem;
+      margin: 18px 0 10px 0;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 12px 0;
+      color: #374151;
+    }
+
+    ul {
+      margin: 12px 0;
+      padding-left: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 8px;
+      color: #374151;
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin: 16px 0;
+      border-left: 4px solid #3b82f6;
+    }
+
+    .warning {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-left: 5px solid #f59e0b;
+      padding: 16px 18px;
+      border-radius: 12px;
+      margin: 16px 0;
+    }
+
+    .danger {
+      background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+      border-left: 5px solid #dc2626;
+      padding: 16px 18px;
+      border-radius: 12px;
+      margin: 16px 0;
+      animation: gentle-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes gentle-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.01); }
+    }
+
+    .case-box {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border: 2px solid #7dd3fc;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin: 16px 0;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-container {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .quiz-section {
+      background: #f9fafb;
+      border-radius: 14px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .quiz-question {
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 12px;
+      font-size: 1.05rem;
+    }
+
+    .quiz-option {
+      background: white;
+      padding: 12px 16px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 2px solid #e5e7eb;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .quiz-option:hover {
+      border-color: #3b82f6;
+      background: #f0f9ff;
+    }
+
+    .quiz-option.correct {
+      background: #d1fae5;
+      border-color: #10b981;
+    }
+
+    .quiz-option.wrong {
+      background: #fee2e2;
+      border-color: #ef4444;
+    }
+
+    .footer {
+      text-align: center;
+      color: #6b7280;
+      padding: 30px;
+      background: #f9fafb;
+      border-top: 2px solid #e5e7eb;
+    }
+
+    .print-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .print-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 30px rgba(139, 92, 246, 0.6);
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .container {
+        box-shadow: none;
+      }
+      .print-btn, .btn-container, .quiz-section, .expand-icon {
+        display: none;
+      }
+      .card-content {
+        max-height: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      .content {
+        padding: 20px;
+      }
+      .print-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    .reading-time {
+      background: rgba(255,255,255,0.2);
+      padding: 8px 16px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🏥 大腿動脈偽動脈瘤個案衛教</h1>
+      <p class="subtitle">給接受心導管、血管攝影或股動脈穿刺後的病人與家屬</p>
+      <div class="reading-time">📖 閱讀時間：約 8 分鐘</div>
+    </div>
+
+    <div class="content">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressBar"></div>
+      </div>
+
+      <div class="case-box">
+        <strong>📋 個案情境：</strong><br>
+        王先生接受心導管檢查後，右側鼠蹊部逐漸出現腫塊、痠痛，摸起來會跳動，走路時更不舒服。經超音波檢查後，醫師告知是「大腿動脈偽動脈瘤」。
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="card-icon">🔍</span>
+            一、什麼是偽動脈瘤？
+          </div>
+          <span class="expand-icon">▼</span>
+        </div>
+        <div class="card-content">
+          <p>可以把血管想成一條有壓力的水管。做檢查或治療時，醫師會從鼠蹊部的大腿動脈進入血管。</p>
+          <p>如果穿刺後血管的小洞沒有完全密合，血液就可能從血管內滲出，跑到周圍組織，形成一個和動脈相通的血包，這就叫做<strong>偽動脈瘤</strong>。</p>
+          <div class="highlight">
+            💡 它不是一般瘀青，而是「血液仍和動脈相通」的腫塊，所以常會摸到跳動感。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="card-icon">❓</span>
+            二、為什麼會發生？
+          </div>
+          <span class="expand-icon">▼</span>
+        </div>
+        <div class="card-content">
+          <ul>
+            <li>心導管、血管攝影、介入治療後的股動脈穿刺</li>
+            <li>使用抗凝血藥或抗血小板藥</li>
+            <li>穿刺處較低、血管條件較差</li>
+            <li>年紀較大、肥胖、高血壓等因素</li>
+          </ul>
+          <p>不是每位病人都會發生，但它是鼠蹊部血管穿刺後常見的血管併發症之一。</p>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="card-icon">📝</span>
+            三、常見症狀有哪些？
+          </div>
+          <span class="expand-icon">▼</span>
+        </div>
+        <div class="card-content">
+          <ul>
+            <li>鼠蹊部或大腿根部腫塊</li>
+            <li>局部疼痛、脹痛、壓痛</li>
+            <li>瘀青範圍擴大</li>
+            <li>摸起來有跳動感</li>
+            <li>皮膚緊繃、變色</li>
+            <li>少數會壓迫神經，造成麻、刺痛或無力</li>
+          </ul>
+          <div class="warning">
+            ⚠️ 若腫塊突然變大、疼痛明顯加劇、頭暈冒冷汗，可能代表出血惡化，要立即就醫。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="card-icon">🔬</span>
+            四、醫師怎麼診斷？
+          </div>
+          <span class="expand-icon">▼</span>
+        </div>
+        <div class="card-content">
+          <p>最常用的是<strong>都卜勒超音波（duplex ultrasound）</strong>。這項檢查可以看到：</p>
+          <ul>
+            <li>腫塊是不是和動脈相通</li>
+            <li>偽動脈瘤的大小</li>
+            <li>血流方向與血流速度</li>
+          </ul>
+          <p>這是無創、常用而且很重要的檢查。</p>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="card-icon">💊</span>
+            五、治療方式有哪些？
+          </div>
+          <span class="expand-icon">▼</span>
+        </div>
+        <div class="card-content">
+          <h3>1. 觀察追蹤</h3>
+          <p>如果偽動脈瘤較小、情況穩定，醫師可能安排密切追蹤，有些會在幾週內自行血栓化而縮小。</p>
+          
+          <h3>2. 超音波導引壓迫</h3>
+          <p>利用超音波找到位置後持續加壓，讓血流停止進入偽動脈瘤，幫助其封閉。</p>
+          
+          <h3>3. 超音波導引凝血酶注射</h3>
+          <p>醫師在超音波導引下，將藥物注入偽動脈瘤內，使其快速凝固。這是目前常用且成功率高的治療方式之一。</p>
+          
+          <h3>4. 手術治療</h3>
+          <p>若腫塊快速變大、合併感染、皮膚壞死、神經壓迫、缺血，或其他方式無法處理時，可能需要手術修補。</p>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="card-icon">🏠</span>
+            六、病人回家後怎麼照顧？
+          </div>
+          <span class="expand-icon">▼</span>
+        </div>
+        <div class="card-content">
+          <ul>
+            <li>依照醫囑休息，避免劇烈活動</li>
+            <li>暫時避免提重物、深蹲、用力彎腰</li>
+            <li>保持傷口清潔乾燥</li>
+            <li>按時回診與接受超音波追蹤</li>
+            <li>藥物是否繼續或暫停，務必依醫師指示，不可自行調整</li>
+          </ul>
+          <div class="highlight">
+            ✅ 重點是：<strong>少出力、少拉扯、按時追蹤、不要自己停藥或亂改藥。</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="card-icon">🚨</span>
+            七、什麼情況要立刻回急診？
+          </div>
+          <span class="expand-icon">▼</span>
+        </div>
+        <div class="card-content">
+          <ul>
+            <li>鼠蹊部腫塊快速變大</li>
+            <li>持續出血或傷口滲血不止</li>
+            <li>疼痛明顯加劇</li>
+            <li>腿變冷、變白、發紫</li>
+            <li>腳麻、無力、走不動</li>
+            <li>頭暈、心悸、冒冷汗、快昏倒</li>
+            <li>發燒、傷口紅腫熱痛，懷疑感染</li>
+          </ul>
+          <div class="danger">
+            🚨 以上可能代表持續出血、血流受阻、神經壓迫或感染，請盡快就醫。
+          </div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="card-icon">💬</span>
+            八、病人最常問的問題
+          </div>
+          <span class="expand-icon">▼</span>
+        </div>
+        <div class="card-content">
+          <h3>Q1：這是腫瘤嗎？</h3>
+          <p>不是。它是血管穿刺後形成的血液囊袋，不是癌症。</p>
+          
+          <h3>Q2：會自己好嗎？</h3>
+          <p>部分小而穩定的偽動脈瘤可能自行血栓化，但是否能只觀察，需由醫師依大小、症狀和用藥狀況判斷。</p>
+          
+          <h3>Q3：以後還能走路嗎？</h3>
+          <p>大多數病人在適當治療與追蹤後可以恢復日常活動，但恢復速度要依病灶大小與治療方式而定。</p>
+        </div>
+      </div>
+
+      <div class="quiz-section">
+        <h3 style="margin-bottom: 15px;">📚 知識小測驗</h3>
+        <div class="quiz-question">偽動脈瘤和一般瘀青最大的差別是什麼？</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false)">A. 顏色不同</div>
+        <div class="quiz-option" onclick="checkAnswer(this, true)">B. 血液仍和動脈相通，會摸到跳動感</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false)">C. 大小不同</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false)">D. 位置不同</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span class="card-icon">💡</span>
+          一句話記住
+        </div>
+        <div class="highlight" style="margin-top: 15px;">
+          <strong>鼠蹊部穿刺後，如果出現會跳動的腫塊、疼痛或瘀青變大，不要當成普通瘀青，應盡快回診檢查。</strong>
+        </div>
+      </div>
+
+      <div class="btn-container">
+        <button class="btn btn-primary" onclick="expandAll()">📖 展開全部內容</button>
+        <button class="btn btn-primary" onclick="collapseAll()">📕 收合全部內容</button>
+        <button class="btn btn-success" onclick="window.print()">🖨️ 列印此頁</button>
+      </div>
+    </div>
+
+    <div class="footer">
+      本資料供病人衛教使用，實際診療與用藥請依照您的主治醫師評估。<br>
+      <small>© 2025 醫療衛教資料 | 最後更新：2025年3月</small>
+    </div>
+  </div>
+
+  <button class="print-btn" onclick="window.print()" title="列印">🖨️</button>
+
+  <script>
+    // 卡片展開/收合功能
+    function toggleCard(card) {
+      card.classList.toggle('expanded');
+      updateProgress();
+    }
+
+    // 展開全部
+    function expandAll() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => card.classList.add('expanded'));
+      updateProgress();
+    }
+
+    // 收合全部
+    function collapseAll() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => card.classList.remove('expanded'));
+      updateProgress();
+    }
+
+    // 更新進度條
+    function updateProgress() {
+      const cards = document.querySelectorAll('.card');
+      const expandedCards = document.querySelectorAll('.card.expanded');
+      const progress = (expandedCards.length / cards.length) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    // 測驗答案檢查
+    function checkAnswer(option, isCorrect) {
+      const allOptions = option.parentElement.querySelectorAll('.quiz-option');
+      allOptions.forEach(opt => {
+        opt.style.pointerEvents = 'none';
+      });
+
+      if (isCorrect) {
+        option.classList.add('correct');
+        setTimeout(() => {
+          alert('✅ 答對了！偽動脈瘤的特徵就是血液仍和動脈相通，所以會摸到跳動感。');
+        }, 100);
+      } else {
+        option.classList.add('wrong');
+        setTimeout(() => {
+          alert('❌ 再想想看！提示：偽動脈瘤和一般瘀青最大的差別在於它和動脈的關係。');
+        }, 100);
+      }
+    }
+
+    // 頁面載入時的動畫
+    window.addEventListener('load', function() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          card.style.transition = 'all 0.5s ease';
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 50);
+        }, index * 100);
+      });
+    });
+
+    // 滾動時更新進度（可選）
+    window.addEventListener('scroll', function() {
+      const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      // 可以用來顯示閱讀進度
+    });
+  </script>
+</body>
+</html>
