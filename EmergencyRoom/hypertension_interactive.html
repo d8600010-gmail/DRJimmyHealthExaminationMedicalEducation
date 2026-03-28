@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高血壓的真實結局｜互動式衛教</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #0e1117;
+  --bg2:     #161b24;
+  --bg3:     #1d2535;
+  --red:     #e63946;
+  --red2:    #ff6b6b;
+  --red-dim: rgba(230,57,70,0.12);
+  --teal:    #2a9d8f;
+  --teal2:   #3bbeaf;
+  --teal-dim:rgba(42,157,143,0.12);
+  --amber:   #e9c46a;
+  --text:    #e8edf2;
+  --muted:   #8a9ab0;
+  --rule:    rgba(255,255,255,0.08);
+  --serif:   'Noto Serif TC', serif;
+  --sans:    'Noto Sans TC', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+}
+
+/* ── NOISE TEXTURE ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  background: linear-gradient(160deg, #1a0a0c 0%, #0e1117 50%, #0a1220 100%);
+  padding: 80px 24px 72px;
+  text-align: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -100px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(230,57,70,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Pulse rings */
+.pulse-rings {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(230,57,70,0.15);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  animation: ring-pulse 3s ease-out infinite;
+}
+.ring:nth-child(1) { width: 200px; height: 200px; animation-delay: 0s; }
+.ring:nth-child(2) { width: 350px; height: 350px; animation-delay: 0.8s; }
+.ring:nth-child(3) { width: 500px; height: 500px; animation-delay: 1.6s; }
+
+@keyframes ring-pulse {
+  0% { opacity: 0.6; transform: translate(-50%,-50%) scale(0.85); }
+  100% { opacity: 0; transform: translate(-50%,-50%) scale(1.1); }
+}
+
+.hero-eyebrow {
+  position: relative;
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  font-weight: 700;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding: 0 14px;
+}
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40px; height: 1px;
+  background: var(--red);
+  opacity: 0.4;
+}
+.hero-eyebrow::before { right: 100%; }
+.hero-eyebrow::after  { left: 100%; }
+
+.hero h1 {
+  position: relative;
+  font-family: var(--serif);
+  font-size: clamp(26px, 6vw, 50px);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  margin-bottom: 20px;
+}
+
+.hero h1 .accent { color: var(--red2); }
+
+.hero-divider {
+  width: 48px; height: 3px;
+  background: var(--red);
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
+
+.hero-desc {
+  position: relative;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 440px;
+  margin: 0 auto;
+  font-weight: 300;
+}
+
+/* ── PAGE ── */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 56px 20px 100px;
+}
+
+/* ── STORY BLOCK ── */
+.story-block {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 32px 36px;
+  margin-bottom: 36px;
+  position: relative;
+  overflow: hidden;
+}
+
+.story-block::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--red), transparent);
+}
+
+.story-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.story-person {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+}
+
+.person-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--bg3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  border: 1px solid var(--rule);
+}
+
+.person-info strong {
+  display: block;
+  font-size: 15px;
+  color: var(--text);
+  font-weight: 700;
+}
+.person-info span { font-size: 12px; color: var(--muted); }
+
+.story-block p {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.9;
+  margin-bottom: 14px;
+}
+.story-block p:last-child { margin-bottom: 0; }
+
+.bp-tag {
+  display: inline-block;
+  background: var(--red-dim);
+  color: var(--red2);
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 3px;
+  font-size: 14px;
+  border: 1px solid rgba(230,57,70,0.25);
+}
+
+.story-quote {
+  margin: 18px 0 0;
+  padding: 16px 20px;
+  border-left: 3px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.85;
+}
+
+/* ── SECTION TITLE ── */
+.q-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.q-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: white;
+  flex-shrink: 0;
+}
+
+.q-label h2 {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+/* ── CHOICE CARDS ── */
+.choice-section { margin-bottom: 40px; }
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+@media (max-width: 520px) { .choice-grid { grid-template-columns: 1fr; } }
+
+.choice-btn {
+  background: var(--bg2);
+  border: 1.5px solid var(--rule);
+  border-radius: 10px;
+  padding: 20px 18px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+  font-family: var(--sans);
+}
+
+.choice-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.choice-btn.type-a::before { background: var(--teal-dim); }
+.choice-btn.type-b::before { background: var(--red-dim); }
+
+.choice-btn:hover { transform: translateY(-2px); }
+.choice-btn.type-a:hover { border-color: var(--teal); box-shadow: 0 8px 24px rgba(42,157,143,0.15); }
+.choice-btn.type-b:hover { border-color: var(--red); box-shadow: 0 8px 24px rgba(230,57,70,0.15); }
+
+.choice-btn.type-a:hover::before,
+.choice-btn.type-b:hover::before { opacity: 1; }
+
+.choice-btn.selected.type-a { border-color: var(--teal); background: rgba(42,157,143,0.1); }
+.choice-btn.selected.type-b { border-color: var(--red); background: rgba(230,57,70,0.1); }
+
+.choice-letter {
+  display: inline-block;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+.type-a .choice-letter { background: rgba(42,157,143,0.2); color: var(--teal2); border: 1px solid rgba(42,157,143,0.3); }
+.type-b .choice-letter { background: rgba(230,57,70,0.15); color: var(--red2); border: 1px solid rgba(230,57,70,0.25); }
+
+.choice-btn p {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 500;
+  line-height: 1.6;
+  position: relative;
+}
+
+/* ── REVEAL RESULT ── */
+.reveal-result {
+  border-radius: 10px;
+  padding: 22px 24px;
+  display: none;
+  animation: slide-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  position: relative;
+  overflow: hidden;
+}
+
+.reveal-result.show { display: block; }
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.reveal-result.good {
+  background: rgba(42,157,143,0.08);
+  border: 1px solid rgba(42,157,143,0.25);
+}
+.reveal-result.bad {
+  background: rgba(230,57,70,0.07);
+  border: 1px solid rgba(230,57,70,0.2);
+}
+
+.result-icon {
+  font-size: 22px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.reveal-result .result-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.reveal-result.good .result-title { color: var(--teal2); }
+.reveal-result.bad  .result-title { color: var(--red2); }
+
+.reveal-result p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.85;
+}
+
+/* ── TRUTH REVEAL ── */
+.truth-trigger {
+  width: 100%;
+  padding: 16px;
+  background: transparent;
+  border: 1.5px dashed rgba(255,255,255,0.15);
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 14px;
+  font-family: var(--sans);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+  margin-bottom: 16px;
+}
+.truth-trigger:hover {
+  border-color: var(--red);
+  color: var(--red2);
+  background: var(--red-dim);
+}
+
+.truth-block {
+  display: none;
+  animation: slide-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.truth-block.show { display: block; }
+
+.truth-card {
+  background: var(--bg2);
+  border: 1px solid rgba(230,57,70,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.truth-card-head {
+  background: rgba(230,57,70,0.1);
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(230,57,70,0.15);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.truth-card-head span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--red2);
+  letter-spacing: 0.06em;
+}
+
+.truth-card-body { padding: 20px; }
+
+.truth-card-body p {
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 16px;
+  line-height: 1.85;
+}
+
+.consequence-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.consequence-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 7px;
+  border: 1px solid var(--rule);
+  font-size: 14px;
+  color: var(--text);
+}
+
+.consequence-list li::before {
+  content: '✕';
+  color: var(--red);
+  font-weight: 800;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.truth-callout {
+  padding: 16px 18px;
+  background: var(--red-dim);
+  border: 1px solid rgba(230,57,70,0.25);
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--red2);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ── CLOSING ── */
+.closing-card {
+  background: linear-gradient(135deg, #1a0a0c, #0e1117);
+  border: 1px solid rgba(230,57,70,0.2);
+  border-radius: 16px;
+  padding: 48px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-top: 48px;
+}
+
+.closing-card::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: 50%;
+  transform: translateX(-50%);
+  width: 300px; height: 200px;
+  background: radial-gradient(ellipse, rgba(230,57,70,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.closing-heart {
+  font-size: 44px;
+  display: block;
+  margin-bottom: 20px;
+  position: relative;
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  14% { transform: scale(1.12); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.07); }
+}
+
+.closing-card h2 {
+  font-family: var(--serif);
+  font-size: clamp(18px, 4vw, 28px);
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1.6;
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.closing-card h2 em {
+  font-style: normal;
+  color: var(--red2);
+}
+
+.closing-line {
+  width: 40px; height: 2px;
+  background: var(--red);
+  border-radius: 1px;
+  margin: 18px auto;
+}
+
+.closing-note {
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 380px;
+  margin: 0 auto;
+  line-height: 1.85;
+  position: relative;
+}
+
+/* ── BACK BUTTON ── */
+.back-bar {
+  position: relative;
+  z-index: 10;
+  padding: 14px 24px;
+  background: rgba(0,0,0,0.4);
+  border-bottom: 1px solid var(--rule);
+  backdrop-filter: blur(8px);
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: all 0.18s;
+  letter-spacing: 0.03em;
+}
+
+.back-btn:hover {
+  border-color: rgba(255,255,255,0.3);
+  color: var(--text);
+  background: rgba(255,255,255,0.05);
+  transform: translateX(-2px);
+}
+
+.back-btn svg {
+  transition: transform 0.18s;
+}
+
+.back-btn:hover svg {
+  transform: translateX(-3px);
+}
+
+/* ── SEPARATOR ── */
+.sep {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 40px 0;
+}
+.sep-line { flex: 1; height: 1px; background: var(--rule); }
+.sep-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+}
+</style>
+</head>
+<body>
+
+<!-- BACK BUTTON -->
+<div class="back-bar">
+  <button class="back-btn" onclick="history.back()">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    回到上一頁
+  </button>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="pulse-rings">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+  </div>
+  <div class="hero-eyebrow">高血壓衛教 · 互動情境</div>
+  <h1>你以為的結局<br><span class="accent">vs 真實結局</span></h1>
+  <div class="hero-divider"></div>
+  <p class="hero-desc">多數人誤解了高血壓的風險——不是突然離開，而是活著失去自己</p>
+</header>
+
+<!-- MAIN -->
+<main class="page">
+
+  <!-- Story -->
+  <div class="story-block">
+    <div class="story-label">臨床情境</div>
+    <div class="story-person">
+      <div class="person-avatar">👨‍💼</div>
+      <div class="person-info">
+        <strong>阿偉，50 歲</strong>
+        <span>生活自律・飲食健康・定期健檢</span>
+      </div>
+    </div>
+    <p>表面上一切都好，但有一個長期被忽略的問題：<span class="bp-tag">血壓一直偏高</span></p>
+    <p>醫師已建議規律用藥，但阿偉搖搖頭，說了一句很多人心裡想過的話——</p>
+    <div class="story-quote">
+      「如果真的怎樣，我已經交代家人，不用救。我接受。」
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="choice-section">
+    <div class="q-label">
+      <div class="q-num">1</div>
+      <h2>你覺得，最可能的結局是什麼？</h2>
+    </div>
+    <div class="choice-grid">
+      <button class="choice-btn type-a" onclick="pickChoice('q1','a')">
+        <div class="choice-letter">A</div>
+        <p>突然離世<br><small style="opacity:0.6;font-size:12px;">乾脆，不拖累家人</small></p>
+      </button>
+      <button class="choice-btn type-b" onclick="pickChoice('q1','b')">
+        <div class="choice-letter">B</div>
+        <p>中風後長期失能<br><small style="opacity:0.6;font-size:12px;">需要他人照護</small></p>
+      </button>
+    </div>
+    <div class="reveal-result bad" id="q1-a">
+      <span class="result-icon">❌</span>
+      <div class="result-title">這不是最常見的情境</div>
+      <p>許多人以為高血壓最終是「突然走掉」，但臨床上更常見的是進入慢性失能狀態——活著，卻無法自理。</p>
+    </div>
+    <div class="reveal-result good" id="q1-b">
+      <span class="result-icon">✅</span>
+      <div class="result-title">這才是臨床上更真實的結局</div>
+      <p>中風後半身不遂、語言障礙、長期臥床——這是高血壓未控制後最常見的慢性結果，而不是快速離世。</p>
+    </div>
+  </div>
+
+  <div class="sep"><div class="sep-line"></div><div class="sep-dot"></div><div class="sep-line"></div></div>
+
+  <!-- Truth reveal -->
+  <div class="choice-section">
+    <div class="q-label">
+      <div class="q-num" style="background:rgba(230,57,70,0.3);color:var(--red2);">!</div>
+      <h2>真實發展——阿偉後來怎麼了？</h2>
+    </div>
+    <button class="truth-trigger" onclick="revealTruth()">
+      <span>▶</span> 點擊查看真實結果
+    </button>
+    <div class="truth-block" id="truthBlock">
+      <div class="truth-card">
+        <div class="truth-card-head">
+          <span>⚠ 事件發展</span>
+        </div>
+        <div class="truth-card-body">
+          <p>三年後，阿偉在辦公室突發缺血性中風。急救送醫後，他活了下來——但生活從此改變。</p>
+          <ul class="consequence-list">
+            <li>右側肢體無力，無法獨立行走</li>
+            <li>言語表達困難，溝通受限</li>
+            <li>日常生活需仰賴家人全程協助</li>
+            <li>無法再回到職場工作</li>
+          </ul>
+          <div class="truth-callout">
+            活著，但失去了自主——<br>這才是高血壓最常見的真實代價
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"><div class="sep-line"></div><div class="sep-dot"></div><div class="sep-line"></div></div>
+
+  <!-- Q2 -->
+  <div class="choice-section">
+    <div class="q-label">
+      <div class="q-num">2</div>
+      <h2>如果是你，你會選擇？</h2>
+    </div>
+    <div class="choice-grid">
+      <button class="choice-btn type-a" onclick="pickChoice('q2','a')">
+        <div class="choice-letter">A</div>
+        <p>規律用藥<br><small style="opacity:0.6;font-size:12px;">維持生活品質與自主能力</small></p>
+      </button>
+      <button class="choice-btn type-b" onclick="pickChoice('q2','b')">
+        <div class="choice-letter">B</div>
+        <p>不吃藥<br><small style="opacity:0.6;font-size:12px;">順其自然，接受風險</small></p>
+      </button>
+    </div>
+    <div class="reveal-result good" id="q2-a">
+      <span class="result-icon">✅</span>
+      <div class="result-title">這是「延後失能」的主動選擇</div>
+      <p>規律控制血壓可將中風風險降低 35–40%。用藥不是妥協，而是為了更長時間做自己想做的事。</p>
+    </div>
+    <div class="reveal-result bad" id="q2-b">
+      <span class="result-icon">⚠️</span>
+      <div class="result-title">這不是「順其自然」，而是承擔失能風險</div>
+      <p>高血壓長期未控制，最常見的結局不是安詳離世，而是中風後的長期照護——這樣的負擔，往往落在最愛你的家人身上。</p>
+    </div>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing-card">
+    <span class="closing-heart">❤️</span>
+    <h2>
+      你以為你在選擇<br>「要不要吃藥」<br>
+      其實你在選擇——<br><em>未來要不要失去自己</em>
+    </h2>
+    <div class="closing-line"></div>
+    <p class="closing-note">控制血壓，不是為了數字好看，而是為了繼續走路、繼續說話、繼續做你自己。</p>
+  </div>
+
+</main>
+
+<script>
+const q1Selected = { a: false, b: false };
+const q2Selected = { a: false, b: false };
+
+function pickChoice(q, choice) {
+  // Hide all results for this question
+  const results = ['a','b'].map(c => document.getElementById(`${q}-${c}`));
+  results.forEach(r => { r.classList.remove('show'); });
+
+  // Update button states
+  const btns = document.querySelectorAll(`.choice-grid`);
+  // Find buttons in this question's section
+  const section = document.getElementById(`${q}-a`)?.closest('.choice-section');
+  if (section) {
+    section.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+  }
+
+  // Show the chosen result
+  const target = document.getElementById(`${q}-${choice}`);
+  if (target) {
+    // Brief delay for the deselect animation to register
+    setTimeout(() => {
+      target.classList.add('show');
+    }, 50);
+  }
+
+  // Mark button selected
+  if (section) {
+    const btnsArr = section.querySelectorAll('.choice-btn');
+    const idx = choice === 'a' ? 0 : 1;
+    if (btnsArr[idx]) btnsArr[idx].classList.add('selected');
+  }
+}
+
+function revealTruth() {
+  const block = document.getElementById('truthBlock');
+  const btn = document.querySelector('.truth-trigger');
+  block.classList.add('show');
+  btn.style.display = 'none';
+}
+</script>
+</body>
+</html>
