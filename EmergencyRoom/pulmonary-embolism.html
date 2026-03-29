@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>別把肚子痛當小事</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f0f4f8;
+      --surface: #ffffff;
+      --surface2: #f8fafc;
+      --text: #0f1923;
+      --text-muted: #4a5a6a;
+      --text-faint: #8a9aaa;
+      --accent: #1a6fb5;
+      --accent-light: #e8f2fb;
+      --accent-dark: #0d4e85;
+      --teal: #0a7b7b;
+      --teal-light: #e3f5f5;
+      --red: #c0392b;
+      --red-light: #fde8e6;
+      --amber: #b45309;
+      --amber-light: #fef3e2;
+      --green: #166534;
+      --green-light: #dcfce7;
+      --border: rgba(15,25,35,0.1);
+      --border-strong: rgba(15,25,35,0.18);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+      --shadow: 0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 16px;
+    }
+
+    /* ── 閱讀進度條 ── */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--teal));
+      z-index: 999;
+      transition: width 0.1s linear;
+    }
+
+    /* ── 固定導覽列 ── */
+    .topnav {
+      position: fixed;
+      top: 3px; left: 0; right: 0;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 998;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 52px;
+    }
+    .topnav-logo {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+    .topnav-links {
+      display: flex;
+      gap: 8px;
+    }
+    .nav-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .nav-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 20px 80px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 44px 40px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle at top right, #e8f4ff 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      border: 1px solid rgba(26,111,181,0.2);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+    .hero h1 {
+      font-size: clamp(30px, 5vw, 46px);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .hero h1 span {
+      color: var(--accent);
+    }
+    .lead {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,111,181,0.3); }
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border-strong);
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: var(--surface2); transform: translateY(-1px); }
+
+    /* ── 閱讀進度提示 ── */
+    .read-tracker {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      margin-bottom: 28px;
+    }
+    .read-tracker-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .read-track-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .read-track-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--teal));
+      border-radius: 999px;
+      transition: width 0.15s ease;
+    }
+    .read-pct {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 36px;
+      text-align: right;
+    }
+
+    /* ── 通用 card ── */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 28px 32px;
+      box-shadow: var(--shadow-sm);
+    }
+    .card + .card { margin-top: 20px; }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .card-icon {
+      width: 38px; height: 38px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .icon-blue { background: var(--accent-light); }
+    .icon-teal { background: var(--teal-light); }
+    .icon-red { background: var(--red-light); }
+    .icon-amber { background: var(--amber-light); }
+    .card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    /* ── 兩欄 grid ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 700px) {
+      .two-col { grid-template-columns: 1fr; }
+      .hero { padding: 28px 22px; }
+      .card { padding: 22px 18px; }
+    }
+
+    /* ── 故事區 ── */
+    .story-text p {
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+    .story-text p:last-child { margin-bottom: 0; }
+    .story-highlight {
+      background: var(--accent-light);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 14px 18px;
+      margin: 18px 0;
+      color: var(--accent-dark);
+      font-weight: 500;
+    }
+
+    /* ── 警示卡 ── */
+    .alert-card {
+      border-color: rgba(192,57,43,0.25);
+      background: var(--red-light);
+    }
+    .alert-card h2 { color: var(--red); }
+    .alert-list {
+      list-style: none;
+      margin-top: 12px;
+    }
+    .alert-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(192,57,43,0.12);
+      font-size: 15px;
+      color: #5a1a14;
+    }
+    .alert-list li:last-child { border-bottom: none; }
+    .alert-list li::before {
+      content: '!';
+      width: 20px; height: 20px;
+      background: var(--red);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── 流程步驟 ── */
+    .steps-flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 6px;
+      position: relative;
+    }
+    @media (max-width: 600px) {
+      .steps-flow { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .step-arrow { display: none; }
+    }
+    .step-item {
+      text-align: center;
+      padding: 16px 10px;
+      position: relative;
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+    }
+    .step-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+    .step-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+    .step-arrow {
+      position: absolute;
+      top: 36px;
+      right: -10px;
+      width: 20px;
+      height: 20px;
+      color: var(--text-faint);
+      font-size: 18px;
+      z-index: 1;
+    }
+
+    /* ── 風險自評 ── */
+    .risk-section { background: var(--surface2); }
+    .risk-intro {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .risk-questions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .risk-q {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .risk-q:hover { border-color: rgba(26,111,181,0.4); }
+    .risk-q.selected {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+    .risk-q-label {
+      font-weight: 500;
+      font-size: 15px;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .risk-q.selected .risk-q-label { color: var(--accent-dark); }
+    .risk-q-sub {
+      font-size: 13px;
+      color: var(--text-faint);
+    }
+    .risk-q.selected .risk-q-sub { color: var(--accent); opacity: 0.8; }
+    .risk-q-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .risk-check {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border-strong);
+      flex-shrink: 0;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .risk-q.selected .risk-check {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .risk-q.selected .risk-check::after {
+      content: '✓';
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* 分數計量 */
+    .score-meter {
+      margin-top: 22px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+    }
+    .score-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+    .score-label { font-size: 13px; color: var(--text-muted); }
+    .score-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .score-max { font-size: 14px; color: var(--text-faint); }
+    .score-bar-wrap {
+      height: 10px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .score-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      transition: width 0.4s cubic-bezier(.4,0,.2,1), background 0.4s;
+    }
+    .score-result {
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      font-size: 15px;
+      transition: all 0.3s;
+    }
+    .level-low { background: var(--green-light); border: 1px solid rgba(22,101,52,0.2); color: var(--green); }
+    .level-mid { background: var(--amber-light); border: 1px solid rgba(180,83,9,0.2); color: var(--amber); }
+    .level-high { background: var(--red-light); border: 1px solid rgba(192,57,43,0.2); color: var(--red); }
+    .level-none { background: var(--surface); border: 1px dashed var(--border-strong); color: var(--text-faint); }
+    .score-result strong { display: block; font-size: 16px; margin-bottom: 4px; }
+
+    /* ── 症狀導覽 ── */
+    .symptom-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .sym-tab {
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border-strong);
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+      background: var(--surface);
+      color: var(--text-muted);
+    }
+    .sym-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .sym-content {
+      display: none;
+    }
+    .sym-content.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .sym-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .sym-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+    .sym-icon { font-size: 22px; margin-bottom: 6px; }
+    .sym-name { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+    .sym-desc { font-size: 13px; color: var(--text-muted); }
+
+    /* ── FAQ 手風琴 ── */
+    .accordion {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .accordion-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .accordion-item:last-child { border-bottom: none; }
+    .acc-btn {
+      width: 100%;
+      text-align: left;
+      background: var(--surface);
+      border: none;
+      padding: 16px 20px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.15s;
+    }
+    .acc-btn:hover { background: var(--surface2); }
+    .acc-arrow {
+      font-size: 18px;
+      color: var(--text-faint);
+      transition: transform 0.25s;
+      flex-shrink: 0;
+    }
+    .accordion-item.open .acc-arrow { transform: rotate(180deg); color: var(--accent); }
+    .acc-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: var(--surface2);
+    }
+    .accordion-item.open .acc-content { max-height: 300px; }
+    .acc-inner {
+      padding: 14px 20px 18px;
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ── 貼文文案 ── */
+    .copy-block {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      position: relative;
+    }
+    .copy-btn {
+      margin-top: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+    .copy-btn.copied { background: var(--green-light); color: var(--green); border-color: rgba(22,101,52,0.3); }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding-top: 40px;
+      color: var(--text-faint);
+      font-size: 13px;
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+
+    /* 動畫入場 */
+    .card {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: slideUp 0.5s ease forwards;
+    }
+    @keyframes slideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .card:nth-child(1) { animation-delay: 0.05s; }
+    .card:nth-child(2) { animation-delay: 0.1s; }
+    .card:nth-child(3) { animation-delay: 0.15s; }
+    .card:nth-child(4) { animation-delay: 0.2s; }
+    .card:nth-child(5) { animation-delay: 0.25s; }
+    .card:nth-child(6) { animation-delay: 0.3s; }
+    .card:nth-child(7) { animation-delay: 0.35s; }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav class="topnav">
+  <div class="topnav-logo">醫療健康提醒</div>
+  <div class="topnav-links">
+    <button class="nav-btn" onclick="scrollTo('story')">故事</button>
+    <button class="nav-btn" onclick="scrollTo('mechanism')">機制</button>
+    <button class="nav-btn" onclick="scrollTo('selfcheck')">自評</button>
+    <button class="nav-btn" onclick="scrollTo('faq')">常見問題</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- Hero -->
+  <section class="hero" style="animation: slideUp 0.4s ease forwards; opacity:0;">
+    <div class="hero-eyebrow">
+      <div class="badge">
+        <div class="badge-dot"></div>
+        健康提醒互動貼文
+      </div>
+    </div>
+    <h1>別把肚子痛<br><span>當小事</span></h1>
+    <p class="lead">有些危險，不會用你以為的方式出現。這篇用一個真實案例，提醒大家：看起來像肚子痛，背後可能是肺部血管被血塊塞住。</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="scrollTo('story')">開始閱讀故事</button>
+      <button class="btn-secondary" onclick="scrollTo('selfcheck')">做風險自評 →</button>
+    </div>
+  </section>
+
+  <!-- 閱讀進度 -->
+  <div class="read-tracker">
+    <span class="read-tracker-label">閱讀進度</span>
+    <div class="read-track-bar">
+      <div class="read-track-fill" id="readFill"></div>
+    </div>
+    <span class="read-pct" id="readPct">0%</span>
+  </div>
+
+  <!-- 故事 + 警示 -->
+  <div class="two-col" id="story">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon icon-blue">📖</div>
+        <h2>阿雅的故事</h2>
+      </div>
+      <div class="story-text">
+        <p>阿雅，52歲，有糖尿病和高血壓。</p>
+        <p>有一天，她突然感覺<strong>右上腹劇烈疼痛</strong>，痛到受不了，趕緊到急診求助。</p>
+        <div class="story-highlight">
+          直覺上，大家都會想：是膽囊問題？還是肝臟、腸胃出狀況？
+        </div>
+        <p>但檢查結果出乎意料——<strong>真正出問題的地方，不在肚子，而是在肺。</strong></p>
+        <p>阿雅的肺部血管裡有血塊，造成部分肺組織因缺血開始壞死。</p>
+        <p>她以為只是肚子痛，實際上卻是一個<strong>可能危及生命的血栓警訊</strong>。</p>
+      </div>
+    </div>
+
+    <div class="card alert-card">
+      <div class="card-header">
+        <div class="card-icon icon-red">🚨</div>
+        <h2>最重要的提醒</h2>
+      </div>
+      <p style="font-size:15px; color:#5a1a14; margin-bottom:6px;"><strong>危險疾病不一定照典型症狀出現。</strong></p>
+      <p style="font-size:14px; color:#7a2a20; margin-bottom:14px;">肺栓塞的症狀可能包括：</p>
+      <ul class="alert-list">
+        <li>胸痛或胸悶</li>
+        <li>突然喘不過氣</li>
+        <li>心跳異常加速</li>
+        <li>不明原因的上腹劇痛（如本案）</li>
+        <li>整體狀況快速變差</li>
+      </ul>
+      <p style="margin-top:14px; font-size:14px; color:#5a1a14; font-weight:700;">越不像典型症狀，越容易被忽略。</p>
+    </div>
+  </div>
+
+  <!-- 機制 -->
+  <div class="card" id="mechanism" style="margin-top:20px;">
+    <div class="card-header">
+      <div class="card-icon icon-teal">🔬</div>
+      <h2>肺動脈栓塞：用最簡單的方式理解</h2>
+    </div>
+    <div class="steps-flow">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-title">血塊形成</div>
+        <div class="step-desc">身體某處（常見是腿部深靜脈）出現血塊。</div>
+        <div class="step-arrow">›</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-title">血塊位移</div>
+        <div class="step-desc">血塊脫落，隨血流往心臟方向移動。</div>
+        <div class="step-arrow">›</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-title">肺血管堵塞</div>
+        <div class="step-desc">血塊卡在肺動脈，血流無法通過。</div>
+        <div class="step-arrow">›</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-title">警訊出現</div>
+        <div class="step-desc">肺組織缺氧，發出各種警訊——有時竟像肚子痛。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 症狀分類 -->
+  <div class="card" style="margin-top:20px;">
+    <div class="card-header">
+      <div class="card-icon icon-amber">⚡</div>
+      <h2>哪些症狀需要警覺？</h2>
+    </div>
+    <div class="symptom-tabs">
+      <button class="sym-tab active" onclick="switchTab('typical', this)">典型症狀</button>
+      <button class="sym-tab" onclick="switchTab('atypical', this)">非典型症狀</button>
+      <button class="sym-tab" onclick="switchTab('emergency', this)">立即就醫</button>
+    </div>
+    <div class="sym-content active" id="tab-typical">
+      <div class="sym-grid">
+        <div class="sym-item">
+          <div class="sym-icon">💨</div>
+          <div class="sym-name">呼吸困難</div>
+          <div class="sym-desc">突然喘不過氣，活動時加重</div>
+        </div>
+        <div class="sym-item">
+          <div class="sym-icon">💗</div>
+          <div class="sym-name">心跳加速</div>
+          <div class="sym-desc">心率異常上升，靜態時也明顯</div>
+        </div>
+        <div class="sym-item">
+          <div class="sym-icon">🫁</div>
+          <div class="sym-name">胸痛</div>
+          <div class="sym-desc">吸氣時加劇，常在胸側</div>
+        </div>
+        <div class="sym-item">
+          <div class="sym-icon">🩸</div>
+          <div class="sym-name">咳血</div>
+          <div class="sym-desc">痰中帶血，需立即注意</div>
+        </div>
+      </div>
+    </div>
+    <div class="sym-content" id="tab-atypical">
+      <div class="sym-grid">
+        <div class="sym-item">
+          <div class="sym-icon">🤢</div>
+          <div class="sym-name">上腹疼痛</div>
+          <div class="sym-desc">橫膈附近的異常，可能被誤為腸胃問題</div>
+        </div>
+        <div class="sym-item">
+          <div class="sym-icon">😵</div>
+          <div class="sym-name">頭暈或暈厥</div>
+          <div class="sym-desc">血流突然受阻，影響腦部供氧</div>
+        </div>
+        <div class="sym-item">
+          <div class="sym-icon">😰</div>
+          <div class="sym-name">大量冒汗</div>
+          <div class="sym-desc">身體應激反應，常被忽略</div>
+        </div>
+        <div class="sym-item">
+          <div class="sym-icon">😟</div>
+          <div class="sym-name">莫名焦慮</div>
+          <div class="sym-desc">感覺「哪裡不對」，說不清楚</div>
+        </div>
+      </div>
+    </div>
+    <div class="sym-content" id="tab-emergency">
+      <div class="sym-grid">
+        <div class="sym-item" style="border-color:rgba(192,57,43,0.3); background:#fff5f4;">
+          <div class="sym-icon">🆘</div>
+          <div class="sym-name">意識喪失</div>
+          <div class="sym-desc">昏倒或無法喚醒，立即叫救護車</div>
+        </div>
+        <div class="sym-item" style="border-color:rgba(192,57,43,0.3); background:#fff5f4;">
+          <div class="sym-icon">🫀</div>
+          <div class="sym-name">血壓急降</div>
+          <div class="sym-desc">四肢冰冷、皮膚蒼白、脈搏細弱</div>
+        </div>
+        <div class="sym-item" style="border-color:rgba(192,57,43,0.3); background:#fff5f4;">
+          <div class="sym-icon">⚡</div>
+          <div class="sym-name">極度呼吸困難</div>
+          <div class="sym-desc">無法說完整句子，嘴唇發紫</div>
+        </div>
+        <div class="sym-item" style="border-color:rgba(192,57,43,0.3); background:#fff5f4;">
+          <div class="sym-icon">🔴</div>
+          <div class="sym-name">劇烈胸痛</div>
+          <div class="sym-desc">突發且持續的胸部撕裂感</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 風險自評 -->
+  <div class="card risk-section" id="selfcheck" style="margin-top:20px;">
+    <div class="card-header">
+      <div class="card-icon icon-blue">📋</div>
+      <h2>風險因子自評</h2>
+    </div>
+    <p class="risk-intro">勾選符合你目前或近期狀況的項目，系統會計算你的風險提醒程度：</p>
+    <div class="risk-questions" id="riskQuestions">
+      <!-- 由 JS 產生 -->
+    </div>
+    <div class="score-meter">
+      <div class="score-header">
+        <span class="score-label">風險分數</span>
+        <div>
+          <span class="score-value" id="scoreVal">0</span>
+          <span class="score-max"> / 20</span>
+        </div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-bar-fill" id="scoreFill"></div>
+      </div>
+      <div class="score-result level-none" id="scoreResult">
+        <strong>尚未選擇任何項目</strong>
+        請勾選上方符合你的狀況，查看個人化提醒。
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="card" id="faq" style="margin-top:20px;">
+    <div class="card-header">
+      <div class="card-icon icon-teal">❓</div>
+      <h2>常見問題</h2>
+    </div>
+    <div class="accordion" id="accordion">
+      <div class="accordion-item open">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          什麼情況下不能再等？
+          <span class="acc-arrow">⌄</span>
+        </button>
+        <div class="acc-content">
+          <div class="acc-inner">
+            突然出現劇烈疼痛、明顯呼吸困難、持續胸痛、心跳異常加速，或整體狀況短時間內快速變差時，請立即撥打 119 或前往急診，不要試圖「再觀察看看」。
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          為什麼肚子痛也可能跟肺有關？
+          <span class="acc-arrow">⌄</span>
+        </button>
+        <div class="acc-content">
+          <div class="acc-inner">
+            肺部下方靠近橫膈的區域發生病變時，神經傳導路徑有時會讓人感覺疼痛在上腹部，而非胸部。這稱為「牽涉痛」現象。症狀發生的位置，不一定等於真正出問題的位置。
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          深靜脈血栓和肺栓塞有什麼關係？
+          <span class="acc-arrow">⌄</span>
+        </button>
+        <div class="acc-content">
+          <div class="acc-inner">
+            深靜脈血栓（DVT）通常發生在下肢，血塊若脫落並順著靜脈血流抵達肺部，就可能造成肺動脈栓塞（PE）。因此若腿部有不明腫脹或疼痛，加上出現呼吸症狀，應提高警覺。
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          這篇最重要的一句話是？
+          <span class="acc-arrow">⌄</span>
+        </button>
+        <div class="acc-content">
+          <div class="acc-inner">
+            身體的危險訊號有時會「偽裝」成其他症狀。看起來像小問題，不代表真的小。當你的身體說「不對勁」，請認真對待它。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 貼文文案 -->
+  <div class="card" style="margin-top:20px;">
+    <div class="card-header">
+      <div class="card-icon icon-amber">📣</div>
+      <h2>社群貼文文案</h2>
+    </div>
+    <p style="font-size:14px; color:var(--text-muted); margin-bottom:14px;">可直接複製用於 Facebook、Instagram 或 LINE 社群：</p>
+    <div class="copy-block" id="copyText">
+      <p><strong>阿雅以為自己只是肚子痛，結果真正出問題的地方，竟然是肺。</strong></p>
+      <br>
+      <p>有些危險疾病不會照著典型症狀出現。肺動脈栓塞不一定先表現成胸痛或喘，有時候也可能像上腹痛，讓人誤以為只是腸胃或肝膽問題。</p>
+      <br>
+      <p>當症狀突然、劇烈、又說不上來時，千萬不要硬撐，也不要隨便說「應該沒事」。</p>
+      <br>
+      <p><strong>越是不尋常的症狀，越值得提高警覺。</strong></p>
+    </div>
+    <button class="copy-btn" id="copyBtn" onclick="copyText()">複製文案</button>
+  </div>
+
+  <div class="footer">
+    <p>本頁內容僅供健康教育參考，不取代專業醫師診斷。如有疑慮，請儘速就醫。</p>
+  </div>
+
+</div>
+
+<script>
+  // 閱讀進度條
+  function updateProgress() {
+    const el = document.documentElement;
+    const scrolled = el.scrollTop || document.body.scrollTop;
+    const total = el.scrollHeight - el.clientHeight;
+    const pct = total > 0 ? Math.round((scrolled / total) * 100) : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('readFill').style.width = pct + '%';
+    document.getElementById('readPct').textContent = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress);
+
+  // 導覽捲動
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // 症狀 Tab
+  function switchTab(id, btn) {
+    document.querySelectorAll('.sym-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.sym-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + id).classList.add('active');
+  }
+
+  // FAQ 手風琴
+  function toggleAcc(btn) {
+    const item = btn.parentElement;
+    item.classList.toggle('open');
+  }
+
+  // 風險問題資料（含分數說明）
+  const riskData = [
+    { label: '長時間久坐或久臥', sub: '每天超過 8 小時，或臥床超過 3 天', score: 2 },
+    { label: '近期有長途旅行', sub: '搭機或長途車超過 4 小時', score: 2 },
+    { label: '患有慢性病', sub: '糖尿病、高血壓、心臟病、腎臟病等', score: 2 },
+    { label: '曾有深靜脈血栓或肺栓塞病史', sub: '自己或一等親家屬有此病史', score: 4 },
+    { label: '目前進行癌症治療', sub: '化療、放療或抗癌藥物中', score: 4 },
+    { label: '患有自體免疫疾病', sub: '如紅斑性狼瘡、抗磷脂抗體症候群等', score: 2 },
+    { label: '近期接受手術或住院', sub: '3 個月內進行過重大手術', score: 3 },
+    { label: '懷孕或產後 6 週內', sub: '或使用口服避孕藥 / 荷爾蒙療法', score: 3 },
+  ];
+
+  function buildRisk() {
+    const container = document.getElementById('riskQuestions');
+    riskData.forEach((q, i) => {
+      const div = document.createElement('div');
+      div.className = 'risk-q';
+      div.dataset.score = q.score;
+      div.innerHTML = `
+        <div class="risk-q-row">
+          <div>
+            <div class="risk-q-label">${q.label}</div>
+            <div class="risk-q-sub">${q.sub}（＋${q.score} 分）</div>
+          </div>
+          <div class="risk-check"></div>
+        </div>`;
+      div.addEventListener('click', () => {
+        div.classList.toggle('selected');
+        calcScore();
+      });
+      container.appendChild(div);
+    });
+  }
+
+  function calcScore() {
+    let total = 0;
+    document.querySelectorAll('.risk-q.selected').forEach(el => {
+      total += parseInt(el.dataset.score);
+    });
+    const max = 20;
+    const pct = Math.min((total / max) * 100, 100);
+
+    document.getElementById('scoreVal').textContent = total;
+    const fill = document.getElementById('scoreFill');
+    fill.style.width = pct + '%';
+
+    const result = document.getElementById('scoreResult');
+    if (total === 0) {
+      fill.style.background = 'var(--border)';
+      result.className = 'score-result level-none';
+      result.innerHTML = '<strong>尚未選擇任何項目</strong>請勾選上方符合你的狀況，查看個人化提醒。';
+    } else if (total <= 3) {
+      fill.style.background = '#22c55e';
+      result.className = 'score-result level-low';
+      result.innerHTML = '<strong>提醒程度：低度注意</strong>你有少量風險因子。日常注意適度活動、避免久坐。若出現突發不適症狀，不要輕忽，建議就醫確認。';
+    } else if (total <= 8) {
+      fill.style.background = '#f59e0b';
+      result.className = 'score-result level-mid';
+      result.innerHTML = '<strong>提醒程度：中度警覺</strong>你有多個血栓相關風險因子。建議主動與醫師討論預防策略。若出現不明原因的呼吸困難、胸痛或突發劇烈疼痛，請盡快就醫。';
+    } else {
+      fill.style.background = '#ef4444';
+      result.className = 'score-result level-high';
+      result.innerHTML = '<strong>提醒程度：高度重視</strong>你有明顯的血栓風險背景。強烈建議與主治醫師討論是否需要預防性處置。若症狀突然出現或身體快速變差，應立即就醫或撥打 119。';
+    }
+  }
+
+  // 複製文案
+  function copyText() {
+    const text = document.getElementById('copyText').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = '已複製 ✓';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = '複製文案';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
+  buildRisk();
+</script>
+</body>
+</html>
