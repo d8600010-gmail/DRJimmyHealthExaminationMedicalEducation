@@ -25,6 +25,8 @@
       --accent-lime-light: #f0f7ea;
       --accent-crimson: #b03a2e;
       --accent-crimson-light: #fdf0ee;
+      --accent-violet: #7c5cbf;
+      --accent-violet-light: #f2eefb;
       --border: #e8e4da;
       --shadow-soft: 0 4px 20px rgba(26,26,46,0.06);
       --shadow-hover: 0 16px 40px rgba(26,26,46,0.13);
@@ -72,6 +74,7 @@
       text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px;
     }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-gap { margin-top: 52px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 24px; }
     .card {
       background: white; border-radius: 20px; border: 1px solid var(--border);
@@ -91,6 +94,7 @@
     .card-icon.indigo  { background: var(--accent-indigo-light); }
     .card-icon.lime    { background: var(--accent-lime-light); }
     .card-icon.crimson { background: var(--accent-crimson-light); }
+    .card-icon.violet  { background: var(--accent-violet-light); }
     .card-title-wrap { flex: 1; }
     .card h2 { font-family: "Noto Serif TC", serif; font-size: 1.25em; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 6px; }
     .card-count { font-size: 0.74em; color: var(--muted); letter-spacing: 0.04em; }
@@ -107,12 +111,14 @@
     .card-toggle-btn.rose    { color: var(--accent-rose);    border-color: rgba(192,86,106,0.35); }
     .card-toggle-btn.lime    { color: var(--accent-lime);    border-color: rgba(90,138,60,0.35); }
     .card-toggle-btn.crimson { color: var(--accent-crimson); border-color: rgba(176,58,46,0.35); }
+    .card-toggle-btn.violet  { color: var(--accent-violet);  border-color: rgba(124,92,191,0.35); }
     .card-toggle-btn.teal:hover,    .card-toggle-btn.teal.open    { background: var(--accent-teal-light); }
     .card-toggle-btn.indigo:hover,  .card-toggle-btn.indigo.open  { background: var(--accent-indigo-light); }
     .card-toggle-btn.gold:hover,    .card-toggle-btn.gold.open    { background: var(--accent-gold-light); }
     .card-toggle-btn.rose:hover,    .card-toggle-btn.rose.open    { background: var(--accent-rose-light); }
     .card-toggle-btn.lime:hover,    .card-toggle-btn.lime.open    { background: var(--accent-lime-light); }
     .card-toggle-btn.crimson:hover, .card-toggle-btn.crimson.open { background: var(--accent-crimson-light); }
+    .card-toggle-btn.violet:hover,  .card-toggle-btn.violet.open  { background: var(--accent-violet-light); }
     .btn-arrow { display: inline-block; transition: transform 0.25s; }
     .card-toggle-btn.open .btn-arrow { transform: rotate(180deg); }
     .story-list { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -133,6 +139,7 @@
     .indigo-dot  { background: var(--accent-indigo); }
     .lime-dot    { background: var(--accent-lime); }
     .crimson-dot { background: var(--accent-crimson); }
+    .violet-dot  { background: var(--accent-violet); }
     .soon-badge {
       display: inline-block; font-size: 0.65em; font-weight: 600; letter-spacing: 0.08em;
       padding: 2px 8px; border-radius: 6px; background: #f0ede8; color: var(--muted);
@@ -150,6 +157,7 @@
     .card:nth-child(4) { animation-delay: 0.35s; }
     .card:nth-child(5) { animation-delay: 0.45s; }
     .card:nth-child(6) { animation-delay: 0.55s; }
+    .card:nth-child(7) { animation-delay: 0.65s; }
   </style>
 </head>
 <body>
@@ -161,7 +169,10 @@
   <p class="header-sub">用故事，讓健康變得更容易理解</p>
   <div class="header-line"></div>
 </header>
+
 <div class="container">
+
+  <!-- 精選主題 -->
   <div class="section-label">精選主題</div>
   <div class="grid">
 
@@ -203,11 +214,11 @@
       <div class="story-list" id="ecg">
         <div class="story-list-inner">
           <div class="story-divider"></div>
-         <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/sinus_arrhythemia.html'">
-            <span class="story-num">01</span><span class="story-dot indigo-dot"></span>竇性心律不整，是正常還是異常？？ 🔎
+          <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/sinus_arrhythemia.html'">
+            <span class="story-num">01</span><span class="story-dot indigo-dot"></span>竇性心律不整，是正常還是異常？ 🔎
           </div>
           <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/sinus_tachycardia.html'">
-            <span class="story-num">02</span><span class="story-dot indigo-dot"></span>心跳太快，是正常還是異常？？ 🔎
+            <span class="story-num">02</span><span class="story-dot indigo-dot"></span>心跳太快，是正常還是異常？ 🔎
           </div>
           <div class="story-item"><span class="story-num">03</span><span class="story-dot indigo-dot"></span>早期收縮（PVC / PAC）需要擔心嗎？</div>
           <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/STTchange.html'">
@@ -253,7 +264,7 @@
         <div class="card-icon crimson">🚨</div>
         <div class="card-title-wrap">
           <h2>急診室故事集</h2>
-          <div class="card-count">1 個故事</div>
+          <div class="card-count">3 個故事</div>
         </div>
       </div>
       <p class="card-desc">急診室裡的生死瞬間——從胸痛、喘不過氣到意識不清，用真實案例帶你認識那些不能等的警訊。</p>
@@ -265,10 +276,10 @@
             <span class="story-num">01</span><span class="story-dot crimson-dot"></span>大腿腫起來了——心導管後的偽動脈瘤 🔎
           </div>
           <div class="story-item" onclick="event.stopPropagation(); window.location.href='EmergencyRoom/pulmonary-embolism.html'">
-            <span class="story-num">01</span><span class="story-dot crimson-dot"></span>不要輕忽肚子痛 🔎
+            <span class="story-num">02</span><span class="story-dot crimson-dot"></span>不要輕忽肚子痛 🔎
           </div>
           <div class="story-item" onclick="event.stopPropagation(); window.location.href='EmergencyRoom/hypertension_interactive.html'">
-            <span class="story-num">02</span><span class="story-dot crimson-dot"></span>是豁達，還是自私？🔎
+            <span class="story-num">03</span><span class="story-dot crimson-dot"></span>是豁達，還是自私？🔎
           </div>
         </div>
       </div>
@@ -301,11 +312,55 @@
     </div>
 
   </div>
+
+  <!-- 自我檢測 區塊 -->
+  <div class="section-gap"></div>
+  <div class="section-label">自我檢測</div>
+  <div class="grid">
+
+    <!-- 體重過重自我檢測 -->
+    <div class="card" onclick="toggleCard('selfquiz', this)">
+      <div class="card-header">
+        <div class="card-icon violet">📋</div>
+        <div class="card-title-wrap">
+          <h2>生活習慣自我檢測</h2>
+          <div class="card-count">1 個測驗</div>
+        </div>
+      </div>
+      <p class="card-desc">透過互動問卷，輕鬆評估你的生活習慣與健康風險，幽默反諷中帶你找回正確觀念。</p>
+      <button class="card-toggle-btn violet" id="btn-selfquiz">展開測驗 <span class="btn-arrow">▾</span></button>
+      <div class="story-list" id="selfquiz">
+        <div class="story-list-inner">
+          <div class="story-divider"></div>
+          <div class="story-item" onclick="event.stopPropagation(); window.location.href='SelfQuiz/Overweight.html'">
+            <span class="story-num">01</span><span class="story-dot violet-dot"></span>致胖生活：成就解鎖問卷 📊
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 未來測驗 placeholder -->
+    <div class="card disabled">
+      <div class="card-header">
+        <div class="card-icon violet">🧠</div>
+        <div class="card-title-wrap">
+          <h2>壓力與睡眠檢測 <span class="soon-badge">即將推出</span></h2>
+          <div class="card-count">規劃中</div>
+        </div>
+      </div>
+      <p class="card-desc">你真的睡得夠好嗎？壓力有沒有悄悄拖垮你的健康？來做個快速評估。</p>
+      <button class="card-toggle-btn violet" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
+    </div>
+
+  </div>
+
 </div>
+
 <footer>
   <div class="footer-brand">Dr. Jimmy 診間故事集</div>
   <div style="margin-top:6px">© 2026 · 用醫學說故事 · 內容僅供衛教參考，不替代個人醫療建議</div>
 </footer>
+
 <script>
   function toggleCard(id, cardEl) {
     if (cardEl.classList.contains('disabled')) return;
