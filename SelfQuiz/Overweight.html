@@ -1,1 +1,250 @@
 
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>致胖生活成就解鎖問卷</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: linear-gradient(135deg, #fff5f5 0%, #f4f4f9 100%); color: #333; min-height: 100vh; padding: 24px 16px; }
+        .container { max-width: 580px; margin: auto; background: white; padding: 32px 28px; border-radius: 20px; box-shadow: 0 8px 30px rgba(217,83,79,0.12); }
+        h2 { color: #d9534f; text-align: center; font-size: 1.5rem; margin-bottom: 6px; }
+        .emoji-title { font-size: 2rem; text-align: center; margin-bottom: 8px; }
+        p.desc { font-style: italic; color: #888; text-align: center; margin-bottom: 20px; font-size: 0.92rem; }
+        .progress-wrap { margin-bottom: 24px; }
+        .progress-label { display: flex; justify-content: space-between; font-size: 0.82rem; color: #aaa; margin-bottom: 6px; }
+        .progress-bar-wrap { background: #f0f0f0; border-radius: 99px; height: 8px; overflow: hidden; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, #d9534f, #ff8a80); border-radius: 99px; transition: width 0.4s ease; }
+        .question { margin-bottom: 18px; padding: 18px 16px; border-left: 5px solid #eee; border-radius: 0 12px 12px 0; transition: all 0.3s; background: #fafafa; }
+        .question.answered { border-left-color: #d9534f; background: #fff5f5; }
+        .question label { display: block; font-weight: bold; margin-bottom: 12px; color: #444; font-size: 0.95rem; line-height: 1.5; }
+        .options { display: flex; flex-direction: column; gap: 8px; }
+        .option-btn { width: 100%; padding: 11px 14px; border-radius: 8px; border: 2px solid #e8e8e8; background: white; font-size: 0.86rem; cursor: pointer; text-align: left; color: #555; transition: all 0.2s; line-height: 1.45; }
+        .option-btn:hover { border-color: #d9534f; background: #fff5f5; color: #d9534f; }
+        .option-btn.selected { border-color: #d9534f; background: #d9534f; color: white; font-weight: bold; }
+        .submit-btn { display: block; width: 100%; padding: 15px; background: linear-gradient(135deg, #d9534f, #c9302c); color: white; border: none; border-radius: 10px; font-size: 1.05rem; cursor: pointer; margin-top: 24px; font-weight: bold; letter-spacing: 1px; transition: all 0.2s; opacity: 0.4; pointer-events: none; }
+        .submit-btn.active { opacity: 1; pointer-events: all; }
+        .submit-btn.active:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(217,83,79,0.35); }
+        #result { margin-top: 28px; padding: 24px 20px; border-radius: 14px; display: none; text-align: center; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .lv4 { background: #f9e8e8; color: #7a1f1f; border: 2px solid #f0b8b8; }
+        .lv3 { background: #fdf0e0; color: #7a4a10; border: 2px solid #f5d0a0; }
+        .lv2 { background: #fef9ec; color: #7a5c1e; border: 2px solid #f5e6c6; }
+        .lv1 { background: #ecf7ec; color: #2e6b2e; border: 2px solid #c6e6c6; }
+        #result h3 { font-size: 1.15rem; margin-bottom: 10px; }
+        #result p { font-size: 0.93rem; line-height: 1.7; margin-bottom: 10px; }
+        .score-badge { display: inline-block; font-size: 2.8rem; font-weight: bold; margin: 8px 0 14px; }
+        .breakdown { margin: 14px 0; padding: 12px 16px; background: rgba(0,0,0,0.05); border-radius: 10px; font-size: 0.85rem; text-align: left; line-height: 2; font-family: monospace; }
+        .retry-btn { display: inline-block; margin-top: 10px; padding: 10px 28px; background: white; border: 2px solid currentColor; border-radius: 8px; font-size: 0.9rem; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        .retry-btn:hover { background: #d9534f; color: white; border-color: #d9534f; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="emoji-title">🍟🛋️😴🧋🎮</div>
+    <h2>致胖生活：成就解鎖問卷</h2>
+    <p class="desc">共 10 題，全面評估你在「維持肥胖」這條路上的努力程度。</p>
+
+    <div class="progress-wrap">
+        <div class="progress-label">
+            <span>答題進度</span>
+            <span id="progressText">0 / 10</span>
+        </div>
+        <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <div id="quizForm">
+
+        <div class="question" id="q1-block">
+            <label>🍗 1. 當你感到壓力時，你如何犒賞自己的脂肪？</label>
+            <div class="options">
+                <button class="option-btn" onclick="sel(1,4,this)">點一份特大號炸雞加珍奶，慶祝壓力爆棚 🥤</button>
+                <button class="option-btn" onclick="sel(1,2,this)">吃點小零食，稍微安慰一下脂肪細胞 🍪</button>
+                <button class="option-btn" onclick="sel(1,0,this)">深呼吸或喝水，這對增肥一點幫助都沒有 💧</button>
+            </div>
+        </div>
+
+        <div class="question" id="q2-block">
+            <label>🛌 2. 關於「運動」，你今天成功找出的最佳藉口是？</label>
+            <div class="options">
+                <button class="option-btn" onclick="sel(2,4,this)">「我太忙／太累了」，這招百試不爽 😩</button>
+                <button class="option-btn" onclick="sel(2,2,this)">「明天再說」，明天永遠不會到 📅</button>
+                <button class="option-btn" onclick="sel(2,0,this)">我竟然沒找藉口就去運動了，計畫大失敗 🏃</button>
+            </div>
+        </div>
+
+        <div class="question" id="q3-block">
+            <label>📱 3. 關於寶貴的報復性熬夜，你堅持得如何？</label>
+            <div class="options">
+                <button class="option-btn" onclick="sel(3,4,this)">堅持滑手機到凌晨兩點，徹底破壞代謝系統 🌙</button>
+                <button class="option-btn" onclick="sel(3,2,this)">掙扎到午夜，睡意不小心戰勝了螢幕 😪</button>
+                <button class="option-btn" onclick="sel(3,0,this)">早睡早起，代謝太正常讓我感到羞愧 ☀️</button>
+            </div>
+        </div>
+
+        <div class="question" id="q4-block">
+            <label>👖 4. 你的腰圍目前的發展潛力？</label>
+            <div class="options">
+                <button class="option-btn" onclick="sel(4,4,this)">已經突破褲頭限制，充滿擴張野心 📈</button>
+                <button class="option-btn" onclick="sel(4,2,this)">剛好卡住，正在猶豫要不要買大一號 🤔</button>
+                <button class="option-btn" onclick="sel(4,0,this)">皮帶還有空間，這太不符合致胖精神了 😤</button>
+            </div>
+        </div>
+
+        <div class="question" id="q5-block">
+            <label>🚗 5. 你如何看待「走路」這項古老的交通方式？</label>
+            <div class="options">
+                <button class="option-btn" onclick="sel(5,4,this)">能開車就開車，能叫車就叫車，雙腳是用來擺著的 🦶</button>
+                <button class="option-btn" onclick="sel(5,2,this)">偶爾走幾步，但超過 500 公尺就覺得在受苦 😰</button>
+                <button class="option-btn" onclick="sel(5,0,this)">我喜歡走路，這讓我的脂肪非常不爽 🚶</button>
+            </div>
+        </div>
+
+        <div class="question" id="q6-block">
+            <label>🧋 6. 你的日常飲料選擇？</label>
+            <div class="options">
+                <button class="option-btn" onclick="sel(6,4,this)">全糖手搖杯是基本款，有時加奶蓋加波霸雙管齊下 🧋</button>
+                <button class="option-btn" onclick="sel(6,2,this)">半糖微糖，假裝自己在控制，但量沒少 🫙</button>
+                <button class="option-btn" onclick="sel(6,0,this)">白開水或無糖茶，脂肪細胞的天敵 💦</button>
+            </div>
+        </div>
+
+        <div class="question" id="q7-block">
+            <label>📺 7. 週末你最常做的事是？</label>
+            <div class="options">
+                <button class="option-btn" onclick="sel(7,4,this)">躺平追劇＋叫外送，從早到晚沙發不離身 🛋️</button>
+                <button class="option-btn" onclick="sel(7,2,this)">出門吃頓大餐，然後回家繼續躺 🍜</button>
+                <button class="option-btn" onclick="sel(7,0,this)">去爬山或運動，對脂肪趕盡殺絕 🏔️</button>
+            </div>
+        </div>
+
+        <div class="question" id="q8-block">
+            <label>🌙 8. 你的宵夜哲學是？</label>
+            <div class="options">
+                <button class="option-btn" onclick="sel(8,4,this)">「睡前吃的熱量不算」，每晚忠實執行這個謊言 🍜</button>
+                <button class="option-btn" onclick="sel(8,2,this)">偶爾忍不住，但騙自己「只吃一口」 🍿</button>
+                <button class="option-btn" onclick="sel(8,0,this)">晚上八點後滴水不進，太殘忍了 🚫</button>
+            </div>
+        </div>
+
+        <div class="question" id="q9-block">
+            <label>🥦 9. 你和蔬菜的關係如何？</label>
+            <div class="options">
+                <button class="option-btn" onclick="sel(9,4,this)">蔬菜是盤子的裝飾品，拍完照就撥到旁邊 🙈</button>
+                <button class="option-btn" onclick="sel(9,2,this)">偶爾吃，主要是為了騙自己「我有均衡飲食」 🥗</button>
+                <button class="option-btn" onclick="sel(9,0,this)">餐餐有蔬菜，讓脂肪無處可藏 🥦</button>
+            </div>
+        </div>
+
+        <div class="question" id="q10-block">
+            <label>⚖️ 10. 你上次踩體重計是什麼時候？</label>
+            <div class="options">
+                <button class="option-btn" onclick="sel(10,4,this)">已經把體重計收進倉庫，眼不見為淨 📦</button>
+                <button class="option-btn" onclick="sel(10,2,this)">偶爾踩，數字不對就假裝沒看見 👀</button>
+                <button class="option-btn" onclick="sel(10,0,this)">每天量，數字讓我有動力努力 💪</button>
+            </div>
+        </div>
+
+        <button class="submit-btn" id="submitBtn" onclick="showResult()">查看我的「增肥成就」報告 🏆</button>
+    </div>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    const TOTAL = 10;
+    const answers = {};
+
+    const categories = {
+        '🍔 飲食習慣': [1, 6, 8, 9],
+        '🏋️ 運動迴避': [2, 5, 7],
+        '😴 作息破壞': [3],
+        '📏 體型意識': [4, 10],
+    };
+
+    function sel(q, value, btn) {
+        answers[q] = value;
+        const block = document.getElementById('q' + q + '-block');
+        block.classList.add('answered');
+        block.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+
+        const answered = Object.keys(answers).length;
+        document.getElementById('progressBar').style.width = (answered / TOTAL * 100) + '%';
+        document.getElementById('progressText').textContent = answered + ' / ' + TOTAL;
+
+        if (answered === TOTAL) {
+            document.getElementById('submitBtn').classList.add('active');
+        }
+    }
+
+    function showResult() {
+        const score = Object.values(answers).reduce((a, b) => a + b, 0);
+        const maxScore = TOTAL * 4;
+
+        let breakdownHTML = '<div class="breakdown"><strong>📊 各面向分析：</strong><br>';
+        for (const [cat, qs] of Object.entries(categories)) {
+            const catMax = qs.length * 4;
+            const catScore = qs.reduce((a, q) => a + (answers[q] || 0), 0);
+            const pct = Math.round(catScore / catMax * 100);
+            const filled = Math.round(pct / 20);
+            const bar = '█'.repeat(filled) + '░'.repeat(5 - filled);
+            breakdownHTML += `${cat}&nbsp;&nbsp;${bar} ${pct}%<br>`;
+        }
+        breakdownHTML += '</div>';
+
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        let cls, emoji, title, desc, tip;
+
+        if (score >= 32) {
+            cls = 'lv4'; emoji = '🏆';
+            title = '傳奇致胖大師';
+            desc = `你拿了 ${score} 分（滿分 ${maxScore}）。你的生活彷彿為脂肪量身打造——炸雞、熬夜、沙發三位一體，堪稱教科書級範本。你的身體正默默替你累積高血壓、糖尿病的「成就徽章」。`;
+            tip = '⚠️ 嚴重警告：請立即諮詢醫師或營養師，你的健康比你想的更需要關注。';
+        } else if (score >= 22) {
+            cls = 'lv3'; emoji = '🔥';
+            title = '資深致胖實踐者';
+            desc = `你拿了 ${score} 分（滿分 ${maxScore}）。藉口找得專業，宵夜吃得勤勞，運動量少得可憐。你不是大師，但你正在努力的路上。再這樣下去，大師的位子遲早是你的。`;
+            tip = '💡 提示：戒掉一兩個壞習慣就能大幅改善！從今晚少喝一杯手搖開始？';
+        } else if (score >= 12) {
+            cls = 'lv2'; emoji = '🌱';
+            title = '半調子胖胖候選人';
+            desc = `你拿了 ${score} 分（滿分 ${maxScore}）。你偶爾努力、偶爾放縱，兩邊都沒做到極致。脂肪細胞對你又愛又恨——你讓它們充滿希望，卻又不時讓它們失望。`;
+            tip = '💡 提示：你距離健康其實不遠！稍微調整作息與飲食，效果會很明顯。';
+        } else {
+            cls = 'lv1'; emoji = '💪';
+            title = '脂肪的天敵';
+            desc = `你只拿了 ${score} 分（滿分 ${maxScore}）。你的代謝系統正在全速運轉，脂肪細胞對你又怕又恨。你喝水、運動、早睡——是這份問卷的最大失敗者，也是人生的大贏家。`;
+            tip = '✅ 繼續保持！請帶著你的朋友一起「失敗」吧。';
+        }
+
+        resultDiv.className = cls;
+        resultDiv.innerHTML = `
+            <div class="score-badge">${emoji} ${score} / ${maxScore}</div>
+            <h3>${title}</h3>
+            <p>${desc}</p>
+            ${breakdownHTML}
+            <p>${tip}</p>
+            <button class="retry-btn" onclick="retry()">再測一次 🔄</button>
+        `;
+    }
+
+    function retry() {
+        Object.keys(answers).forEach(k => delete answers[k]);
+        document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+        document.querySelectorAll('.question').forEach(q => q.classList.remove('answered'));
+        document.getElementById('progressBar').style.width = '0%';
+        document.getElementById('progressText').textContent = '0 / ' + TOTAL;
+        document.getElementById('submitBtn').classList.remove('active');
+        document.getElementById('result').style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+</body>
+</html>
