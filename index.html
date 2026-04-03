@@ -27,6 +27,10 @@
       --accent-crimson-light: #fdf0ee;
       --accent-violet: #7c5cbf;
       --accent-violet-light: #f2eefb;
+      --accent-forest: #3a7d5c;
+      --accent-forest-light: #e8f5ee;
+      --accent-slate: #5b6e8c;
+      --accent-slate-light: #edf0f6;
       --border: #e8e4da;
       --shadow-soft: 0 4px 20px rgba(26,26,46,0.06);
       --shadow-hover: 0 16px 40px rgba(26,26,46,0.13);
@@ -95,6 +99,8 @@
     .card-icon.lime    { background: var(--accent-lime-light); }
     .card-icon.crimson { background: var(--accent-crimson-light); }
     .card-icon.violet  { background: var(--accent-violet-light); }
+    .card-icon.forest  { background: var(--accent-forest-light); }
+    .card-icon.slate   { background: var(--accent-slate-light); }
     .card-title-wrap { flex: 1; }
     .card h2 { font-family: "Noto Serif TC", serif; font-size: 1.25em; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 6px; }
     .card-count { font-size: 0.74em; color: var(--muted); letter-spacing: 0.04em; }
@@ -112,6 +118,8 @@
     .card-toggle-btn.lime    { color: var(--accent-lime);    border-color: rgba(90,138,60,0.35); }
     .card-toggle-btn.crimson { color: var(--accent-crimson); border-color: rgba(176,58,46,0.35); }
     .card-toggle-btn.violet  { color: var(--accent-violet);  border-color: rgba(124,92,191,0.35); }
+    .card-toggle-btn.forest  { color: var(--accent-forest);  border-color: rgba(58,125,92,0.35); }
+    .card-toggle-btn.slate   { color: var(--accent-slate);   border-color: rgba(91,110,140,0.35); }
     .card-toggle-btn.teal:hover,    .card-toggle-btn.teal.open    { background: var(--accent-teal-light); }
     .card-toggle-btn.indigo:hover,  .card-toggle-btn.indigo.open  { background: var(--accent-indigo-light); }
     .card-toggle-btn.gold:hover,    .card-toggle-btn.gold.open    { background: var(--accent-gold-light); }
@@ -119,6 +127,8 @@
     .card-toggle-btn.lime:hover,    .card-toggle-btn.lime.open    { background: var(--accent-lime-light); }
     .card-toggle-btn.crimson:hover, .card-toggle-btn.crimson.open { background: var(--accent-crimson-light); }
     .card-toggle-btn.violet:hover,  .card-toggle-btn.violet.open  { background: var(--accent-violet-light); }
+    .card-toggle-btn.forest:hover,  .card-toggle-btn.forest.open  { background: var(--accent-forest-light); }
+    .card-toggle-btn.slate:hover,   .card-toggle-btn.slate.open   { background: var(--accent-slate-light); }
     .btn-arrow { display: inline-block; transition: transform 0.25s; }
     .card-toggle-btn.open .btn-arrow { transform: rotate(180deg); }
     .story-list { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -140,6 +150,8 @@
     .lime-dot    { background: var(--accent-lime); }
     .crimson-dot { background: var(--accent-crimson); }
     .violet-dot  { background: var(--accent-violet); }
+    .forest-dot  { background: var(--accent-forest); }
+    .slate-dot   { background: var(--accent-slate); }
     .soon-badge {
       display: inline-block; font-size: 0.65em; font-weight: 600; letter-spacing: 0.08em;
       padding: 2px 8px; border-radius: 6px; background: #f0ede8; color: var(--muted);
@@ -147,6 +159,20 @@
     }
     .card.disabled { opacity: 0.7; cursor: default; }
     .card.disabled:hover { transform: none; box-shadow: var(--shadow-soft); }
+
+    /* External-link card — full card is clickable as a link */
+    .card.card-link {
+      text-decoration: none; color: inherit; display: block;
+    }
+    .card.card-link .card-cta {
+      margin: 0 28px 22px; display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.82em; font-weight: 500; padding: 8px 16px; border-radius: 8px;
+      border: 1.5px solid rgba(58,125,92,0.35); color: var(--accent-forest);
+      background: transparent; transition: background 0.2s;
+    }
+    .card.card-link:hover .card-cta { background: var(--accent-forest-light); }
+    .card-cta-arrow { font-size: 1em; }
+
     footer { border-top: 1px solid var(--border); padding: 28px 24px; text-align: center; font-size: 0.82em; color: var(--muted); letter-spacing: 0.03em; }
     footer .footer-brand { font-family: "DM Serif Display", serif; font-style: italic; color: var(--ink-soft); font-size: 1.1em; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
@@ -158,6 +184,8 @@
     .card:nth-child(5) { animation-delay: 0.45s; }
     .card:nth-child(6) { animation-delay: 0.55s; }
     .card:nth-child(7) { animation-delay: 0.65s; }
+    .card:nth-child(8) { animation-delay: 0.72s; }
+    .card:nth-child(9) { animation-delay: 0.79s; }
   </style>
 </head>
 <body>
@@ -169,7 +197,6 @@
   <p class="header-sub">用故事，讓健康變得更容易理解</p>
   <div class="header-line"></div>
 </header>
-
 <div class="container">
 
   <!-- 精選主題 -->
@@ -285,6 +312,19 @@
       </div>
     </div>
 
+    <!-- ✦ NEW: 體育大學成人病理學園地 — external link card -->
+    <a class="card card-link" href="https://drjimmy603ntsu.github.io/AfterClassFeedBack/" target="_blank" rel="noopener noreferrer">
+      <div class="card-header">
+        <div class="card-icon forest">🏃</div>
+        <div class="card-title-wrap">
+          <h2>體育大學成人病理學園地</h2>
+          <div class="card-count">課後互動學習</div>
+        </div>
+      </div>
+      <p class="card-desc">專為體育大學學生設計的成人病理學輔助平台，結合運動科學視角，深入淺出探討疾病機轉與臨床應用。</p>
+      <div class="card-cta">前往園地 <span class="card-cta-arrow">↗</span></div>
+    </a>
+
     <!-- 血液常規判讀 — Coming Soon -->
     <div class="card disabled">
       <div class="card-header">
@@ -354,13 +394,90 @@
 
   </div>
 
-</div>
+  <!-- ✦ NEW 區塊: 身心健康實驗室 -->
+  <div class="section-gap"></div>
+  <div class="section-label">身心健康實驗室</div>
+  <div class="grid">
 
+    <!-- 不寐俱樂部 -->
+    <div class="card disabled">
+      <div class="card-header">
+        <div class="card-icon indigo">🌙</div>
+        <div class="card-title-wrap">
+          <h2>不寐俱樂部 <span class="soon-badge">即將推出</span></h2>
+          <div class="card-count">規劃中</div>
+        </div>
+      </div>
+      <p class="card-desc">輾轉反側、難以入眠——失眠不只是習慣問題，也可能是身體在說話。從睡眠醫學的角度，帶你認識那些在夜裡悄悄發生的事。</p>
+      <button class="card-toggle-btn indigo" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
+    </div>
+
+    <!-- 杞人研究所 -->
+    <div class="card disabled">
+      <div class="card-header">
+        <div class="card-icon gold">🔭</div>
+        <div class="card-title-wrap">
+          <h2>杞人研究所 <span class="soon-badge">即將推出</span></h2>
+          <div class="card-count">規劃中</div>
+        </div>
+      </div>
+      <p class="card-desc">焦慮、憂慮、想太多⋯⋯這是性格使然，還是大腦的求救訊號？用科學角度理解「杞人憂天」背後的心理與生理機制。</p>
+      <button class="card-toggle-btn gold" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
+    </div>
+
+    <!-- 重力實驗室 -->
+    <div class="card disabled">
+      <div class="card-header">
+        <div class="card-icon crimson">🏋️</div>
+        <div class="card-title-wrap">
+          <h2>重力實驗室 <span class="soon-badge">即將推出</span></h2>
+          <div class="card-count">規劃中</div>
+        </div>
+      </div>
+      <p class="card-desc">體重、體脂、肌少症⋯⋯和地心引力的拔河，從來不只是外表問題。探索代謝、運動與慢性病之間那條看不見的連線。</p>
+      <button class="card-toggle-btn crimson" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
+    </div>
+
+  </div>
+
+  <!-- ✦ NEW 區塊: 社交智能時代 -->
+  <div class="section-gap"></div>
+  <div class="section-label">社交智能時代</div>
+  <div class="grid">
+
+    <!-- 社交智能時代 — Coming Soon -->
+    <div class="card disabled">
+      <div class="card-header">
+        <div class="card-icon slate">🤝</div>
+        <div class="card-title-wrap">
+          <h2>社交智能時代 <span class="soon-badge">即將推出</span></h2>
+          <div class="card-count">規劃中</div>
+        </div>
+      </div>
+      <p class="card-desc">在 AI 與數位化浪潮下，人與人之間的溝通、同理心與社交技能如何影響健康？即將帶你從醫學角度重新認識「人際關係」。</p>
+      <button class="card-toggle-btn slate" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
+    </div>
+
+    <!-- placeholder -->
+    <div class="card disabled">
+      <div class="card-header">
+        <div class="card-icon slate">💬</div>
+        <div class="card-title-wrap">
+          <h2>更多主題 <span class="soon-badge">即將推出</span></h2>
+          <div class="card-count">規劃中</div>
+        </div>
+      </div>
+      <p class="card-desc">更多關於數位時代、心理健康與人際連結的故事，即將陸續登場。</p>
+      <button class="card-toggle-btn slate" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
+    </div>
+
+  </div>
+
+</div>
 <footer>
   <div class="footer-brand">Dr. Jimmy 診間故事集</div>
   <div style="margin-top:6px">© 2026 · 用醫學說故事 · 內容僅供衛教參考，不替代個人醫療建議</div>
 </footer>
-
 <script>
   function toggleCard(id, cardEl) {
     if (cardEl.classList.contains('disabled')) return;
