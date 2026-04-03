@@ -159,7 +159,6 @@
     }
     .card.disabled { opacity: 0.7; cursor: default; }
     .card.disabled:hover { transform: none; box-shadow: var(--shadow-soft); }
-
     /* External-link card — full card is clickable as a link */
     .card.card-link {
       text-decoration: none; color: inherit; display: block;
@@ -171,8 +170,12 @@
       background: transparent; transition: background 0.2s;
     }
     .card.card-link:hover .card-cta { background: var(--accent-forest-light); }
+    /* Clinical tools card uses lime color */
+    .card.card-link.lime-link .card-cta {
+      border-color: rgba(90,138,60,0.35); color: var(--accent-lime);
+    }
+    .card.card-link.lime-link:hover .card-cta { background: var(--accent-lime-light); }
     .card-cta-arrow { font-size: 1em; }
-
     footer { border-top: 1px solid var(--border); padding: 28px 24px; text-align: center; font-size: 0.82em; color: var(--muted); letter-spacing: 0.03em; }
     footer .footer-brand { font-family: "DM Serif Display", serif; font-style: italic; color: var(--ink-soft); font-size: 1.1em; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
@@ -198,11 +201,9 @@
   <div class="header-line"></div>
 </header>
 <div class="container">
-
   <!-- 精選主題 -->
   <div class="section-label">精選主題</div>
   <div class="grid">
-
     <!-- 健診常見問題 -->
     <div class="card" onclick="toggleCard('faq', this)">
       <div class="card-header">
@@ -226,7 +227,6 @@
         </div>
       </div>
     </div>
-
     <!-- 心電圖變化 -->
     <div class="card" onclick="toggleCard('ecg', this)">
       <div class="card-header">
@@ -263,7 +263,6 @@
         </div>
       </div>
     </div>
-
     <!-- 肝膽胃腸科 -->
     <div class="card" onclick="toggleCard('hep', this)">
       <div class="card-header">
@@ -284,7 +283,6 @@
         </div>
       </div>
     </div>
-
     <!-- 急診室故事集 -->
     <div class="card" onclick="toggleCard('er', this)">
       <div class="card-header">
@@ -311,8 +309,7 @@
         </div>
       </div>
     </div>
-
-    <!-- ✦ NEW: 體育大學成人病理學園地 — external link card -->
+    <!-- 體育大學成人病理學園地 — external link card -->
     <a class="card card-link" href="https://drjimmy603ntsu.github.io/AfterClassFeedBack/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon forest">🏃</div>
@@ -324,7 +321,6 @@
       <p class="card-desc">專為體育大學學生設計的成人病理學輔助平台，結合運動科學視角，深入淺出探討疾病機轉與臨床應用。</p>
       <div class="card-cta">前往園地 <span class="card-cta-arrow">↗</span></div>
     </a>
-
     <!-- 血液常規判讀 — Coming Soon -->
     <div class="card disabled">
       <div class="card-header">
@@ -337,7 +333,6 @@
       <p class="card-desc">CBC、鐵蛋白、維生素 B12⋯⋯讀懂你的血球報告，不再一頭霧水。</p>
       <button class="card-toggle-btn gold" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
-
     <!-- 影像報告解讀 — Coming Soon -->
     <div class="card disabled">
       <div class="card-header">
@@ -350,14 +345,12 @@
       <p class="card-desc">X 光、超音波、CT⋯⋯影像報告裡的「疑似」與「建議追蹤」，到底該怎麼看？</p>
       <button class="card-toggle-btn rose" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
-
   </div>
 
   <!-- 自我檢測 區塊 -->
   <div class="section-gap"></div>
   <div class="section-label">自我檢測</div>
   <div class="grid">
-
     <!-- 體重過重自我檢測 -->
     <div class="card" onclick="toggleCard('selfquiz', this)">
       <div class="card-header">
@@ -378,7 +371,6 @@
         </div>
       </div>
     </div>
-
     <!-- 未來測驗 placeholder -->
     <div class="card disabled">
       <div class="card-header">
@@ -391,14 +383,12 @@
       <p class="card-desc">你真的睡得夠好嗎？壓力有沒有悄悄拖垮你的健康？來做個快速評估。</p>
       <button class="card-toggle-btn violet" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
-
   </div>
 
-  <!-- ✦ NEW 區塊: 身心健康實驗室 -->
+  <!-- 身心健康實驗室 -->
   <div class="section-gap"></div>
   <div class="section-label">身心健康實驗室</div>
   <div class="grid">
-
     <!-- 不寐俱樂部 -->
     <div class="card disabled">
       <div class="card-header">
@@ -411,7 +401,6 @@
       <p class="card-desc">輾轉反側、難以入眠——失眠不只是習慣問題，也可能是身體在說話。從睡眠醫學的角度，帶你認識那些在夜裡悄悄發生的事。</p>
       <button class="card-toggle-btn indigo" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
-
     <!-- 杞人研究所 -->
     <div class="card disabled">
       <div class="card-header">
@@ -424,7 +413,6 @@
       <p class="card-desc">焦慮、憂慮、想太多⋯⋯這是性格使然，還是大腦的求救訊號？用科學角度理解「杞人憂天」背後的心理與生理機制。</p>
       <button class="card-toggle-btn gold" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
-
     <!-- 重力實驗室 -->
     <div class="card disabled">
       <div class="card-header">
@@ -437,15 +425,12 @@
       <p class="card-desc">體重、體脂、肌少症⋯⋯和地心引力的拔河，從來不只是外表問題。探索代謝、運動與慢性病之間那條看不見的連線。</p>
       <button class="card-toggle-btn crimson" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
-
   </div>
 
-  <!-- ✦ NEW 區塊: 社交智能時代 -->
+  <!-- 社交智能時代 -->
   <div class="section-gap"></div>
   <div class="section-label">社交智能時代</div>
   <div class="grid">
-
-    <!-- 社交智能時代 — Coming Soon -->
     <div class="card disabled">
       <div class="card-header">
         <div class="card-icon slate">🤝</div>
@@ -457,8 +442,6 @@
       <p class="card-desc">在 AI 與數位化浪潮下，人與人之間的溝通、同理心與社交技能如何影響健康？即將帶你從醫學角度重新認識「人際關係」。</p>
       <button class="card-toggle-btn slate" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
-
-    <!-- placeholder -->
     <div class="card disabled">
       <div class="card-header">
         <div class="card-icon slate">💬</div>
@@ -470,7 +453,23 @@
       <p class="card-desc">更多關於數位時代、心理健康與人際連結的故事，即將陸續登場。</p>
       <button class="card-toggle-btn slate" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
+  </div>
 
+  <!-- 常見臨床工具集 -->
+  <div class="section-gap"></div>
+  <div class="section-label">常見臨床工具集</div>
+  <div class="grid">
+    <a class="card card-link lime-link" href="https://github.com/cgmherlink-hub/ClinicalTool" target="_blank" rel="noopener noreferrer">
+      <div class="card-header">
+        <div class="card-icon lime">🧰</div>
+        <div class="card-title-wrap">
+          <h2>常見臨床工具集</h2>
+          <div class="card-count">GitHub · cgmherlink-hub</div>
+        </div>
+      </div>
+      <p class="card-desc">整合常用臨床計算工具、評估量表與決策輔助工具，協助醫護人員快速完成臨床評估與決策。</p>
+      <div class="card-cta">前往工具集 <span class="card-cta-arrow">↗</span></div>
+    </a>
   </div>
 
 </div>
