@@ -1,1 +1,153 @@
 
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>情緒分流練習｜10倍的平靜</title>
+
+<style>
+body {
+    font-family: "Noto Sans TC", Arial, sans-serif;
+    background: #f4f7fb;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #4a90e2;
+}
+
+.question {
+    font-size: 18px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 10px;
+    background: #4a90e2;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.button:hover {
+    background: #357abd;
+}
+
+.result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #eef4ff;
+    display: none;
+}
+
+.small {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🧠 情緒分流練習</h1>
+
+<div class="question">
+現在的你，比較接近哪一種狀態？
+</div>
+
+<button class="button" onclick="showResult('anxiety')">😰 很焦慮、停不下來</button>
+<button class="button" onclick="showResult('anger')">😡 有點生氣或煩躁</button>
+<button class="button" onclick="showResult('tired')">😴 很累、提不起勁</button>
+<button class="button" onclick="showResult('normal')">🙂 還好，但腦袋很吵</button>
+
+<div id="result" class="result"></div>
+
+</div>
+
+<script>
+function showResult(type) {
+    let result = document.getElementById("result");
+
+    if(type === "anxiety") {
+        result.innerHTML = `
+        <h3>😰 焦慮模式</h3>
+        👉 先不要解決問題<br><br>
+        ✔ 做3次慢呼吸（吸4秒，吐6秒）<br>
+        ✔ 心裡說：「我在焦慮」<br>
+        ✔ 讓情緒存在，而不是對抗<br><br>
+        <div class="small">
+        重點：不是消除焦慮，而是「看見它」
+        </div>
+        `;
+    }
+
+    if(type === "anger") {
+        result.innerHTML = `
+        <h3>😡 生氣模式</h3>
+        👉 先按暫停鍵（STOP）<br><br>
+        ✔ Stop（停一下）<br>
+        ✔ Take a breath（呼吸）<br>
+        ✔ Observe（觀察身體）<br>
+        ✔ Proceed（再行動）<br><br>
+        <div class="small">
+        重點：避免「自動反應」
+        </div>
+        `;
+    }
+
+    if(type === "tired") {
+        result.innerHTML = `
+        <h3>😴 疲憊模式</h3>
+        👉 不要逼自己振作<br><br>
+        ✔ 閉眼1分鐘<br>
+        ✔ 專注呼吸或身體感覺<br>
+        ✔ 問自己：「我真的需要什麼？」<br><br>
+        <div class="small">
+        有時候，你需要的是休息，不是努力
+        </div>
+        `;
+    }
+
+    if(type === "normal") {
+        result.innerHTML = `
+        <h3>🙂 雜念很多模式</h3>
+        👉 練習觀察念頭<br><br>
+        ✔ 當出現想法時 → 標籤它<br>
+        （例如：計畫中 / 擔心中 / 回憶中）<br><br>
+        ✔ 然後回到呼吸<br><br>
+        <div class="small">
+        你不是你的想法，你只是觀察者
+        </div>
+        `;
+    }
+
+    result.style.display = "block";
+}
+</script>
+
+</body>
+</html>
