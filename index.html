@@ -118,9 +118,49 @@
     .card:nth-child(5) { animation-delay: 0.45s; } .card:nth-child(6) { animation-delay: 0.55s; }
     .card:nth-child(7) { animation-delay: 0.65s; } .card:nth-child(8) { animation-delay: 0.72s; }
     .card:nth-child(9) { animation-delay: 0.79s; }
+
+    /* ── VISITOR COUNTER ── */
+    .visitor-counter {
+      position: fixed; top: 18px; right: 20px; z-index: 200;
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(26,26,46,0.82); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+      padding: 6px 13px 6px 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      animation: fadeUp 0.6s ease 0.8s both;
+    }
+    .visitor-counter .vc-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent-teal);
+      box-shadow: 0 0 6px rgba(44,155,138,0.8);
+      animation: pulse-dot 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.75); }
+    }
+    .visitor-counter .vc-label {
+      font-size: 0.68em; color: rgba(255,255,255,0.45);
+      font-weight: 400; letter-spacing: 0.06em; line-height: 1;
+    }
+    .visitor-counter .vc-num {
+      font-size: 0.82em; font-weight: 600; color: white;
+      letter-spacing: 0.04em; line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .visitor-counter .vc-num.loading { opacity: 0.4; }
+    @media (max-width: 480px) {
+      .visitor-counter { top: 12px; right: 12px; padding: 5px 10px 5px 8px; }
+      .visitor-counter .vc-label { display: none; }
+    }
   </style>
 </head>
 <body>
+<div class="visitor-counter" title="累計到訪人次">
+  <span class="vc-dot"></span>
+  <span class="vc-label">到訪</span>
+  <span class="vc-num loading" id="vc-num">⋯</span>
+</div>
 <header>
   <div class="header-bg"></div>
   <div class="header-grid"></div>
@@ -328,6 +368,22 @@
     btn.classList.toggle('open', !isOpen);
     btn.childNodes[0].textContent = isOpen ? '展開故事 ' : '收起故事 ';
   }
+
+  // ── Visitor counter using countapi.xyz ──
+  (function() {
+    const el = document.getElementById('vc-num');
+    fetch('https://api.countapi.xyz/hit/drjimmy-clinic/visits')
+      .then(r => r.json())
+      .then(data => {
+        el.classList.remove('loading');
+        el.textContent = Number(data.value).toLocaleString('zh-TW');
+      })
+      .catch(() => {
+        // Fallback: show dashes if API unavailable
+        el.textContent = '—';
+        el.classList.remove('loading');
+      });
+  })();
 </script>
 </body>
 </html>
