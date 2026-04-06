@@ -1,1 +1,242 @@
+<!DOCTYPE html>
 
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>10年心血管風險測驗</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI','PingFang TC','Microsoft JhengHei',sans-serif;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;padding:30px 16px;color:#333;}
+
+.card{max-width:560px;margin:auto;background:#fff;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;}
+
+.card-header{background:linear-gradient(135deg,#f5af19,#f12711);padding:32px 28px;text-align:center;color:#fff;}
+.card-header .icon{font-size:2.8rem;margin-bottom:8px;}
+.card-header h1{font-size:1.5rem;font-weight:800;letter-spacing:0.05em;}
+.card-header p{font-size:0.88rem;opacity:0.85;margin-top:6px;}
+
+.card-body{padding:28px 28px 32px;}
+
+.q-group{margin-bottom:18px;}
+.q-group label{display:block;font-size:0.82rem;font-weight:700;color:#555;margin-bottom:6px;letter-spacing:0.03em;}
+.q-group select{width:100%;padding:10px 14px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:0.93rem;color:#333;outline:none;background:#fafafa;transition:border 0.2s;}
+.q-group select:focus{border-color:#f12711;background:#fff;}
+
+.btn-calc{width:100%;padding:14px;background:linear-gradient(135deg,#f5af19,#f12711);color:#fff;font-size:1rem;font-weight:800;border:none;border-radius:12px;cursor:pointer;margin-top:8px;letter-spacing:0.05em;transition:opacity 0.2s,transform 0.1s;}
+.btn-calc:hover{opacity:0.92;}
+.btn-calc:active{transform:scale(0.98);}
+.btn-calc:disabled{opacity:0.6;cursor:not-allowed;}
+
+/* 風險結果 */
+.risk-box{margin-top:22px;border-radius:14px;padding:18px 20px;display:none;}
+.risk-box.low {background:linear-gradient(135deg,#d4edda,#c3e6cb);}
+.risk-box.mid {background:linear-gradient(135deg,#fff3cd,#ffeeba);}
+.risk-box.high{background:linear-gradient(135deg,#f8d7da,#f5c6cb);}
+.risk-title{font-size:1.2rem;font-weight:800;margin-bottom:4px;}
+.risk-sub{font-size:0.88rem;color:#555;}
+
+/* AI 報告 */
+.ai-section{margin-top:22px;display:none;}
+.ai-section .ai-label{font-size:0.78rem;font-weight:700;color:#a07cc5;letter-spacing:0.08em;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.ai-section .ai-label::before{content:‘✦’;}
+.ai-box{background:#faf8ff;border:1.5px solid #e0d4f5;border-radius:14px;padding:18px 20px;font-size:0.9rem;line-height:1.8;color:#333;min-height:80px;}
+.ai-box.loading{display:flex;align-items:center;gap:10px;color:#aaa;font-size:0.88rem;}
+
+.spinner{display:inline-block;width:20px;height:20px;border:3px solid #e0d4f5;border-top-color:#a07cc5;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* Markdown 樣式 */
+.ai-box h3{font-size:0.95rem;color:#5a3e8a;margin:14px 0 6px;font-weight:700;}
+.ai-box h3:first-child{margin-top:0;}
+.ai-box ul{padding-left:18px;margin:4px 0 10px;}
+.ai-box li{margin-bottom:4px;}
+.ai-box strong{color:#c0392b;}
+.ai-box p{margin-bottom:8px;}
+</style>
+
+</head>
+<body>
+<div class="card">
+  <div class="card-header">
+    <div class="icon">❤️</div>
+    <h1>10 年心血管風險測驗</h1>
+    <p>回答 5 題，AI 為你生成個人化健康報告</p>
+  </div>
+  <div class="card-body">
+
+```
+<div class="q-group">
+  <label>年齡</label>
+  <select id="age">
+    <option value="1">20–39 歲</option>
+    <option value="2">40–49 歲</option>
+    <option value="3">50–59 歲</option>
+    <option value="4">60 歲以上</option>
+  </select>
+</div>
+
+<div class="q-group">
+  <label>是否抽菸</label>
+  <select id="smoke">
+    <option value="0">不抽菸</option>
+    <option value="2">有抽菸</option>
+  </select>
+</div>
+
+<div class="q-group">
+  <label>血壓狀況</label>
+  <select id="bp">
+    <option value="1">正常（收縮壓 &lt; 120）</option>
+    <option value="2">偏高（120–139）</option>
+    <option value="3">高血壓（≥ 140）</option>
+  </select>
+</div>
+
+<div class="q-group">
+  <label>總膽固醇</label>
+  <select id="chol">
+    <option value="1">正常（&lt; 200 mg/dL）</option>
+    <option value="2">偏高（200–239）</option>
+    <option value="3">很高（≥ 240）</option>
+  </select>
+</div>
+
+<div class="q-group">
+  <label>是否有糖尿病</label>
+  <select id="dm">
+    <option value="0">沒有</option>
+    <option value="3">有</option>
+  </select>
+</div>
+
+<button class="btn-calc" id="calcBtn" onclick="calculate()">🔍 分析我的心血管風險</button>
+
+<div class="risk-box" id="riskBox"></div>
+
+<div class="ai-section" id="aiSection">
+  <div class="ai-label">AI 個人化健康報告</div>
+  <div class="ai-box" id="aiBox"></div>
+</div>
+```
+
+  </div>
+</div>
+
+<script>
+const LABELS = {
+  age:   ['','20–39歲','40–49歲','50–59歲','60歲以上'],
+  smoke: {'0':'不抽菸','2':'有抽菸'},
+  bp:    {'1':'正常','2':'偏高','3':'高血壓'},
+  chol:  {'1':'正常','2':'偏高','3':'很高'},
+  dm:    {'0':'沒有糖尿病','3':'有糖尿病'}
+};
+
+async function calculate() {
+  const age   = parseInt(document.getElementById('age').value);
+  const smoke = parseInt(document.getElementById('smoke').value);
+  const bp    = parseInt(document.getElementById('bp').value);
+  const chol  = parseInt(document.getElementById('chol').value);
+  const dm    = parseInt(document.getElementById('dm').value);
+  const score = age + smoke + bp + chol + dm;
+
+  const btn = document.getElementById('calcBtn');
+  btn.disabled = true;
+  btn.textContent = '分析中…';
+
+  // 風險結果
+  const riskBox = document.getElementById('riskBox');
+  let level, emoji, title, sub;
+  if (score <= 5) {
+    level='low'; emoji='🟢'; title='低風險';
+    sub='你的血管像「順暢高速公路」，目前狀態良好！';
+  } else if (score <= 9) {
+    level='mid'; emoji='🟡'; title='中等風險';
+    sub='你的血管開始「有點塞車」，需要注意生活習慣。';
+  } else {
+    level='high'; emoji='🔴'; title='高風險';
+    sub='你的血管像「快堵住的水管」，建議盡快諮詢醫師。';
+  }
+  riskBox.className = 'risk-box ' + level;
+  riskBox.innerHTML = `<div class="risk-title">${emoji} ${title}</div><div class="risk-sub">${sub}</div>`;
+  riskBox.style.display = 'block';
+
+  // AI 報告
+  const aiSection = document.getElementById('aiSection');
+  const aiBox = document.getElementById('aiBox');
+  aiSection.style.display = 'block';
+  aiBox.className = 'ai-box loading';
+  aiBox.innerHTML = '<span class="spinner"></span> AI 正在生成你的個人化報告…';
+
+  const userProfile = `
+年齡：${LABELS.age[age]}
+抽菸：${LABELS.smoke[smoke]}
+血壓：${LABELS.bp[bp]}
+膽固醇：${LABELS.chol[chol]}
+糖尿病：${LABELS.dm[dm]}
+風險等級：${title}（總分 ${score}）
+`;
+
+  const prompt = `你是一位專業心臟科醫師，請根據以下使用者的健康資料，用繁體中文撰寫一份詳細的10年心血管風險個人化健康報告。
+
+使用者資料：
+${userProfile}
+
+請依照以下結構撰寫，使用 Markdown 格式（### 標題、- 項目符號）：
+
+### 🩺 風險評估摘要
+（說明目前風險等級的意義與原因）
+
+### ⚠️ 主要風險因子分析
+（針對該使用者的具體風險因子逐一說明）
+
+### 🥗 生活習慣建議
+（飲食、運動、睡眠、戒菸等具體可執行建議，至少4項）
+
+### 🏥 就醫建議
+（說明是否需要就醫、應做哪些檢查、回診頻率等）
+
+### 💪 鼓勵話語
+（一段鼓勵使用者的話，語氣溫暖積極）
+
+請用親切易懂的語氣，避免過於艱深的醫學術語。`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || '無法取得報告，請稍後再試。';
+    aiBox.className = 'ai-box';
+    aiBox.innerHTML = mdToHtml(text);
+  } catch(e) {
+    aiBox.className = 'ai-box';
+    aiBox.innerHTML = '⚠️ 報告生成失敗，請稍後再試。';
+  }
+
+  btn.disabled = false;
+  btn.textContent = '🔍 重新分析';
+  aiBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function mdToHtml(md) {
+  return md
+    .replace(/### (.+)/g, '<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^- (.+)/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(?!<[hul])/gm, '')
+    .replace(/<\/ul>\s*<ul>/g, '')
+    || md;
+}
+</script>
+
+</body>
+</html>
