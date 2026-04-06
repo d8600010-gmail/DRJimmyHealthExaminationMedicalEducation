@@ -170,6 +170,21 @@
       background: transparent; transition: background 0.2s;
     }
     .card.card-link:hover .card-cta { background: var(--accent-forest-light); }
+    /* indigo link variant */
+    .card.card-link.indigo-link .card-cta {
+      border-color: rgba(74,111,165,0.35); color: var(--accent-indigo);
+    }
+    .card.card-link.indigo-link:hover .card-cta { background: var(--accent-indigo-light); }
+    /* gold link variant */
+    .card.card-link.gold-link .card-cta {
+      border-color: rgba(200,151,74,0.35); color: var(--accent-gold);
+    }
+    .card.card-link.gold-link:hover .card-cta { background: var(--accent-gold-light); }
+    /* crimson link variant */
+    .card.card-link.crimson-link .card-cta {
+      border-color: rgba(176,58,46,0.35); color: var(--accent-crimson);
+    }
+    .card.card-link.crimson-link:hover .card-cta { background: var(--accent-crimson-light); }
     /* Clinical tools card uses lime color */
     .card.card-link.lime-link .card-cta {
       border-color: rgba(90,138,60,0.35); color: var(--accent-lime);
@@ -346,7 +361,6 @@
       <button class="card-toggle-btn rose" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
   </div>
-
   <!-- 自我檢測 區塊 -->
   <div class="section-gap"></div>
   <div class="section-label">自我檢測</div>
@@ -384,53 +398,47 @@
       <button class="card-toggle-btn violet" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
   </div>
-
   <!-- 身心健康實驗室 -->
   <div class="section-gap"></div>
   <div class="section-label">身心健康實驗室</div>
   <div class="grid">
-    <!-- 不寐俱樂部 -->
-    <div class="card disabled">
+    <!-- 不寐俱樂部 — now a link -->
+    <a class="card card-link indigo-link" href="https://occupationphysicianjimmy.github.io/PoorSleepSurvey/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon indigo">🌙</div>
         <div class="card-title-wrap">
-          <h2>不寐俱樂部 <span class="soon-badge">即將推出</span></h2>
-          <div class="card-count">規劃中</div>
+          <h2>不寐俱樂部</h2>
+          <div class="card-count">睡眠健康評估</div>
         </div>
       </div>
       <p class="card-desc">輾轉反側、難以入眠——失眠不只是習慣問題，也可能是身體在說話。從睡眠醫學的角度，帶你認識那些在夜裡悄悄發生的事。</p>
-      <button class="card-toggle-btn indigo" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
-    </div>
-    <!-- 杞人研究所 -->
-    <div class="card disabled">
+      <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
+    </a>
+    <!-- 杞人研究所 — now a link -->
+    <a class="card card-link gold-link" href="https://occupationphysicianjimmy.github.io/AnxietyManagementSurvey/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon gold">🔭</div>
-        <div class="story-item" onclick="event.stopPropagation(); window.location.href='anxiety.html'">
-            <span class="story-num">01</span><span class="story-dot crimson-dot"></span>杞人研究所 🔎
-          </div>
-          
         <div class="card-title-wrap">
-          <h2>杞人研究所 <span class="soon-badge">即將推出</span></h2>
-          <div class="card-count">規劃中</div>
+          <h2>杞人研究所</h2>
+          <div class="card-count">焦慮管理評估</div>
         </div>
       </div>
       <p class="card-desc">焦慮、憂慮、想太多⋯⋯這是性格使然，還是大腦的求救訊號？用科學角度理解「杞人憂天」背後的心理與生理機制。</p>
-      <button class="card-toggle-btn gold" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
-    </div>
-    <!-- 重力實驗室 -->
-    <div class="card disabled">
+      <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
+    </a>
+    <!-- 重力實驗室 — now a link -->
+    <a class="card card-link crimson-link" href="https://occupationphysicianjimmy.github.io/WeightManagement/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon crimson">🏋️</div>
         <div class="card-title-wrap">
-          <h2>重力實驗室 <span class="soon-badge">即將推出</span></h2>
-          <div class="card-count">規劃中</div>
+          <h2>重力實驗室</h2>
+          <div class="card-count">體重管理評估</div>
         </div>
       </div>
       <p class="card-desc">體重、體脂、肌少症⋯⋯和地心引力的拔河，從來不只是外表問題。探索代謝、運動與慢性病之間那條看不見的連線。</p>
-      <button class="card-toggle-btn crimson" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
-    </div>
+      <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
+    </a>
   </div>
-
   <!-- 社交智能時代 -->
   <div class="section-gap"></div>
   <div class="section-label">社交智能時代</div>
@@ -458,7 +466,6 @@
       <button class="card-toggle-btn slate" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
   </div>
-
   <!-- 常見臨床工具集 -->
   <div class="section-gap"></div>
   <div class="section-label">常見臨床工具集</div>
@@ -475,7 +482,6 @@
       <div class="card-cta">前往工具集 <span class="card-cta-arrow">↗</span></div>
     </a>
   </div>
-
 </div>
 <footer>
   <div class="footer-brand">Dr. Jimmy 診間故事集</div>
