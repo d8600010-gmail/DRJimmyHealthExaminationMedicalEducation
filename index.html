@@ -118,7 +118,6 @@
     .card:nth-child(5) { animation-delay: 0.45s; } .card:nth-child(6) { animation-delay: 0.55s; }
     .card:nth-child(7) { animation-delay: 0.65s; } .card:nth-child(8) { animation-delay: 0.72s; }
     .card:nth-child(9) { animation-delay: 0.79s; }
-
     /* ── VISITOR COUNTER ── */
     .visitor-counter {
       position: fixed; top: 18px; right: 20px; z-index: 200;
@@ -170,7 +169,6 @@
   <div class="header-line"></div>
 </header>
 <div class="container">
-
   <!-- 精選主題 -->
   <div class="section-label">精選主題</div>
   <div class="grid">
@@ -185,9 +183,7 @@
       <div class="story-list" id="faq"><div class="story-list-inner"><div class="story-divider"></div>
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='HealthExamCommonProblem/UrineOccult.html'">
           <span class="story-num">01</span>
-          <span class="story-dot teal-dot">
-            
-          </span>尿潛血是什麼問題？ 🔎</div>
+          <span class="story-dot teal-dot"></span>尿潛血是什麼問題？ 🔎</div>
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='HealthExamCommonProblem/10YearRiskCVDisease.html'">
           <span class="story-num">01</span><span class="story-dot teal-dot"></span>十年心血管危險評估？ 🔎</div>
         <div class="story-item"><span class="story-num">02</span><span class="story-dot teal-dot"></span>腫瘤指數升高＝癌症嗎？</div>
@@ -267,7 +263,6 @@
       <button class="card-toggle-btn rose" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
   </div>
-
   <!-- 自我檢測 -->
   <div class="section-gap"></div>
   <div class="section-label">自我檢測</div>
@@ -292,7 +287,6 @@
       <button class="card-toggle-btn violet" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
   </div>
-
   <!-- 身心健康實驗室 -->
   <div class="section-gap"></div>
   <div class="section-label">身心健康實驗室</div>
@@ -322,7 +316,6 @@
       <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
     </a>
   </div>
-
   <!-- 社交智能時代 -->
   <div class="section-gap"></div>
   <div class="section-label">社交智能時代</div>
@@ -335,16 +328,15 @@
       <p class="card-desc">在 AI 與數位化浪潮下，人與人之間的溝通、同理心與社交技能如何影響健康？從醫學角度重新認識「人際關係」。</p>
       <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
     </a>
-    <div class="card disabled">
+    <a class="card card-link slate-link" href="https://cgmherlink-hub.github.io/FreeTalkPage/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
-        <div class="card-icon slate">💬</div>
-        <div class="card-title-wrap"><h2>更多主題 <span class="soon-badge">即將推出</span></h2><div class="card-count">規劃中</div></div>
+        <div class="card-icon slate">🌅</div>
+        <div class="card-title-wrap"><h2>歲月拾光 | 生活浮光繪影</h2><div class="card-count">生活隨筆</div></div>
       </div>
-      <p class="card-desc">更多關於數位時代、心理健康與人際連結的故事，即將陸續登場。</p>
-      <button class="card-toggle-btn slate" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
-    </div>
+      <p class="card-desc">在診間之外，記錄那些值得細細品味的日常片段——時光流轉中的浮光掠影，生活裡的溫柔與感動。</p>
+      <div class="card-cta">前往閱讀 <span class="card-cta-arrow">↗</span></div>
+    </a>
   </div>
-
   <!-- 常見臨床工具集 -->
   <div class="section-gap"></div>
   <div class="section-label">常見臨床工具集</div>
@@ -358,7 +350,6 @@
       <div class="card-cta">前往工具集 <span class="card-cta-arrow">↗</span></div>
     </a>
   </div>
-
 </div>
 <footer>
   <div class="footer-brand">Dr. Jimmy 診間故事集</div>
@@ -374,7 +365,6 @@
     btn.classList.toggle('open', !isOpen);
     btn.childNodes[0].textContent = isOpen ? '展開故事 ' : '收起故事 ';
   }
-
   // ── Visitor counter using countapi.xyz ──
   (function() {
     const el = document.getElementById('vc-num');
@@ -385,7 +375,6 @@
         el.textContent = Number(data.value).toLocaleString('zh-TW');
       })
       .catch(() => {
-        // Fallback: show dashes if API unavailable
         el.textContent = '—';
         el.classList.remove('loading');
       });
