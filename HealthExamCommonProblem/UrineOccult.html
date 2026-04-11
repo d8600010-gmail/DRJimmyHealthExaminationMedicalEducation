@@ -4,17 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>尿潛血是什麼問題？ · Dr. Jimmy 診間故事集</title>
-  <nav class="top-nav">
-  <div class="nav-left">
-    <a href="https://d8600010-gmail.github.io/DRJimmyHealthExaminationMedicalEducation/" class="nav-link">🏠 <span>回到首頁</span></a>
-    <a href="javascript:history.back()" class="nav-link">⬅️ <span>回到上一頁</span></a>
-  </div>
-  <div class="visitor-badge">
-    <span class="vb-label">👥 今日到訪</span>
-    <span class="vb-count" id="today-count">—</span>
-    <span class="vb-sub">累計 <span id="total-count">—</span> 人次</span>
-  </div>
-</nav>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <style>
@@ -33,11 +22,9 @@
       --accent-indigo: #4a6fa5;
       --accent-indigo-light: #eef2f9;
       --border: #e8e4da;
-      --shadow-soft: 0 4px 20px rgba(26,26,46,0.06);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -47,38 +34,66 @@
       min-height: 100vh;
     }
 
-    /* ── BACK NAV ── */
+    /* ── SINGLE UNIFIED NAV ── */
     .topbar {
       background: var(--ink);
-      padding: 14px 24px;
+      padding: 0 24px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .back-link {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       font-size: 0.82em;
       font-weight: 500;
-      color: rgba(255,255,255,0.6);
+      color: rgba(255,255,255,0.55);
       text-decoration: none;
       letter-spacing: 0.04em;
-      transition: color 0.18s;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: color 0.18s, background 0.18s;
     }
-    .back-link:hover { color: var(--accent-teal); }
-    .back-link .arrow { font-size: 0.85em; }
+    .back-link:hover { color: var(--accent-teal); background: rgba(44,155,138,0.1); }
 
-    .topbar-sep {
-      color: rgba(255,255,255,0.2);
-      font-size: 0.8em;
-    }
+    .topbar-sep { color: rgba(255,255,255,0.2); font-size: 0.85em; padding: 0 2px; }
 
     .topbar-current {
       font-size: 0.82em;
-      color: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.32);
       letter-spacing: 0.03em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+    }
+
+    .visitor-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78em;
+      color: rgba(255,255,255,0.4);
+      flex-shrink: 0;
+    }
+
+    .vb-count {
+      font-weight: 600;
+      color: var(--accent-teal);
+      font-size: 1.05em;
     }
 
     /* ── HERO ── */
@@ -96,6 +111,7 @@
       background:
         radial-gradient(ellipse 80% 80% at 10% 50%, rgba(44,155,138,0.3) 0%, transparent 60%),
         radial-gradient(ellipse 50% 60% at 85% 20%, rgba(74,111,165,0.2) 0%, transparent 55%);
+      pointer-events: none;
     }
 
     .hero-grid {
@@ -105,6 +121,7 @@
         linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
       background-size: 40px 40px;
+      pointer-events: none;
     }
 
     .modal-tag {
@@ -148,7 +165,6 @@
       padding: 40px 28px 72px;
     }
 
-    /* ─ Knowledge blocks ─ */
     .kb-section { margin-bottom: 32px; }
 
     .kb-title {
@@ -176,7 +192,7 @@
       margin: 28px 0;
     }
 
-    /* 原因列表 */
+    /* Cause grid */
     .cause-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -195,10 +211,10 @@
 
     .cause-card .cause-desc { color: var(--ink-soft); font-weight: 300; }
     .cause-card.benign  { background: #eef8f6; border-left: 3px solid var(--accent-teal); }
-    .cause-card.warning { background: #fdf4e7; border-left: 3px solid var(--accent-gold); }
-    .cause-card.serious { background: #fdf0f2; border-left: 3px solid var(--accent-rose); }
+    .cause-card.warning { background: var(--accent-gold-light); border-left: 3px solid var(--accent-gold); }
+    .cause-card.serious { background: var(--accent-rose-light); border-left: 3px solid var(--accent-rose); }
 
-    /* 嚴重度量表 */
+    /* Severity bars */
     .severity-bar-wrap { margin-top: 16px; }
 
     .severity-row {
@@ -206,7 +222,7 @@
       margin-bottom: 12px; font-size: 0.88em;
     }
 
-    .severity-label { width: 100px; flex-shrink: 0; color: var(--ink-soft); font-weight: 400; }
+    .severity-label { width: 110px; flex-shrink: 0; color: var(--ink-soft); font-weight: 400; }
 
     .severity-bar-bg {
       flex: 1; height: 8px; border-radius: 6px;
@@ -214,19 +230,19 @@
     }
 
     .severity-bar { height: 100%; border-radius: 6px; }
-    .s-low  { background: var(--accent-teal); width: 25%; }
-    .s-mid  { background: var(--accent-gold); width: 55%; }
-    .s-high { background: var(--accent-rose); width: 85%; }
+    .s-low  { background: var(--accent-teal); width: 50%; }
+    .s-mid  { background: var(--accent-gold); width: 30%; }
+    .s-high { background: var(--accent-rose); width: 10%; }
 
     .severity-pct {
-      font-size: 0.8em; color: var(--muted); width: 42px; text-align: right; flex-shrink: 0;
+      font-size: 0.8em; color: var(--muted); width: 52px; text-align: right; flex-shrink: 0;
     }
 
-    /* 處置流程 */
+    /* Flow steps */
     .flow-steps { margin-top: 16px; }
 
     .flow-step {
-      display: flex; gap: 16px; margin-bottom: 16px;
+      display: flex; gap: 16px; margin-bottom: 18px;
     }
 
     .flow-num {
@@ -238,17 +254,17 @@
 
     .flow-content { flex: 1; }
     .flow-content strong { font-size: 0.9em; color: var(--ink); display: block; margin-bottom: 4px; }
-    .flow-content span { font-size: 0.85em; color: var(--ink-soft); font-weight: 300; line-height: 1.6; }
+    .flow-content span { font-size: 0.85em; color: var(--ink-soft); font-weight: 300; line-height: 1.65; }
 
-    /* 醫師提醒 callout */
+    /* Callout */
     .callout {
-      background: #eef8f6;
+      background: var(--accent-teal-light);
       border-left: 4px solid var(--accent-teal);
       border-radius: 0 12px 12px 0;
       padding: 16px 20px;
       font-size: 0.88em; color: var(--ink-soft);
       line-height: 1.75; font-weight: 300;
-      margin-top: 16px;
+      margin-top: 8px;
     }
 
     .callout strong { color: var(--accent-teal); font-weight: 600; }
@@ -272,24 +288,32 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
-      .modal-hero { padding: 40px 22px 36px; }
-      .page-body { padding: 32px 18px 60px; }
+      .modal-hero { padding: 36px 20px 32px; }
+      .page-body { padding: 28px 16px 56px; }
       .cause-grid { grid-template-columns: 1fr; }
+      .topbar-current { display: none; }
+      .topbar-sep { display: none; }
+      .visitor-badge .vb-sub { display: none; }
     }
   </style>
 </head>
 <body>
 
-<!-- 頂部導覽列 -->
+<!-- Single unified nav -->
 <nav class="topbar">
-  <a href="../index.html" class="back-link">
-    <span class="arrow">←</span> 診間故事集
-  </a>
-  <span class="topbar-sep">/</span>
-  <span class="topbar-current">尿潛血是什麼問題？</span>
+  <div class="topbar-left">
+    <a href="../index.html" class="back-link">← 診間故事集</a>
+    <span class="topbar-sep">/</span>
+    <span class="topbar-current">尿潛血是什麼問題？</span>
+  </div>
+  <div class="visitor-badge">
+    <span>👥 今日到訪</span>
+    <span class="vb-count" id="today-count">—</span>
+    <span class="vb-sub">累計 <span id="total-count">—</span> 人次</span>
+  </div>
 </nav>
 
-<!-- Hero 區塊 -->
+<!-- Hero -->
 <div class="modal-hero">
   <div class="hero-grid"></div>
   <div class="modal-tag">健診常見問題 · 01</div>
@@ -298,7 +322,7 @@
   <div class="hero-line"></div>
 </div>
 
-<!-- 內文 -->
+<!-- Body -->
 <div class="page-body">
 
   <div class="kb-section">
