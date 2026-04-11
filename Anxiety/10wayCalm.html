@@ -1,164 +1,426 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>情緒分流練習｜10倍的平靜</title>
-    <nav class="top-nav">
-  <div class="nav-left">
-    <a href="https://d8600010-gmail.github.io/DRJimmyHealthExaminationMedicalEducation/" class="nav-link">🏠 <span>回到首頁</span></a>
-    <a href="javascript:history.back()" class="nav-link">⬅️ <span>回到上一頁</span></a>
+<title>情緒分流練習 · Dr. Jimmy 診間故事集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf8f3;
+    --ink: #1a1a2e;
+    --ink-soft: #3d3d55;
+    --muted: #8a8a9a;
+    --accent-teal: #2c9b8a;
+    --accent-teal-light: #e8f5f3;
+    --accent-gold: #c8974a;
+    --accent-gold-light: #fdf4e7;
+    --accent-rose: #c0566a;
+    --accent-rose-light: #fdf0f2;
+    --accent-indigo: #4a6fa5;
+    --accent-indigo-light: #eef2f9;
+    --accent-violet: #7c5cbf;
+    --accent-violet-light: #f2eeff;
+    --border: #e8e4da;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Noto Sans TC", sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  .topbar {
+    background: var(--ink);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8em;
+    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: color 0.18s, background 0.18s, border-color 0.18s;
+    cursor: pointer;
+    background: none;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .nav-btn:hover { color: var(--accent-teal); background: rgba(44,155,138,0.1); border-color: rgba(44,155,138,0.2); }
+  .nav-btn.home { color: rgba(255,255,255,0.7); }
+  .nav-btn.home:hover { color: #fff; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); }
+
+  .nav-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.12); margin: 0 2px; flex-shrink: 0; }
+  .topbar-sep { color: rgba(255,255,255,0.2); font-size: 0.85em; padding: 0 4px; }
+  .topbar-current { font-size: 0.82em; color: rgba(255,255,255,0.32); letter-spacing: 0.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+
+  .visitor-badge { display: flex; align-items: center; gap: 8px; font-size: 0.78em; color: rgba(255,255,255,0.4); flex-shrink: 0; }
+  .vb-count { font-weight: 600; color: var(--accent-teal); font-size: 1.05em; }
+
+  /* ── HERO ── */
+  .modal-hero {
+    background: var(--ink);
+    position: relative;
+    padding: 52px 48px 44px;
+    overflow: hidden;
+  }
+
+  .modal-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 80% at 10% 50%, rgba(124,92,191,0.28) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 85% 20%, rgba(74,111,165,0.2) 0%, transparent 55%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  .modal-tag {
+    position: relative; z-index: 1;
+    display: inline-block;
+    font-size: 0.68em; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent-violet);
+    background: rgba(124,92,191,0.12);
+    border: 1px solid rgba(124,92,191,0.3);
+    padding: 3px 12px; border-radius: 20px;
+    margin-bottom: 18px;
+  }
+
+  .modal-hero h1 {
+    position: relative; z-index: 1;
+    font-family: "Noto Serif TC", serif;
+    font-size: clamp(1.5em, 4vw, 2.1em);
+    color: white; font-weight: 700;
+    line-height: 1.3; margin-bottom: 14px;
+  }
+
+  .modal-hero p.hero-sub {
+    position: relative; z-index: 1;
+    font-size: 0.95em; color: rgba(255,255,255,0.55);
+    font-weight: 300; line-height: 1.65;
+    max-width: 480px;
+  }
+
+  .hero-line {
+    position: relative; z-index: 1;
+    width: 50px; height: 2px;
+    background: linear-gradient(90deg, var(--accent-violet), var(--accent-indigo));
+    margin-top: 24px; border-radius: 2px;
+  }
+
+  /* ── BODY ── */
+  .page-body {
+    max-width: 580px;
+    margin: 0 auto;
+    padding: 36px 28px 72px;
+  }
+
+  .question-label {
+    font-family: "Noto Serif TC", serif;
+    font-size: 1.05em;
+    font-weight: 600;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 22px;
+    line-height: 1.6;
+  }
+
+  /* Emotion buttons */
+  .emotion-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .emotion-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    background: #fff;
+    cursor: pointer;
+    font-family: "Noto Sans TC", sans-serif;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.12s, background 0.2s;
+    text-align: center;
+  }
+
+  .emotion-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(26,26,46,0.1);
+  }
+
+  .emotion-btn:active { transform: scale(0.97); }
+
+  .emotion-btn.anxiety:hover  { border-color: var(--accent-gold);   background: var(--accent-gold-light); }
+  .emotion-btn.anger:hover    { border-color: var(--accent-rose);   background: var(--accent-rose-light); }
+  .emotion-btn.tired:hover    { border-color: var(--accent-indigo); background: var(--accent-indigo-light); }
+  .emotion-btn.normal:hover   { border-color: var(--accent-teal);   background: var(--accent-teal-light); }
+
+  .emotion-btn.active.anxiety  { border-color: var(--accent-gold);   background: var(--accent-gold-light);   box-shadow: 0 0 0 3px rgba(200,151,74,0.18); }
+  .emotion-btn.active.anger    { border-color: var(--accent-rose);   background: var(--accent-rose-light);   box-shadow: 0 0 0 3px rgba(192,86,106,0.18); }
+  .emotion-btn.active.tired    { border-color: var(--accent-indigo); background: var(--accent-indigo-light); box-shadow: 0 0 0 3px rgba(74,111,165,0.18); }
+  .emotion-btn.active.normal   { border-color: var(--accent-teal);   background: var(--accent-teal-light);   box-shadow: 0 0 0 3px rgba(44,155,138,0.18); }
+
+  .emotion-icon { font-size: 2em; line-height: 1; }
+
+  .emotion-text {
+    font-size: 0.85em;
+    font-weight: 500;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  /* Result card */
+  .result-card {
+    border-radius: 16px;
+    padding: 24px 22px;
+    display: none;
+    animation: fadeUp 0.3s ease;
+  }
+
+  .result-card.anxiety { background: var(--accent-gold-light);   border-left: 4px solid var(--accent-gold); }
+  .result-card.anger   { background: var(--accent-rose-light);   border-left: 4px solid var(--accent-rose); }
+  .result-card.tired   { background: var(--accent-indigo-light); border-left: 4px solid var(--accent-indigo); }
+  .result-card.normal  { background: var(--accent-teal-light);   border-left: 4px solid var(--accent-teal); }
+
+  .result-title {
+    font-family: "Noto Serif TC", serif;
+    font-size: 1.05em; font-weight: 700;
+    color: var(--ink); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .result-lead {
+    font-size: 0.88em; font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(26,26,46,0.08);
+  }
+
+  .step-list { list-style: none; padding: 0; margin: 0 0 14px; }
+
+  .step-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 0.88em; color: var(--ink-soft);
+    font-weight: 400; line-height: 1.65;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(26,26,46,0.06);
+  }
+  .step-list li:last-child { border-bottom: none; }
+
+  .step-check {
+    color: var(--accent-teal);
+    font-weight: 700; font-size: 0.9em;
+    flex-shrink: 0; margin-top: 2px;
+  }
+
+  .result-note {
+    font-size: 0.82em; color: var(--muted);
+    font-style: italic; line-height: 1.6;
+    margin-top: 4px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 24px;
+    text-align: center;
+    font-size: 0.82em;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+  footer .footer-brand {
+    font-family: "DM Serif Display", serif;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 1.1em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 480px) {
+    .modal-hero { padding: 36px 20px 32px; }
+    .page-body { padding: 24px 16px 56px; }
+    .topbar-current { display: none; }
+    .topbar-sep { display: none; }
+    .visitor-badge .vb-sub { display: none; }
+    .emotion-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .emotion-btn { padding: 16px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="topbar">
+  <div class="topbar-left">
+    <a href="https://d8600010-gmail.github.io/DRJimmyHealthExaminationMedicalEducation/" class="nav-btn home">🏠 首頁</a>
+    <div class="nav-divider"></div>
+    <button onclick="history.back()" class="nav-btn">← 上一頁</button>
+    <span class="topbar-sep">/</span>
+    <span class="topbar-current">情緒分流練習</span>
   </div>
   <div class="visitor-badge">
-    <span class="vb-label">👥 今日到訪</span>
+    <span>👥 今日到訪</span>
     <span class="vb-count" id="today-count">—</span>
     <span class="vb-sub">累計 <span id="total-count">—</span> 人次</span>
   </div>
 </nav>
 
-<style>
-body {
-    font-family: "Noto Sans TC", Arial, sans-serif;
-    background: #f4f7fb;
-    margin: 0;
-    padding: 20px;
-    color: #333;
-}
-
-.container {
-    max-width: 600px;
-    margin: auto;
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
-
-h1 {
-    text-align: center;
-    color: #4a90e2;
-}
-
-.question {
-    font-size: 18px;
-    margin: 20px 0;
-    text-align: center;
-}
-
-.button {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 10px;
-    background: #4a90e2;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.button:hover {
-    background: #357abd;
-}
-
-.result {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 10px;
-    background: #eef4ff;
-    display: none;
-}
-
-.small {
-    font-size: 14px;
-    color: #666;
-    margin-top: 10px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<h1>🧠 情緒分流練習</h1>
-
-<div class="question">
-現在的你，比較接近哪一種狀態？
+<!-- Hero -->
+<div class="modal-hero">
+  <div class="hero-grid"></div>
+  <div class="modal-tag">互動練習 · 情緒健康</div>
+  <h1>🧠 情緒分流練習</h1>
+  <p class="hero-sub">選擇你現在的狀態，獲得一份即時的情緒調節指引。</p>
+  <div class="hero-line"></div>
 </div>
 
-<button class="button" onclick="showResult('anxiety')">😰 很焦慮、停不下來</button>
-<button class="button" onclick="showResult('anger')">😡 有點生氣或煩躁</button>
-<button class="button" onclick="showResult('tired')">😴 很累、提不起勁</button>
-<button class="button" onclick="showResult('normal')">🙂 還好，但腦袋很吵</button>
+<!-- Body -->
+<div class="page-body">
 
-<div id="result" class="result"></div>
+  <div class="question-label">現在的你，比較接近哪一種狀態？</div>
+
+  <div class="emotion-grid">
+    <button class="emotion-btn anxiety" onclick="showResult('anxiety', this)">
+      <span class="emotion-icon">😰</span>
+      <span class="emotion-text">很焦慮、停不下來</span>
+    </button>
+    <button class="emotion-btn anger" onclick="showResult('anger', this)">
+      <span class="emotion-icon">😡</span>
+      <span class="emotion-text">有點生氣或煩躁</span>
+    </button>
+    <button class="emotion-btn tired" onclick="showResult('tired', this)">
+      <span class="emotion-icon">😴</span>
+      <span class="emotion-text">很累、提不起勁</span>
+    </button>
+    <button class="emotion-btn normal" onclick="showResult('normal', this)">
+      <span class="emotion-icon">🙂</span>
+      <span class="emotion-text">還好，但腦袋很吵</span>
+    </button>
+  </div>
+
+  <div id="result" class="result-card"></div>
 
 </div>
+
+<footer>
+  <div class="footer-brand">Dr. Jimmy 診間故事集</div>
+  <div style="margin-top:6px">© 2026 · 用醫學說故事 · 內容僅供衛教參考，不替代個人醫療建議</div>
+</footer>
 
 <script>
-function showResult(type) {
-    let result = document.getElementById("result");
+const DATA = {
+  anxiety: {
+    title: '😰 焦慮模式',
+    lead: '👉 先不要解決問題',
+    steps: [
+      '做 3 次慢呼吸（吸 4 秒，吐 6 秒）',
+      '心裡說：「我在焦慮」',
+      '讓情緒存在，而不是對抗它'
+    ],
+    note: '重點：不是消除焦慮，而是「看見它」'
+  },
+  anger: {
+    title: '😡 生氣模式',
+    lead: '👉 先按暫停鍵（STOP）',
+    steps: [
+      'Stop — 停一下，不要立刻反應',
+      'Take a breath — 深呼吸一口',
+      'Observe — 觀察身體現在的感覺',
+      'Proceed — 再決定下一步行動'
+    ],
+    note: '重點：避免「自動反應」，給自己一個緩衝'
+  },
+  tired: {
+    title: '😴 疲憊模式',
+    lead: '👉 不要逼自己振作',
+    steps: [
+      '閉眼 1 分鐘，放鬆肩膀',
+      '專注感受呼吸或身體的重量',
+      '問自己：「我真正需要的是什麼？」'
+    ],
+    note: '有時候，你需要的是休息，不是更努力'
+  },
+  normal: {
+    title: '🙂 雜念很多模式',
+    lead: '👉 練習觀察念頭',
+    steps: [
+      '當出現想法時，替它貼標籤（計畫中 / 擔心中 / 回憶中）',
+      '不評判，只是注意到它',
+      '然後輕輕把注意力帶回呼吸'
+    ],
+    note: '你不是你的想法，你只是那個觀察者'
+  }
+};
 
-    if(type === "anxiety") {
-        result.innerHTML = `
-        <h3>😰 焦慮模式</h3>
-        👉 先不要解決問題<br><br>
-        ✔ 做3次慢呼吸（吸4秒，吐6秒）<br>
-        ✔ 心裡說：「我在焦慮」<br>
-        ✔ 讓情緒存在，而不是對抗<br><br>
-        <div class="small">
-        重點：不是消除焦慮，而是「看見它」
-        </div>
-        `;
-    }
+function showResult(type, btn) {
+  // Update active state on buttons
+  document.querySelectorAll('.emotion-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 
-    if(type === "anger") {
-        result.innerHTML = `
-        <h3>😡 生氣模式</h3>
-        👉 先按暫停鍵（STOP）<br><br>
-        ✔ Stop（停一下）<br>
-        ✔ Take a breath（呼吸）<br>
-        ✔ Observe（觀察身體）<br>
-        ✔ Proceed（再行動）<br><br>
-        <div class="small">
-        重點：避免「自動反應」
-        </div>
-        `;
-    }
+  const d = DATA[type];
+  const el = document.getElementById('result');
 
-    if(type === "tired") {
-        result.innerHTML = `
-        <h3>😴 疲憊模式</h3>
-        👉 不要逼自己振作<br><br>
-        ✔ 閉眼1分鐘<br>
-        ✔ 專注呼吸或身體感覺<br>
-        ✔ 問自己：「我真的需要什麼？」<br><br>
-        <div class="small">
-        有時候，你需要的是休息，不是努力
-        </div>
-        `;
-    }
+  const stepsHtml = d.steps.map(s =>
+    `<li><span class="step-check">✔</span><span>${s}</span></li>`
+  ).join('');
 
-    if(type === "normal") {
-        result.innerHTML = `
-        <h3>🙂 雜念很多模式</h3>
-        👉 練習觀察念頭<br><br>
-        ✔ 當出現想法時 → 標籤它<br>
-        （例如：計畫中 / 擔心中 / 回憶中）<br><br>
-        ✔ 然後回到呼吸<br><br>
-        <div class="small">
-        你不是你的想法，你只是觀察者
-        </div>
-        `;
-    }
-
-    result.style.display = "block";
+  el.className = 'result-card ' + type;
+  el.innerHTML = `
+    <div class="result-title">${d.title}</div>
+    <div class="result-lead">${d.lead}</div>
+    <ul class="step-list">${stepsHtml}</ul>
+    <div class="result-note">${d.note}</div>
+  `;
+  el.style.display = 'block';
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 </script>
-
 </body>
 </html>
