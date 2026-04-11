@@ -1,138 +1,431 @@
 <!DOCTYPE html>
-
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>10年心血管風險測驗</title>
-  <nav class="top-nav">
-  <div class="nav-left">
-    <a href="https://d8600010-gmail.github.io/DRJimmyHealthExaminationMedicalEducation/" class="nav-link">🏠 <span>回到首頁</span></a>
-    <a href="javascript:history.back()" class="nav-link">⬅️ <span>回到上一頁</span></a>
+<title>10年心血管風險測驗 · Dr. Jimmy 診間故事集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf8f3;
+    --ink: #1a1a2e;
+    --ink-soft: #3d3d55;
+    --muted: #8a8a9a;
+    --accent-teal: #2c9b8a;
+    --accent-teal-light: #e8f5f3;
+    --accent-gold: #c8974a;
+    --accent-gold-light: #fdf4e7;
+    --accent-rose: #c0566a;
+    --accent-rose-light: #fdf0f2;
+    --accent-indigo: #4a6fa5;
+    --border: #e8e4da;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Noto Sans TC", sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  .topbar {
+    background: var(--ink);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8em;
+    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: color 0.18s, background 0.18s, border-color 0.18s;
+    cursor: pointer;
+    background: none;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .nav-btn:hover {
+    color: var(--accent-teal);
+    background: rgba(44,155,138,0.1);
+    border-color: rgba(44,155,138,0.2);
+  }
+  .nav-btn.home { color: rgba(255,255,255,0.7); }
+  .nav-btn.home:hover { color: #fff; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); }
+
+  .nav-divider {
+    width: 1px; height: 18px;
+    background: rgba(255,255,255,0.12);
+    margin: 0 2px; flex-shrink: 0;
+  }
+
+  .topbar-sep { color: rgba(255,255,255,0.2); font-size: 0.85em; padding: 0 4px; }
+
+  .topbar-current {
+    font-size: 0.82em;
+    color: rgba(255,255,255,0.32);
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+
+  .visitor-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78em;
+    color: rgba(255,255,255,0.4);
+    flex-shrink: 0;
+  }
+  .vb-count { font-weight: 600; color: var(--accent-teal); font-size: 1.05em; }
+
+  /* ── HERO ── */
+  .modal-hero {
+    background: var(--ink);
+    position: relative;
+    padding: 52px 48px 44px;
+    overflow: hidden;
+  }
+
+  .modal-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 80% at 10% 50%, rgba(200,151,74,0.25) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 85% 20%, rgba(192,86,106,0.18) 0%, transparent 55%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  .modal-tag {
+    position: relative; z-index: 1;
+    display: inline-block;
+    font-size: 0.68em; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent-gold);
+    background: rgba(200,151,74,0.12);
+    border: 1px solid rgba(200,151,74,0.3);
+    padding: 3px 12px; border-radius: 20px;
+    margin-bottom: 18px;
+  }
+
+  .modal-hero h1 {
+    position: relative; z-index: 1;
+    font-family: "Noto Serif TC", serif;
+    font-size: clamp(1.5em, 4vw, 2.1em);
+    color: white; font-weight: 700;
+    line-height: 1.3; margin-bottom: 14px;
+  }
+
+  .modal-hero p.hero-sub {
+    position: relative; z-index: 1;
+    font-size: 0.95em; color: rgba(255,255,255,0.55);
+    font-weight: 300; line-height: 1.65;
+    max-width: 500px;
+  }
+
+  .hero-line {
+    position: relative; z-index: 1;
+    width: 50px; height: 2px;
+    background: linear-gradient(90deg, var(--accent-gold), var(--accent-rose));
+    margin-top: 24px; border-radius: 2px;
+  }
+
+  /* ── QUIZ BODY ── */
+  .page-body {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 36px 28px 72px;
+  }
+
+  /* Question groups */
+  .q-group { margin-bottom: 18px; }
+
+  .q-group label {
+    display: block;
+    font-size: 0.8em;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 7px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .q-group select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.92em;
+    font-family: "Noto Sans TC", sans-serif;
+    color: var(--ink);
+    background: #fff;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8a9a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .q-group select:focus {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(200,151,74,0.12);
+  }
+
+  .questions-wrap {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px rgba(26,26,46,0.05);
+  }
+
+  .q-group:last-child { margin-bottom: 0; }
+
+  /* Button */
+  .btn-calc {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent-gold), #d4773a);
+    color: #fff;
+    font-size: 0.95em;
+    font-weight: 700;
+    font-family: "Noto Sans TC", sans-serif;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    transition: opacity 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(200,151,74,0.35);
+  }
+  .btn-calc:hover { opacity: 0.92; box-shadow: 0 6px 20px rgba(200,151,74,0.45); }
+  .btn-calc:active { transform: scale(0.98); }
+  .btn-calc:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+
+  /* Risk result */
+  .risk-box {
+    margin-top: 20px;
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: none;
+    animation: fadeIn 0.35s ease;
+  }
+  .risk-box.low  { background: var(--accent-teal-light); border-left: 4px solid var(--accent-teal); }
+  .risk-box.mid  { background: var(--accent-gold-light);  border-left: 4px solid var(--accent-gold); }
+  .risk-box.high { background: var(--accent-rose-light);  border-left: 4px solid var(--accent-rose); }
+
+  .risk-title {
+    font-family: "Noto Serif TC", serif;
+    font-size: 1.1em; font-weight: 700;
+    margin-bottom: 5px; color: var(--ink);
+  }
+  .risk-sub { font-size: 0.87em; color: var(--ink-soft); font-weight: 300; line-height: 1.65; }
+
+  /* AI section */
+  .ai-section { margin-top: 20px; display: none; animation: fadeIn 0.35s ease; }
+
+  .ai-label {
+    font-size: 0.73em; font-weight: 700;
+    color: var(--accent-indigo);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .ai-label::before { content: '✦'; font-size: 0.85em; }
+
+  .ai-box {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    font-size: 0.9em;
+    line-height: 1.85;
+    color: var(--ink-soft);
+    min-height: 80px;
+  }
+
+  .ai-box.loading {
+    display: flex; align-items: center;
+    gap: 12px; color: var(--muted); font-size: 0.88em;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 20px; height: 20px;
+    border: 2.5px solid var(--border);
+    border-top-color: var(--accent-indigo);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+
+  /* Markdown rendered styles */
+  .ai-box h3 {
+    font-family: "Noto Serif TC", serif;
+    font-size: 0.95em; color: var(--ink);
+    margin: 16px 0 7px; font-weight: 700;
+  }
+  .ai-box h3:first-child { margin-top: 0; }
+  .ai-box ul { padding-left: 16px; margin: 4px 0 10px; }
+  .ai-box li { margin-bottom: 5px; }
+  .ai-box strong { color: var(--accent-rose); font-weight: 600; }
+  .ai-box p { margin-bottom: 8px; }
+  .ai-box p:last-child { margin-bottom: 0; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 24px;
+    text-align: center;
+    font-size: 0.82em;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+  footer .footer-brand {
+    font-family: "DM Serif Display", serif;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 1.1em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .modal-hero { padding: 36px 20px 32px; }
+    .page-body { padding: 24px 16px 56px; }
+    .topbar-current { display: none; }
+    .topbar-sep { display: none; }
+    .visitor-badge .vb-sub { display: none; }
+    .questions-wrap { padding: 18px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="topbar">
+  <div class="topbar-left">
+    <a href="https://d8600010-gmail.github.io/DRJimmyHealthExaminationMedicalEducation/" class="nav-btn home">🏠 首頁</a>
+    <div class="nav-divider"></div>
+    <button onclick="history.back()" class="nav-btn">← 上一頁</button>
+    <span class="topbar-sep">/</span>
+    <span class="topbar-current">10年心血管風險測驗</span>
   </div>
   <div class="visitor-badge">
-    <span class="vb-label">👥 今日到訪</span>
+    <span>👥 今日到訪</span>
     <span class="vb-count" id="today-count">—</span>
     <span class="vb-sub">累計 <span id="total-count">—</span> 人次</span>
   </div>
 </nav>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Segoe UI','PingFang TC','Microsoft JhengHei',sans-serif;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;padding:30px 16px;color:#333;}
 
-.card{max-width:560px;margin:auto;background:#fff;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;}
+<!-- Hero -->
+<div class="modal-hero">
+  <div class="hero-grid"></div>
+  <div class="modal-tag">互動測驗 · 心血管健康</div>
+  <h1>❤️ 10 年心血管風險測驗</h1>
+  <p class="hero-sub">回答 5 題，AI 為你生成個人化健康報告，評估未來 10 年心血管疾病風險。</p>
+  <div class="hero-line"></div>
+</div>
 
-.card-header{background:linear-gradient(135deg,#f5af19,#f12711);padding:32px 28px;text-align:center;color:#fff;}
-.card-header .icon{font-size:2.8rem;margin-bottom:8px;}
-.card-header h1{font-size:1.5rem;font-weight:800;letter-spacing:0.05em;}
-.card-header p{font-size:0.88rem;opacity:0.85;margin-top:6px;}
+<!-- Quiz -->
+<div class="page-body">
 
-.card-body{padding:28px 28px 32px;}
-
-.q-group{margin-bottom:18px;}
-.q-group label{display:block;font-size:0.82rem;font-weight:700;color:#555;margin-bottom:6px;letter-spacing:0.03em;}
-.q-group select{width:100%;padding:10px 14px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:0.93rem;color:#333;outline:none;background:#fafafa;transition:border 0.2s;}
-.q-group select:focus{border-color:#f12711;background:#fff;}
-
-.btn-calc{width:100%;padding:14px;background:linear-gradient(135deg,#f5af19,#f12711);color:#fff;font-size:1rem;font-weight:800;border:none;border-radius:12px;cursor:pointer;margin-top:8px;letter-spacing:0.05em;transition:opacity 0.2s,transform 0.1s;}
-.btn-calc:hover{opacity:0.92;}
-.btn-calc:active{transform:scale(0.98);}
-.btn-calc:disabled{opacity:0.6;cursor:not-allowed;}
-
-/* 風險結果 */
-.risk-box{margin-top:22px;border-radius:14px;padding:18px 20px;display:none;}
-.risk-box.low {background:linear-gradient(135deg,#d4edda,#c3e6cb);}
-.risk-box.mid {background:linear-gradient(135deg,#fff3cd,#ffeeba);}
-.risk-box.high{background:linear-gradient(135deg,#f8d7da,#f5c6cb);}
-.risk-title{font-size:1.2rem;font-weight:800;margin-bottom:4px;}
-.risk-sub{font-size:0.88rem;color:#555;}
-
-/* AI 報告 */
-.ai-section{margin-top:22px;display:none;}
-.ai-section .ai-label{font-size:0.78rem;font-weight:700;color:#a07cc5;letter-spacing:0.08em;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
-.ai-section .ai-label::before{content:‘✦’;}
-.ai-box{background:#faf8ff;border:1.5px solid #e0d4f5;border-radius:14px;padding:18px 20px;font-size:0.9rem;line-height:1.8;color:#333;min-height:80px;}
-.ai-box.loading{display:flex;align-items:center;gap:10px;color:#aaa;font-size:0.88rem;}
-
-.spinner{display:inline-block;width:20px;height:20px;border:3px solid #e0d4f5;border-top-color:#a07cc5;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* Markdown 樣式 */
-.ai-box h3{font-size:0.95rem;color:#5a3e8a;margin:14px 0 6px;font-weight:700;}
-.ai-box h3:first-child{margin-top:0;}
-.ai-box ul{padding-left:18px;margin:4px 0 10px;}
-.ai-box li{margin-bottom:4px;}
-.ai-box strong{color:#c0392b;}
-.ai-box p{margin-bottom:8px;}
-</style>
-
-</head>
-<body>
-<div class="card">
-  <div class="card-header">
-    <div class="icon">❤️</div>
-    <h1>10 年心血管風險測驗</h1>
-    <p>回答 5 題，AI 為你生成個人化健康報告</p>
+  <div class="questions-wrap">
+    <div class="q-group">
+      <label>年齡</label>
+      <select id="age">
+        <option value="1">20–39 歲</option>
+        <option value="2">40–49 歲</option>
+        <option value="3">50–59 歲</option>
+        <option value="4">60 歲以上</option>
+      </select>
+    </div>
+    <div class="q-group">
+      <label>是否抽菸</label>
+      <select id="smoke">
+        <option value="0">不抽菸</option>
+        <option value="2">有抽菸</option>
+      </select>
+    </div>
+    <div class="q-group">
+      <label>血壓狀況</label>
+      <select id="bp">
+        <option value="1">正常（收縮壓 &lt; 120）</option>
+        <option value="2">偏高（120–139）</option>
+        <option value="3">高血壓（≥ 140）</option>
+      </select>
+    </div>
+    <div class="q-group">
+      <label>總膽固醇</label>
+      <select id="chol">
+        <option value="1">正常（&lt; 200 mg/dL）</option>
+        <option value="2">偏高（200–239）</option>
+        <option value="3">很高（≥ 240）</option>
+      </select>
+    </div>
+    <div class="q-group">
+      <label>是否有糖尿病</label>
+      <select id="dm">
+        <option value="0">沒有</option>
+        <option value="3">有</option>
+      </select>
+    </div>
   </div>
-  <div class="card-body">
 
-```
-<div class="q-group">
-  <label>年齡</label>
-  <select id="age">
-    <option value="1">20–39 歲</option>
-    <option value="2">40–49 歲</option>
-    <option value="3">50–59 歲</option>
-    <option value="4">60 歲以上</option>
-  </select>
-</div>
+  <button class="btn-calc" id="calcBtn" onclick="calculate()">🔍 分析我的心血管風險</button>
 
-<div class="q-group">
-  <label>是否抽菸</label>
-  <select id="smoke">
-    <option value="0">不抽菸</option>
-    <option value="2">有抽菸</option>
-  </select>
-</div>
+  <div class="risk-box" id="riskBox"></div>
 
-<div class="q-group">
-  <label>血壓狀況</label>
-  <select id="bp">
-    <option value="1">正常（收縮壓 &lt; 120）</option>
-    <option value="2">偏高（120–139）</option>
-    <option value="3">高血壓（≥ 140）</option>
-  </select>
-</div>
-
-<div class="q-group">
-  <label>總膽固醇</label>
-  <select id="chol">
-    <option value="1">正常（&lt; 200 mg/dL）</option>
-    <option value="2">偏高（200–239）</option>
-    <option value="3">很高（≥ 240）</option>
-  </select>
-</div>
-
-<div class="q-group">
-  <label>是否有糖尿病</label>
-  <select id="dm">
-    <option value="0">沒有</option>
-    <option value="3">有</option>
-  </select>
-</div>
-
-<button class="btn-calc" id="calcBtn" onclick="calculate()">🔍 分析我的心血管風險</button>
-
-<div class="risk-box" id="riskBox"></div>
-
-<div class="ai-section" id="aiSection">
-  <div class="ai-label">AI 個人化健康報告</div>
-  <div class="ai-box" id="aiBox"></div>
-</div>
-```
-
+  <div class="ai-section" id="aiSection">
+    <div class="ai-label">AI 個人化健康報告</div>
+    <div class="ai-box" id="aiBox"></div>
   </div>
+
 </div>
+
+<footer>
+  <div class="footer-brand">Dr. Jimmy 診間故事集</div>
+  <div style="margin-top:6px">© 2026 · 用醫學說故事 · 內容僅供衛教參考，不替代個人醫療建議</div>
+</footer>
 
 <script>
 const LABELS = {
@@ -155,7 +448,6 @@ async function calculate() {
   btn.disabled = true;
   btn.textContent = '分析中…';
 
-  // 風險結果
   const riskBox = document.getElementById('riskBox');
   let level, emoji, title, sub;
   if (score <= 5) {
@@ -172,44 +464,28 @@ async function calculate() {
   riskBox.innerHTML = `<div class="risk-title">${emoji} ${title}</div><div class="risk-sub">${sub}</div>`;
   riskBox.style.display = 'block';
 
-  // AI 報告
   const aiSection = document.getElementById('aiSection');
   const aiBox = document.getElementById('aiBox');
   aiSection.style.display = 'block';
   aiBox.className = 'ai-box loading';
   aiBox.innerHTML = '<span class="spinner"></span> AI 正在生成你的個人化報告…';
 
-  const userProfile = `
-年齡：${LABELS.age[age]}
-抽菸：${LABELS.smoke[smoke]}
-血壓：${LABELS.bp[bp]}
-膽固醇：${LABELS.chol[chol]}
-糖尿病：${LABELS.dm[dm]}
-風險等級：${title}（總分 ${score}）
-`;
+  const userProfile = `年齡：${LABELS.age[age]}\n抽菸：${LABELS.smoke[smoke]}\n血壓：${LABELS.bp[bp]}\n膽固醇：${LABELS.chol[chol]}\n糖尿病：${LABELS.dm[dm]}\n風險等級：${title}（總分 ${score}）`;
 
   const prompt = `你是一位專業心臟科醫師，請根據以下使用者的健康資料，用繁體中文撰寫一份詳細的10年心血管風險個人化健康報告。
-
 使用者資料：
 ${userProfile}
-
 請依照以下結構撰寫，使用 Markdown 格式（### 標題、- 項目符號）：
-
 ### 🩺 風險評估摘要
 （說明目前風險等級的意義與原因）
-
 ### ⚠️ 主要風險因子分析
 （針對該使用者的具體風險因子逐一說明）
-
 ### 🥗 生活習慣建議
 （飲食、運動、睡眠、戒菸等具體可執行建議，至少4項）
-
 ### 🏥 就醫建議
 （說明是否需要就醫、應做哪些檢查、回診頻率等）
-
 ### 💪 鼓勵話語
 （一段鼓勵使用者的話，語氣溫暖積極）
-
 請用親切易懂的語氣，避免過於艱深的醫學術語。`;
 
   try {
@@ -237,17 +513,20 @@ ${userProfile}
 }
 
 function mdToHtml(md) {
-  return md
+  let html = md
     .replace(/### (.+)/g, '<h3>$1</h3>')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/^- (.+)/gm, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/^(?!<[hul])/gm, '')
-    .replace(/<\/ul>\s*<ul>/g, '')
-    || md;
+    .replace(/^- (.+)/gm, '<li>$1</li>');
+  html = html.replace(/(<li>[\s\S]*?<\/li>)(\s*(?!<li>))/g, (m, items) => `<ul>${items}</ul>`);
+  html = html.replace(/<\/ul>\s*<ul>/g, '');
+  const parts = html.split(/\n\n+/);
+  return parts.map(p => {
+    p = p.trim();
+    if (!p) return '';
+    if (p.startsWith('<h3>') || p.startsWith('<ul>') || p.startsWith('<li>')) return p;
+    return `<p>${p}</p>`;
+  }).join('');
 }
 </script>
-
 </body>
 </html>
