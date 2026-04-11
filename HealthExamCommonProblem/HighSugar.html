@@ -1,160 +1,591 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>醫學衛教專欄：血糖600的警訊</title>
-    <nav class="top-nav">
-  <div class="nav-left">
-    <a href="https://d8600010-gmail.github.io/DRJimmyHealthExaminationMedicalEducation/" class="nav-link">🏠 <span>回到首頁</span></a>
-    <a href="javascript:history.back()" class="nav-link">⬅️ <span>回到上一頁</span></a>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>血糖600的警訊 · Dr. Jimmy 診間故事集</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #faf8f3;
+      --ink: #1a1a2e;
+      --ink-soft: #3d3d55;
+      --muted: #8a8a9a;
+      --accent-teal: #2c9b8a;
+      --accent-teal-light: #e8f5f3;
+      --accent-gold: #c8974a;
+      --accent-gold-light: #fdf4e7;
+      --accent-rose: #c0566a;
+      --accent-rose-light: #fdf0f2;
+      --accent-indigo: #4a6fa5;
+      --border: #e8e4da;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Noto Sans TC", sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    .topbar {
+      background: var(--ink);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.8em;
+      font-weight: 500;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      transition: color 0.18s, background 0.18s, border-color 0.18s;
+      cursor: pointer;
+      background: none;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .nav-btn:hover {
+      color: var(--accent-teal);
+      background: rgba(44,155,138,0.1);
+      border-color: rgba(44,155,138,0.2);
+    }
+    .nav-btn.home { color: rgba(255,255,255,0.7); }
+    .nav-btn.home:hover { color: #fff; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); }
+
+    .nav-divider {
+      width: 1px; height: 18px;
+      background: rgba(255,255,255,0.12);
+      margin: 0 2px;
+      flex-shrink: 0;
+    }
+
+    .topbar-sep { color: rgba(255,255,255,0.2); font-size: 0.85em; padding: 0 4px; }
+
+    .topbar-current {
+      font-size: 0.82em;
+      color: rgba(255,255,255,0.32);
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+    }
+
+    .visitor-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78em;
+      color: rgba(255,255,255,0.4);
+      flex-shrink: 0;
+    }
+    .vb-count {
+      font-weight: 600;
+      color: var(--accent-teal);
+      font-size: 1.05em;
+    }
+
+    /* ── HERO ── */
+    .modal-hero {
+      background: var(--ink);
+      position: relative;
+      padding: 52px 48px 44px;
+      overflow: hidden;
+    }
+
+    .modal-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 80% at 10% 50%, rgba(192,86,106,0.28) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 85% 20%, rgba(200,151,74,0.18) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .modal-tag {
+      position: relative; z-index: 1;
+      display: inline-block;
+      font-size: 0.68em; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent-rose);
+      background: rgba(192,86,106,0.12);
+      border: 1px solid rgba(192,86,106,0.3);
+      padding: 3px 12px; border-radius: 20px;
+      margin-bottom: 18px;
+    }
+
+    .modal-hero h1 {
+      position: relative; z-index: 1;
+      font-family: "Noto Serif TC", serif;
+      font-size: clamp(1.5em, 4vw, 2.1em);
+      color: white; font-weight: 700;
+      line-height: 1.3; margin-bottom: 14px;
+    }
+
+    .modal-hero p.hero-sub {
+      position: relative; z-index: 1;
+      font-size: 0.95em; color: rgba(255,255,255,0.55);
+      font-weight: 300; line-height: 1.65;
+      max-width: 560px;
+    }
+
+    .hero-stats {
+      position: relative; z-index: 1;
+      display: flex; gap: 20px;
+      margin-top: 28px;
+    }
+
+    .hero-stat {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 12px 20px;
+      text-align: center;
+    }
+
+    .hero-stat .stat-val {
+      font-family: "DM Serif Display", serif;
+      font-size: 1.6em;
+      color: var(--accent-rose);
+      display: block;
+      line-height: 1;
+    }
+
+    .hero-stat .stat-label {
+      font-size: 0.72em;
+      color: rgba(255,255,255,0.45);
+      margin-top: 5px;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-line {
+      position: relative; z-index: 1;
+      width: 50px; height: 2px;
+      background: linear-gradient(90deg, var(--accent-rose), var(--accent-gold));
+      margin-top: 28px; border-radius: 2px;
+    }
+
+    /* ── CONTENT ── */
+    .page-body {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 40px 28px 72px;
+    }
+
+    .kb-section { margin-bottom: 32px; }
+
+    .kb-title {
+      font-family: "Noto Serif TC", serif;
+      font-size: 1.08em; font-weight: 700;
+      color: var(--ink);
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .kb-title-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95em;
+      flex-shrink: 0;
+    }
+    .icon-rose { background: var(--accent-rose-light); }
+    .icon-gold { background: var(--accent-gold-light); }
+    .icon-teal { background: var(--accent-teal-light); }
+
+    .kb-prose {
+      font-size: 0.93em; color: var(--ink-soft);
+      line-height: 1.9; font-weight: 300;
+    }
+
+    .kb-prose strong { color: var(--ink); font-weight: 600; }
+
+    .kb-prose ul {
+      margin: 12px 0 0 4px;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .kb-prose ul li {
+      padding: 8px 0 8px 20px;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.97em;
+    }
+
+    .kb-prose ul li:last-child { border-bottom: none; }
+
+    .kb-prose ul li::before {
+      content: '▸';
+      position: absolute; left: 0;
+      color: var(--accent-rose);
+      font-size: 0.8em;
+      top: 10px;
+    }
+
+    .kb-divider {
+      height: 1px; background: var(--border);
+      margin: 28px 0;
+    }
+
+    /* Blockquote */
+    .pull-quote {
+      border-left: 4px solid var(--accent-rose);
+      background: var(--accent-rose-light);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-style: italic;
+      font-size: 0.92em;
+      color: var(--ink-soft);
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    /* Complication table */
+    .complication-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .complication-card {
+      border-radius: 12px;
+      padding: 18px 18px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .complication-card.hhs {
+      background: var(--accent-rose-light);
+      border: 1px solid rgba(192,86,106,0.2);
+    }
+
+    .complication-card.dka {
+      background: var(--accent-gold-light);
+      border: 1px solid rgba(200,151,74,0.2);
+    }
+
+    .comp-badge {
+      display: inline-block;
+      font-size: 0.68em; font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 2px 8px; border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .hhs .comp-badge { background: rgba(192,86,106,0.15); color: var(--accent-rose); }
+    .dka .comp-badge { background: rgba(200,151,74,0.15); color: var(--accent-gold); }
+
+    .comp-name {
+      font-family: "Noto Serif TC", serif;
+      font-size: 1em; font-weight: 700;
+      color: var(--ink); margin-bottom: 8px;
+    }
+
+    .comp-mech {
+      font-size: 0.83em; color: var(--ink-soft);
+      font-weight: 300; line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .comp-risk {
+      font-size: 0.8em; font-weight: 600;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .hhs .comp-risk { color: var(--accent-rose); }
+    .dka .comp-risk { color: var(--accent-gold); }
+
+    /* Prevention steps */
+    .prevention-list { margin-top: 16px; }
+
+    .prev-item {
+      display: flex; gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .prev-item:last-child { border-bottom: none; }
+
+    .prev-num {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--accent-teal); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78em; font-weight: 700;
+      flex-shrink: 0; margin-top: 1px;
+    }
+
+    .prev-content strong {
+      font-size: 0.9em; color: var(--ink);
+      display: block; margin-bottom: 5px;
+    }
+    .prev-content span {
+      font-size: 0.85em; color: var(--ink-soft);
+      font-weight: 300; line-height: 1.65;
+    }
+
+    /* Alert box */
+    .alert-box {
+      background: var(--accent-rose-light);
+      border-left: 4px solid var(--accent-rose);
+      border-radius: 0 12px 12px 0;
+      padding: 14px 18px;
+      font-size: 0.88em; color: var(--ink-soft);
+      line-height: 1.7; font-weight: 300;
+      margin: 16px 0;
+    }
+    .alert-box strong { color: var(--accent-rose); font-weight: 600; }
+
+    /* Callout */
+    .callout {
+      background: var(--accent-teal-light);
+      border-left: 4px solid var(--accent-teal);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      font-size: 0.88em; color: var(--ink-soft);
+      line-height: 1.75; font-weight: 300;
+      margin-top: 8px;
+    }
+    .callout strong { color: var(--accent-teal); font-weight: 600; }
+
+    /* Closing quote */
+    .closing-quote {
+      text-align: center;
+      padding: 32px 20px;
+      margin-top: 8px;
+    }
+
+    .closing-quote p {
+      font-family: "DM Serif Display", serif;
+      font-style: italic;
+      font-size: clamp(1em, 2.5vw, 1.25em);
+      color: var(--ink-soft);
+      line-height: 1.6;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 24px;
+      text-align: center;
+      font-size: 0.82em;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+
+    footer .footer-brand {
+      font-family: "DM Serif Display", serif;
+      font-style: italic;
+      color: var(--ink-soft);
+      font-size: 1.1em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .modal-hero { padding: 36px 20px 32px; }
+      .page-body { padding: 28px 16px 56px; }
+      .topbar-current { display: none; }
+      .topbar-sep { display: none; }
+      .visitor-badge .vb-sub { display: none; }
+      .hero-stats { gap: 12px; }
+      .hero-stat { padding: 10px 14px; }
+      .complication-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="topbar">
+  <div class="topbar-left">
+    <a href="https://d8600010-gmail.github.io/DRJimmyHealthExaminationMedicalEducation/" class="nav-btn home">🏠 首頁</a>
+    <div class="nav-divider"></div>
+    <button onclick="history.back()" class="nav-btn">← 上一頁</button>
+    <span class="topbar-sep">/</span>
+    <span class="topbar-current">血糖600的警訊</span>
   </div>
   <div class="visitor-badge">
-    <span class="vb-label">👥 今日到訪</span>
+    <span>👥 今日到訪</span>
     <span class="vb-count" id="today-count">—</span>
     <span class="vb-sub">累計 <span id="total-count">—</span> 人次</span>
   </div>
 </nav>
-    <style>
-        body {
-            font-family: "Microsoft JhengHei", sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        .container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #2c3e50;
-            border-bottom: 3px solid #e74c3c;
-            padding-bottom: 10px;
-            text-align: center;
-        }
-        h2 {
-            color: #c0392b;
-            background: #fdf2f2;
-            padding: 10px;
-            border-left: 5px solid #c0392b;
-            margin-top: 30px;
-        }
-        h3 {
-            color: #2980b9;
-            margin-top: 25px;
-        }
-        .highlight {
-            color: #e74c3c;
-            font-weight: bold;
-        }
-        .alert-box {
-            background-color: #fff4f4;
-            border: 1px solid #ffcccc;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        .data-table th, .data-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: center;
-        }
-        .data-table th {
-            background-color: #2980b9;
-            color: white;
-        }
-        blockquote {
-            font-style: italic;
-            color: #555;
-            border-left: 4px solid #ccc;
-            padding-left: 15px;
-            margin: 20px 0;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 0.9em;
-            color: #7f8c8d;
-        }
-    </style>
-</head>
-<body>
 
-<div class="container">
-    <h1>🏥 醫學專欄：當身體「含糖量」破表，你不可不知的生理災難</h1>
-    
-    <p>在臨床門診中，阿川的案例並非個案。糖化血色素（A1c）高達 <span class="highlight">12.8%</span>、隨機血糖突破 <span class="highlight">600 mg/dL</span>，這在醫學上代表身體正處於極度的代謝崩潰邊緣。身為醫師，我必須揭露這些數字背後，器官正在經歷的真實慘狀。</p>
-
-    <div class="alert-box">
-        <strong>⚠️ 醫師警告：</strong>這不只是「比較累」，這是身體在強酸與高糖環境下的無聲求救。
+<!-- Hero -->
+<div class="modal-hero">
+  <div class="hero-grid"></div>
+  <div class="modal-tag">醫學專欄 · 糖尿病急症</div>
+  <h1>當身體「含糖量」破表<br>你不可不知的生理災難</h1>
+  <p class="hero-sub">A1c 12.8%、隨機血糖突破 600 mg/dL——這些數字背後，器官正在經歷什麼？</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="stat-val">600</span>
+      <div class="stat-label">mg/dL 隨機血糖</div>
     </div>
-
-    <h2>一、 脫水陷阱：被「榨乾」的全身細胞</h2>
-    <p>當血糖超過 180 mg/dL 的腎糖閾值，腎臟會像壞掉的水龍頭，被迫排出大量糖分，同時強行帶走水分（滲透性利尿）。</p>
-    <ul>
-        <li><strong>血液濃縮：</strong> 血糖 600 時，血液黏稠度直逼糖漿，心臟需費力搏動才能輸送氧氣。</li>
-        <li><strong>大腦脫水：</strong> 腦細胞缺水會導致意識模糊、焦慮或極度疲倦。</li>
-    </ul>
-
-    <h2>二、 A1c 12.8%：血管裡的「沙紙效應」</h2>
-    <p>糖化血色素代表紅血球過去三個月被「糖漬」的程度。12.8% 意味著過去 90 天，你的血管壁每天都在經歷高濃度的氧化壓力損傷。</p>
-    <blockquote>
-        「想像一下，血管內皮就像細嫩的皮膚，而高血糖就像砂紙，24 小時不斷摩擦摩擦，直到微血管破裂、硬化。」
-    </blockquote>
-
-    <h2>三、 致命併發症的陰影</h2>
-    <p>若未及時住院，阿川極可能面臨以下兩大高致死率併發症：</p>
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>併發症</th>
-                <th>機制</th>
-                <th>危險性</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>HHS 高滲透壓狀態</strong></td>
-                <td>極度高血糖導致嚴重脫水</td>
-                <td>死亡率高達 10-20%</td>
-            </tr>
-            <tr>
-                <td><strong>DKA 酮酸中毒</strong></td>
-                <td>脂肪燃燒產生酸性酮體</td>
-                <td>可能引發昏迷及器官衰竭</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h2>🔬 醫師的防線建議</h2>
-    <h3>1. 辨識代謝性疲勞</h3>
-    <p>這種累伴隨著<strong>視力模糊、皮膚搔癢（反覆感染）與不明原因體重減輕</strong>。如果你發現傷口好得很慢，這就是警訊。</p>
-    
-    <h3>2. 定期監測 A1c</h3>
-    <p>它是身體的「黑盒子」，即便空腹血糖正常，若 A1c 偏高，代表你仍處於波盪風險中。</p>
-
-    <h3>3. 肌肉是天然的降糖藥</h3>
-    <p>除了藥物，增加肌肉質量能有效提升胰島素敏感度，是預防血糖失控的最佳防線。</p>
-
-    <hr>
-
-    <p style="text-align: center;"><strong>「真正的神醫，是你對身體數值的覺醒。」</strong></p>
-    
-    <div class="footer">
-        本文由 專業醫療團隊 撰寫編輯<br>
-        © 2026 健康衛教頻道．版權所有
+    <div class="hero-stat">
+      <span class="stat-val">12.8%</span>
+      <div class="stat-label">糖化血色素 A1c</div>
     </div>
+    <div class="hero-stat">
+      <span class="stat-val">10–20%</span>
+      <div class="stat-label">HHS 死亡率</div>
+    </div>
+  </div>
+  <div class="hero-line"></div>
 </div>
+
+<!-- Body -->
+<div class="page-body">
+
+  <div class="kb-section">
+    <p class="kb-prose">
+      在臨床門診中，阿川的案例並非個案。糖化血色素（A1c）高達 <strong>12.8%</strong>、隨機血糖突破 <strong>600 mg/dL</strong>，這在醫學上代表身體正處於極度的代謝崩潰邊緣。身為醫師，我必須揭露這些數字背後，器官正在經歷的真實慘狀。
+    </p>
+    <div class="alert-box" style="margin-top:18px">
+      <strong>⚠️ 醫師警告：</strong>這不只是「比較累」，這是身體在強酸與高糖環境下的無聲求救。
+    </div>
+  </div>
+
+  <div class="kb-divider"></div>
+
+  <div class="kb-section">
+    <div class="kb-title">
+      <div class="kb-title-icon icon-rose">💧</div>
+      脫水陷阱：被「榨乾」的全身細胞
+    </div>
+    <p class="kb-prose">
+      當血糖超過 180 mg/dL 的腎糖閾值，腎臟會像壞掉的水龍頭，被迫排出大量糖分，同時強行帶走水分（滲透性利尿）。
+    </p>
+    <p class="kb-prose" style="margin-top:14px">
+      <ul>
+        <li><strong>血液濃縮：</strong>血糖 600 時，血液黏稠度直逼糖漿，心臟需費力搏動才能輸送氧氣。</li>
+        <li><strong>大腦脫水：</strong>腦細胞缺水會導致意識模糊、焦慮或極度疲倦。</li>
+      </ul>
+    </p>
+  </div>
+
+  <div class="kb-divider"></div>
+
+  <div class="kb-section">
+    <div class="kb-title">
+      <div class="kb-title-icon icon-rose">🩸</div>
+      A1c 12.8%：血管裡的「砂紙效應」
+    </div>
+    <p class="kb-prose">
+      糖化血色素代表紅血球過去三個月被「糖漬」的程度。12.8% 意味著過去 90 天，你的血管壁每天都在經歷高濃度的氧化壓力損傷。
+    </p>
+    <div class="pull-quote">
+      「想像一下，血管內皮就像細嫩的皮膚，而高血糖就像砂紙，24 小時不斷摩擦，直到微血管破裂、硬化。」
+    </div>
+  </div>
+
+  <div class="kb-divider"></div>
+
+  <div class="kb-section">
+    <div class="kb-title">
+      <div class="kb-title-icon icon-rose">⚡</div>
+      致命併發症的陰影
+    </div>
+    <p class="kb-prose">若未及時住院處置，極可能面臨以下兩大高致死率急症：</p>
+    <div class="complication-grid">
+      <div class="complication-card hhs">
+        <div class="comp-badge">HHS</div>
+        <div class="comp-name">高滲透壓狀態</div>
+        <div class="comp-mech">極度高血糖導致嚴重脫水，血液滲透壓飆升，大腦細胞快速失水。</div>
+        <div class="comp-risk">⚠ 死亡率高達 10–20%</div>
+      </div>
+      <div class="complication-card dka">
+        <div class="comp-badge">DKA</div>
+        <div class="comp-name">酮酸中毒</div>
+        <div class="comp-mech">胰島素不足，脂肪燃燒產生酸性酮體，血液 pH 值急遽下降。</div>
+        <div class="comp-risk">⚠ 可能引發昏迷及器官衰竭</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kb-divider"></div>
+
+  <div class="kb-section">
+    <div class="kb-title">
+      <div class="kb-title-icon icon-teal">🔬</div>
+      醫師的防線建議
+    </div>
+    <div class="prevention-list">
+      <div class="prev-item">
+        <div class="prev-num">1</div>
+        <div class="prev-content">
+          <strong>辨識代謝性疲勞</strong>
+          <span>這種累伴隨著<strong>視力模糊、皮膚搔癢（反覆感染）與不明原因體重減輕</strong>。若發現傷口癒合緩慢，這就是警訊。</span>
+        </div>
+      </div>
+      <div class="prev-item">
+        <div class="prev-num">2</div>
+        <div class="prev-content">
+          <strong>定期監測 A1c</strong>
+          <span>它是身體的「黑盒子」，即便空腹血糖正常，若 A1c 偏高，代表你仍處於血糖波動風險中，建議每 3 個月追蹤一次。</span>
+        </div>
+      </div>
+      <div class="prev-item">
+        <div class="prev-num">3</div>
+        <div class="prev-content">
+          <strong>肌肉是天然的降糖藥</strong>
+          <span>除了藥物，增加肌肉質量能有效提升胰島素敏感度，是預防血糖失控的最佳長期防線。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Dr. Jimmy 提醒：</strong>血糖數字不只是數字，它是身體每一條血管、每一個細胞的生存狀態報告。發現異常，請立即就醫，不要等到症狀嚴重才行動。
+  </div>
+
+  <div class="closing-quote">
+    <p>「真正的神醫，是你對身體數值的覺醒。」</p>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-brand">Dr. Jimmy 診間故事集</div>
+  <div style="margin-top:6px">© 2026 · 用醫學說故事 · 內容僅供衛教參考，不替代個人醫療建議</div>
+</footer>
 
 </body>
 </html>
