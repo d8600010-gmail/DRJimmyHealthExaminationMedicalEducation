@@ -1,56 +1,172 @@
-
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>心房顫動 Atrial Fibrillation · Dr. Jimmy 診間故事集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap');
+  /* ── SERIES TOKENS ── */
+  :root {
+    --cream: #faf8f3;
+    --ink: #1a1a2e;
+    --ink-soft: #3d3d55;
+    --muted: #8a8a9a;
+    --accent-teal: #2c9b8a;
+    --accent-teal-light: #e8f5f3;
+    --accent-gold: #c8974a;
+    --accent-gold-light: #fdf4e7;
+    --accent-rose: #c0566a;
+    --accent-rose-light: #fdf0f2;
+    --accent-indigo: #4a6fa5;
+    --accent-indigo-light: #eef2f9;
+    --border: #e8e4da;
 
-  .edu-wrap {
-    font-family: 'Noto Sans TC', sans-serif;
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 2rem 1rem 3rem;
-    color: var(--color-text-primary);
+    /* Component tokens (mapped to series palette) */
+    --color-text-primary: #1a1a2e;
+    --color-text-secondary: #3d3d55;
+    --color-text-tertiary: #8a8a9a;
+    --color-text-info: #185FA5;
+    --color-text-warning: #8a5c0a;
+    --color-text-danger: #943030;
+    --color-text-success: #3B6D11;
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f5f2ec;
+    --color-background-info: #EBF3FC;
+    --color-background-warning: #FDF4E3;
+    --color-background-danger: #FCEBEB;
+    --color-background-success: #EAF3DE;
+    --color-border-tertiary: #e8e4da;
+    --color-border-secondary: #ccc8be;
+    --border-radius-lg: 14px;
+    --border-radius-md: 8px;
   }
 
-  .hero {
-    border-radius: var(--border-radius-lg);
-    background: var(--color-background-secondary);
-    border: 0.5px solid var(--color-border-tertiary);
-    padding: 2rem 2rem 1.5rem;
-    margin-bottom: 2rem;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Noto Sans TC", sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  .topbar {
+    background: var(--ink);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .topbar-left { display: flex; align-items: center; gap: 4px; }
+
+  .nav-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.8em; font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    padding: 5px 10px; border-radius: 6px;
+    border: 1px solid transparent;
+    transition: color 0.18s, background 0.18s, border-color 0.18s;
+    cursor: pointer; background: none;
+    font-family: inherit; white-space: nowrap;
+  }
+  .nav-btn:hover { color: var(--accent-teal); background: rgba(44,155,138,0.1); border-color: rgba(44,155,138,0.2); }
+  .nav-btn.home { color: rgba(255,255,255,0.7); }
+  .nav-btn.home:hover { color: #fff; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); }
+
+  .nav-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.12); margin: 0 2px; flex-shrink: 0; }
+  .topbar-sep { color: rgba(255,255,255,0.2); font-size: 0.85em; padding: 0 4px; }
+  .topbar-current { font-size: 0.82em; color: rgba(255,255,255,0.32); letter-spacing: 0.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+
+  .visitor-badge { display: flex; align-items: center; gap: 8px; font-size: 0.78em; color: rgba(255,255,255,0.4); flex-shrink: 0; }
+  .vb-count { font-weight: 600; color: var(--accent-teal); font-size: 1.05em; }
+
+  /* ── HERO ── */
+  .modal-hero {
+    background: var(--ink);
     position: relative;
+    padding: 52px 48px 44px;
     overflow: hidden;
   }
+
+  .modal-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 80% at 10% 50%, rgba(74,111,165,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 85% 20%, rgba(44,155,138,0.18) 0%, transparent 55%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
   .hero-ecg {
     position: absolute;
     right: 0; top: 50%;
     transform: translateY(-50%);
-    opacity: 0.07;
+    opacity: 0.08;
     width: 320px;
+    color: white;
+    pointer-events: none;
   }
-  .hero-tag {
+
+  .modal-tag {
+    position: relative; z-index: 1;
     display: inline-block;
-    background: var(--color-background-info);
-    color: var(--color-text-info);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    padding: 3px 10px;
-    border-radius: var(--border-radius-md);
-    margin-bottom: 0.75rem;
+    font-size: 0.68em; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent-indigo);
+    background: rgba(74,111,165,0.15);
+    border: 1px solid rgba(74,111,165,0.35);
+    padding: 3px 12px; border-radius: 20px;
+    margin-bottom: 18px;
   }
-  .hero h1 {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 1.9rem;
-    font-weight: 600;
-    margin: 0 0 0.5rem;
-    line-height: 1.3;
-    color: var(--color-text-primary);
+
+  .modal-hero h1 {
+    position: relative; z-index: 1;
+    font-family: "Noto Serif TC", serif;
+    font-size: clamp(1.5em, 4vw, 2.1em);
+    color: white; font-weight: 700;
+    line-height: 1.3; margin-bottom: 14px;
   }
-  .hero p {
-    font-size: 0.95rem;
-    color: var(--color-text-secondary);
-    margin: 0;
+
+  .modal-hero p.hero-sub {
+    position: relative; z-index: 1;
+    font-size: 0.95em; color: rgba(255,255,255,0.55);
+    font-weight: 300; line-height: 1.65;
     max-width: 480px;
-    line-height: 1.7;
+  }
+
+  .hero-line {
+    position: relative; z-index: 1;
+    width: 50px; height: 2px;
+    background: linear-gradient(90deg, var(--accent-indigo), var(--accent-teal));
+    margin-top: 24px; border-radius: 2px;
+  }
+
+  /* ── CONTENT LAYOUT ── */
+  .edu-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 3rem;
   }
 
   .section-grid {
@@ -62,187 +178,204 @@
 
   .card {
     background: var(--color-background-primary);
-    border: 0.5px solid var(--color-border-tertiary);
+    border: 1px solid var(--color-border-tertiary);
     border-radius: var(--border-radius-lg);
     padding: 1.25rem;
+    box-shadow: 0 2px 10px rgba(26,26,46,0.04);
   }
 
   .card-full {
     background: var(--color-background-primary);
-    border: 0.5px solid var(--color-border-tertiary);
+    border: 1px solid var(--color-border-tertiary);
     border-radius: var(--border-radius-lg);
     padding: 1.25rem;
     margin-bottom: 1rem;
+    box-shadow: 0 2px 10px rgba(26,26,46,0.04);
   }
 
   .card-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex; align-items: center; gap: 10px;
     margin-bottom: 1rem;
   }
+
   .card-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
-  .icon-blue { background: #E6F1FB; }
-  .icon-amber { background: #FAEEDA; }
-  .icon-red { background: #FCEBEB; }
-  .icon-green { background: #EAF3DE; }
-  .icon-teal { background: #E1F5EE; }
+
+  .icon-blue   { background: #E6F1FB; }
+  .icon-amber  { background: #FAEEDA; }
+  .icon-red    { background: #FCEBEB; }
+  .icon-green  { background: #EAF3DE; }
+  .icon-teal   { background: #E1F5EE; }
   .icon-purple { background: #EEEDFE; }
 
   .card-title {
-    font-size: 0.95rem;
-    font-weight: 500;
+    font-size: 0.95rem; font-weight: 600;
     color: var(--color-text-primary);
+    font-family: "Noto Serif TC", serif;
   }
 
   ul.edu-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+    margin: 0; padding: 0; list-style: none;
   }
+
   ul.edu-list li {
     font-size: 0.875rem;
     color: var(--color-text-secondary);
-    padding: 5px 0;
-    border-bottom: 0.5px solid var(--color-border-tertiary);
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--color-border-tertiary);
+    display: flex; align-items: flex-start; gap: 8px;
     line-height: 1.6;
   }
   ul.edu-list li:last-child { border-bottom: none; }
   ul.edu-list li::before {
     content: '';
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
+    width: 5px; height: 5px; border-radius: 50%;
     background: var(--color-border-secondary);
-    flex-shrink: 0;
-    margin-top: 8px;
+    flex-shrink: 0; margin-top: 8px;
   }
 
+  /* Alerts */
   .alert-box {
-    border-radius: var(--border-radius-md);
-    padding: 0.75rem 1rem;
+    padding: 0.7rem 1rem;
     font-size: 0.875rem;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     line-height: 1.6;
-    border: 0 solid transparent;
-    border-left-width: 3px;
-    border-radius: 0;
+    border-left: 3px solid transparent;
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
   }
-  .alert-warning {
-    background: var(--color-background-warning);
-    color: var(--color-text-warning);
-    border-color: #EF9F27;
-  }
-  .alert-danger {
-    background: var(--color-background-danger);
-    color: var(--color-text-danger);
-    border-color: #E24B4A;
-  }
-  .alert-info {
-    background: var(--color-background-info);
-    color: var(--color-text-info);
-    border-color: #378ADD;
-  }
-  .alert-success {
-    background: var(--color-background-success);
-    color: var(--color-text-success);
-    border-color: #639922;
-  }
+  .alert-warning { background: var(--color-background-warning); color: var(--color-text-warning); border-color: #D4901A; }
+  .alert-danger  { background: var(--color-background-danger);  color: var(--color-text-danger);  border-color: #C94040; }
+  .alert-info    { background: var(--color-background-info);    color: var(--color-text-info);    border-color: #3478C0; }
+  .alert-success { background: var(--color-background-success); color: var(--color-text-success); border-color: #5A8A20; }
 
   .sub-heading {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--color-text-secondary);
-    letter-spacing: 0.05em;
+    font-size: 0.75rem; font-weight: 600;
+    color: var(--color-text-tertiary);
+    letter-spacing: 0.07em; text-transform: uppercase;
     margin: 1rem 0 0.5rem;
-    text-transform: uppercase;
   }
   .sub-heading:first-child { margin-top: 0; }
 
-  .pill-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 0.5rem;
-  }
+  .pill-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.4rem; }
+
   .pill {
-    font-size: 12px;
-    padding: 3px 10px;
-    border-radius: 99px;
-    border: 0.5px solid var(--color-border-tertiary);
+    font-size: 0.75rem;
+    padding: 3px 10px; border-radius: 99px;
+    border: 1px solid var(--color-border-tertiary);
     color: var(--color-text-secondary);
+    background: var(--color-background-secondary);
   }
 
+  /* Warning chips */
+  .warning-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 8px;
+  }
+
+  .warning-chip {
+    background: var(--color-background-danger);
+    border-radius: var(--border-radius-md);
+    padding: 10px 12px;
+    font-size: 0.875rem;
+    color: var(--color-text-danger);
+    font-weight: 500;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* Memo box */
   .memo-box {
     background: var(--color-background-secondary);
+    border: 1px solid var(--color-border-tertiary);
     border-radius: var(--border-radius-lg);
     padding: 1.25rem 1.5rem;
     margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    display: flex; align-items: center; gap: 1rem;
   }
+
   .memo-text {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 1.05rem;
-    font-weight: 600;
+    font-family: "Noto Serif TC", serif;
+    font-size: 1.05rem; font-weight: 700;
     color: var(--color-text-primary);
     letter-spacing: 0.04em;
   }
+
   .memo-sub {
-    font-size: 0.8rem;
-    color: var(--color-text-secondary);
-    margin-top: 2px;
+    font-size: 0.78rem;
+    color: var(--color-text-tertiary);
+    margin-top: 4px;
   }
+
   .divider {
-    width: 1px;
-    height: 40px;
+    width: 1px; height: 40px;
     background: var(--color-border-tertiary);
     flex-shrink: 0;
   }
 
-  .footer-note {
-    font-size: 0.8rem;
-    color: var(--color-text-tertiary);
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 24px;
     text-align: center;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 0.5px solid var(--color-border-tertiary);
+    font-size: 0.82em;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+  footer .footer-brand {
+    font-family: "DM Serif Display", serif;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 1.1em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .modal-hero { padding: 36px 20px 32px; }
+    .edu-wrap { padding: 1.5rem 1rem 3rem; }
+    .topbar-current { display: none; }
+    .topbar-sep { display: none; }
+    .visitor-badge .vb-sub { display: none; }
+    .memo-box { flex-direction: column; gap: 0.75rem; }
+    .divider { width: 100%; height: 1px; }
   }
 </style>
+</head>
+<body>
 
-<div class="edu-wrap">
-
-  <div class="hero">
-    <svg class="hero-ecg" viewBox="0 0 320 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <polyline points="0,40 30,40 38,40 42,10 46,60 50,20 56,40 80,40 90,40 96,40 100,38 104,42 108,40 140,40 150,40 158,40 162,8 166,62 170,18 176,40 200,40 210,40 218,40 222,39 226,41 230,40 260,40 268,40 274,40 278,10 282,60 286,20 292,40 320,40" stroke="currentColor" stroke-width="2" fill="none"/>
-    </svg>
-    <div class="hero-tag">EKG 衛教資料</div>
-    <h1>心房顫動<br>Atrial Fibrillation</h1>
-    <p>心房不再規律收縮，改以快速、混亂的顫動取代，導致心跳忽快忽慢，完全不規則。</p>
-  </div>
-<nav class="top-nav">
-  <div class="nav-left">
-    <a href="https://d8600010-gmail.github.io/DRJimmyHealthExaminationMedicalEducation/" class="nav-link">🏠 <span>回到首頁</span></a>
-    <a href="javascript:history.back()" class="nav-link">⬅️ <span>回到上一頁</span></a>
+<!-- Nav -->
+<nav class="topbar">
+  <div class="topbar-left">
+    <a href="https://d8600010-gmail.github.io/DRJimmyHealthExaminationMedicalEducation/" class="nav-btn home">🏠 首頁</a>
+    <div class="nav-divider"></div>
+    <button onclick="history.back()" class="nav-btn">← 上一頁</button>
+    <span class="topbar-sep">/</span>
+    <span class="topbar-current">心房顫動 Atrial Fibrillation</span>
   </div>
   <div class="visitor-badge">
-    <span class="vb-label">👥 今日到訪</span>
+    <span>👥 今日到訪</span>
     <span class="vb-count" id="today-count">—</span>
     <span class="vb-sub">累計 <span id="total-count">—</span> 人次</span>
   </div>
 </nav>
+
+<!-- Hero -->
+<div class="modal-hero">
+  <div class="hero-grid"></div>
+  <svg class="hero-ecg" viewBox="0 0 320 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polyline points="0,40 30,40 38,40 42,10 46,60 50,20 56,40 80,40 90,40 96,40 100,38 104,42 108,40 140,40 150,40 158,40 162,8 166,62 170,18 176,40 200,40 210,40 218,40 222,39 226,41 230,40 260,40 268,40 274,40 278,10 282,60 286,20 292,40 320,40" stroke="currentColor" stroke-width="2" fill="none"/>
+  </svg>
+  <div class="modal-tag">EKG 衛教資料 · 心律不整</div>
+  <h1>心房顫動<br><span style="font-size:0.65em; font-weight:400; opacity:0.75; font-family:'Noto Sans TC',sans-serif; letter-spacing:0.05em;">Atrial Fibrillation</span></h1>
+  <p class="hero-sub">心房不再規律收縮，改以快速、混亂的顫動取代，導致心跳忽快忽慢，完全不規則。</p>
+  <div class="hero-line"></div>
+</div>
+
+<!-- Content -->
+<div class="edu-wrap">
+
   <div class="section-grid">
     <div class="card">
       <div class="card-header">
@@ -256,9 +389,8 @@
         <li>心跳忽快忽慢、完全不規則</li>
         <li>EKG 特徵：無明顯 P wave，RR interval 不規則</li>
       </ul>
-      <div class="alert-info" style="margin-top:0.75rem;">正常的「指揮家」消失，多個假訊號同時亂發號施令。</div>
+      <div class="alert-box alert-info">正常的「指揮家」消失，多個假訊號同時亂發號施令。</div>
     </div>
-
     <div class="card">
       <div class="card-header">
         <div class="card-icon icon-amber">
@@ -272,7 +404,7 @@
         <li>疲倦、頭暈、沒力</li>
         <li>部分患者完全無症狀</li>
       </ul>
-      <div class="alert-warning" style="margin-top:0.75rem;">沒有不舒服，不代表沒有風險。</div>
+      <div class="alert-box alert-warning">沒有不舒服，不代表沒有風險。</div>
     </div>
   </div>
 
@@ -323,7 +455,7 @@
       <div class="card-title">為什麼需要重視？</div>
     </div>
     <p style="font-size:0.9rem; color: var(--color-text-secondary); margin: 0 0 0.75rem; line-height:1.7;">心房顫動時，血液滯留在左心耳，時間久了可能形成血塊。血塊一旦進入腦部血管，即可能造成<strong style="color: var(--color-text-primary);">中風</strong>。</p>
-    <div class="alert-danger">心房顫動不只是心跳亂，更會顯著提高中風風險。</div>
+    <div class="alert-box alert-danger">心房顫動不只是心跳亂，更會顯著提高中風風險。</div>
   </div>
 
   <div class="section-grid">
@@ -339,16 +471,15 @@
         <li>少喝酒，避免暴飲</li>
         <li>咖啡、茶、能量飲適量</li>
         <li>規律睡眠，避免熬夜</li>
-        <li>學習減壓</li>
+        <li>學習減壓技巧</li>
       </ul>
       <div class="sub-heading">控制慢性病</div>
       <ul class="edu-list">
         <li>規律量血壓、控制血糖</li>
-        <li>追蹤甲狀腺</li>
+        <li>追蹤甲狀腺功能</li>
         <li>治療睡眠呼吸中止症</li>
       </ul>
     </div>
-
     <div class="card">
       <div class="card-header">
         <div class="card-icon icon-teal">
@@ -362,8 +493,8 @@
         <li>控制心律的藥物</li>
         <li>抗凝血藥（預防血栓中風）</li>
       </ul>
-      <div class="alert-warning" style="margin-top:0.75rem; margin-bottom:0.75rem;">即使沒有不舒服，也不可自行停藥。</div>
-      <div class="sub-heading">自我觀察</div>
+      <div class="alert-box alert-warning">即使沒有不舒服，也不可自行停藥。</div>
+      <div class="sub-heading" style="margin-top:0.85rem;">自我觀察</div>
       <ul class="edu-list">
         <li>摸脈搏，留意是否規律</li>
         <li>記錄心悸發作時間與持續長度</li>
@@ -379,27 +510,27 @@
       </div>
       <div class="card-title">立刻就醫的警示症狀</div>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
-      <div style="background: var(--color-background-danger); border-radius: var(--border-radius-md); padding: 10px 12px; font-size: 0.875rem; color: var(--color-text-danger); font-weight: 500; display:flex; align-items:center; gap:6px;">
+    <div class="warning-grid">
+      <div class="warning-chip">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>胸痛
       </div>
-      <div style="background: var(--color-background-danger); border-radius: var(--border-radius-md); padding: 10px 12px; font-size: 0.875rem; color: var(--color-text-danger); font-weight: 500; display:flex; align-items:center; gap:6px;">
+      <div class="warning-chip">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>嚴重呼吸困難
       </div>
-      <div style="background: var(--color-background-danger); border-radius: var(--border-radius-md); padding: 10px 12px; font-size: 0.875rem; color: var(--color-text-danger); font-weight: 500; display:flex; align-items:center; gap:6px;">
+      <div class="warning-chip">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>昏倒或快昏倒
       </div>
-      <div style="background: var(--color-background-danger); border-radius: var(--border-radius-md); padding: 10px 12px; font-size: 0.875rem; color: var(--color-text-danger); font-weight: 500; display:flex; align-items:center; gap:6px;">
+      <div class="warning-chip">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>單側手腳無力
       </div>
-      <div style="background: var(--color-background-danger); border-radius: var(--border-radius-md); padding: 10px 12px; font-size: 0.875rem; color: var(--color-text-danger); font-weight: 500; display:flex; align-items:center; gap:6px;">
+      <div class="warning-chip">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>講話不清楚
       </div>
-      <div style="background: var(--color-background-danger); border-radius: var(--border-radius-md); padding: 10px 12px; font-size: 0.875rem; color: var(--color-text-danger); font-weight: 500; display:flex; align-items:center; gap:6px;">
+      <div class="warning-chip">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>嘴角歪斜
       </div>
     </div>
-    <div class="alert-danger" style="margin-top:0.75rem;">出現以上任何一項，請立即就醫，勿拖延。</div>
+    <div class="alert-box alert-danger">出現以上任何一項，請立即就醫，勿拖延。</div>
   </div>
 
   <div class="memo-box">
@@ -409,9 +540,16 @@
     </div>
     <div class="divider"></div>
     <div style="flex:1; text-align:right;">
-      <div style="font-size: 0.8rem; color: var(--color-text-secondary); line-height:1.8;">按時服藥<br>規律回診<br>症狀記錄</div>
+      <div style="font-size: 0.8rem; color: var(--color-text-secondary); line-height:1.9;">按時服藥<br>規律回診<br>症狀記錄</div>
     </div>
   </div>
 
-  <p class="footer-note">本資料為病人衛教用途，實際治療仍需依醫師評估與個別病況調整。</p>
 </div>
+
+<footer>
+  <div class="footer-brand">Dr. Jimmy 診間故事集</div>
+  <div style="margin-top:6px">© 2026 · 本資料為病人衛教用途，實際治療仍需依醫師評估與個別病況調整</div>
+</footer>
+
+</body>
+</html>
