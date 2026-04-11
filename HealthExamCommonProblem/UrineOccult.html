@@ -51,25 +51,43 @@
     .topbar-left {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
 
-    .back-link {
+    .nav-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.82em;
+      gap: 5px;
+      font-size: 0.8em;
       font-weight: 500;
       color: rgba(255,255,255,0.55);
       text-decoration: none;
       letter-spacing: 0.04em;
-      padding: 6px 10px;
+      padding: 5px 10px;
       border-radius: 6px;
-      transition: color 0.18s, background 0.18s;
+      border: 1px solid transparent;
+      transition: color 0.18s, background 0.18s, border-color 0.18s;
+      cursor: pointer;
+      background: none;
+      font-family: inherit;
+      white-space: nowrap;
     }
-    .back-link:hover { color: var(--accent-teal); background: rgba(44,155,138,0.1); }
+    .nav-btn:hover {
+      color: var(--accent-teal);
+      background: rgba(44,155,138,0.1);
+      border-color: rgba(44,155,138,0.2);
+    }
+    .nav-btn.home { color: rgba(255,255,255,0.7); }
+    .nav-btn.home:hover { color: #fff; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); }
 
-    .topbar-sep { color: rgba(255,255,255,0.2); font-size: 0.85em; padding: 0 2px; }
+    .nav-divider {
+      width: 1px; height: 18px;
+      background: rgba(255,255,255,0.12);
+      margin: 0 2px;
+      flex-shrink: 0;
+    }
+
+    .topbar-sep { color: rgba(255,255,255,0.2); font-size: 0.85em; padding: 0 4px; }
 
     .topbar-current {
       font-size: 0.82em;
@@ -302,7 +320,9 @@
 <!-- Single unified nav -->
 <nav class="topbar">
   <div class="topbar-left">
-    <a href="../index.html" class="back-link">← 診間故事集</a>
+    <a href="https://d8600010-gmail.github.io/DRJimmyHealthExaminationMedicalEducation/" class="nav-btn home">🏠 首頁</a>
+    <div class="nav-divider"></div>
+    <button onclick="history.back()" class="nav-btn">← 上一頁</button>
     <span class="topbar-sep">/</span>
     <span class="topbar-current">尿潛血是什麼問題？</span>
   </div>
