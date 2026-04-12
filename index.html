@@ -127,6 +127,8 @@
     .card.card-link.lime-link:hover .card-cta    { background: var(--accent-lime-light); }
     .card.card-link.slate-link .card-cta   { border-color: rgba(91,110,140,0.35);  color: var(--accent-slate); }
     .card.card-link.slate-link:hover .card-cta   { background: var(--accent-slate-light); }
+    .card.card-link.amber-link .card-cta   { border-color: rgba(160,82,45,0.35);   color: var(--accent-amber); }
+    .card.card-link.amber-link:hover .card-cta   { background: var(--accent-amber-light); }
     .card-cta-arrow { font-size: 1em; }
 
     /* ── SMOKING CESSATION SPECIAL CARD ── */
@@ -137,6 +139,9 @@
     .smoking-slide-wrap { margin: 0 28px 28px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #000; position: relative; }
     .smoking-slide-wrap iframe { display: block; width: 100%; aspect-ratio: 1280 / 749; height: auto; border: none; }
     .smoking-accent { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75em; font-weight: 500; color: var(--accent-amber); letter-spacing: 0.06em; margin: 0 28px 18px; padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(160,82,45,0.3); background: var(--accent-amber-light); }
+    .smoking-links { display: flex; flex-wrap: wrap; gap: 10px; padding: 0 28px 22px; }
+    .smoking-link-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82em; font-weight: 500; padding: 8px 16px; border-radius: 8px; border: 1.5px solid rgba(160,82,45,0.35); color: var(--accent-amber); background: transparent; text-decoration: none; transition: background 0.2s; }
+    .smoking-link-btn:hover { background: var(--accent-amber-light); }
 
     /* ── FOOTER ── */
     footer { border-top: 1px solid var(--border); padding: 28px 24px; text-align: center; font-size: 0.82em; color: var(--muted); letter-spacing: 0.03em; }
@@ -181,6 +186,7 @@
       .smoking-slide-wrap { margin: 0 16px 20px; }
       .smoking-headline { padding: 0 16px 10px; }
       .smoking-accent { margin: 0 16px 16px; }
+      .smoking-links { padding: 0 16px 18px; }
     }
   </style>
 </head>
@@ -315,26 +321,21 @@
   <div class="section-gap"></div>
   <div class="section-label">戒菸衛教</div>
   <div class="grid">
+
     <div class="card smoking-card">
       <div class="card-header">
         <div class="card-icon amber">🚬</div>
         <div class="card-title-wrap">
           <h2>你抽的不是煙,是未來的自己</h2>
-           <div class="section-gap"></div>
-  <div class="section-label"><a href="QuitSmoking/QuitSmoking.html">給自己一個機會</a></div>
-          <a href="https://cgmherlink-hub.github.io/QuitSmoking/">戒菸衛教網頁</a>
-  <div class="grid">
-    <div class="card smoking-card">
-      <div class="card-header">
-        <div class="card-icon amber">🚬</div>
-        <div class="card-title-wrap">
-          <h2>你抽的不是煙,是未來的自己</h2>
- 
           <div class="card-count">衛教簡報 · 互動投影片</div>
         </div>
       </div>
       <div class="smoking-headline">
         <p class="tagline">每一口吸進去的,都是借來的時間。<br>用故事與數據,陪你認識菸草對身體的真實影響——以及,戒菸為什麼值得。</p>
+      </div>
+      <div class="smoking-links">
+        <a class="smoking-link-btn" href="QuitSmoking/QuitSmoking.html">給自己一個機會 ↗</a>
+        <a class="smoking-link-btn" href="https://cgmherlink-hub.github.io/QuitSmoking/" target="_blank" rel="noopener noreferrer">戒菸衛教網頁 ↗</a>
       </div>
       <div class="smoking-accent">📽 自動播放 · 可全螢幕觀看</div>
       <div class="smoking-slide-wrap">
@@ -347,12 +348,14 @@
         ></iframe>
       </div>
     </div>
+
   </div>
 
   <!-- ── 自我檢測 ── -->
   <div class="section-gap"></div>
   <div class="section-label">自我檢測</div>
   <div class="grid">
+
     <div class="card" onclick="toggleCard('selfquiz', this)">
       <div class="card-header">
         <div class="card-icon violet">📋</div>
@@ -364,6 +367,7 @@
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='SelfQuiz/Overweight.html'"><span class="story-num">01</span><span class="story-dot violet-dot"></span>致胖生活:成就解鎖問卷 📊</div>
       </div></div>
     </div>
+
     <div class="card disabled">
       <div class="card-header">
         <div class="card-icon violet">🧠</div>
@@ -372,12 +376,14 @@
       <p class="card-desc">你真的睡得夠好嗎?壓力有沒有悄悄拖垮你的健康?來做個快速評估。</p>
       <button class="card-toggle-btn violet" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
+
   </div>
 
   <!-- ── 身心健康實驗室 ── -->
   <div class="section-gap"></div>
   <div class="section-label">身心健康實驗室</div>
   <div class="grid">
+
     <a class="card card-link indigo-link" href="https://occupationphysicianjimmy.github.io/PoorSleepSurvey/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon indigo">🌙</div>
@@ -386,6 +392,7 @@
       <p class="card-desc">輾轉反側、難以入眠——失眠不只是習慣問題,也可能是身體在說話。從睡眠醫學的角度,帶你認識那些在夜裡悄悄發生的事。</p>
       <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
     </a>
+
     <a class="card card-link gold-link" href="https://occupationphysicianjimmy.github.io/AnxietyManagementSurvey/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon gold">🔭</div>
@@ -394,6 +401,7 @@
       <p class="card-desc">焦慮、憂慮、想太多⋯⋯這是性格使然,還是大腦的求救訊號?用科學角度理解「杞人憂天」背後的心理與生理機制。</p>
       <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
     </a>
+
     <a class="card card-link crimson-link" href="https://occupationphysicianjimmy.github.io/WeightManagement/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon crimson">🏋️</div>
@@ -402,12 +410,14 @@
       <p class="card-desc">體重、體脂、肌少症⋯⋯和地心引力的拔河,從來不只是外表問題。探索代謝、運動與慢性病之間那條看不見的連線。</p>
       <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
     </a>
+
   </div>
 
   <!-- ── 社交智能時代 ── -->
   <div class="section-gap"></div>
   <div class="section-label">社交智能時代</div>
   <div class="grid">
+
     <a class="card card-link slate-link" href="https://occupationphysicianjimmy.github.io/SocialIntelligenceDisorder/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon slate">🤝</div>
@@ -416,6 +426,7 @@
       <p class="card-desc">在 AI 與數位化浪潮下,人與人之間的溝通、同理心與社交技能如何影響健康?從醫學角度重新認識「人際關係」。</p>
       <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
     </a>
+
     <a class="card card-link slate-link" href="https://cgmherlink-hub.github.io/FreeTalkPage/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon slate">🌅</div>
@@ -424,12 +435,14 @@
       <p class="card-desc">在診間之外,記錄那些值得細細品味的日常片段——時光流轉中的浮光掠影,生活裡的溫柔與感動。</p>
       <div class="card-cta">前往閱讀 <span class="card-cta-arrow">↗</span></div>
     </a>
+
   </div>
 
   <!-- ── 常見臨床工具集 ── -->
   <div class="section-gap"></div>
   <div class="section-label">常見臨床工具集</div>
   <div class="grid">
+
     <a class="card card-link lime-link" href="https://github.com/cgmherlink-hub/ClinicalTool/index.html" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon lime">🧰</div>
@@ -438,6 +451,7 @@
       <p class="card-desc">整合常用臨床計算工具、評估量表與決策輔助工具,協助醫護人員快速完成臨床評估與決策。</p>
       <div class="card-cta">前往工具集 <span class="card-cta-arrow">↗</span></div>
     </a>
+
   </div>
 
 </div><!-- /container -->
@@ -458,7 +472,6 @@
     btn.childNodes[0].textContent = isOpen ? '展開故事 ' : '收起故事 ';
   }
 
-  // Visitor counter
   (function() {
     const el = document.getElementById('vc-num');
     fetch('https://api.countapi.xyz/hit/drjimmy-clinic/visits')
@@ -473,5 +486,6 @@
       });
   })();
 </script>
+
 </body>
 </html>
