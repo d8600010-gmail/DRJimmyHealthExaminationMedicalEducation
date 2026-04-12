@@ -1,311 +1,467 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>用醫學讀懂人生</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --cream: #f5f0e8;
-    --ink: #1a1614;
-    --ink-light: #5a4e47;
-    --ink-faint: #9a8f88;
-    --accent: #8b4513;
-    --accent-light: #d4956a;
-    --white: #ffffff;
-    --card-border: rgba(139,69,19,0.15);
-    --shadow: rgba(26,22,20,0.08);
-  }
-  body {
-    font-family: 'Noto Sans TC', sans-serif;
-    background-color: var(--cream);
-    color: var(--ink);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  /* ── Hero ── */
-  .hero {
-    position: relative;
-    padding: 80px 24px 64px;
-    text-align: center;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 50% at 50% -10%, rgba(139,69,19,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-eyebrow {
-    font-family: 'Noto Sans TC', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.25em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-  .hero h1 {
-    font-family: 'Noto Serif TC', serif;
-    font-size: clamp(1.8rem, 5vw, 2.8rem);
-    font-weight: 600;
-    line-height: 1.4;
-    color: var(--ink);
-    max-width: 680px;
-    margin: 0 auto 20px;
-  }
-  .hero h1 span { color: var(--accent); }
-  .hero p {
-    font-size: 1rem;
-    line-height: 1.9;
-    color: var(--ink-light);
-    max-width: 480px;
-    margin: 0 auto 40px;
-    font-weight: 300;
-  }
-  .hero-divider {
-    width: 40px;
-    height: 2px;
-    background: var(--accent-light);
-    margin: 0 auto;
-  }
-  /* ── Grid ── */
-  .grid-section {
-    padding: 48px 24px 80px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .section-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    color: var(--ink-faint);
-    text-transform: uppercase;
-    margin-bottom: 28px;
-    text-align: center;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-  }
-  /* ── Cards ── */
-  .card {
-    background: var(--white);
-    border: 1px solid var(--card-border);
-    border-radius: 14px;
-    padding: 28px 22px 24px;
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--accent-light);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.25s ease;
-  }
-  .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px var(--shadow);
-    border-color: var(--accent-light);
-  }
-  .card:hover::after { transform: scaleX(1); }
-  .card-icon { font-size: 22px; line-height: 1; }
-  .card-title {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--ink);
-    line-height: 1.4;
-  }
-  .card-sub {
-    font-size: 0.78rem;
-    color: var(--ink-faint);
-    font-weight: 300;
-    line-height: 1.5;
-  }
-  .card-arrow {
-    margin-top: auto;
-    font-size: 0.75rem;
-    color: var(--accent-light);
-    font-weight: 500;
-    letter-spacing: 0.05em;
-  }
-  /* ── Expanded Cards ── */
-  .card.card--expanded {
-    gap: 0;
-    cursor: default;
-  }
-  .card.card--expanded .card-icon { margin-bottom: 10px; }
-  .card.card--expanded .card-title { margin-bottom: 6px; }
-  .card.card--expanded .card-sub  { margin-bottom: 20px; }
-  .card-sub-links {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    border-top: 1px solid var(--card-border);
-    padding-top: 16px;
-    margin-top: 4px;
-  }
-  .card-sub-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    padding: 7px 10px;
-    border-radius: 8px;
-    transition: background 0.18s ease;
-  }
-  .card-sub-link:hover { background: var(--cream); }
-  .card-sub-link-icon { font-size: 14px; line-height: 1; flex-shrink: 0; }
-  .card-sub-link-text {
-    font-size: 0.78rem;
-    color: var(--ink-light);
-    font-weight: 400;
-    line-height: 1.4;
-    flex: 1;
-  }
-  .card-sub-link-arrow {
-    font-size: 0.7rem;
-    color: var(--accent-light);
-    flex-shrink: 0;
-  }
-  /* ── Footer ── */
-  footer {
-    text-align: center;
-    padding: 32px 24px;
-    border-top: 1px solid var(--card-border);
-  }
-  footer p {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 0.85rem;
-    color: var(--ink-faint);
-    letter-spacing: 0.03em;
-  }
-  @media (max-width: 560px) {
-    .grid { grid-template-columns: 1fr 1fr; }
-    .hero { padding: 60px 20px 48px; }
-  }
-  @media (max-width: 380px) {
-    .grid { grid-template-columns: 1fr; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dr. Jimmy 診間故事集</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #faf8f3; --warm-white: #f5f2ec; --ink: #1a1a2e; --ink-soft: #3d3d55; --muted: #8a8a9a;
+      --accent-teal: #2c9b8a; --accent-teal-light: #e8f5f3;
+      --accent-gold: #c8974a; --accent-gold-light: #fdf4e7;
+      --accent-rose: #c0566a; --accent-rose-light: #fdf0f2;
+      --accent-indigo: #4a6fa5; --accent-indigo-light: #eef2f9;
+      --accent-lime: #5a8a3c; --accent-lime-light: #f0f7ea;
+      --accent-crimson: #b03a2e; --accent-crimson-light: #fdf0ee;
+      --accent-violet: #7c5cbf; --accent-violet-light: #f2eefb;
+      --accent-forest: #3a7d5c; --accent-forest-light: #e8f5ee;
+      --accent-slate: #5b6e8c; --accent-slate-light: #edf0f6;
+      --accent-amber: #a0522d; --accent-amber-light: #fdf5ee;
+      --border: #e8e4da; --shadow-soft: 0 4px 20px rgba(26,26,46,0.06); --shadow-hover: 0 16px 40px rgba(26,26,46,0.13);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: "Noto Sans TC", sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
+
+    /* ── HEADER ── */
+    header { position: relative; min-height: 340px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 70px 24px 60px; overflow: hidden; }
+    .header-bg { position: absolute; inset: 0; background: var(--ink); z-index: 0; }
+    .header-bg::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 20% 30%, rgba(44,155,138,0.28) 0%, transparent 60%), radial-gradient(ellipse 50% 70% at 80% 70%, rgba(74,111,165,0.22) 0%, transparent 55%), radial-gradient(ellipse 40% 40% at 60% 10%, rgba(200,151,74,0.12) 0%, transparent 50%); }
+    .header-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; }
+    .header-badge { position: relative; z-index: 1; display: inline-block; font-size: 0.72em; font-weight: 500; letter-spacing: 0.22em; color: var(--accent-teal); text-transform: uppercase; margin-bottom: 18px; padding: 5px 14px; border: 1px solid rgba(44,155,138,0.4); border-radius: 20px; background: rgba(44,155,138,0.08); }
+    header h1 { position: relative; z-index: 1; font-family: "DM Serif Display", "Noto Serif TC", serif; font-size: clamp(2.2em, 5vw, 3.4em); color: white; font-weight: 400; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 14px; }
+    header h1 span { font-style: italic; color: rgba(255,255,255,0.7); }
+    .header-sub { position: relative; z-index: 1; font-size: 1.05em; font-weight: 300; color: rgba(255,255,255,0.6); letter-spacing: 0.04em; margin-top: 4px; }
+    .header-line { position: relative; z-index: 1; width: 60px; height: 2px; background: linear-gradient(90deg, var(--accent-teal), var(--accent-indigo)); margin: 22px auto 0; border-radius: 2px; }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1080px; margin: 0 auto; padding: 56px 24px 80px; }
+    .section-label { font-size: 0.72em; letter-spacing: 0.18em; font-weight: 500; color: var(--muted); text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-gap { margin-top: 52px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 24px; }
+
+    /* ── CARDS ── */
+    .card { background: white; border-radius: 20px; border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-soft); transition: transform 0.28s cubic-bezier(.22,.68,0,1.2), box-shadow 0.28s ease; cursor: pointer; }
+    .card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+    .card-header { padding: 28px 28px 0; display: flex; align-items: flex-start; gap: 16px; }
+    .card-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3em; flex-shrink: 0; margin-top: 2px; }
+    .card-icon.teal    { background: var(--accent-teal-light); }
+    .card-icon.gold    { background: var(--accent-gold-light); }
+    .card-icon.rose    { background: var(--accent-rose-light); }
+    .card-icon.indigo  { background: var(--accent-indigo-light); }
+    .card-icon.lime    { background: var(--accent-lime-light); }
+    .card-icon.crimson { background: var(--accent-crimson-light); }
+    .card-icon.violet  { background: var(--accent-violet-light); }
+    .card-icon.forest  { background: var(--accent-forest-light); }
+    .card-icon.slate   { background: var(--accent-slate-light); }
+    .card-icon.amber   { background: var(--accent-amber-light); }
+    .card-title-wrap { flex: 1; }
+    .card h2 { font-family: "Noto Serif TC", serif; font-size: 1.25em; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 6px; }
+    .card-count { font-size: 0.74em; color: var(--muted); letter-spacing: 0.04em; }
+    .card-desc { padding: 14px 28px 22px; font-size: 0.9em; color: var(--ink-soft); line-height: 1.7; font-weight: 300; }
+    .card-toggle-btn { margin: 0 28px 22px; display: inline-flex; align-items: center; gap: 6px; font-size: 0.82em; font-weight: 500; padding: 8px 16px; border-radius: 8px; border: 1.5px solid transparent; cursor: pointer; transition: all 0.2s; background: transparent; font-family: inherit; }
+    .card-toggle-btn.teal    { color: var(--accent-teal);    border-color: rgba(44,155,138,0.35); }
+    .card-toggle-btn.indigo  { color: var(--accent-indigo);  border-color: rgba(74,111,165,0.35); }
+    .card-toggle-btn.gold    { color: var(--accent-gold);    border-color: rgba(200,151,74,0.35); }
+    .card-toggle-btn.rose    { color: var(--accent-rose);    border-color: rgba(192,86,106,0.35); }
+    .card-toggle-btn.lime    { color: var(--accent-lime);    border-color: rgba(90,138,60,0.35); }
+    .card-toggle-btn.crimson { color: var(--accent-crimson); border-color: rgba(176,58,46,0.35); }
+    .card-toggle-btn.violet  { color: var(--accent-violet);  border-color: rgba(124,92,191,0.35); }
+    .card-toggle-btn.forest  { color: var(--accent-forest);  border-color: rgba(58,125,92,0.35); }
+    .card-toggle-btn.slate   { color: var(--accent-slate);   border-color: rgba(91,110,140,0.35); }
+    .card-toggle-btn.amber   { color: var(--accent-amber);   border-color: rgba(160,82,45,0.35); }
+    .card-toggle-btn.teal:hover,    .card-toggle-btn.teal.open    { background: var(--accent-teal-light); }
+    .card-toggle-btn.indigo:hover,  .card-toggle-btn.indigo.open  { background: var(--accent-indigo-light); }
+    .card-toggle-btn.gold:hover,    .card-toggle-btn.gold.open    { background: var(--accent-gold-light); }
+    .card-toggle-btn.rose:hover,    .card-toggle-btn.rose.open    { background: var(--accent-rose-light); }
+    .card-toggle-btn.lime:hover,    .card-toggle-btn.lime.open    { background: var(--accent-lime-light); }
+    .card-toggle-btn.crimson:hover, .card-toggle-btn.crimson.open { background: var(--accent-crimson-light); }
+    .card-toggle-btn.violet:hover,  .card-toggle-btn.violet.open  { background: var(--accent-violet-light); }
+    .card-toggle-btn.forest:hover,  .card-toggle-btn.forest.open  { background: var(--accent-forest-light); }
+    .card-toggle-btn.slate:hover,   .card-toggle-btn.slate.open   { background: var(--accent-slate-light); }
+    .card-toggle-btn.amber:hover,   .card-toggle-btn.amber.open   { background: var(--accent-amber-light); }
+    .btn-arrow { display: inline-block; transition: transform 0.25s; }
+    .card-toggle-btn.open .btn-arrow { transform: rotate(180deg); }
+
+    /* ── STORY LIST ── */
+    .story-list { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
+    .story-list.open { max-height: 900px; }
+    .story-list-inner { padding: 0 16px 16px; }
+    .story-divider { height: 1px; background: var(--border); margin: 0 12px 16px; }
+    .story-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; font-size: 0.9em; color: var(--ink-soft); font-weight: 400; cursor: pointer; transition: background 0.18s, color 0.18s; line-height: 1.5; }
+    .story-item:hover { background: var(--warm-white); color: var(--ink); }
+    .story-num { font-size: 0.7em; font-weight: 600; letter-spacing: 0.05em; color: var(--muted); width: 22px; flex-shrink: 0; text-align: right; }
+    .story-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; opacity: 0.5; }
+    .teal-dot    { background: var(--accent-teal); }
+    .gold-dot    { background: var(--accent-gold); }
+    .rose-dot    { background: var(--accent-rose); }
+    .indigo-dot  { background: var(--accent-indigo); }
+    .lime-dot    { background: var(--accent-lime); }
+    .crimson-dot { background: var(--accent-crimson); }
+    .violet-dot  { background: var(--accent-violet); }
+    .forest-dot  { background: var(--accent-forest); }
+    .slate-dot   { background: var(--accent-slate); }
+    .amber-dot   { background: var(--accent-amber); }
+
+    /* ── BADGES ── */
+    .soon-badge { display: inline-block; font-size: 0.65em; font-weight: 600; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 6px; background: #f0ede8; color: var(--muted); text-transform: uppercase; vertical-align: middle; margin-left: 8px; }
+
+    /* ── DISABLED CARDS ── */
+    .card.disabled { opacity: 0.7; cursor: default; }
+    .card.disabled:hover { transform: none; box-shadow: var(--shadow-soft); }
+
+    /* ── LINK CARDS ── */
+    .card.card-link { text-decoration: none; color: inherit; display: block; }
+    .card.card-link .card-cta { margin: 0 28px 22px; display: inline-flex; align-items: center; gap: 6px; font-size: 0.82em; font-weight: 500; padding: 8px 16px; border-radius: 8px; border: 1.5px solid rgba(58,125,92,0.35); color: var(--accent-forest); background: transparent; transition: background 0.2s; }
+    .card.card-link:hover .card-cta { background: var(--accent-forest-light); }
+    .card.card-link.indigo-link .card-cta  { border-color: rgba(74,111,165,0.35);  color: var(--accent-indigo); }
+    .card.card-link.indigo-link:hover .card-cta  { background: var(--accent-indigo-light); }
+    .card.card-link.gold-link .card-cta    { border-color: rgba(200,151,74,0.35);  color: var(--accent-gold); }
+    .card.card-link.gold-link:hover .card-cta    { background: var(--accent-gold-light); }
+    .card.card-link.crimson-link .card-cta { border-color: rgba(176,58,46,0.35);   color: var(--accent-crimson); }
+    .card.card-link.crimson-link:hover .card-cta { background: var(--accent-crimson-light); }
+    .card.card-link.lime-link .card-cta    { border-color: rgba(90,138,60,0.35);   color: var(--accent-lime); }
+    .card.card-link.lime-link:hover .card-cta    { background: var(--accent-lime-light); }
+    .card.card-link.slate-link .card-cta   { border-color: rgba(91,110,140,0.35);  color: var(--accent-slate); }
+    .card.card-link.slate-link:hover .card-cta   { background: var(--accent-slate-light); }
+    .card-cta-arrow { font-size: 1em; }
+
+    /* ── SMOKING CESSATION SPECIAL CARD ── */
+    .card.smoking-card { grid-column: 1 / -1; cursor: default; }
+    .card.smoking-card:hover { transform: none; box-shadow: var(--shadow-soft); }
+    .smoking-headline { padding: 0 28px 10px; }
+    .smoking-headline .tagline { font-size: 0.88em; color: var(--muted); font-weight: 300; font-style: italic; letter-spacing: 0.04em; line-height: 1.6; }
+    .smoking-slide-wrap { margin: 0 28px 28px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #000; position: relative; }
+    .smoking-slide-wrap iframe { display: block; width: 100%; aspect-ratio: 1280 / 749; height: auto; border: none; }
+    .smoking-accent { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75em; font-weight: 500; color: var(--accent-amber); letter-spacing: 0.06em; margin: 0 28px 18px; padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(160,82,45,0.3); background: var(--accent-amber-light); }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--border); padding: 28px 24px; text-align: center; font-size: 0.82em; color: var(--muted); letter-spacing: 0.03em; }
+    footer .footer-brand { font-family: "DM Serif Display", serif; font-style: italic; color: var(--ink-soft); font-size: 1.1em; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    .card { animation: fadeUp 0.55s ease both; }
+    .card:nth-child(1) { animation-delay: 0.05s; } .card:nth-child(2) { animation-delay: 0.15s; }
+    .card:nth-child(3) { animation-delay: 0.25s; } .card:nth-child(4) { animation-delay: 0.35s; }
+    .card:nth-child(5) { animation-delay: 0.45s; } .card:nth-child(6) { animation-delay: 0.55s; }
+    .card:nth-child(7) { animation-delay: 0.65s; } .card:nth-child(8) { animation-delay: 0.72s; }
+    .card:nth-child(9) { animation-delay: 0.79s; }
+
+    /* ── VISITOR COUNTER ── */
+    .visitor-counter {
+      position: fixed; top: 18px; right: 20px; z-index: 200;
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(26,26,46,0.82); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+      padding: 6px 13px 6px 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      animation: fadeUp 0.6s ease 0.8s both;
+    }
+    .visitor-counter .vc-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent-teal);
+      box-shadow: 0 0 6px rgba(44,155,138,0.8);
+      animation: pulse-dot 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.75); }
+    }
+    .visitor-counter .vc-label { font-size: 0.68em; color: rgba(255,255,255,0.45); font-weight: 400; letter-spacing: 0.06em; line-height: 1; }
+    .visitor-counter .vc-num { font-size: 0.82em; font-weight: 600; color: white; letter-spacing: 0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+    .visitor-counter .vc-num.loading { opacity: 0.4; }
+
+    @media (max-width: 480px) {
+      .visitor-counter { top: 12px; right: 12px; padding: 5px 10px 5px 8px; }
+      .visitor-counter .vc-label { display: none; }
+      .smoking-slide-wrap { margin: 0 16px 20px; }
+      .smoking-headline { padding: 0 16px 10px; }
+      .smoking-accent { margin: 0 16px 16px; }
+    }
+  </style>
 </head>
 <body>
-<section class="hero">
-  <p class="hero-eyebrow">Medical · Psychology · Future</p>
-  <h1>用醫學讀懂人生：<br>從<span>病理變化</span>到生命規劃</h1>
-  <p>你今天的生活，正在寫你未來的診斷書。<br>這裡不是課程，是一條看見未來的路。</p>
-  <div class="hero-divider"></div>
-</section>
-<main class="grid-section">
-  <p class="section-label">選擇你的入口</p>
+
+<div class="visitor-counter" title="累計到訪人次">
+  <span class="vc-dot"></span>
+  <span class="vc-label">到訪</span>
+  <span class="vc-num loading" id="vc-num">⋯</span>
+</div>
+
+<header>
+  <div class="header-bg"></div>
+  <div class="header-grid"></div>
+  <div class="header-badge">Medical Stories · 醫學敘事</div>
+  <h1>Dr. Jimmy<br><span>診間故事集</span></h1>
+  <p class="header-sub">用故事,讓健康變得更容易理解</p>
+  <div class="header-line"></div>
+</header>
+
+<div class="container">
+
+  <!-- ── 精選主題 ── -->
+  <div class="section-label">精選主題</div>
   <div class="grid">
-    <!-- Journal Reading Club — expanded with article sub-links -->
-    <div class="card card--expanded">
-      <div class="card-icon">📚</div>
-      <div class="card-title">Journal Reading Club</div>
-      <div class="card-sub">從醫學證據出發，讀懂生活與疾病的關聯</div>
-      <div class="card-sub-links">
-        <a class="card-sub-link" href="Article/CBT.html">
-          <span class="card-sub-link-icon">🧠</span>
-          <span class="card-sub-link-text">認知行為治療 CBT</span>
-          <span class="card-sub-link-arrow">→</span>
-        </a>
-        <a class="card-sub-link" href="Article/DunigKrugStudy.html">
-          <span class="card-sub-link-icon">📊</span>
-          <span class="card-sub-link-text">Dunning–Kruger 研究</span>
-          <span class="card-sub-link-arrow">→</span>
-        </a>
-        <a class="card-sub-link" href="Article/MobileDeviceHelp.html">
-          <span class="card-sub-link-icon">📱</span>
-          <span class="card-sub-link-text">手機與螢幕時間</span>
-          <span class="card-sub-link-arrow">→</span>
-        </a>
+
+    <!-- 健診常見問題 -->
+    <div class="card" onclick="toggleCard('faq', this)">
+      <div class="card-header">
+        <div class="card-icon teal">🔬</div>
+        <div class="card-title-wrap"><h2>健診常見問題</h2><div class="card-count">4 個故事</div></div>
       </div>
+      <p class="card-desc">從患者最常問的問題出發,用故事解析健康檢查的迷思與真相。</p>
+      <button class="card-toggle-btn teal" id="btn-faq">展開故事 <span class="btn-arrow">▾</span></button>
+      <div class="story-list" id="faq"><div class="story-list-inner"><div class="story-divider"></div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='HealthExamCommonProblem/UrineOccult.html'">
+          <span class="story-num">01</span><span class="story-dot teal-dot"></span>尿潛血是什麼問題? 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='HealthExamCommonProblem/10YearRiskCVDisease.html'">
+          <span class="story-num">02</span><span class="story-dot teal-dot"></span>十年心血管危險評估? 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='HealthExamCommonProblem/HighSugar.html'">
+          <span class="story-num">03</span><span class="story-dot teal-dot"></span>疲倦不只是體力不好? 🔎</div>
+        <div class="story-item"><span class="story-num">04</span><span class="story-dot teal-dot"></span>腫瘤指數升高=癌症嗎?</div>
+        <div class="story-item"><span class="story-num">05</span><span class="story-dot teal-dot"></span>高階健檢真的比較好嗎?</div>
+        <div class="story-item"><span class="story-num">06</span><span class="story-dot teal-dot"></span>為什麼醫師說不用做那麼多檢查?</div>
+      </div></div>
     </div>
-    <!-- After Reading Club — expanded with sub-links -->
-    <div class="card card--expanded">
-      <div class="card-icon">🧾</div>
-      <div class="card-title">After Reading Club</div>
-      <div class="card-sub">輸出才能內化知識，讓學習真正改變人生</div>
-      <div class="card-sub-links">
-        <a class="card-sub-link" href="reflections/MobileDeviceHelp.html">
-          <span class="card-sub-link-icon">📱</span>
-          <span class="card-sub-link-text">手機與螢幕時間</span>
-          <span class="card-sub-link-arrow">→</span>
-        </a>
-        <a class="card-sub-link" href="reflections/cbt.html">
-          <span class="card-sub-link-icon">🧠</span>
-          <span class="card-sub-link-text">認知行為治療 CBT</span>
-          <span class="card-sub-link-arrow">→</span>
-        </a>
-        <a class="card-sub-link" href="reflections/epigenetics.html">
-          <span class="card-sub-link-icon">🧬</span>
-          <span class="card-sub-link-text">表觀遺傳學</span>
-          <span class="card-sub-link-arrow">→</span>
-        </a>
-        <a class="card-sub-link" href="Report/Report_CBT_iPA_iSED.html">
-          <span class="card-sub-link-icon">📋</span>
-          <span class="card-sub-link-text">Report：CBT iPA &amp; iSED</span>
-          <span class="card-sub-link-arrow">→</span>
-        </a>
-        <a class="card-sub-link" href="Report/Report_Tirzepatide.html">
-          <span class="card-sub-link-icon">💊</span>
-          <span class="card-sub-link-text">Report：Tirzepatide</span>
-          <span class="card-sub-link-arrow">→</span>
-        </a>
+
+    <!-- 心電圖變化 -->
+    <div class="card" onclick="toggleCard('ecg', this)">
+      <div class="card-header">
+        <div class="card-icon indigo">📈</div>
+        <div class="card-title-wrap"><h2>健診常見心電圖變化</h2><div class="card-count">11 個故事</div></div>
       </div>
+      <p class="card-desc">解析體檢報告中的心電圖異常,用臨床故事帶你看懂真正風險。</p>
+      <button class="card-toggle-btn indigo" id="btn-ecg">展開故事 <span class="btn-arrow">▾</span></button>
+      <div class="story-list" id="ecg"><div class="story-list-inner"><div class="story-divider"></div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/sinus_arrhythemia.html'"><span class="story-num">01</span><span class="story-dot indigo-dot"></span>竇性心律不整,是正常還是異常? 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/sinus_tachycardia.html'"><span class="story-num">02</span><span class="story-dot indigo-dot"></span>心跳太快,是正常還是異常? 🔎</div>
+        <div class="story-item"><span class="story-num">03</span><span class="story-dot indigo-dot"></span>早期收縮(PVC / PAC)需要擔心嗎?</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/STTchange.html'"><span class="story-num">04</span><span class="story-dot indigo-dot"></span>ST-T 變化一定是心肌缺氧嗎? 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/EKGLVH.html'"><span class="story-num">05</span><span class="story-dot indigo-dot"></span>健檢發現 LVH?心臟在變強還是求救? 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/EKGRBBB.html'"><span class="story-num">06</span><span class="story-dot indigo-dot"></span>健檢發現 RBBB?需要擔心嗎? 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/AtrilFibrillation.html'"><span class="story-num">07</span><span class="story-dot indigo-dot"></span>健檢發現心房顫動?需要擔心嗎? 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/RightAxisDeviation.html'"><span class="story-num">08</span><span class="story-dot indigo-dot"></span>健檢發現心軸偏右? 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/LeftAxisDeviation.html'"><span class="story-num">09</span><span class="story-dot indigo-dot"></span>健檢發現心軸偏左? 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/RightBundleBlock.html'"><span class="story-num">10</span><span class="story-dot indigo-dot"></span>健檢發現右束傳導阻滯 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/LeftBundleBlock.html'"><span class="story-num">11</span><span class="story-dot indigo-dot"></span>健檢發現左束傳導阻滯? 🔎</div>
+      </div></div>
     </div>
-    <!-- Psychological Club — expanded with sub-links -->
-    <div class="card card--expanded">
-      <div class="card-icon">🧠</div>
-      <div class="card-title">Psychological Club</div>
-      <div class="card-sub">理解行為背後的心理機制，突破慣性</div>
-      <div class="card-sub-links">
-        <a class="card-sub-link" href="Psychology/Psycho_MobileDeviceHelp.html">
-          <span class="card-sub-link-icon">🔄</span>
-          <span class="card-sub-link-text">行為習慣的形成或改變</span>
-          <span class="card-sub-link-arrow">→</span>
-        </a>
+
+    <!-- 肝膽胃腸科 -->
+    <div class="card" onclick="toggleCard('hep', this)">
+      <div class="card-header">
+        <div class="card-icon lime">🫀</div>
+        <div class="card-title-wrap"><h2>肝膽胃腸科</h2><div class="card-count">1 個故事</div></div>
       </div>
+      <p class="card-desc">B 型肝炎標記判讀、肝功能異常追蹤、腸胃道常見症狀——從門診案例學起。</p>
+      <button class="card-toggle-btn lime" id="btn-hep">展開故事 <span class="btn-arrow">▾</span></button>
+      <div class="story-list" id="hep"><div class="story-list-inner"><div class="story-divider"></div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='Hepatobiliary/HBcAb.html'"><span class="story-num">01</span><span class="story-dot lime-dot"></span>HBcAb 的真正意義——兩個陰性≠沒事 🔎</div>
+      </div></div>
     </div>
-    <a class="card" href="social.html">
-      <div class="card-icon">🤝</div>
-      <div class="card-title">Social Club</div>
-      <div class="card-sub">環境如何悄悄塑造你的每一個選擇</div>
-      <div class="card-arrow">環境塑造你 →</div>
+
+    <!-- 急診室故事集 -->
+    <div class="card" onclick="toggleCard('er', this)">
+      <div class="card-header">
+        <div class="card-icon crimson">🚨</div>
+        <div class="card-title-wrap"><h2>急診室故事集</h2><div class="card-count">3 個故事</div></div>
+      </div>
+      <p class="card-desc">急診室裡的生死瞬間——從胸痛、喘不過氣到意識不清,用真實案例帶你認識那些不能等的警訊。</p>
+      <button class="card-toggle-btn crimson" id="btn-er">展開故事 <span class="btn-arrow">▾</span></button>
+      <div class="story-list" id="er"><div class="story-list-inner"><div class="story-divider"></div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='EmergencyRoom/FemoralPseudoAneurysm.html'"><span class="story-num">01</span><span class="story-dot crimson-dot"></span>大腿腫起來了——心導管後的偽動脈瘤 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='EmergencyRoom/pulmonary-embolism.html'"><span class="story-num">02</span><span class="story-dot crimson-dot"></span>不要輕忽肚子痛 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='EmergencyRoom/hypertension_interactive.html'"><span class="story-num">03</span><span class="story-dot crimson-dot"></span>是豁達,還是自私?🔎</div>
+      </div></div>
+    </div>
+
+    <!-- 體育大學成人病理學園地 -->
+    <a class="card card-link" href="https://drjimmy603ntsu.github.io/AfterClassFeedBack/" target="_blank" rel="noopener noreferrer">
+      <div class="card-header">
+        <div class="card-icon forest">🏃</div>
+        <div class="card-title-wrap"><h2>體育大學成人病理學園地</h2><div class="card-count">課後互動學習</div></div>
+      </div>
+      <p class="card-desc">專為體育大學學生設計的成人病理學輔助平台,結合運動科學視角,深入淺出探討疾病機轉與臨床應用。</p>
+      <div class="card-cta">前往園地 <span class="card-cta-arrow">↗</span></div>
     </a>
-    <div class="card card--expanded">
-      <div class="card-icon">🔮</div>
-      <div class="card-title">To See the Future Club</div>
-      <div class="card-sub">整合所有維度，預見並設計你想要的人生</div>
-      <div class="card-sub-links">
-        <a class="card-sub-link" href="future/Future_MobileDeviceHelp.html">
-          <span class="card-sub-link-icon">📱</span>
-          <span class="card-sub-link-text">手機與螢幕時間的未來展望</span>
-          <span class="card-sub-link-arrow">→</span>
-        </a>
+
+    <!-- 血液常規判讀 -->
+    <div class="card disabled">
+      <div class="card-header">
+        <div class="card-icon gold">🩸</div>
+        <div class="card-title-wrap"><h2>血液常規判讀 <span class="soon-badge">即將推出</span></h2><div class="card-count">規劃中</div></div>
+      </div>
+      <p class="card-desc">CBC、鐵蛋白、維生素 B12⋯⋯讀懂你的血球報告,不再一頭霧水。</p>
+      <button class="card-toggle-btn gold" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
+    </div>
+
+    <!-- 影像報告解讀 -->
+    <div class="card disabled">
+      <div class="card-header">
+        <div class="card-icon rose">🫁</div>
+        <div class="card-title-wrap"><h2>影像報告解讀 <span class="soon-badge">即將推出</span></h2><div class="card-count">規劃中</div></div>
+      </div>
+      <p class="card-desc">X 光、超音波、CT⋯⋯影像報告裡的「疑似」與「建議追蹤」,到底該怎麼看?</p>
+      <button class="card-toggle-btn rose" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
+    </div>
+
+  </div>
+
+  <!-- ── 戒菸衛教 ── -->
+  <div class="section-gap"></div>
+  <div class="section-label">戒菸衛教</div>
+  <div class="grid">
+    <div class="card smoking-card">
+      <div class="card-header">
+        <div class="card-icon amber">🚬</div>
+        <div class="card-title-wrap">
+          <h2>你抽的不是煙,是未來的自己</h2>
+          <div class="card-count">衛教簡報 · 互動投影片</div>
+        </div>
+      </div>
+      <div class="smoking-headline">
+        <p class="tagline">每一口吸進去的,都是借來的時間。<br>用故事與數據,陪你認識菸草對身體的真實影響——以及,戒菸為什麼值得。</p>
+      </div>
+      <div class="smoking-accent">📽 自動播放 · 可全螢幕觀看</div>
+      <div class="smoking-slide-wrap">
+        <iframe
+          src="https://docs.google.com/presentation/d/e/2PACX-1vQWYhCPC9Go_adFjeM-1tjZMOguMZZ4Z8Vw_9g8lGS_hipv2ruXDXIwliACtzD8UQ/pubembed?start=true&loop=true&delayms=3000"
+          frameborder="0"
+          allowfullscreen="true"
+          mozallowfullscreen="true"
+          webkitallowfullscreen="true"
+        ></iframe>
       </div>
     </div>
   </div>
-</main>
+
+  <!-- ── 自我檢測 ── -->
+  <div class="section-gap"></div>
+  <div class="section-label">自我檢測</div>
+  <div class="grid">
+    <div class="card" onclick="toggleCard('selfquiz', this)">
+      <div class="card-header">
+        <div class="card-icon violet">📋</div>
+        <div class="card-title-wrap"><h2>生活習慣自我檢測</h2><div class="card-count">1 個測驗</div></div>
+      </div>
+      <p class="card-desc">透過互動問卷,輕鬆評估你的生活習慣與健康風險,幽默反諷中帶你找回正確觀念。</p>
+      <button class="card-toggle-btn violet" id="btn-selfquiz">展開測驗 <span class="btn-arrow">▾</span></button>
+      <div class="story-list" id="selfquiz"><div class="story-list-inner"><div class="story-divider"></div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='SelfQuiz/Overweight.html'"><span class="story-num">01</span><span class="story-dot violet-dot"></span>致胖生活:成就解鎖問卷 📊</div>
+      </div></div>
+    </div>
+    <div class="card disabled">
+      <div class="card-header">
+        <div class="card-icon violet">🧠</div>
+        <div class="card-title-wrap"><h2>壓力與睡眠檢測 <span class="soon-badge">即將推出</span></h2><div class="card-count">規劃中</div></div>
+      </div>
+      <p class="card-desc">你真的睡得夠好嗎?壓力有沒有悄悄拖垮你的健康?來做個快速評估。</p>
+      <button class="card-toggle-btn violet" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
+    </div>
+  </div>
+
+  <!-- ── 身心健康實驗室 ── -->
+  <div class="section-gap"></div>
+  <div class="section-label">身心健康實驗室</div>
+  <div class="grid">
+    <a class="card card-link indigo-link" href="https://occupationphysicianjimmy.github.io/PoorSleepSurvey/" target="_blank" rel="noopener noreferrer">
+      <div class="card-header">
+        <div class="card-icon indigo">🌙</div>
+        <div class="card-title-wrap"><h2>不寐俱樂部</h2><div class="card-count">睡眠健康評估</div></div>
+      </div>
+      <p class="card-desc">輾轉反側、難以入眠——失眠不只是習慣問題,也可能是身體在說話。從睡眠醫學的角度,帶你認識那些在夜裡悄悄發生的事。</p>
+      <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
+    </a>
+    <a class="card card-link gold-link" href="https://occupationphysicianjimmy.github.io/AnxietyManagementSurvey/" target="_blank" rel="noopener noreferrer">
+      <div class="card-header">
+        <div class="card-icon gold">🔭</div>
+        <div class="card-title-wrap"><h2>杞人研究所</h2><div class="card-count">焦慮管理評估</div></div>
+      </div>
+      <p class="card-desc">焦慮、憂慮、想太多⋯⋯這是性格使然,還是大腦的求救訊號?用科學角度理解「杞人憂天」背後的心理與生理機制。</p>
+      <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
+    </a>
+    <a class="card card-link crimson-link" href="https://occupationphysicianjimmy.github.io/WeightManagement/" target="_blank" rel="noopener noreferrer">
+      <div class="card-header">
+        <div class="card-icon crimson">🏋️</div>
+        <div class="card-title-wrap"><h2>重力實驗室</h2><div class="card-count">體重管理評估</div></div>
+      </div>
+      <p class="card-desc">體重、體脂、肌少症⋯⋯和地心引力的拔河,從來不只是外表問題。探索代謝、運動與慢性病之間那條看不見的連線。</p>
+      <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
+    </a>
+  </div>
+
+  <!-- ── 社交智能時代 ── -->
+  <div class="section-gap"></div>
+  <div class="section-label">社交智能時代</div>
+  <div class="grid">
+    <a class="card card-link slate-link" href="https://occupationphysicianjimmy.github.io/SocialIntelligenceDisorder/" target="_blank" rel="noopener noreferrer">
+      <div class="card-header">
+        <div class="card-icon slate">🤝</div>
+        <div class="card-title-wrap"><h2>社交智能時代</h2><div class="card-count">社交智能評估</div></div>
+      </div>
+      <p class="card-desc">在 AI 與數位化浪潮下,人與人之間的溝通、同理心與社交技能如何影響健康?從醫學角度重新認識「人際關係」。</p>
+      <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
+    </a>
+    <a class="card card-link slate-link" href="https://cgmherlink-hub.github.io/FreeTalkPage/" target="_blank" rel="noopener noreferrer">
+      <div class="card-header">
+        <div class="card-icon slate">🌅</div>
+        <div class="card-title-wrap"><h2>歲月拾光 | 生活浮光繪影</h2><div class="card-count">生活隨筆</div></div>
+      </div>
+      <p class="card-desc">在診間之外,記錄那些值得細細品味的日常片段——時光流轉中的浮光掠影,生活裡的溫柔與感動。</p>
+      <div class="card-cta">前往閱讀 <span class="card-cta-arrow">↗</span></div>
+    </a>
+  </div>
+
+  <!-- ── 常見臨床工具集 ── -->
+  <div class="section-gap"></div>
+  <div class="section-label">常見臨床工具集</div>
+  <div class="grid">
+    <a class="card card-link lime-link" href="https://github.com/cgmherlink-hub/ClinicalTool/index.html" target="_blank" rel="noopener noreferrer">
+      <div class="card-header">
+        <div class="card-icon lime">🧰</div>
+        <div class="card-title-wrap"><h2>常見臨床工具集</h2><div class="card-count">GitHub · cgmherlink-hub</div></div>
+      </div>
+      <p class="card-desc">整合常用臨床計算工具、評估量表與決策輔助工具,協助醫護人員快速完成臨床評估與決策。</p>
+      <div class="card-cta">前往工具集 <span class="card-cta-arrow">↗</span></div>
+    </a>
+  </div>
+
+</div><!-- /container -->
+
 <footer>
-  <p>你現在的選擇，正在形成未來的診斷</p>
+  <div class="footer-brand">Dr. Jimmy 診間故事集</div>
+  <div style="margin-top:6px">© 2026 · 用醫學說故事 · 內容僅供衛教參考,不替代個人醫療建議</div>
 </footer>
+
+<script>
+  function toggleCard(id, cardEl) {
+    if (cardEl.classList.contains('disabled')) return;
+    const list = document.getElementById(id);
+    const btn  = document.getElementById('btn-' + id);
+    const isOpen = list.classList.contains('open');
+    list.classList.toggle('open', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+    btn.childNodes[0].textContent = isOpen ? '展開故事 ' : '收起故事 ';
+  }
+
+  // Visitor counter
+  (function() {
+    const el = document.getElementById('vc-num');
+    fetch('https://api.countapi.xyz/hit/drjimmy-clinic/visits')
+      .then(r => r.json())
+      .then(data => {
+        el.classList.remove('loading');
+        el.textContent = Number(data.value).toLocaleString('zh-TW');
+      })
+      .catch(() => {
+        el.textContent = '—';
+        el.classList.remove('loading');
+      });
+  })();
+</script>
 </body>
 </html>
