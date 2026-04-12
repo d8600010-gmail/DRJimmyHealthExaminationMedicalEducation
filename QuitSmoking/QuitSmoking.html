@@ -1,1 +1,473 @@
 
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>給自己一個機會</title>
+<style>
+:root{
+  --bg:#0f172a;--card:rgba(255,255,255,0.07);--text:#f8fafc;--muted:#cbd5e1;
+  --amber:#f59e0b;--sky:#38bdf8;--green:#22c55e;--rose:#f43f5e;
+  --radius:24px;--shadow:0 24px 60px rgba(0,0,0,0.4);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  background:
+    radial-gradient(ellipse at 80% 0%,rgba(56,189,248,0.22) 0%,transparent 40%),
+    radial-gradient(ellipse at 10% 50%,rgba(245,158,11,0.18) 0%,transparent 35%),
+    radial-gradient(ellipse at 60% 90%,rgba(244,63,94,0.14) 0%,transparent 30%),
+    linear-gradient(160deg,#020617 0%,#0f172a 50%,#111827 100%);
+  color:var(--text);min-height:100vh;line-height:1.75;
+}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 32px;
+  background:rgba(2,6,23,0.72);backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.nav-logo{font-size:18px;font-weight:800;letter-spacing:.02em;}
+.nav-logo span{color:var(--amber);}
+.nav-links{display:flex;gap:24px;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{
+  padding:8px 18px;border-radius:999px;background:linear-gradient(135deg,#fbbf24,#f59e0b);
+  color:#111;font-size:14px;font-weight:700;text-decoration:none;
+  box-shadow:0 6px 20px rgba(245,158,11,0.3);transition:transform .15s,box-shadow .15s;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 10px 28px rgba(245,158,11,0.4);}
+
+/* WRAP */
+.wrap{width:min(1100px,calc(100% - 32px));margin:0 auto;padding:60px 0 80px;}
+
+/* HERO */
+.hero{
+  position:relative;overflow:hidden;
+  padding:52px 48px 48px;
+  border:1px solid rgba(255,255,255,0.13);
+  border-radius:36px;
+  background:linear-gradient(160deg,rgba(255,255,255,0.09),rgba(255,255,255,0.04));
+  backdrop-filter:blur(12px);box-shadow:var(--shadow);
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 90% 20%,rgba(56,189,248,0.12),transparent 50%);
+  pointer-events:none;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 16px;border-radius:999px;
+  background:rgba(245,158,11,0.14);border:1px solid rgba(245,158,11,0.28);
+  color:#fde68a;font-size:13px;letter-spacing:.05em;font-weight:600;
+}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--amber);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.4);}}
+.hero h1{
+  margin:20px 0 16px;
+  font-size:clamp(30px,4.8vw,56px);line-height:1.1;font-weight:900;
+  letter-spacing:-.01em;
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(90deg,#fbbf24,#f87171);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{max-width:720px;color:var(--muted);font-size:17px;margin-bottom:28px;}
+.quote-bar{
+  display:flex;gap:16px;align-items:flex-start;
+  padding:18px 22px;border-radius:18px;
+  background:rgba(56,189,248,0.08);border-left:4px solid var(--sky);
+  font-size:19px;font-weight:700;line-height:1.5;
+}
+.quote-bar svg{flex:0 0 auto;margin-top:2px;color:var(--sky);}
+.hero-scroll{
+  display:inline-flex;align-items:center;gap:10px;margin-top:28px;
+  color:var(--muted);font-size:14px;text-decoration:none;
+  border:1px solid rgba(255,255,255,0.1);padding:9px 18px;border-radius:999px;
+  transition:border-color .2s,color .2s;
+}
+.hero-scroll:hover{border-color:rgba(255,255,255,0.3);color:var(--text);}
+
+/* MISSION */
+.mission{
+  margin-top:32px;
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;
+}
+.m-card{
+  padding:24px;border-radius:var(--radius);
+  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.05);backdrop-filter:blur(8px);
+  transition:transform .2s,border-color .2s;
+}
+.m-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.2);}
+.m-icon{font-size:32px;margin-bottom:12px;}
+.m-card h3{font-size:17px;margin-bottom:8px;}
+.m-card p{color:var(--muted);font-size:14px;line-height:1.7;}
+
+/* MAIN GRID */
+.main-grid{margin-top:32px;display:grid;grid-template-columns:1.15fr .85fr;gap:24px;}
+
+/* CARDS */
+.card{
+  padding:28px;border-radius:var(--radius);
+  background:var(--card);border:1px solid rgba(255,255,255,0.11);
+  backdrop-filter:blur(10px);box-shadow:var(--shadow);
+}
+.card-title{font-size:22px;font-weight:800;margin-bottom:6px;}
+.card-desc{color:var(--muted);font-size:14px;margin-bottom:20px;}
+
+/* QUESTIONS */
+.q-list{display:grid;gap:12px;}
+.q-item{
+  border:1px solid rgba(255,255,255,0.09);border-radius:18px;
+  padding:16px 18px;background:rgba(255,255,255,0.04);
+  transition:transform .18s,border-color .18s,background .18s;cursor:default;
+}
+.q-item:hover{transform:translateY(-2px);border-color:rgba(56,189,248,0.38);background:rgba(255,255,255,0.07);}
+.q-top{display:flex;gap:12px;align-items:flex-start;}
+.q-num{
+  width:28px;height:28px;border-radius:50%;flex:0 0 auto;
+  background:rgba(56,189,248,0.16);color:#bae6fd;
+  display:grid;place-items:center;font-size:13px;font-weight:800;
+}
+.q-text{font-size:16px;font-weight:700;line-height:1.5;}
+.q-note{margin:8px 0 0 40px;color:var(--muted);font-size:13px;}
+
+/* BUTTONS */
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
+.btn{
+  appearance:none;border:0;border-radius:14px;padding:11px 18px;
+  font:inherit;font-size:14px;font-weight:800;cursor:pointer;
+  transition:transform .15s,box-shadow .15s;
+}
+.btn:hover{transform:translateY(-1px);}
+.btn-primary{
+  background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#111;
+  box-shadow:0 8px 24px rgba(245,158,11,0.3);
+}
+.btn-ghost{
+  background:rgba(255,255,255,0.07);color:var(--text);
+  border:1px solid rgba(255,255,255,0.12);
+}
+
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.chip{
+  padding:9px 14px;border-radius:999px;font-size:13px;font-weight:600;
+  border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);
+  color:var(--text);cursor:pointer;transition:background .15s,border-color .15s;
+}
+.chip.on{background:rgba(34,197,94,0.18);border-color:rgba(34,197,94,0.45);color:#dcfce7;}
+
+/* RESULT BOX */
+.result-box{
+  padding:18px;border-radius:16px;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+  display:none;
+}
+.result-box.show{display:block;}
+.result-box h4{font-size:16px;margin-bottom:8px;color:var(--sky);}
+.result-box p{color:var(--muted);font-size:14px;white-space:pre-line;}
+
+/* TEXTAREA */
+textarea{
+  width:100%;min-height:110px;resize:vertical;
+  border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.05);
+  color:var(--text);padding:14px 16px;border-radius:16px;font:inherit;
+  font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s;margin-top:4px;
+}
+textarea:focus{border-color:rgba(56,189,248,0.45);box-shadow:0 0 0 4px rgba(56,189,248,0.1);}
+textarea::placeholder{color:#475569;}
+
+/* STATS */
+.stats{margin-top:28px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.stat{
+  padding:22px 20px;border-radius:22px;
+  border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);
+  transition:transform .2s,border-color .2s;
+}
+.stat:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.2);}
+.stat-num{font-size:36px;font-weight:900;letter-spacing:-.02em;margin-bottom:8px;}
+.stat-num.a{color:var(--amber);}
+.stat-num.s{color:var(--sky);}
+.stat-num.g{color:var(--green);}
+.stat p{color:var(--muted);font-size:13px;line-height:1.6;}
+
+/* FOOTER */
+footer{
+  margin-top:60px;padding:32px;
+  border-radius:24px;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
+}
+.footer-brand{font-size:18px;font-weight:800;}
+.footer-brand span{color:var(--amber);}
+.footer-note{color:#64748b;font-size:13px;}
+
+/* DIVIDER */
+.section-label{
+  display:flex;align-items:center;gap:14px;
+  margin:40px 0 20px;color:var(--muted);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+}
+.section-label::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.08);}
+
+/* LOADING */
+.loading{display:none;align-items:center;gap:8px;color:var(--muted);font-size:14px;margin-top:10px;}
+.loading.show{display:flex;}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.15);border-top-color:var(--sky);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+@media(max-width:900px){
+  .main-grid,.mission,.stats{grid-template-columns:1fr;}
+  nav .nav-links{display:none;}
+  .hero{padding:32px 24px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">給自己<span>一個機會</span></div>
+  <div class="nav-links">
+    <a href="#mission">關於理念</a>
+    <a href="#questions">提問清單</a>
+    <a href="#tools">互動工具</a>
+    <a href="#stats">數據</a>
+  </div>
+  <a class="nav-cta" href="#tools">開始互動 →</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="badge"><span class="badge-dot"></span>健康意識倡議 · 互動式貼文頁面</div>
+    <h1>
+      不是問「你為什麼不戒菸」<br>
+      而是問：<br>
+      <em>你為什麼這麼早就判自己輸了？</em>
+    </h1>
+    <p class="hero-sub">
+      有些人抽了20年，不是沒聽過勸，也不是不知道風險。<br>
+      真正卡住他的，往往不是香菸，而是那句：「反正我一定戒不掉。」<br>
+      這頁不是說教，而是用一連串反直覺的提問，慢慢把那道門打開。
+    </p>
+    <div class="quote-bar">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+      不是立刻成功，才叫改變；願意重新看待自己，也算開始。
+    </div>
+    <a class="hero-scroll" href="#mission">↓ 了解我們的理念</a>
+  </section>
+
+  <!-- MISSION -->
+  <div class="section-label" id="mission">關於理念</div>
+  <section class="mission">
+    <div class="m-card">
+      <div class="m-icon">🧠</div>
+      <h3>不是說教，是重新提問</h3>
+      <p>傳統衛教常告訴人「應該怎麼做」，但這頁選擇先問：「你真正卡在哪裡？」當一個人覺得被理解，改變才有機會發生。</p>
+    </div>
+    <div class="m-card">
+      <div class="m-icon">💡</div>
+      <h3>反直覺的力量</h3>
+      <p>不直接攻擊習慣，而是質疑那個「我一定不行」的信念。很多時候，人不是戒不掉，而是從沒給自己機會真正嘗試。</p>
+    </div>
+    <div class="m-card">
+      <div class="m-icon">🤝</div>
+      <h3>陪伴，不是施壓</h3>
+      <p>改變是自己的事，但旁人說話的方式，會決定那扇門是打開還是關緊。學會接住，比急著說服更有力量。</p>
+    </div>
+  </section>
+
+  <!-- MAIN INTERACTIVE -->
+  <div class="section-label" id="questions">互動工具</div>
+  <section class="main-grid" id="tools">
+
+    <!-- LEFT: QUESTIONS -->
+    <div class="card">
+      <div class="card-title">反直覺提問清單</div>
+      <p class="card-desc">這些問題不是要逼人承諾，而是讓人開始懷疑：自己真的完全沒機會嗎？</p>
+      <div class="q-list" id="qList"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="shuffleBtn">🔀 換一組提問角度</button>
+        <button class="btn btn-ghost" id="copyBtn">📋 複製精選提問</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: TOOLS -->
+    <div class="card">
+      <div class="card-title">幫他說出心裡話</div>
+      <p class="card-desc">先選一個他最可能會說的理由，再看看可以怎麼溫柔接住。</p>
+      <div class="chips" id="chips"></div>
+      <div class="result-box show" id="reasonBox">
+        <h4 id="reasonTitle"></h4>
+        <p id="reasonText"></p>
+      </div>
+
+      <div style="margin-top:24px;">
+        <div class="card-title" style="font-size:18px;">✍️ 寫一句你想說的話</div>
+        <p class="card-desc">輸入後，AI 會幫你改寫成更有力量、但不說教的語氣。</p>
+        <textarea id="userInput" placeholder="例如：你都抽20年了，不試試看怎麼知道不行？"></textarea>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="rewriteBtn">✨ AI 改寫語氣</button>
+        </div>
+        <div class="loading" id="loadingSpinner"><div class="spinner"></div>AI 正在重新組織語氣…</div>
+        <div class="result-box" id="rewriteBox">
+          <h4>改寫後 ✦</h4>
+          <p id="rewriteText"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="section-label" id="stats">數據與洞察</div>
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-num a">20年</div>
+      <p>不是「沒救了」，而是代表這已經不是壞習慣，而是一段很深的依賴關係。理解這一點，才能找到對的方向。</p>
+    </div>
+    <div class="stat">
+      <div class="stat-num s">0 或 1</div>
+      <p>很多人把戒菸想成成功或失敗的二元選擇，卻忘了中間其實有很多可嘗試的步驟與方式。</p>
+    </div>
+    <div class="stat">
+      <div class="stat-num g">1次機會</div>
+      <p>有時候真正需要的，不是保證成功，而是允許自己再試一次。動機不一定先出現，有時行動之後才長出來。</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-brand">給自己<span>一個機會</span></div>
+      <p class="footer-note" style="margin-top:6px;">健康倡議互動頁 · 課程專案作品</p>
+    </div>
+    <p class="footer-note">適合用於粉專貼文延伸、活動頁、衛教互動頁，<br>或作為短影音文案的提問素材庫。</p>
+  </footer>
+
+</div>
+
+<script>
+const qSets=[
+  [
+    {q:'你是真的不想戒，還是你只是太怕又失敗一次？',n:'把「不想」和「不敢」分開，常常就是轉念的開始。'},
+    {q:'如果你不是要戒一輩子，只是先試三天，你還會說自己做不到嗎？',n:'把目標縮小，防衛感會降低。'},
+    {q:'你說戒不掉，那這句話是事實，還是你講久了就相信了？',n:'有些絕望，其實只是重複太多次的結論。'},
+    {q:'你有沒有想過，你不是輸給香菸，而是輸給「我一定不行」這句話？',n:'反直覺地把敵人從香菸換成自我判定。'},
+    {q:'如果今天要戒的是別人，不是你，你會對他說「算了，你一定做不到」嗎？',n:'人常對自己比對別人更殘忍。'}
+  ],
+  [
+    {q:'你現在不試，是因為真的沒有機會，還是因為你不相信自己值得那個機會？',n:'把問題從能力轉到價值感。'},
+    {q:'你以為自己怕的是戒菸，會不會其實怕的是：萬一努力了還是失敗？',n:'很多逃避，是在躲羞愧，不是在躲困難。'},
+    {q:'你說抽菸讓你放鬆，那如果真正累的是你的心，不是你的身體呢？',n:'引導他去看抽菸背後的情緒需求。'},
+    {q:'如果少抽一根也算進步，你還會覺得自己完全做不到嗎？',n:'鬆動非黑即白的想法。'},
+    {q:'20年的習慣很難改，但你怎麼會因此認定未來20年也一定一樣？',n:'過去的長度，不等於未來的命運。'}
+  ],
+  [
+    {q:'你真正需要的是香菸，還是那幾分鐘終於可以喘口氣的理由？',n:'讓人看見行為背後真正被滿足的是什麼。'},
+    {q:'如果戒不掉不是證明你沒用，而只是代表方法不對，你會不會比較願意再試一次？',n:'把失敗從人格問題，改成策略問題。'},
+    {q:'你為什麼願意相信香菸能讓你好過，卻不願意相信自己可能做得到？',n:'這句帶有反差感，特別適合社群文案。'},
+    {q:'你是不是已經習慣用「反正」兩個字，替自己關掉所有可能？',n:'很適合當貼文中的記憶點句子。'},
+    {q:'不是每個人都能一次戒掉，但哪一個改變，是從完全沒嘗試就發生的？',n:'用常識型反問，降低抗拒。'}
+  ]
+];
+const reasons=[
+  {label:'我一定戒不掉',title:'當他說：「我一定戒不掉」',text:'你可以不要急著反駁他。先接住：「你不是不想改，你只是怕努力了還是失敗，對嗎？」當一個人覺得自己注定做不到，他最需要的不是被命令，而是被理解。'},
+  {label:'我抽太久了',title:'當他說：「我都抽這麼久了」',text:'可以回他：「正因為抽很久，你更不是靠意志力就能撐的人。這不是你沒用，是這件事本來就不容易。」先讓他知道，困難不等於無望。'},
+  {label:'抽菸才能放鬆',title:'當他說：「不抽我會更痛苦」',text:'你可以問：「你想留下的是香菸，還是那個能喘一口氣的感覺？」有時候人放不下的，不是菸，而是那份暫時被安撫的自己。'},
+  {label:'等我想戒再說',title:'當他說：「等我真的想戒再說」',text:'可以回：「很多人不是想清楚了才開始，而是開始了，才慢慢變得想改變。」動機不一定先出現，有時候是行動後才長出來的。'}
+];
+
+let setIdx=0;
+
+function renderQ(idx){
+  const list=document.getElementById('qList');
+  list.innerHTML='';
+  qSets[idx].forEach((item,i)=>{
+    const el=document.createElement('div');
+    el.className='q-item';
+    el.innerHTML=`<div class="q-top"><div class="q-num">${i+1}</div><div class="q-text">${item.q}</div></div><div class="q-note">${item.n}</div>`;
+    list.appendChild(el);
+  });
+}
+
+function renderChips(){
+  const row=document.getElementById('chips');
+  row.innerHTML='';
+  reasons.forEach((r,i)=>{
+    const c=document.createElement('button');
+    c.className='chip'+(i===0?' on':'');
+    c.textContent=r.label;
+    c.onclick=()=>{
+      document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+      c.classList.add('on');
+      document.getElementById('reasonTitle').textContent=r.title;
+      document.getElementById('reasonText').textContent=r.text;
+    };
+    row.appendChild(c);
+  });
+  document.getElementById('reasonTitle').textContent=reasons[0].title;
+  document.getElementById('reasonText').textContent=reasons[0].text;
+}
+
+document.getElementById('shuffleBtn').onclick=()=>{
+  setIdx=(setIdx+1)%qSets.length;
+  renderQ(setIdx);
+};
+
+document.getElementById('copyBtn').onclick=async()=>{
+  const btn=document.getElementById('copyBtn');
+  const txt=qSets[setIdx].map((x,i)=>`${i+1}. ${x.q}`).join('\n');
+  try{await navigator.clipboard.writeText(txt);btn.textContent='✅ 已複製';}
+  catch{btn.textContent='❌ 複製失敗';}
+  setTimeout(()=>btn.textContent='📋 複製精選提問',1500);
+};
+
+document.getElementById('rewriteBtn').onclick=async()=>{
+  const input=document.getElementById('userInput').value.trim();
+  const box=document.getElementById('rewriteBox');
+  const out=document.getElementById('rewriteText');
+  const spinner=document.getElementById('loadingSpinner');
+  box.classList.remove('show');
+  spinner.classList.add('show');
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:`你是一位溫柔但有力量的健康溝通寫手，專門協助人們用不說教、不施壓的方式，打動正在考慮戒菸的人。
+請把用戶輸入的句子，改寫成：
+- 語氣溫柔但有重量
+- 不說教、不命令、不批判
+- 用提問或同理的方式切入
+- 保留原意，但讓對方更容易聽進去
+- 回應使用繁體中文，長度約80-150字
+只輸出改寫後的文字，不需要解釋或前言。`,
+        messages:[{role:'user',content:input||'你都抽20年了，不試試看怎麼知道不行？'}]
+      })
+    });
+    const data=await res.json();
+    const text=data.content?.map(b=>b.text||'').join('')||'（改寫失敗，請稍後再試）';
+    out.textContent=text;
+    box.classList.add('show');
+  }catch(e){
+    out.textContent='連線失敗，請稍後再試。';
+    box.classList.add('show');
+  }
+  spinner.classList.remove('show');
+};
+
+renderQ(0);
+renderChips();
+</script>
+</body>
+</html>
