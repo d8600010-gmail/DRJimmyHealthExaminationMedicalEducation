@@ -1,1 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 ACLS 指南核心樞紐 - 專業醫療教育</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .hero-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
 
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-heartbeat text-red-600 text-3xl"></i>
+                <span class="text-2xl font-bold text-blue-900 tracking-tight">ACLS 2025</span>
+            </div>
+            <div class="hidden md:flex space-x-8 font-medium">
+                <a href="#" class="hover:text-blue-600 transition">最新指南</a>
+                <a href="#" class="hover:text-blue-600 transition">演算法下載</a>
+                <a href="#" class="hover:text-blue-600 transition">教育課程</a>
+                <a href="#" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">立即報名</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero-gradient text-white py-20 px-6">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">掌握 2025 ACLS 最新實證</h1>
+            <p class="text-xl mb-10 text-blue-100 max-w-2xl mx-auto">
+                從統一生存鏈到給藥路徑優化，我們為您整理了 AHA 最新發布的高級心肺復甦術關鍵變革。
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <button class="bg-white text-blue-900 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-50 transition">
+                    查看更新摘要
+                </button>
+                <button class="bg-blue-600 border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 transition">
+                    下載 PDF 流程圖
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mx-auto py-16 px-6">
+        <h2 class="text-3xl font-bold text-center mb-12 text-blue-900">2025 五大核心更新</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white p-8 rounded-xl shadow-sm border-t-4 border-blue-500 hover:shadow-md transition">
+                <div class="text-blue-500 mb-4 text-2xl"><i class="fas fa-link"></i></div>
+                <h3 class="text-xl font-bold mb-3">統一生存鏈</h3>
+                <p class="text-gray-600">整合院內外架構，改為單一 6 鏈流程，強調從早期識別到康復支持的無縫銜接。</p>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-sm border-t-4 border-red-500 hover:shadow-md transition">
+                <div class="text-red-500 mb-4 text-2xl"><i class="fas fa-syringe"></i></div>
+                <h3 class="text-xl font-bold mb-3">IV 優先於 IO</h3>
+                <p class="text-gray-600">實證顯示 IV 路徑在成人心跳停止時效果較佳，建議優先嘗試靜脈注射而非骨內路徑。</p>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-sm border-t-4 border-green-500 hover:shadow-md transition">
+                <div class="text-green-500 mb-4 text-2xl"><i class="fas fa-arrows-alt-v"></i></div>
+                <h3 class="text-xl font-bold mb-3">CPR 深度精確化</h3>
+                <p class="text-gray-600">維持 5-6 公分深度。2025 指南特別強調避免過深按壓，以降低胸廓損傷風險。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-blue-50 py-16 px-6">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-3xl font-bold text-center mb-8">2025 臨床操作對照表</h2>
+            <div class="overflow-hidden rounded-lg shadow-lg">
+                <table class="w-full text-left bg-white">
+                    <thead class="bg-blue-900 text-white">
+                        <tr>
+                            <th class="px-6 py-4">項目</th>
+                            <th class="px-6 py-4">2025 建議標準</th>
+                            <th class="px-6 py-4">臨床重點</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">AFib 轉律能量</td>
+                            <td class="px-6 py-4">起始 ≥200 J</td>
+                            <td class="px-6 py-4 text-red-600">直接使用高能量</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">輔助呼吸術語</td>
+                            <td class="px-6 py-4">Breaths</td>
+                            <td class="px-6 py-4">廢除 Rescue Breaths 稱呼</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-semibold">ETCO2 監測</td>
+                            <td class="px-6 py-4">≥10 mmHg</td>
+                            <td class="px-6 py-4">評估 CPR 品質關鍵指標</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 text-center">
+        <div class="container mx-auto px-6">
+            <blockquote class="text-2xl italic text-gray-700 mb-8">
+                "科學在進步，您的急救技術也必須與時俱進。"
+            </blockquote>
+            <p class="mb-8 text-gray-600">訂閱我們的電子報，獲取最新醫學實證與工作坊通知。</p>
+            <div class="max-w-md mx-auto flex">
+                <input type="email" placeholder="您的電子郵件" class="flex-1 px-4 py-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button class="bg-blue-900 text-white px-6 py-3 rounded-r-lg hover:bg-blue-800 transition">訂閱</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-12 px-6">
+        <div class="container mx-auto grid md:grid-cols-4 gap-8">
+            <div class="col-span-2">
+                <h4 class="text-xl font-bold mb-4">關於 ACLS 2025 教育平台</h4>
+                <p class="text-gray-400">致力於推廣最新的急救醫學實證，協助醫療專業人員提升病患存活率。所有內容均參考 AHA/ILCOR 2025 國際指南。</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-4">快速連結</h4>
+                <ul class="text-gray-400 space-y-2">
+                    <li><a href="#" class="hover:text-white">常見問題</a></li>
+                    <li><a href="#" class="hover:text-white">研究文獻</a></li>
+                    <li><a href="#" class="hover:text-white">隱私政策</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-4">追蹤我們</h4>
+                <div class="flex space-x-4 text-2xl">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-10 pt-6 text-center text-gray-500 text-sm">
+            &copy; 2025 ACLS 專業教育網. 版權所有.
+        </div>
+    </footer>
+
+</body>
+</html>
