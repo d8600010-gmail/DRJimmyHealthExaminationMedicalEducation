@@ -19,12 +19,12 @@
       --accent-forest: #3a7d5c; --accent-forest-light: #e8f5ee;
       --accent-slate: #5b6e8c; --accent-slate-light: #edf0f6;
       --accent-amber: #a0522d; --accent-amber-light: #fdf5ee;
+      --accent-copper: #7a4f2e; --accent-copper-light: #f8f2ec;
       --border: #e8e4da; --shadow-soft: 0 4px 20px rgba(26,26,46,0.06); --shadow-hover: 0 16px 40px rgba(26,26,46,0.13);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { font-family: "Noto Sans TC", sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
-
     /* ── HEADER ── */
     header { position: relative; min-height: 340px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 70px 24px 60px; overflow: hidden; }
     .header-bg { position: absolute; inset: 0; background: var(--ink); z-index: 0; }
@@ -35,14 +35,12 @@
     header h1 span { font-style: italic; color: rgba(255,255,255,0.7); }
     .header-sub { position: relative; z-index: 1; font-size: 1.05em; font-weight: 300; color: rgba(255,255,255,0.6); letter-spacing: 0.04em; margin-top: 4px; }
     .header-line { position: relative; z-index: 1; width: 60px; height: 2px; background: linear-gradient(90deg, var(--accent-teal), var(--accent-indigo)); margin: 22px auto 0; border-radius: 2px; }
-
     /* ── LAYOUT ── */
     .container { max-width: 1080px; margin: 0 auto; padding: 56px 24px 80px; }
     .section-label { font-size: 0.72em; letter-spacing: 0.18em; font-weight: 500; color: var(--muted); text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     .section-gap { margin-top: 52px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 24px; }
-
     /* ── CARDS ── */
     .card { background: white; border-radius: 20px; border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-soft); transition: transform 0.28s cubic-bezier(.22,.68,0,1.2), box-shadow 0.28s ease; cursor: pointer; }
     .card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
@@ -58,6 +56,7 @@
     .card-icon.forest  { background: var(--accent-forest-light); }
     .card-icon.slate   { background: var(--accent-slate-light); }
     .card-icon.amber   { background: var(--accent-amber-light); }
+    .card-icon.copper  { background: var(--accent-copper-light); }
     .card-title-wrap { flex: 1; }
     .card h2 { font-family: "Noto Serif TC", serif; font-size: 1.25em; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 6px; }
     .card-count { font-size: 0.74em; color: var(--muted); letter-spacing: 0.04em; }
@@ -85,7 +84,6 @@
     .card-toggle-btn.amber:hover,   .card-toggle-btn.amber.open   { background: var(--accent-amber-light); }
     .btn-arrow { display: inline-block; transition: transform 0.25s; }
     .card-toggle-btn.open .btn-arrow { transform: rotate(180deg); }
-
     /* ── STORY LIST ── */
     .story-list { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
     .story-list.open { max-height: 900px; }
@@ -105,14 +103,12 @@
     .forest-dot  { background: var(--accent-forest); }
     .slate-dot   { background: var(--accent-slate); }
     .amber-dot   { background: var(--accent-amber); }
-
+    .copper-dot  { background: var(--accent-copper); }
     /* ── BADGES ── */
     .soon-badge { display: inline-block; font-size: 0.65em; font-weight: 600; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 6px; background: #f0ede8; color: var(--muted); text-transform: uppercase; vertical-align: middle; margin-left: 8px; }
-
     /* ── DISABLED CARDS ── */
     .card.disabled { opacity: 0.7; cursor: default; }
     .card.disabled:hover { transform: none; box-shadow: var(--shadow-soft); }
-
     /* ── LINK CARDS ── */
     .card.card-link { text-decoration: none; color: inherit; display: block; }
     .card.card-link .card-cta { margin: 0 28px 22px; display: inline-flex; align-items: center; gap: 6px; font-size: 0.82em; font-weight: 500; padding: 8px 16px; border-radius: 8px; border: 1.5px solid rgba(58,125,92,0.35); color: var(--accent-forest); background: transparent; transition: background 0.2s; }
@@ -129,8 +125,9 @@
     .card.card-link.slate-link:hover .card-cta   { background: var(--accent-slate-light); }
     .card.card-link.amber-link .card-cta   { border-color: rgba(160,82,45,0.35);   color: var(--accent-amber); }
     .card.card-link.amber-link:hover .card-cta   { background: var(--accent-amber-light); }
+    .card.card-link.copper-link .card-cta  { border-color: rgba(122,79,46,0.35);   color: var(--accent-copper); }
+    .card.card-link.copper-link:hover .card-cta  { background: var(--accent-copper-light); }
     .card-cta-arrow { font-size: 1em; }
-
     /* ── SMOKING CESSATION SPECIAL CARD ── */
     .card.smoking-card { grid-column: 1 / -1; cursor: default; }
     .card.smoking-card:hover { transform: none; box-shadow: var(--shadow-soft); }
@@ -142,11 +139,9 @@
     .smoking-links { display: flex; flex-wrap: wrap; gap: 10px; padding: 0 28px 22px; }
     .smoking-link-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82em; font-weight: 500; padding: 8px 16px; border-radius: 8px; border: 1.5px solid rgba(160,82,45,0.35); color: var(--accent-amber); background: transparent; text-decoration: none; transition: background 0.2s; }
     .smoking-link-btn:hover { background: var(--accent-amber-light); }
-
     /* ── FOOTER ── */
     footer { border-top: 1px solid var(--border); padding: 28px 24px; text-align: center; font-size: 0.82em; color: var(--muted); letter-spacing: 0.03em; }
     footer .footer-brand { font-family: "DM Serif Display", serif; font-style: italic; color: var(--ink-soft); font-size: 1.1em; }
-
     /* ── ANIMATIONS ── */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
     .card { animation: fadeUp 0.55s ease both; }
@@ -155,7 +150,6 @@
     .card:nth-child(5) { animation-delay: 0.45s; } .card:nth-child(6) { animation-delay: 0.55s; }
     .card:nth-child(7) { animation-delay: 0.65s; } .card:nth-child(8) { animation-delay: 0.72s; }
     .card:nth-child(9) { animation-delay: 0.79s; }
-
     /* ── VISITOR COUNTER ── */
     .visitor-counter {
       position: fixed; top: 18px; right: 20px; z-index: 200;
@@ -179,7 +173,6 @@
     .visitor-counter .vc-label { font-size: 0.68em; color: rgba(255,255,255,0.45); font-weight: 400; letter-spacing: 0.06em; line-height: 1; }
     .visitor-counter .vc-num { font-size: 0.82em; font-weight: 600; color: white; letter-spacing: 0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
     .visitor-counter .vc-num.loading { opacity: 0.4; }
-
     @media (max-width: 480px) {
       .visitor-counter { top: 12px; right: 12px; padding: 5px 10px 5px 8px; }
       .visitor-counter .vc-label { display: none; }
@@ -191,13 +184,11 @@
   </style>
 </head>
 <body>
-
 <div class="visitor-counter" title="累計到訪人次">
   <span class="vc-dot"></span>
   <span class="vc-label">到訪</span>
   <span class="vc-num loading" id="vc-num">⋯</span>
 </div>
-
 <header>
   <div class="header-bg"></div>
   <div class="header-grid"></div>
@@ -206,13 +197,10 @@
   <p class="header-sub">用故事,讓健康變得更容易理解</p>
   <div class="header-line"></div>
 </header>
-
 <div class="container">
-
   <!-- ── 精選主題 ── -->
   <div class="section-label">精選主題</div>
   <div class="grid">
-
     <!-- 健診常見問題 -->
     <div class="card" onclick="toggleCard('faq', this)">
       <div class="card-header">
@@ -233,7 +221,6 @@
         <div class="story-item"><span class="story-num">06</span><span class="story-dot teal-dot"></span>為什麼醫師說不用做那麼多檢查?</div>
       </div></div>
     </div>
-
     <!-- 心電圖變化 -->
     <div class="card" onclick="toggleCard('ecg', this)">
       <div class="card-header">
@@ -256,7 +243,6 @@
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/LeftBundleBlock.html'"><span class="story-num">11</span><span class="story-dot indigo-dot"></span>健檢發現左束傳導阻滯? 🔎</div>
       </div></div>
     </div>
-
     <!-- 肝膽胃腸科 -->
     <div class="card" onclick="toggleCard('hep', this)">
       <div class="card-header">
@@ -269,7 +255,6 @@
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='Hepatobiliary/HBcAb.html'"><span class="story-num">01</span><span class="story-dot lime-dot"></span>HBcAb 的真正意義——兩個陰性≠沒事 🔎</div>
       </div></div>
     </div>
-
     <!-- 急診室故事集 -->
     <div class="card" onclick="toggleCard('er', this)">
       <div class="card-header">
@@ -284,7 +269,6 @@
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='EmergencyRoom/hypertension_interactive.html'"><span class="story-num">03</span><span class="story-dot crimson-dot"></span>是豁達,還是自私?🔎</div>
       </div></div>
     </div>
-
     <!-- 體育大學成人病理學園地 -->
     <a class="card card-link" href="https://drjimmy603ntsu.github.io/AfterClassFeedBack/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
@@ -294,7 +278,6 @@
       <p class="card-desc">專為體育大學學生設計的成人病理學輔助平台,結合運動科學視角,深入淺出探討疾病機轉與臨床應用。</p>
       <div class="card-cta">前往園地 <span class="card-cta-arrow">↗</span></div>
     </a>
-
     <!-- 血液常規判讀 -->
     <div class="card disabled">
       <div class="card-header">
@@ -304,7 +287,6 @@
       <p class="card-desc">CBC、鐵蛋白、維生素 B12⋯⋯讀懂你的血球報告,不再一頭霧水。</p>
       <button class="card-toggle-btn gold" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
-
     <!-- 影像報告解讀 -->
     <div class="card disabled">
       <div class="card-header">
@@ -314,20 +296,17 @@
       <p class="card-desc">X 光、超音波、CT⋯⋯影像報告裡的「疑似」與「建議追蹤」,到底該怎麼看?</p>
       <button class="card-toggle-btn rose" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
-
   </div>
-
   <!-- ── 戒菸衛教 ── -->
   <div class="section-gap"></div>
   <div class="section-label">戒菸衛教</div>
   <div class="grid">
-
     <div class="card smoking-card">
       <div class="card-header">
         <div class="card-icon amber">🚬</div>
         <div class="card-title-wrap">
           <h2>你抽的不是煙,是未來的自己</h2>
-            </div>
+        </div>
       </div>
       <div class="smoking-headline">
         <p class="tagline">每一口吸進去的,都是借來的時間。<br>用故事與數據,陪你認識菸草對身體的真實影響——以及,戒菸為什麼值得。</p>
@@ -336,15 +315,12 @@
         <a class="smoking-link-btn" href="QuitSmoking/QuitSmoking.html">給自己一個機會 ↗</a>
         <a class="smoking-link-btn" href="https://cgmherlink-hub.github.io/QuitSmoking/" target="_blank" rel="noopener noreferrer">戒菸衛教網頁 ↗</a>
       </div>
-          </div>
-
+    </div>
   </div>
-
   <!-- ── 自我檢測 ── -->
   <div class="section-gap"></div>
   <div class="section-label">自我檢測</div>
   <div class="grid">
-
     <div class="card" onclick="toggleCard('selfquiz', this)">
       <div class="card-header">
         <div class="card-icon violet">📋</div>
@@ -356,7 +332,6 @@
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='SelfQuiz/Overweight.html'"><span class="story-num">01</span><span class="story-dot violet-dot"></span>致胖生活:成就解鎖問卷 📊</div>
       </div></div>
     </div>
-
     <div class="card disabled">
       <div class="card-header">
         <div class="card-icon violet">🧠</div>
@@ -365,14 +340,11 @@
       <p class="card-desc">你真的睡得夠好嗎?壓力有沒有悄悄拖垮你的健康?來做個快速評估。</p>
       <button class="card-toggle-btn violet" style="pointer-events:none; opacity:0.5;">即將推出 <span class="btn-arrow">▾</span></button>
     </div>
-
   </div>
-
   <!-- ── 身心健康實驗室 ── -->
   <div class="section-gap"></div>
   <div class="section-label">身心健康實驗室</div>
   <div class="grid">
-
     <a class="card card-link indigo-link" href="https://occupationphysicianjimmy.github.io/PoorSleepSurvey/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon indigo">🌙</div>
@@ -381,7 +353,6 @@
       <p class="card-desc">輾轉反側、難以入眠——失眠不只是習慣問題,也可能是身體在說話。從睡眠醫學的角度,帶你認識那些在夜裡悄悄發生的事。</p>
       <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
     </a>
-
     <a class="card card-link gold-link" href="https://occupationphysicianjimmy.github.io/AnxietyManagementSurvey/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon gold">🔭</div>
@@ -390,7 +361,6 @@
       <p class="card-desc">焦慮、憂慮、想太多⋯⋯這是性格使然,還是大腦的求救訊號?用科學角度理解「杞人憂天」背後的心理與生理機制。</p>
       <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
     </a>
-
     <a class="card card-link crimson-link" href="https://occupationphysicianjimmy.github.io/WeightManagement/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon crimson">🏋️</div>
@@ -399,14 +369,11 @@
       <p class="card-desc">體重、體脂、肌少症⋯⋯和地心引力的拔河,從來不只是外表問題。探索代謝、運動與慢性病之間那條看不見的連線。</p>
       <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
     </a>
-
   </div>
-
   <!-- ── 社交智能時代 ── -->
   <div class="section-gap"></div>
   <div class="section-label">社交智能時代</div>
   <div class="grid">
-
     <a class="card card-link slate-link" href="https://occupationphysicianjimmy.github.io/SocialIntelligenceDisorder/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon slate">🤝</div>
@@ -415,7 +382,6 @@
       <p class="card-desc">在 AI 與數位化浪潮下,人與人之間的溝通、同理心與社交技能如何影響健康?從醫學角度重新認識「人際關係」。</p>
       <div class="card-cta">前往評估 <span class="card-cta-arrow">↗</span></div>
     </a>
-
     <a class="card card-link slate-link" href="https://cgmherlink-hub.github.io/FreeTalkPage/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
         <div class="card-icon slate">🌅</div>
@@ -424,9 +390,7 @@
       <p class="card-desc">在診間之外,記錄那些值得細細品味的日常片段——時光流轉中的浮光掠影,生活裡的溫柔與感動。</p>
       <div class="card-cta">前往閱讀 <span class="card-cta-arrow">↗</span></div>
     </a>
-
   </div>
-
   <!-- ── 常見臨床工具集 ── -->
   <div class="section-gap"></div>
   <div class="section-label">常見臨床工具集</div>
@@ -439,14 +403,11 @@
       <p class="card-desc">整合常用臨床計算工具、評估量表與決策輔助工具,協助醫護人員快速完成臨床評估與決策。</p>
       <div class="card-cta">前往工具集 <span class="card-cta-arrow">↗</span></div>
     </a>
-
   </div>
-
   <!-- ── 關於ACLS ── -->
   <div class="section-gap"></div>
   <div class="section-label">關於ACLS</div>
   <div class="grid">
-
     <a class="card card-link indigo-link" href="ACLS.html">
       <div class="card-header">
         <div class="card-icon indigo">🫀</div>
@@ -455,16 +416,27 @@
       <p class="card-desc">高級心臟救命術（ACLS）的核心概念、流程與臨床應用——從心肺復甦、心律識別到藥物使用,一步步掌握急救關鍵。</p>
       <div class="card-cta">前往閱讀 <span class="card-cta-arrow">↗</span></div>
     </a>
+  </div>
 
+  <!-- ── 廠區報備 ── -->
+  <div class="section-gap"></div>
+  <div class="section-label">廠區報備</div>
+  <div class="grid">
+    <a class="card card-link copper-link" href="https://cgmherlink-hub.github.io/ReportData/" target="_blank" rel="noopener noreferrer">
+      <div class="card-header">
+        <div class="card-icon copper">🏭</div>
+        <div class="card-title-wrap"><h2>廠區報備</h2><div class="card-count">線上申報系統</div></div>
+      </div>
+      <p class="card-desc">廠區相關事項線上報備平台,快速完成申報作業,提升行政效率。</p>
+      <div class="card-cta">前往報備 <span class="card-cta-arrow">↗</span></div>
+    </a>
   </div>
 
 </div><!-- /container -->
-
 <footer>
   <div class="footer-brand">Dr. Jimmy 診間故事集</div>
   <div style="margin-top:6px">© 2026 · 用醫學說故事 · 內容僅供衛教參考,不替代個人醫療建議</div>
 </footer>
-
 <script>
   function toggleCard(id, cardEl) {
     if (cardEl.classList.contains('disabled')) return;
@@ -475,7 +447,6 @@
     btn.classList.toggle('open', !isOpen);
     btn.childNodes[0].textContent = isOpen ? '展開故事 ' : '收起故事 ';
   }
-
   (function() {
     const el = document.getElementById('vc-num');
     fetch('https://api.countapi.xyz/hit/drjimmy-clinic/visits')
@@ -490,6 +461,5 @@
       });
   })();
 </script>
-
 </body>
 </html>
