@@ -12,6 +12,66 @@
         .hero-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
         .slide-wrapper { position: relative; width: 100%; padding-top: 58.5%; }
         .slide-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 0.5rem; }
+
+        /* 2026 portal styles */
+        .portal-2026 {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0c4a6e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .portal-2026::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(14,165,233,0.12) 0%, transparent 60%);
+            animation: pulse-glow 4s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        .portal-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(14,165,233,0.3);
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+        .portal-card:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(14,165,233,0.7);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(14,165,233,0.2);
+        }
+        .badge-new {
+            animation: badge-pulse 2s ease-in-out infinite;
+        }
+        @keyframes badge-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+        }
+        .enter-btn {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .enter-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .enter-btn:hover::after { opacity: 1; }
+        .enter-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(14,165,233,0.5); }
+        .grid-line {
+            position: absolute;
+            background: rgba(14,165,233,0.08);
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -30,6 +90,7 @@
             </div>
         </nav>
     </header>
+
     <!-- Hero -->
     <section class="hero-gradient text-white py-20 px-6">
         <div class="container mx-auto text-center">
@@ -47,6 +108,7 @@
             </div>
         </div>
     </section>
+
     <!-- Core Updates -->
     <section class="container mx-auto py-16 px-6">
         <h2 class="text-3xl font-bold text-center mb-12 text-blue-900">2025 五大核心更新</h2>
@@ -68,6 +130,7 @@
             </div>
         </div>
     </section>
+
     <!-- Clinical Table -->
     <section class="bg-blue-50 py-16 px-6">
         <div class="container mx-auto max-w-4xl">
@@ -102,6 +165,7 @@
             </div>
         </div>
     </section>
+
     <!-- Presentation Slides -->
     <section class="py-16 px-6 bg-white">
         <div class="container mx-auto">
@@ -225,7 +289,6 @@
                         <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSE1bX0O-_gbBE3I7Eit5U-YGRJPQAAqbt4-H6Zhc-KxMOUEZ9u_QK71i9n3VSaBw/pubembed?start=true&loop=true&delayms=3000" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
                     </div>
                 </div>
-                <!-- 簡報 14 — newly added -->
                 <div>
                     <div class="flex items-center gap-3 mb-4">
                         <span class="bg-violet-100 text-violet-800 text-sm font-semibold px-3 py-1 rounded-full">簡報 14</span>
@@ -238,6 +301,90 @@
             </div>
         </div>
     </section>
+
+    <!-- ===== 2026 ACLS PORTAL ===== -->
+    <section class="portal-2026 py-20 px-6 relative">
+        <!-- Decorative grid lines -->
+        <div class="grid-line" style="top:0;left:25%;width:1px;height:100%;"></div>
+        <div class="grid-line" style="top:0;left:50%;width:1px;height:100%;"></div>
+        <div class="grid-line" style="top:0;left:75%;width:1px;height:100%;"></div>
+        <div class="grid-line" style="top:33%;left:0;width:100%;height:1px;"></div>
+        <div class="grid-line" style="top:66%;left:0;width:100%;height:1px;"></div>
+
+        <div class="container mx-auto relative z-10">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center gap-2 mb-4">
+                    <span class="badge-new bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">NEW</span>
+                    <span class="text-sky-400 text-sm font-semibold tracking-widest uppercase">最新上線</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+                    2026 ACLS
+                    <span style="background: linear-gradient(90deg,#38bdf8,#818cf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">簡報入口</span>
+                </h2>
+                <p class="text-slate-400 text-lg max-w-xl mx-auto">
+                    整合 2026 年最新 AHA/ILCOR 更新，全系列互動式教學投影片一站瀏覽。
+                </p>
+            </div>
+
+            <!-- Feature Cards -->
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
+                <div class="portal-card rounded-2xl p-6 text-center">
+                    <div class="w-14 h-14 rounded-full bg-sky-500/20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-play-circle text-sky-400 text-2xl"></i>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-2">互動式簡報</h4>
+                    <p class="text-slate-400 text-sm">全系列 2026 教學投影片，支援全螢幕與自動播放</p>
+                </div>
+                <div class="portal-card rounded-2xl p-6 text-center">
+                    <div class="w-14 h-14 rounded-full bg-indigo-500/20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-sync-alt text-indigo-400 text-2xl"></i>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-2">持續更新</h4>
+                    <p class="text-slate-400 text-sm">依據最新國際共識持續修訂，確保內容與時俱進</p>
+                </div>
+                <div class="portal-card rounded-2xl p-6 text-center">
+                    <div class="w-14 h-14 rounded-full bg-purple-500/20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chalkboard-teacher text-purple-400 text-2xl"></i>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-2">專業教材</h4>
+                    <p class="text-slate-400 text-sm">適合課堂講授、自習複習及臨床團隊教育使用</p>
+                </div>
+            </div>
+
+            <!-- Main CTA -->
+            <div class="portal-card rounded-3xl p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="flex items-center gap-6">
+                    <div class="w-20 h-20 rounded-2xl flex items-center justify-center flex-shrink-0"
+                         style="background: linear-gradient(135deg,#0ea5e9 0%,#6366f1 100%);">
+                        <i class="fas fa-heartbeat text-white text-3xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-white font-bold text-2xl">2026 ACLS SlideShow</span>
+                        </div>
+                        <p class="text-slate-400 text-sm mb-2">
+                            cgmherlink-hub.github.io/2026ACLSSLidesShow
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-sky-500/20 text-sky-300 text-xs px-2 py-1 rounded-full">最新指南</span>
+                            <span class="bg-indigo-500/20 text-indigo-300 text-xs px-2 py-1 rounded-full">互動投影片</span>
+                            <span class="bg-purple-500/20 text-purple-300 text-xs px-2 py-1 rounded-full">免費瀏覽</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://cgmherlink-hub.github.io/2026ACLSSLidesShow/"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="enter-btn text-white font-bold py-4 px-10 rounded-2xl text-lg flex items-center gap-3 whitespace-nowrap flex-shrink-0">
+                    <i class="fas fa-external-link-alt"></i>
+                    進入 2026 簡報
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- ===== END 2026 ACLS PORTAL ===== -->
+
     <!-- Newsletter -->
     <section class="py-16 text-center">
         <div class="container mx-auto px-6">
@@ -251,6 +398,7 @@
             </div>
         </div>
     </section>
+
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12 px-6">
         <div class="container mx-auto grid md:grid-cols-4 gap-8">
