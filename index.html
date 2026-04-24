@@ -104,6 +104,23 @@
     .slate-dot   { background: var(--accent-slate); }
     .amber-dot   { background: var(--accent-amber); }
     .copper-dot  { background: var(--accent-copper); }
+    /* ── CRITICAL ITEM (special highlight) ── */
+    .story-item.critical {
+      background: linear-gradient(135deg, rgba(176,58,46,0.06) 0%, rgba(74,111,165,0.04) 100%);
+      border: 1px solid rgba(176,58,46,0.18);
+    }
+    .story-item.critical:hover {
+      background: linear-gradient(135deg, rgba(176,58,46,0.13) 0%, rgba(74,111,165,0.08) 100%);
+      color: var(--ink);
+    }
+    .story-item.critical .story-num { color: var(--accent-crimson); }
+    .critical-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.65em; font-weight: 700; letter-spacing: 0.06em;
+      padding: 2px 7px; border-radius: 6px;
+      background: rgba(176,58,46,0.12); color: var(--accent-crimson);
+      text-transform: uppercase; flex-shrink: 0; margin-left: 2px;
+    }
     /* ── BADGES ── */
     .soon-badge { display: inline-block; font-size: 0.65em; font-weight: 600; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 6px; background: #f0ede8; color: var(--muted); text-transform: uppercase; vertical-align: middle; margin-left: 8px; }
     /* ── DISABLED CARDS ── */
@@ -205,7 +222,7 @@
     <div class="card" onclick="toggleCard('faq', this)">
       <div class="card-header">
         <div class="card-icon teal">🔬</div>
-        <div class="card-title-wrap"><h2>健診常見問題</h2><div class="card-count">4 個故事</div></div>
+        <div class="card-title-wrap"><h2>健診常見問題</h2><div class="card-count">6 個故事</div></div>
       </div>
       <p class="card-desc">從患者最常問的問題出發,用故事解析健康檢查的迷思與真相。</p>
       <button class="card-toggle-btn teal" id="btn-faq">展開故事 <span class="btn-arrow">▾</span></button>
@@ -218,14 +235,16 @@
           <span class="story-num">03</span><span class="story-dot teal-dot"></span>疲倦不只是體力不好? 🔎</div>
         <div class="story-item"><span class="story-num">04</span><span class="story-dot teal-dot"></span>腫瘤指數升高=癌症嗎?</div>
         <div class="story-item"><span class="story-num">05</span><span class="story-dot teal-dot"></span>高階健檢真的比較好嗎?</div>
-        <div class="story-item"><span class="story-num">06</span><span class="story-dot teal-dot"></span>血糖正常就沒有糖尿病嗎？為什麼醫師說不用做那麼多檢查?</div>
+        <div class="story-item"><span class="story-num">06</span><span class="story-dot teal-dot"></span>血糖正常就沒有糖尿病嗎？</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='HealthExamCommonProblem/HOMA-IR.html'"><span class="story-num">07</span><span class="story-dot teal-dot"></span>HOMA-IR：血糖正常,仍可能有糖尿病危險 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='HealthExamCommonProblem/LowDoseCTInterpretation.html'"><span class="story-num">08</span><span class="story-dot teal-dot"></span>低劑量肺部電腦斷層如何判讀 🔎</div>
       </div></div>
     </div>
     <!-- 心電圖變化 -->
     <div class="card" onclick="toggleCard('ecg', this)">
       <div class="card-header">
         <div class="card-icon indigo">📈</div>
-        <div class="card-title-wrap"><h2>健診常見心電圖變化</h2><div class="card-count">11 個故事</div></div>
+        <div class="card-title-wrap"><h2>健診常見心電圖變化</h2><div class="card-count">12 個故事</div></div>
       </div>
       <p class="card-desc">解析體檢報告中的心電圖異常,用臨床故事帶你看懂真正風險。</p>
       <button class="card-toggle-btn indigo" id="btn-ecg">展開故事 <span class="btn-arrow">▾</span></button>
@@ -241,6 +260,10 @@
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/LeftAxisDeviation.html'"><span class="story-num">09</span><span class="story-dot indigo-dot"></span>健檢發現心軸偏左? 🔎</div>
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/RightBundleBlock.html'"><span class="story-num">10</span><span class="story-dot indigo-dot"></span>健檢發現右束傳導阻滯 🔎</div>
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/LeftBundleBlock.html'"><span class="story-num">11</span><span class="story-dot indigo-dot"></span>健檢發現左束傳導阻滯? 🔎</div>
+        <!-- ★ 新增：常見重大異常 ★ -->
+        <div class="story-item critical" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/CriticalEKGAbnormal.html'">
+          <span class="story-num">12</span><span class="story-dot crimson-dot" style="opacity:0.8;"></span>常見重大異常 🔎 <span class="critical-badge">⚠ 重大</span>
+        </div>
       </div></div>
     </div>
     <!-- 肝膽胃腸科 -->
@@ -417,7 +440,6 @@
       <div class="card-cta">前往閱讀 <span class="card-cta-arrow">↗</span></div>
     </a>
   </div>
-
   <!-- ── 廠區報備 ── -->
   <div class="section-gap"></div>
   <div class="section-label">廠區報備</div>
@@ -431,7 +453,6 @@
       <div class="card-cta">前往報備 <span class="card-cta-arrow">↗</span></div>
     </a>
   </div>
-
 </div><!-- /container -->
 <footer>
   <div class="footer-brand">Dr. Jimmy 診間故事集</div>
