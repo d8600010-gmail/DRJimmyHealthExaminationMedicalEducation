@@ -86,7 +86,7 @@
     .card-toggle-btn.open .btn-arrow { transform: rotate(180deg); }
     /* ── STORY LIST ── */
     .story-list { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
-    .story-list.open { max-height: 900px; }
+    .story-list.open { max-height: 1200px; }
     .story-list-inner { padding: 0 16px 16px; }
     .story-divider { height: 1px; background: var(--border); margin: 0 12px 16px; }
     .story-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; font-size: 0.9em; color: var(--ink-soft); font-weight: 400; cursor: pointer; transition: background 0.18s, color 0.18s; line-height: 1.5; }
@@ -104,7 +104,7 @@
     .slate-dot   { background: var(--accent-slate); }
     .amber-dot   { background: var(--accent-amber); }
     .copper-dot  { background: var(--accent-copper); }
-    /* ── CRITICAL ITEM (special highlight) ── */
+    /* ── CRITICAL ITEM ── */
     .story-item.critical {
       background: linear-gradient(135deg, rgba(176,58,46,0.06) 0%, rgba(74,111,165,0.04) 100%);
       border: 1px solid rgba(176,58,46,0.18);
@@ -144,6 +144,8 @@
     .card.card-link.amber-link:hover .card-cta   { background: var(--accent-amber-light); }
     .card.card-link.copper-link .card-cta  { border-color: rgba(122,79,46,0.35);   color: var(--accent-copper); }
     .card.card-link.copper-link:hover .card-cta  { background: var(--accent-copper-light); }
+    .card.card-link.teal-link .card-cta    { border-color: rgba(44,155,138,0.35);  color: var(--accent-teal); }
+    .card.card-link.teal-link:hover .card-cta    { background: var(--accent-teal-light); }
     .card-cta-arrow { font-size: 1em; }
     /* ── SMOKING CESSATION SPECIAL CARD ── */
     .card.smoking-card { grid-column: 1 / -1; cursor: default; }
@@ -222,7 +224,7 @@
     <div class="card" onclick="toggleCard('faq', this)">
       <div class="card-header">
         <div class="card-icon teal">🔬</div>
-        <div class="card-title-wrap"><h2>健診常見問題</h2><div class="card-count">6 個故事</div></div>
+        <div class="card-title-wrap"><h2>健診常見問題</h2><div class="card-count">10 個故事</div></div>
       </div>
       <p class="card-desc">從患者最常問的問題出發,用故事解析健康檢查的迷思與真相。</p>
       <button class="card-toggle-btn teal" id="btn-faq">展開故事 <span class="btn-arrow">▾</span></button>
@@ -238,6 +240,8 @@
         <div class="story-item"><span class="story-num">06</span><span class="story-dot teal-dot"></span>血糖正常就沒有糖尿病嗎？</div>
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='HealthExamCommonProblem/HOMA-IR.html'"><span class="story-num">07</span><span class="story-dot teal-dot"></span>HOMA-IR：血糖正常,仍可能有糖尿病危險 🔎</div>
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='HealthExamCommonProblem/LowDoseCTInterpretation.html'"><span class="story-num">08</span><span class="story-dot teal-dot"></span>低劑量肺部電腦斷層如何判讀 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='HealthExamCommonProblem/PSA_FreePSA_PHI.html'"><span class="story-num">09</span><span class="story-dot teal-dot"></span>PSA、Free PSA 與 PHI：攝護腺健康全解析 🔎</div>
+        <div class="story-item" onclick="event.stopPropagation(); window.location.href='HealthExamCommonProblem/TPOAbScreen.html'"><span class="story-num">10</span><span class="story-dot teal-dot"></span>TPO 抗體篩檢：甲狀腺慢性發炎的早期預警 🔎</div>
       </div></div>
     </div>
     <!-- 心電圖變化 -->
@@ -260,7 +264,6 @@
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/LeftAxisDeviation.html'"><span class="story-num">09</span><span class="story-dot indigo-dot"></span>健檢發現心軸偏左? 🔎</div>
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/RightBundleBlock.html'"><span class="story-num">10</span><span class="story-dot indigo-dot"></span>健檢發現右束傳導阻滯 🔎</div>
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/LeftBundleBlock.html'"><span class="story-num">11</span><span class="story-dot indigo-dot"></span>健檢發現左束傳導阻滯? 🔎</div>
-        <!-- ★ 新增：常見重大異常 ★ -->
         <div class="story-item critical" onclick="event.stopPropagation(); window.location.href='CommonECGProblem/CriticalEKGAbnormal.html'">
           <span class="story-num">12</span><span class="story-dot crimson-dot" style="opacity:0.8;"></span>常見重大異常 🔎 <span class="critical-badge">⚠ 重大</span>
         </div>
@@ -292,6 +295,15 @@
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='EmergencyRoom/hypertension_interactive.html'"><span class="story-num">03</span><span class="story-dot crimson-dot"></span>是豁達,還是自私?🔎</div>
       </div></div>
     </div>
+    <!-- 健診常見問題總覽 (新增 link card) -->
+    <a class="card card-link teal-link" href="HealthExamCommonProblem.html">
+      <div class="card-header">
+        <div class="card-icon teal">📋</div>
+        <div class="card-title-wrap"><h2>健診常見問題總覽</h2><div class="card-count">完整條目索引</div></div>
+      </div>
+      <p class="card-desc">所有健診常見問題的完整索引頁面,快速找到你想了解的檢查項目與解析文章。</p>
+      <div class="card-cta">前往總覽 <span class="card-cta-arrow">↗</span></div>
+    </a>
     <!-- 體育大學成人病理學園地 -->
     <a class="card card-link" href="https://drjimmy603ntsu.github.io/AfterClassFeedBack/" target="_blank" rel="noopener noreferrer">
       <div class="card-header">
