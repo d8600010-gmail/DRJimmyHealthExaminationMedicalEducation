@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>EKG 異常 Q 波衛教</title>
+<style>
+:root{
+  --bg:#f4f6fb;--card:#fff;--text:#1e2d3d;--muted:#5f6b7a;
+  --primary:#1a56db;--primary-soft:#e8f0fe;
+  --red:#c0392b;--red-soft:#fdecea;
+  --ok:#1e9e63;--ok-soft:#ecfdf5;
+  --warn:#d97706;--warn-soft:#fff7ed;
+  --shadow:0 8px 28px rgba(20,30,60,0.09);--radius:20px;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.75;}
+.container{max-width:980px;margin:0 auto;padding:24px;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#eef3ff 0%,#f0f7ff 100%);
+  border-radius:28px;padding:28px 32px;box-shadow:var(--shadow);margin-bottom:24px;
+  border:1px solid rgba(26,86,219,0.1);}
+h1{font-size:clamp(24px,4.5vw,38px);line-height:1.2;margin:0 0 8px;}
+h2{font-size:22px;margin:0 0 12px;}
+h3{font-size:17px;margin:14px 0 6px;}
+p{margin:8px 0;}
+.sub{color:var(--muted);font-size:17px;}
+.badge{display:inline-block;padding:5px 13px;border-radius:999px;
+  background:var(--primary-soft);color:var(--primary);font-weight:700;font-size:13px;margin-bottom:10px;}
+
+/* GRID */
+.grid{display:grid;gap:20px;}
+@media(min-width:840px){.grid-2{grid-template-columns:1.1fr 0.9fr;}}
+.card{background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);}
+
+/* PROGRESS */
+.progress-wrap{margin:16px 0 6px;}
+.progress-steps{display:flex;align-items:flex-start;}
+.step-node{display:flex;flex-direction:column;align-items:center;flex:1;position:relative;cursor:pointer;}
+.step-node:not(:last-child)::after{content:'';position:absolute;top:17px;left:50%;width:100%;
+  height:3px;background:#dde3ee;z-index:0;transition:background .35s;}
+.step-node.done:not(:last-child)::after{background:var(--primary);}
+.step-circle{width:34px;height:34px;border-radius:50%;border:3px solid #dde3ee;background:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;
+  color:#9ca3af;z-index:1;transition:all .3s;position:relative;}
+.step-node.done .step-circle{background:var(--primary);border-color:var(--primary);color:#fff;}
+.step-node.active .step-circle{border-color:var(--primary);color:var(--primary);
+  box-shadow:0 0 0 4px rgba(26,86,219,.15);}
+.step-label{font-size:10px;color:var(--muted);margin-top:5px;text-align:center;
+  line-height:1.3;max-width:62px;}
+.step-node.active .step-label{color:var(--primary);font-weight:700;}
+.step-node.done .step-label{color:var(--primary);}
+.progress-bar-track{height:5px;background:#dde3ee;border-radius:999px;margin:8px 0 2px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--primary),#60a5fa);
+  border-radius:999px;transition:width .4s cubic-bezier(.4,0,.2,1);}
+.progress-text{font-size:12px;color:var(--muted);text-align:right;}
+
+/* STORY */
+.story-stage{border:2px dashed #c5d5f5;border-radius:18px;padding:20px;
+  background:#f8faff;min-height:210px;display:flex;flex-direction:column;justify-content:center;}
+.big-emoji{font-size:52px;margin-bottom:8px;}
+
+/* BUTTONS */
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+button{border:none;border-radius:12px;padding:10px 16px;font-size:14px;font-weight:700;
+  cursor:pointer;transition:transform .15s,opacity .15s;}
+button:hover{transform:translateY(-1px);}
+button:disabled{opacity:.35;cursor:not-allowed;transform:none;}
+.btn-primary{background:var(--primary);color:#fff;}
+.btn-light{background:var(--primary-soft);color:var(--primary);}
+.btn-soft{background:#f1f3f8;color:var(--text);}
+
+/* CIRCUIT SVG */
+.circuit-wrap{background:#0d1b2e;border-radius:18px;padding:16px;margin-top:12px;}
+
+/* EKG */
+.ekg-box{background:#0f172a;border-radius:18px;padding:14px;overflow:hidden;}
+.signal-label{color:#94a3b8;font-size:13px;margin-top:8px;}
+
+/* ALERTS */
+.alert{border-left:5px solid var(--warn);background:var(--warn-soft);
+  padding:13px 15px;border-radius:12px;margin-top:12px;font-size:14px;}
+.alert.info{border-left-color:var(--primary);background:var(--primary-soft);}
+.alert.ok{border-left-color:var(--ok);background:var(--ok-soft);}
+.alert.danger{border-left-color:var(--red);background:var(--red-soft);}
+
+/* PILLS */
+.pill-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.pill{padding:8px 14px;border-radius:999px;font-weight:700;font-size:13px;color:#334155;background:#f1f3f8;}
+.pill.blue{background:var(--primary-soft);color:var(--primary);}
+.pill.red{background:var(--red-soft);color:var(--red);}
+.pill.ok{background:var(--ok-soft);color:var(--ok);}
+
+/* COMPARISON TABLE */
+.cmp-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px;}
+.cmp-table th{background:var(--primary-soft);color:var(--primary);padding:9px 12px;text-align:left;font-weight:700;}
+.cmp-table td{padding:9px 12px;border-bottom:1px solid #eef0f6;vertical-align:top;}
+.cmp-table tr:last-child td{border-bottom:none;}
+.cmp-table tr:nth-child(even) td{background:#f8faff;}
+.tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;}
+.tag.ok{background:var(--ok-soft);color:var(--ok);}
+.tag.warn{background:var(--warn-soft);color:var(--warn);}
+.tag.danger{background:var(--red-soft);color:var(--red);}
+
+/* QUIZ */
+.quiz-option{width:100%;text-align:left;margin-bottom:2px;}
+.result{margin-top:10px;padding:13px;border-radius:12px;display:none;font-weight:700;font-size:14px;}
+.result.show{display:block;}
+.result.correct{background:var(--ok-soft);color:#166534;}
+.result.wrong{background:var(--red-soft);color:#991b1b;}
+
+.footer-note{text-align:center;color:var(--muted);margin:24px 0 8px;font-size:13px;}
+svg{width:100%;height:auto;display:block;}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">互動式衛教</div>
+  <h1>心電圖出現 Q 波，像電路出了什麼問題？</h1>
+  <p class="sub">用電路故障的比喻，帶你一步步理解 Q 波的意義——什麼時候要注意，什麼時候不用緊張。</p>
+  <div class="controls">
+    <button class="btn-primary" onclick="nextScene()">開始看故事 →</button>
+    <button class="btn-light" onclick="resetAll()">重播</button>
+  </div>
+</section>
+
+<!-- STORY + CIRCUIT -->
+<section class="grid grid-2">
+  <div class="card">
+    <h2>故事場景</h2>
+
+    <div class="progress-wrap">
+      <div class="progress-steps" id="progressSteps"></div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+      </div>
+      <div class="progress-text" id="progressText">第 1 幕，共 4 幕</div>
+    </div>
+
+    <div class="story-stage">
+      <div class="big-emoji" id="storyEmoji">🔌</div>
+      <h3 id="storyTitle">電路正常運作中</h3>
+      <p id="storyText">把心臟的電氣系統想成一棟大樓的電路。電流從中控室出發，按順序流向每個區域，讓整棟樓的燈正常亮起來。</p>
+    </div>
+
+    <div class="controls">
+      <button class="btn-soft" id="btnPrev" onclick="prevScene()" disabled>← 上一幕</button>
+      <button class="btn-primary" id="btnNext" onclick="nextScene()">下一幕 →</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>電路示意圖</h2>
+    <p style="font-size:13px;color:var(--muted);">對應當前場景，觀察電流路徑的變化。</p>
+    <div class="circuit-wrap">
+      <svg id="circuitSvg" viewBox="0 0 300 220" aria-label="心臟電路示意圖">
+        <!-- 主幹線 -->
+        <line x1="40" y1="50" x2="260" y2="50" stroke="#334155" stroke-width="2"/>
+        <!-- 節點：SA node -->
+        <circle cx="40" cy="50" r="14" id="sa" fill="#1a56db"/>
+        <text x="40" y="55" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">SA</text>
+        <!-- AV node -->
+        <circle cx="150" cy="50" r="14" id="av" fill="#1a56db"/>
+        <text x="150" y="55" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">AV</text>
+        <!-- 分支線左 -->
+        <line x1="150" y1="64" x2="90" y2="150" id="brL" stroke="#334155" stroke-width="2"/>
+        <!-- 分支線右 -->
+        <line x1="150" y1="64" x2="210" y2="150" id="brR" stroke="#334155" stroke-width="2"/>
+        <!-- 左心室 -->
+        <rect x="55" y="150" width="70" height="55" rx="10" id="lv" fill="#1a56db"/>
+        <text x="90" y="178" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">左心室</text>
+        <text x="90" y="192" text-anchor="middle" font-size="9" fill="#bfdbfe">Left V</text>
+        <!-- 右心室 -->
+        <rect x="175" y="150" width="70" height="55" rx="10" id="rv" fill="#1a56db"/>
+        <text x="210" y="178" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">右心室</text>
+        <text x="210" y="192" text-anchor="middle" font-size="9" fill="#bfdbfe">Right V</text>
+        <!-- 電流動畫點 -->
+        <circle id="spark" cx="40" cy="50" r="6" fill="#facc15" opacity="0">
+          <animate id="sparkAnim" attributeName="cx" from="40" to="260" dur="1.2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;1;1;0" dur="1.2s" repeatCount="indefinite"/>
+        </circle>
+        <!-- 故障標記（預設隱藏） -->
+        <g id="faultMark" opacity="0">
+          <circle cx="90" cy="150" r="18" fill="#c0392b" opacity="0.25"/>
+          <text x="90" y="155" text-anchor="middle" font-size="18" fill="#c0392b">✕</text>
+        </g>
+        <!-- 疤痕標記 -->
+        <g id="scarMark" opacity="0">
+          <rect x="55" y="150" width="70" height="55" rx="10" fill="#6b7280" opacity="0.7"/>
+          <text x="90" y="181" text-anchor="middle" font-size="10" fill="#e5e7eb" font-weight="700">纖維化</text>
+        </g>
+        <!-- 標籤 -->
+        <text x="40" y="76" text-anchor="middle" font-size="9" fill="#94a3b8">竇房結</text>
+        <text x="150" y="76" text-anchor="middle" font-size="9" fill="#94a3b8">房室結</text>
+      </svg>
+    </div>
+    <div id="circuitLabel" style="font-size:13px;color:#94a3b8;margin-top:8px;padding:0 4px;">
+      電流從竇房結出發，順暢傳導至兩個心室。
+    </div>
+  </div>
+</section>
+
+<!-- EKG + Q WAVE EXPLAINER -->
+<section class="grid grid-2" style="margin-top:20px;">
+  <div class="card">
+    <h2>EKG 上的 Q 波長什麼樣？</h2>
+    <p style="font-size:14px;color:var(--muted);">Q 波是 QRS 波群最開頭的一個向下偏折。關鍵是：它多深、多寬？</p>
+    <div class="ekg-box">
+      <svg viewBox="0 0 580 180" aria-label="EKG Q wave">
+        <!-- grid lines -->
+        <line x1="0" y1="90" x2="580" y2="90" stroke="#1e3a5f" stroke-width="1"/>
+        <line x1="0" y1="45" x2="580" y2="45" stroke="#1e3a5f" stroke-width="0.5" stroke-dasharray="4,4"/>
+        <line x1="0" y1="135" x2="580" y2="135" stroke="#1e3a5f" stroke-width="0.5" stroke-dasharray="4,4"/>
+        <!-- Normal beat label -->
+        <text x="120" y="18" text-anchor="middle" font-size="11" fill="#60a5fa">正常 Q 波</text>
+        <polyline id="ekgLine1" fill="none" stroke="#22c55e" stroke-width="3"
+          points="10,90 80,90 92,84 98,96 104,90 115,38 128,148 140,90 195,90"/>
+        <!-- Annotation Q -->
+        <text x="95" y="115" text-anchor="middle" font-size="10" fill="#fbbf24">Q</text>
+        <!-- Pathological beat label -->
+        <text x="390" y="18" text-anchor="middle" font-size="11" fill="#f87171">病理性 Q 波</text>
+        <polyline id="ekgLine2" fill="none" stroke="#f87171" stroke-width="3"
+          points="210,90 280,90 290,90 300,135 315,90 325,30 340,155 358,90 420,90"/>
+        <text x="302" y="158" text-anchor="middle" font-size="10" fill="#fbbf24">Q（深且寬）</text>
+        <!-- Arrows -->
+        <line x1="95" y1="96" x2="95" y2="108" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="302" y1="140" x2="302" y2="152" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr)"/>
+        <defs>
+          <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#fbbf24"/>
+          </marker>
+        </defs>
+      </svg>
+      <div class="signal-label">左：小而窄的正常 Q 波｜右：深且寬的病理性 Q 波</div>
+    </div>
+    <div class="alert info" style="margin-top:14px;">
+      <strong>判斷標準（簡化）：</strong> 病理性 Q 波通常深度 &gt; R 波的 1/4，或寬度 &gt; 0.04 秒（1 小格）。但最終仍需醫師結合完整臨床資訊判讀。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Q 波出現，一定是壞事嗎？</h2>
+    <table class="cmp-table">
+      <tr>
+        <th>類型</th><th>代表什麼</th><th>緊張程度</th>
+      </tr>
+      <tr>
+        <td><strong>生理性 Q 波</strong><br><span style="font-size:12px;color:var(--muted);">小而窄，特定導聯</span></td>
+        <td>心室電流正常的去極化方向造成，屬於正常現象</td>
+        <td><span class="tag ok">不用緊張</span></td>
+      </tr>
+      <tr>
+        <td><strong>病理性 Q 波</strong><br><span style="font-size:12px;color:var(--muted);">深且寬</span></td>
+        <td>該區域心肌可能曾受傷、壞死，電流繞道形成異常偏折</td>
+        <td><span class="tag danger">需進一步評估</span></td>
+      </tr>
+      <tr>
+        <td><strong>其他原因</strong><br><span style="font-size:12px;color:var(--muted);">非梗塞性</span></td>
+        <td>心臟位置差異、LBBB、心肌病變、電解質異常、正常變異等</td>
+        <td><span class="tag warn">依情況判斷</span></td>
+      </tr>
+    </table>
+    <div class="alert ok">
+      <strong>關鍵提醒：</strong> 光靠 Q 波本身無法確診——還要看症狀、病史、其他導聯、抽血與影像。
+    </div>
+  </div>
+</section>
+
+<!-- WHEN TO WORRY + QUIZ -->
+<section class="grid grid-2" style="margin-top:20px;">
+  <div class="card">
+    <h2>什麼時候要緊張？什麼時候不用？</h2>
+
+    <h3 style="color:var(--ok);">✓ 通常不需要特別擔心</h3>
+    <div class="pill-list">
+      <div class="pill ok">aVR 導聯的 Q 波</div>
+      <div class="pill ok">III 導聯的孤立 Q 波</div>
+      <div class="pill ok">V1 的小 Q 波</div>
+      <div class="pill ok">無症狀且病史乾淨</div>
+    </div>
+    <div class="alert ok">這些情況下的 Q 波大多是生理性或正常變異，不代表心肌受損。</div>
+
+    <h3 style="color:var(--red);margin-top:18px;">⚠ 需要進一步評估</h3>
+    <div class="pill-list">
+      <div class="pill red">多個相鄰導聯都有病理性 Q 波</div>
+      <div class="pill red">伴隨胸悶胸痛</div>
+      <div class="pill red">有冠心病危險因子</div>
+      <div class="pill red">Q 波寬度 &gt; 0.04 秒</div>
+    </div>
+    <div class="alert danger">
+      如果合併<strong>胸悶、胸痛、喘、冒冷汗</strong>，請立即就醫，不要等。
+    </div>
+
+    <h3 style="margin-top:18px;">可能的其他原因（非心肌梗塞）</h3>
+    <div class="pill-list">
+      <div class="pill blue">心肌炎 / 心肌病變</div>
+      <div class="pill blue">Left Bundle Branch Block</div>
+      <div class="pill blue">心臟轉位</div>
+      <div class="pill blue">電解質異常</div>
+      <div class="pill blue">肺栓塞</div>
+      <div class="pill blue">正常變異</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>小測驗</h2>
+
+    <p><strong>第 1 題：</strong> 下列哪種 Q 波最需要進一步評估？</p>
+    <div class="controls" style="flex-direction:column;align-items:stretch;">
+      <button class="btn-soft quiz-option" onclick="q1('a')">A. aVR 導聯出現小 Q 波，無任何症狀</button>
+      <button class="btn-soft quiz-option" onclick="q1('b')">B. 多個相鄰導聯出現深且寬的 Q 波，合併胸悶</button>
+      <button class="btn-soft quiz-option" onclick="q1('c')">C. III 導聯出現孤立 Q 波，深呼吸後消失</button>
+    </div>
+    <div id="qr1" class="result"></div>
+
+    <p style="margin-top:20px;"><strong>第 2 題：</strong> 心電圖出現類似病理性 Q 波，一定代表心肌梗塞嗎？</p>
+    <div class="controls" style="flex-direction:column;align-items:stretch;">
+      <button class="btn-soft quiz-option" onclick="q2('a')">A. 是，一定是心肌梗塞</button>
+      <button class="btn-soft quiz-option" onclick="q2('b')">B. 不一定，還可能有其他原因，需結合症狀與病史</button>
+      <button class="btn-soft quiz-option" onclick="q2('c')">C. 不是，心電圖正常就代表心臟沒問題</button>
+    </div>
+    <div id="qr2" class="result"></div>
+
+    <p style="margin-top:20px;"><strong>第 3 題：</strong> 出現 Q 波時，以下哪個動作最正確？</p>
+    <div class="controls" style="flex-direction:column;align-items:stretch;">
+      <button class="btn-soft quiz-option" onclick="q3('a')">A. 完全忽略，等有症狀再說</button>
+      <button class="btn-soft quiz-option" onclick="q3('b')">B. 立刻恐慌，認定是嚴重心臟病</button>
+      <button class="btn-soft quiz-option" onclick="q3('c')">C. 告知醫師，結合症狀、病史、進一步檢查綜合判斷</button>
+    </div>
+    <div id="qr3" class="result"></div>
+  </div>
+</section>
+
+<p class="footer-note">此頁面為衛教說明，不能取代醫師診斷；實際判讀仍需結合症狀、抽血、影像與醫師評估。</p>
+</div>
+
+<script>
+const scenes = [
+  {
+    emoji:'🔌',
+    title:'電路正常運作中',
+    text:'把心臟的電氣系統想成一棟大樓的電路。電流從中控室（竇房結）出發，依序通過配電箱（房室結），再分送到左右心室。一切順暢時，電流路徑完整，EKG 上的 Q 波很小或幾乎看不見。',
+    circuit:'normal'
+  },
+  {
+    emoji:'⚡',
+    title:'某一區電線短路了',
+    text:'假設左心室那一區的電線突然短路——對應心臟就是某區心肌缺血受傷。電流無法正常通過，必須繞道。這個「繞道」在 EKG 上就可能形成明顯的向下偏折，也就是 Q 波變深變寬。',
+    circuit:'fault'
+  },
+  {
+    emoji:'🔧',
+    title:'緊急維修，電流繞道',
+    text:'電工來修，但短路區來不及完全修復。電流只好從其他路徑繞過去，讓別的區域先運作。這段時間 EKG 可能看到異常 Q 波，加上 ST 段變化，提示急性受傷正在發生。',
+    circuit:'detour'
+  },
+  {
+    emoji:'🧱',
+    title:'那段電線被替換成「絕緣材料」',
+    text:'最後受損的電線被替換成不導電的纖維化組織（疤痕）。電流永久繞過這個區域。這就是為什麼即使很久之後，EKG 上仍可能留著病理性 Q 波——它是當年故障留下的痕跡。',
+    circuit:'scar'
+  }
+];
+const stepLabels = ['正常', '短路', '繞道', '疤痕'];
+let cur = 0;
+
+function buildNodes(){
+  const w = document.getElementById('progressSteps');
+  w.innerHTML='';
+  scenes.forEach((_,i)=>{
+    const n=document.createElement('div');
+    n.className='step-node'; n.id='sn'+i;
+    n.innerHTML=`<div class="step-circle">${i+1}</div><div class="step-label">${stepLabels[i]}</div>`;
+    n.onclick=()=>setScene(i);
+    w.appendChild(n);
+  });
+}
+
+function updateProgress(){
+  scenes.forEach((_,i)=>{
+    const n=document.getElementById('sn'+i);
+    n.classList.remove('done','active');
+    if(i<cur) n.classList.add('done');
+    else if(i===cur) n.classList.add('active');
+  });
+  const pct=Math.round((cur/(scenes.length-1))*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressText').textContent=`第 ${cur+1} 幕，共 ${scenes.length} 幕`;
+  document.getElementById('btnPrev').disabled=cur===0;
+  const nb=document.getElementById('btnNext');
+  nb.disabled=cur===scenes.length-1;
+  nb.textContent=cur===scenes.length-1?'已到最後一幕':'下一幕 →';
+}
+
+function renderCircuit(state){
+  const lv=document.getElementById('lv');
+  const brL=document.getElementById('brL');
+  const fault=document.getElementById('faultMark');
+  const scar=document.getElementById('scarMark');
+  const spark=document.getElementById('spark');
+  const label=document.getElementById('circuitLabel');
+
+  lv.setAttribute('fill','#1a56db');
+  brL.setAttribute('stroke','#334155');
+  fault.setAttribute('opacity','0');
+  scar.setAttribute('opacity','0');
+  spark.setAttribute('opacity','1');
+
+  if(state==='normal'){
+    label.textContent='電流從竇房結出發，順暢傳導至兩個心室。';
+  } else if(state==='fault'){
+    brL.setAttribute('stroke','#c0392b');
+    fault.setAttribute('opacity','1');
+    lv.setAttribute('fill','#c0392b');
+    label.textContent='左心室那條電線短路！電流受阻，心肌缺血。';
+  } else if(state==='detour'){
+    brL.setAttribute('stroke','#d97706');
+    lv.setAttribute('fill','#d97706');
+    label.textContent='電流繞道而行，左心室靠其他路徑勉強運作。';
+  } else if(state==='scar'){
+    scar.setAttribute('opacity','1');
+    spark.setAttribute('opacity','0');
+    label.textContent='受損區域纖維化，電流永久繞過——Q 波痕跡留下來了。';
+  }
+}
+
+function renderScene(){
+  const s=scenes[cur];
+  document.getElementById('storyEmoji').textContent=s.emoji;
+  document.getElementById('storyTitle').textContent=s.title;
+  document.getElementById('storyText').textContent=s.text;
+  renderCircuit(s.circuit);
+  updateProgress();
+}
+
+function nextScene(){ if(cur<scenes.length-1){cur++;renderScene();} }
+function prevScene(){ if(cur>0){cur--;renderScene();} }
+function setScene(i){ cur=i;renderScene(); }
+
+function resetAll(){
+  cur=0; renderScene();
+  ['qr1','qr2','qr3'].forEach(id=>{
+    const el=document.getElementById(id);
+    el.className='result'; el.textContent='';
+  });
+}
+
+function q1(c){
+  const el=document.getElementById('qr1');
+  if(c==='b'){ el.className='result show correct'; el.textContent='答對了！多個相鄰導聯出現深寬 Q 波加上症狀，是需要立即評估的警訊。'; }
+  else { el.className='result show wrong'; el.textContent='再想想。aVR 的 Q 波或 III 導聯孤立 Q 波通常屬於生理性，不需特別擔心。'; }
+}
+function q2(c){
+  const el=document.getElementById('qr2');
+  if(c==='b'){ el.className='result show correct'; el.textContent='答對了！病理性 Q 波的原因很多，心肌炎、心肌病變、電解質異常、正常變異等都可能造成，不能單靠 Q 波下定論。'; }
+  else { el.className='result show wrong'; el.textContent='不太對。Q 波需結合症狀、病史與其他檢查，不能單獨判讀。'; }
+}
+function q3(c){
+  const el=document.getElementById('qr3');
+  if(c==='c'){ el.className='result show correct'; el.textContent='答對了！遇到異常 Q 波，最好的做法是告知醫師，讓醫師綜合評估，而不是恐慌或忽略。'; }
+  else { el.className='result show wrong'; el.textContent='不太對。既不應該完全忽略，也不用立刻恐慌——正確做法是讓醫師幫你綜合判斷。'; }
+}
+
+buildNodes();
+renderScene();
+</script>
+</body>
+</html>
