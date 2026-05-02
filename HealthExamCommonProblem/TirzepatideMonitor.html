@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>猛健樂 (Mounjaro) 臨床用藥監測問卷</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background: #f0f4f8; color: #333; padding: 24px 16px; }
+  .container { max-width: 820px; background: #fff; margin: auto; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  .header { text-align: center; margin-bottom: 32px; }
+  .header h1 { color: #0056b3; font-size: 22px; margin-bottom: 6px; }
+  .header p { font-size: 13px; color: #888; }
+  .section { margin-bottom: 28px; }
+  .section-title { font-size: 15px; font-weight: 700; color: #0056b3; background: #eef4ff; padding: 9px 15px; border-left: 4px solid #0056b3; border-radius: 0 6px 6px 0; margin-bottom: 16px; }
+  .form-group { margin-bottom: 14px; }
+  .question { font-size: 14px; font-weight: 600; display: block; margin-bottom: 8px; color: #222; }
+  .radio-group label { display: inline-flex; align-items: center; gap: 6px; margin-right: 20px; font-size: 14px; cursor: pointer; }
+  .warning-box { background: #fff5f5; border: 1px solid #f5c6c6; border-radius: 8px; padding: 12px 15px; margin-bottom: 16px; color: #c0392b; font-size: 13px; display: flex; gap: 10px; align-items: flex-start; }
+  .warning-box .icon { font-size: 18px; flex-shrink: 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { border: 1px solid #dee2e6; padding: 10px 12px; text-align: center; vertical-align: middle; }
+  th { background: #f8f9fa; font-weight: 600; color: #495057; }
+  td:first-child { text-align: left; font-weight: 500; }
+  tr:nth-child(even) td { background: #fafbfc; }
+  .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .metric-card { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 14px; }
+  .metric-card label { font-size: 12px; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px; }
+  .metric-card input { width: 100%; padding: 8px 10px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; background: #fff; }
+  .metric-card input:focus { outline: none; border-color: #0056b3; box-shadow: 0 0 0 3px rgba(0,86,179,0.1); }
+  .weight-diff { border-radius: 8px; padding: 14px; text-align: center; }
+  .weight-diff .label { font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+  .weight-diff .value { font-size: 28px; font-weight: 700; }
+  .weight-diff .sub { font-size: 12px; color: #666; margin-top: 4px; }
+  .contra-alert { display: none; background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 10px 14px; margin-top: 8px; font-size: 13px; color: #856404; }
+  .btn { display: block; width: 100%; padding: 14px; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 14px; letter-spacing: 0.3px; transition: opacity 0.2s; }
+  .btn:hover { opacity: 0.88; }
+  .btn-summary { background: linear-gradient(135deg, #6a11cb, #2575fc); }
+  .btn-print { background: linear-gradient(135deg, #0056b3, #0077cc); }
+  /* Summary box */
+  #summary-section { display: none; margin-top: 28px; border: 2px solid #6a11cb; border-radius: 12px; overflow: hidden; }
+  #summary-section .summary-header { background: linear-gradient(135deg, #6a11cb, #2575fc); color: white; padding: 14px 20px; font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  #summary-body { padding: 20px; font-size: 14px; line-height: 1.8; white-space: pre-wrap; min-height: 80px; }
+  .typing-cursor::after { content: '▌'; animation: blink 0.7s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .spinner { display: inline-block; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .footer { margin-top: 20px; font-size: 12px; color: #aaa; text-align: center; line-height: 1.6; }
+  @media print { .btn, #summary-section .summary-header button { display: none; } body { background: white; padding: 0; } .container { box-shadow: none; } #summary-section { display: block !important; border-color: #ccc; } }
+  @media (max-width: 600px) { .metrics-grid { grid-template-columns: 1fr; } .container { padding: 24px 16px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>猛健樂 (Mounjaro / Tirzepatide)<br>用藥安全與療效評估表</h1>
+    <p>填寫日期：<span id="today"></span>　｜　本表供臨床監測使用，請交由醫師確認</p>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section">
+    <div class="section-title">一、安全性篩查（禁忌症確認）</div>
+    <div class="form-group">
+      <span class="question">1. 您或家族成員是否曾患有「甲狀腺髓質癌 (MTC)」或「多發性內分泌腫瘤綜合症第 2 型 (MEN 2)」？</span>
+      <div class="radio-group">
+        <label><input type="radio" name="contra1" value="是"> 是</label>
+        <label><input type="radio" name="contra1" value="否"> 否</label>
+      </div>
+      <div class="contra-alert" id="alert1">⚠️ 此為用藥禁忌，請立即停藥並諮詢您的醫師。</div>
+    </div>
+    <div class="form-group">
+      <span class="question">2. 您目前是否處於懷孕期、哺乳期，或有近期懷孕計畫？</span>
+      <div class="radio-group">
+        <label><input type="radio" name="contra2" value="是"> 是</label>
+        <label><input type="radio" name="contra2" value="否"> 否</label>
+      </div>
+      <div class="contra-alert" id="alert2">⚠️ 懷孕或哺乳期間不建議使用，請告知您的醫師評估替代方案。</div>
+    </div>
+    <div class="form-group">
+      <span class="question">3. 您是否有胰臟炎病史？</span>
+      <div class="radio-group">
+        <label><input type="radio" name="contra3" value="是"> 是</label>
+        <label><input type="radio" name="contra3" value="否"> 否</label>
+      </div>
+      <div class="contra-alert" id="alert3">⚠️ 有胰臟炎病史者須由醫師審慎評估風險後方可使用。</div>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section">
+    <div class="section-title">二、不良反應監測（過去 7 天）</div>
+    <div class="warning-box">
+      <span class="icon">🚨</span>
+      <span>若出現<strong>持續性劇烈腹痛並延伸至背部</strong>，請立即就醫——這可能是急性胰臟炎的徵兆。若出現<strong>心跳加速、吞嚥困難或頸部腫塊</strong>，也請儘速回診。</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:left;width:30%">症狀</th>
+          <th>無</th>
+          <th>輕微<br><small>不影響生活</small></th>
+          <th>中度<br><small>部分受限</small></th>
+          <th>嚴重<br><small>無法耐受</small></th>
+        </tr>
+      </thead>
+      <tbody id="symptom-table"></tbody>
+    </table>
+    <div class="form-group" style="margin-top:14px">
+      <span class="question">其他症狀或備註：</span>
+      <textarea id="other-notes" style="width:100%;padding:9px;border:1px solid #ced4da;border-radius:6px;font-size:14px;resize:vertical;min-height:60px" placeholder="請在此描述其他不適…"></textarea>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section">
+    <div class="section-title">三、體重與代謝指標追蹤</div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <label>當前劑量</label>
+        <input type="text" id="dose" placeholder="例如：2.5 mg">
+      </div>
+      <div class="metric-card">
+        <label>累計用藥週數</label>
+        <input type="text" id="weeks" placeholder="例如：第 4 週">
+      </div>
+      <div class="metric-card">
+        <label>起始體重 (kg)</label>
+        <input type="number" id="w_start" step="0.1" placeholder="0.0" oninput="calcDiff()">
+      </div>
+      <div class="metric-card">
+        <label>目前體重 (kg)</label>
+        <input type="number" id="w_now" step="0.1" placeholder="0.0" oninput="calcDiff()">
+      </div>
+      <div class="metric-card">
+        <label>空腹血糖 (mg/dL 或 mmol/L)</label>
+        <input type="text" id="glucose" placeholder="選填">
+      </div>
+      <div class="metric-card">
+        <label>腰圍 (cm)</label>
+        <input type="number" id="waist" placeholder="選填">
+      </div>
+    </div>
+    <div class="weight-diff" id="diff-box" style="display:none;margin-top:14px"></div>
+  </div>
+
+  <!-- Buttons -->
+  <button class="btn btn-summary" onclick="generateSummary()">
+    ✨ AI 自動生成醫師摘要
+  </button>
+  <button class="btn btn-print" onclick="window.print()">🖨️ 列印 / 儲存為 PDF 交給醫師評估</button>
+
+  <!-- Summary Output -->
+  <div id="summary-section">
+    <div class="summary-header">
+      <span>🤖 AI 醫師摘要報告</span>
+      <span id="summary-spinner"></span>
+      <button onclick="copySummary()" style="margin-left:auto;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:white;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:13px" id="copy-btn">複製摘要</button>
+    </div>
+    <div id="summary-body" class="typing-cursor"></div>
+  </div>
+
+  <div class="footer">
+    本問卷僅供臨床數據整理與醫師溝通使用。<br>
+    具體用藥調整請務必遵循專業醫師指示，請勿自行更改劑量。
+  </div>
+</div>
+
+<script>
+  const SYMPTOMS = ["噁心 (Nausea)","嘔吐 (Vomiting)","腹瀉 (Diarrhea)","便秘 (Constipation)","胃食道逆流 / 胃灼熱","注射部位紅腫或過敏","頭暈 / 疲倦","食慾明顯下降"];
+  const LEVELS = ["無","輕微","中度","嚴重"];
+
+  document.getElementById('today').textContent = new Date().toLocaleDateString('zh-TW', {year:'numeric',month:'long',day:'numeric'});
+
+  const tbody = document.getElementById('symptom-table');
+  SYMPTOMS.forEach((s, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${s}</td>` + LEVELS.map((_, j) =>
+      `<td><input type="radio" name="s${i}" value="${LEVELS[j]}"></td>`
+    ).join('');
+    tbody.appendChild(tr);
+  });
+
+  document.querySelectorAll('input[name^="contra"]').forEach(el => {
+    el.addEventListener('change', () => {
+      const idx = el.name.replace('contra','');
+      const alert = document.getElementById('alert'+idx);
+      if (alert) alert.style.display = el.value === '是' ? 'block' : 'none';
+    });
+  });
+
+  function calcDiff() {
+    const s = parseFloat(document.getElementById('w_start').value);
+    const n = parseFloat(document.getElementById('w_now').value);
+    const box = document.getElementById('diff-box');
+    if (!isNaN(s) && !isNaN(n) && s > 0) {
+      const diff = n - s, pct = ((diff/s)*100).toFixed(1);
+      const sign = diff <= 0 ? '' : '+';
+      const isLoss = diff <= 0;
+      box.style.background = isLoss ? '#e8f5e9' : '#fff8e1';
+      box.style.border = `1px solid ${isLoss ? '#a5d6a7' : '#ffe082'}`;
+      box.innerHTML = `<div class="label" style="color:${isLoss?'#4caf50':'#e65100'}">體重變化</div>
+        <div class="value" style="color:${isLoss?'#2e7d32':'#e65100'}">${sign}${diff.toFixed(1)} kg</div>
+        <div class="sub">${sign}${pct}% 較起始體重</div>`;
+      box.style.display = 'block';
+    } else { box.style.display = 'none'; }
+  }
+
+  function collectData() {
+    const get = id => document.getElementById(id)?.value?.trim() || '未填寫';
+    const radio = name => document.querySelector(`input[name="${name}"]:checked`)?.value || '未作答';
+    const contras = [1,2,3].map(i => ({
+      q: ['MTC/MEN2家族史','懷孕/哺乳/懷孕計畫','胰臟炎病史'][i-1],
+      a: radio(`contra${i}`)
+    }));
+    const syms = SYMPTOMS.map((s, i) => ({ name: s, level: radio(`s${i}`) }));
+    const ws = parseFloat(document.getElementById('w_start').value);
+    const wn = parseFloat(document.getElementById('w_now').value);
+    const diff = (!isNaN(ws)&&!isNaN(wn)&&ws>0) ? `${(wn-ws).toFixed(1)} kg（${(((wn-ws)/ws)*100).toFixed(1)}%）` : '無法計算';
+    return { date: get('today'), dose: get('dose'), weeks: get('weeks'),
+      w_start: get('w_start'), w_now: get('w_now'), diff,
+      glucose: get('glucose'), waist: get('waist'),
+      contras, syms, notes: get('other-notes') };
+  }
+
+  async function generateSummary() {
+    const d = collectData();
+    const sec = document.getElementById('summary-section');
+    const body = document.getElementById('summary-body');
+    const spinner = document.getElementById('summary-spinner');
+    sec.style.display = 'block';
+    body.textContent = '';
+    body.classList.add('typing-cursor');
+    spinner.innerHTML = '<span class="spinner"></span>';
+    sec.scrollIntoView({behavior:'smooth', block:'start'});
+
+    const contraText = d.contras.map(c => `  - ${c.q}：${c.a}`).join('\n');
+    const symText = d.syms.map(s => `  - ${s.name}：${s.level}`).join('\n');
+
+    const prompt = `你是一位臨床藥師，請根據以下猛健樂（Tirzepatide）用藥監測問卷資料，用繁體中文為醫師生成一份簡潔、專業的回診摘要報告。格式請包含：【用藥狀況】【禁忌症評估】【不良反應摘要】【體重療效】【建議事項】五個段落。語氣專業、重點明確，若有警示項目請特別標註。
+
+填寫日期：${new Date().toLocaleDateString('zh-TW')}
+當前劑量：${d.dose}
+用藥週數：${d.weeks}
+起始體重：${d.w_start} kg　目前體重：${d.w_now} kg　體重變化：${d.diff}
+空腹血糖：${d.glucose}　腰圍：${d.waist} cm
+
+禁忌症篩查：
+${contraText}
+
+不良反應（過去7天）：
+${symText}
+
+其他備註：${d.notes}`;
+
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+      const data = await res.json();
+      const text = data?.content?.[0]?.text || '無法取得回應，請稍後再試。';
+      body.classList.remove('typing-cursor');
+      // Typewriter effect
+      let i = 0;
+      spinner.innerHTML = '';
+      body.textContent = '';
+      body.classList.add('typing-cursor');
+      const timer = setInterval(() => {
+        body.textContent += text[i++];
+        if (i >= text.length) { clearInterval(timer); body.classList.remove('typing-cursor'); }
+      }, 12);
+    } catch(e) {
+      spinner.innerHTML = '';
+      body.classList.remove('typing-cursor');
+      body.textContent = '⚠️ 摘要生成失敗，請確認網路連線後再試。';
+    }
+  }
+
+  function copySummary() {
+    const text = document.getElementById('summary-body').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.textContent = '✅ 已複製';
+      setTimeout(() => btn.textContent = '複製摘要', 2000);
+    });
+  }
+</script>
+</body>
+</html>

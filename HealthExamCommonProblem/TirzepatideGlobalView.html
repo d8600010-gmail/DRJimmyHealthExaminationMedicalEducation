@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>猛健樂：用故事看懂使用時機與影響</title>
+<style>
+:root{
+  --bg:#f7f4ee;--card:#fff;--text:#2b2b2b;--muted:#6b7280;
+  --accent:#3b6f5a;--accent-light:#e8f2ed;--border:#e5e7eb;
+  --warning:#8b4513;--warn-bg:#fff5f2;--warn-border:#c96b3c;
+  --hi-bg:#fff8e8;--hi-border:#d4a017;
+  --progress:#3b6f5a;--nav-bg:#ffffffee;
+}
+.dark{
+  --bg:#1a1f1d;--card:#252d29;--text:#e8ece9;--muted:#9ca3af;
+  --accent:#6dbf9a;--accent-light:#1e3329;--border:#374140;
+  --warning:#f59e6a;--warn-bg:#2a1a12;--warn-border:#c96b3c;
+  --hi-bg:#2a2410;--hi-border:#d4a017;
+  --nav-bg:#252d29ee;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.8;transition:background .3s,color .3s;}
+
+/* Progress bar */
+#progress-bar{position:fixed;top:0;left:0;height:4px;width:0;background:var(--progress);z-index:1000;transition:width .15s;}
+
+/* Nav */
+nav{position:fixed;top:4px;left:0;right:0;z-index:999;background:var(--nav-bg);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--border);
+  padding:10px 20px;display:flex;align-items:center;gap:8px;overflow-x:auto;
+  scrollbar-width:none;transition:background .3s,border-color .3s;}
+nav::-webkit-scrollbar{display:none;}
+.nav-title{font-weight:700;color:var(--accent);white-space:nowrap;margin-right:6px;font-size:.95rem;}
+.nav-btn{background:none;border:1px solid var(--border);border-radius:999px;
+  padding:4px 12px;font-size:.8rem;color:var(--muted);cursor:pointer;white-space:nowrap;
+  transition:all .2s;font-family:inherit;}
+.nav-btn:hover,.nav-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.nav-spacer{flex:1;}
+.theme-btn{background:none;border:1px solid var(--border);border-radius:999px;
+  padding:4px 12px;font-size:.85rem;cursor:pointer;color:var(--text);
+  transition:all .2s;font-family:inherit;white-space:nowrap;}
+.theme-btn:hover{background:var(--accent-light);}
+
+.container{max-width:960px;margin:0 auto;padding:80px 20px 80px;}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,#fffdf8,#eef7f2);
+  border:1px solid var(--border);border-radius:24px;padding:36px 28px;
+  box-shadow:0 12px 30px rgba(0,0,0,.06);margin-bottom:28px;transition:background .3s,border-color .3s;}
+.dark .hero{background:linear-gradient(135deg,#252d29,#1e3329);}
+.hero h1{font-size:clamp(1.6rem,3.5vw,2.6rem);line-height:1.3;margin-bottom:12px;color:var(--text);}
+.hero p{color:var(--muted);font-size:1.02rem;}
+.note{margin-top:18px;display:inline-block;background:var(--accent-light);
+  color:var(--accent);padding:10px 16px;border-radius:999px;font-size:.92rem;font-weight:600;}
+
+/* Accordion card */
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;
+  margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,.04);overflow:hidden;
+  transition:box-shadow .2s,border-color .3s,background .3s;}
+.card:hover{box-shadow:0 8px 28px rgba(0,0,0,.09);}
+.card-header{padding:20px 22px;cursor:pointer;display:flex;align-items:center;gap:12px;
+  user-select:none;}
+.card-header h2{flex:1;font-size:1.25rem;color:var(--accent);margin:0;}
+.chevron{font-size:1.1rem;color:var(--muted);transition:transform .3s;}
+.card.open .chevron{transform:rotate(180deg);}
+.card-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;}
+.card.open .card-body{max-height:2000px;padding:0 22px 22px;}
+.card-body p+p{margin-top:10px;}
+ul{padding-left:1.2rem;}
+li+li{margin-top:8px;}
+
+.highlight{background:var(--hi-bg);border-left:4px solid var(--hi-border);
+  padding:12px 16px;border-radius:10px;margin:14px 0;font-size:.97rem;}
+.warning{background:var(--warn-bg);border-left:4px solid var(--warn-border);
+  padding:12px 16px;border-radius:10px;margin:14px 0;color:var(--warning);font-size:.97rem;}
+
+/* Key takeaway */
+.takeaway{margin-top:16px;background:var(--accent-light);border-radius:12px;
+  padding:12px 16px;font-size:.9rem;color:var(--accent);}
+.takeaway strong{display:block;margin-bottom:4px;}
+
+/* Summary */
+.summary{background:linear-gradient(135deg,#3b6f5a,#27493c);color:#fff;
+  border-radius:24px;padding:28px 26px;margin-top:24px;
+  box-shadow:0 12px 30px rgba(39,73,60,.25);}
+.summary h2{color:#fff;margin-bottom:14px;font-size:1.4rem;}
+.summary p+p{margin-top:10px;}
+
+/* Quiz */
+.quiz-section{margin-top:32px;}
+.quiz-section h2{font-size:1.4rem;color:var(--accent);margin-bottom:18px;text-align:center;}
+.quiz-card{background:var(--card);border:1px solid var(--border);border-radius:18px;
+  padding:22px;margin-bottom:16px;transition:background .3s,border-color .3s;}
+.quiz-card p{font-weight:600;margin-bottom:14px;font-size:1rem;}
+.quiz-options{display:flex;flex-direction:column;gap:10px;}
+.opt-btn{background:var(--bg);border:1px solid var(--border);border-radius:10px;
+  padding:10px 14px;text-align:left;cursor:pointer;font-size:.93rem;color:var(--text);
+  font-family:inherit;transition:all .2s;}
+.opt-btn:hover:not(:disabled){background:var(--accent-light);border-color:var(--accent);}
+.opt-btn.correct{background:#e8f5e9;border-color:#4caf50;color:#2e7d32;}
+.opt-btn.wrong{background:#fdecea;border-color:#e57373;color:#c62828;}
+.opt-btn:disabled{cursor:default;}
+.quiz-feedback{margin-top:12px;padding:10px 14px;border-radius:10px;font-size:.92rem;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.good{background:#e8f5e9;color:#2e7d32;}
+.quiz-feedback.bad{background:#fdecea;color:#c62828;}
+.quiz-score{text-align:center;margin-top:20px;padding:18px;background:var(--accent-light);
+  border-radius:16px;display:none;}
+.quiz-score p{font-size:1.1rem;color:var(--accent);font-weight:700;}
+.quiz-score button{margin-top:12px;background:var(--accent);color:#fff;border:none;
+  border-radius:999px;padding:8px 22px;cursor:pointer;font-size:.95rem;font-family:inherit;}
+
+.footer{margin-top:20px;color:var(--muted);font-size:.9rem;text-align:center;}
+@media(max-width:640px){
+  .container{padding:72px 12px 48px;}
+  .hero,.card,.summary{border-radius:16px;}
+  nav{padding:8px 12px;}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<nav id="main-nav">
+  <span class="nav-title">猛健樂</span>
+  <button class="nav-btn" onclick="scrollTo('s0')">開始</button>
+  <button class="nav-btn" onclick="scrollTo('s1')">適用時機</button>
+  <button class="nav-btn" onclick="scrollTo('s2')">禁忌症</button>
+  <button class="nav-btn" onclick="scrollTo('s3')">初期反應</button>
+  <button class="nav-btn" onclick="scrollTo('s4')">體重</button>
+  <button class="nav-btn" onclick="scrollTo('s5')">肌肉</button>
+  <button class="nav-btn" onclick="scrollTo('s6')">長期影響</button>
+  <button class="nav-btn" onclick="scrollTo('quiz')">📝 測驗</button>
+  <span class="nav-spacer"></span>
+  <button class="theme-btn" id="theme-toggle" onclick="toggleTheme()">🌙 深色</button>
+</nav>
+
+<main class="container">
+
+  <section class="hero" id="s0">
+    <h1>猛健樂：用故事看懂使用時機、風險與長期影響</h1>
+    <p>這是一篇用說故事方式整理的衛教內容，帶你了解猛健樂的使用時機、禁忌症、可能的不良反應，以及它對體重、肌肉與長期健康可能帶來的影響。</p>
+    <div class="note">📋 此內容僅供衛教參考，實際使用須由醫師評估。</div>
+  </section>
+
+  <!-- Ch0 -->
+  <div class="card open" id="c0">
+    <div class="card-header" onclick="toggle('c0')">
+      <h2>🌱 故事開始：小宇與他的選擇</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>小宇 35 歲，長期久坐、工作壓力大，體重慢慢上升。健檢時，醫師提醒他不只體脂偏高，血糖也開始接近危險邊緣。小宇試過少吃、多走路，也努力早睡，卻總覺得效果有限。</p>
+      <p>某次回診，醫師提到一種藥物：<strong>猛健樂</strong>。醫師沒有把它說成神奇捷徑，反而先告訴他：「這不是人人都適合，也不是單靠打一針就能解決所有問題的藥。」</p>
+      <div class="takeaway"><strong>💡 本章重點</strong>猛健樂是醫療輔助工具，不是神奇捷徑。適合與否，需要醫師評估。</div>
+    </div>
+  </div>
+
+  <!-- Ch1 -->
+  <div class="card" id="c1">
+    <div class="card-header" onclick="toggle('c1')" id="s1">
+      <h2>🩺 第一章：什麼時候會用到猛健樂？</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>醫師向小宇解釋，猛健樂通常不是為了單純追求外型而使用，而是有比較明確的醫療目的。</p>
+      <ul>
+        <li>已確診第二型糖尿病，需要幫助控制血糖。</li>
+        <li>屬於肥胖，或過重且已伴隨代謝異常、脂肪肝、高血壓等問題。</li>
+        <li>已經嘗試飲食與運動調整，但效果仍有限，需要額外醫療介入。</li>
+      </ul>
+      <div class="highlight">它比較像是「幫助你更容易做到飲食控制與體重管理的工具」，不是取代生活習慣的魔法。</div>
+      <div class="takeaway"><strong>💡 本章重點</strong>使用前提是有明確醫療需求，例如血糖控制或代謝問題，而非單純美觀目的。</div>
+    </div>
+  </div>
+
+  <!-- Ch2 -->
+  <div class="card" id="c2">
+    <div class="card-header" onclick="toggle('c2')" id="s2">
+      <h2>🚫 第二章：誰不適合用？（禁忌症與注意事項）</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>在開藥前，醫師仔細問了小宇幾件事，因為有些情況下不建議使用，或需要格外小心。</p>
+      <ul>
+        <li>本人或家族有甲狀腺髓質癌病史。</li>
+        <li>有多發性內分泌腫瘤症候群第二型（MEN2）。</li>
+        <li>曾有胰臟炎病史，或正有嚴重腸胃道問題。</li>
+        <li>懷孕、準備懷孕或哺乳中。</li>
+        <li>曾對藥物成分發生嚴重過敏反應。</li>
+      </ul>
+      <div class="warning">⚠️ 若本身有膽囊疾病、腎功能問題，或合併使用其他降血糖藥物，也需要讓醫師知道，避免風險增加。</div>
+      <div class="takeaway"><strong>💡 本章重點</strong>使用前務必讓醫師了解完整病史，特別是甲狀腺、胰臟與腸胃相關病史。</div>
+    </div>
+  </div>
+
+  <!-- Ch3 -->
+  <div class="card" id="c3">
+    <div class="card-header" onclick="toggle('c3')" id="s3">
+      <h2>🤢 第三章：剛開始時，身體可能會怎麼反應？</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>小宇開始用藥後，前幾週最明顯的感覺不是變瘦，而是「比較容易飽」，有時還有點噁心。醫師告訴他，這些是常見反應。</p>
+      <ul>
+        <li>噁心</li>
+        <li>嘔吐</li>
+        <li>腹瀉</li>
+        <li>便秘</li>
+        <li>食慾下降、容易飽</li>
+        <li>腹脹、消化變慢</li>
+      </ul>
+      <p>多數人在起始劑量或加量時比較明顯，之後有機會逐漸緩解。但如果出現<strong>持續劇烈腹痛、反覆嘔吐、嚴重脫水</strong>，就不是忍一忍就好，而是應盡快就醫。</p>
+      <div class="takeaway"><strong>💡 本章重點</strong>初期腸胃不適屬於常見反應，但出現嚴重症狀時應立刻就醫，不可硬撐。</div>
+    </div>
+  </div>
+
+  <!-- Ch4 -->
+  <div class="card" id="c4">
+    <div class="card-header" onclick="toggle('c4')" id="s4">
+      <h2>⚖️ 第四章：體重會怎麼變？</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>幾個月後，小宇發現褲頭鬆了、食量也自然變小。這類藥物常會讓人比較快飽、較不容易一直想吃，因此常見的結果就是體重下降。</p>
+      <ul>
+        <li>體重通常有機會下降，但速度與幅度因人而異。</li>
+        <li>下降的主因多與食量減少、熱量攝取下降有關。</li>
+        <li>停藥後若生活型態沒有穩住，體重可能回升。</li>
+      </ul>
+      <div class="highlight">真正值得注意的是：體重下降不代表全部都是脂肪下降，瘦下來的同時，也可能流失部分肌肉。</div>
+      <div class="takeaway"><strong>💡 本章重點</strong>停藥不等於成功，長期的生活型態調整才是維持成果的關鍵。</div>
+    </div>
+  </div>
+
+  <!-- Ch5 -->
+  <div class="card" id="c5">
+    <div class="card-header" onclick="toggle('c5')" id="s5">
+      <h2>💪 第五章：那肌肉呢？會不會一起掉？</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>小宇瘦下來後，某天覺得爬樓梯比較沒力。醫師提醒他，這在減重過程中並不少見，因為當熱量攝取變少時，除了脂肪，身體也可能消耗部分瘦體重，也就是肌肉。</p>
+      <ul>
+        <li>如果只靠少吃、不做阻力訓練，肌肉流失風險會比較高。</li>
+        <li>蛋白質攝取不足時，更容易讓體力與肌肉量下降。</li>
+        <li>年紀較大、原本肌肉量偏少的人，需要更小心保肌。</li>
+      </ul>
+      <p>所以醫師給小宇的處方，不只是藥，還包括兩個任務：</p>
+      <ul>
+        <li>每天吃到足夠蛋白質。</li>
+        <li>每週做 2～3 次阻力訓練，例如深蹲、彈力帶、啞鈴或器械訓練。</li>
+      </ul>
+      <div class="warning">⚠️ 若追求的是「減脂不減力」，不能只看體重數字，還要注意體力、肌力與身體組成。</div>
+      <div class="takeaway"><strong>💡 本章重點</strong>搭配阻力訓練與足夠蛋白質，才能在減重的同時保住肌肉量。</div>
+    </div>
+  </div>
+
+  <!-- Ch6 -->
+  <div class="card" id="c6">
+    <div class="card-header" onclick="toggle('c6')" id="s6">
+      <h2>🫀 第六章：長期對健康可能有什麼影響？</h2>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>半年後，小宇回診，血糖、腰圍、血壓都有改善。醫師告訴他，對某些合適的人來說，這類藥物的長期價值不只是讓體重下降，而是幫助整體代謝狀況變好。</p>
+      <ul>
+        <li>可能有助於改善血糖控制。</li>
+        <li>可能降低部分心血管與代謝風險。</li>
+        <li>有助於減少與肥胖相關的健康負擔。</li>
+      </ul>
+      <p>但醫師也很坦白，長期使用時仍需持續追蹤，因為還要留意：</p>
+      <ul>
+        <li>是否出現持續性的腸胃不適。</li>
+        <li>是否有膽囊、胰臟相關警訊。</li>
+        <li>停藥後體重與代謝是否反彈。</li>
+        <li>減重太快時，是否伴隨肌肉與體能下滑。</li>
+      </ul>
+      <div class="takeaway"><strong>💡 本章重點</strong>長期效益需要持續追蹤與醫師監測，不建議自行停藥或調整劑量。</div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <section class="summary">
+    <h2>🌅 故事的結尾：真正的重點</h2>
+    <p>小宇最後明白，猛健樂不是為了「快速變瘦」而存在，而是給某些需要醫療介入的人，一個更容易把體重管理和血糖控制做好的機會。</p>
+    <p>它可能幫助體重下降，也可能改善代謝；但它同時有禁忌症、有副作用，而且若忽略運動與蛋白質補充，肌肉也可能一起流失。</p>
+    <p><strong>最理想的使用方式，是在醫師監測下，把它當成生活調整的輔助，而不是唯一答案。</strong></p>
+  </section>
+
+  <!-- Quiz -->
+  <section class="quiz-section" id="quiz">
+    <h2>📝 理解測驗：你學到了嗎？</h2>
+
+    <div class="quiz-card" id="q1">
+      <p>1. 猛健樂的主要適用對象是？</p>
+      <div class="quiz-options">
+        <button class="opt-btn" onclick="answer('q1',0,1)">A. 想快速瘦身的健康成人</button>
+        <button class="opt-btn" onclick="answer('q1',1,1)">B. 有第二型糖尿病或代謝問題、且生活調整效果有限的人</button>
+        <button class="opt-btn" onclick="answer('q1',2,1)">C. 任何體重過重的人都可以直接使用</button>
+        <button class="opt-btn" onclick="answer('q1',3,1)">D. 只適合老年人使用</button>
+      </div>
+      <div class="quiz-feedback" id="q1-fb"></div>
+    </div>
+
+    <div class="quiz-card" id="q2">
+      <p>2. 使用猛健樂時，下列哪個做法最重要？</p>
+      <div class="quiz-options">
+        <button class="opt-btn" onclick="answer('q2',0,2)">A. 不需要運動，藥物會自動處理一切</button>
+        <button class="opt-btn" onclick="answer('q2',1,2)">B. 每天只喝水不吃東西效果更好</button>
+        <button class="opt-btn" onclick="answer('q2',2,2)">C. 搭配足夠蛋白質攝取與阻力訓練，以保住肌肉量</button>
+        <button class="opt-btn" onclick="answer('q2',3,2)">D. 體重降到目標就可以立刻自行停藥</button>
+      </div>
+      <div class="quiz-feedback" id="q2-fb"></div>
+    </div>
+
+    <div class="quiz-card" id="q3">
+      <p>3. 出現哪種症狀時，應該立刻就醫而不是繼續等待？</p>
+      <div class="quiz-options">
+        <button class="opt-btn" onclick="answer('q3',0,3)">A. 輕微噁心、食慾下降</button>
+        <button class="opt-btn" onclick="answer('q3',1,3)">B. 偶爾腹脹、消化變慢</button>
+        <button class="opt-btn" onclick="answer('q3',2,3)">C. 持續劇烈腹痛、反覆嘔吐、嚴重脫水</button>
+        <button class="opt-btn" onclick="answer('q3',3,3)">D. 初期幾天覺得容易飽</button>
+      </div>
+      <div class="quiz-feedback" id="q3-fb"></div>
+    </div>
+
+    <div class="quiz-score" id="quiz-score">
+      <p id="score-text"></p>
+      <button onclick="resetQuiz()">🔄 重新作答</button>
+    </div>
+  </section>
+
+  <p class="footer">本頁面為故事化衛教整理版本，不取代醫師診斷、處方與個人化建議。</p>
+</main>
+
+<script>
+// Theme
+let dark=false;
+function toggleTheme(){
+  dark=!dark;
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('theme-toggle').textContent=dark?'☀️ 淺色':'🌙 深色';
+}
+
+// Progress
+window.addEventListener('scroll',()=>{
+  const el=document.documentElement;
+  const pct=(el.scrollTop||document.body.scrollTop)/(el.scrollHeight-el.clientHeight)*100;
+  document.getElementById('progress-bar').style.width=pct+'%';
+});
+
+// Accordion
+function toggle(id){
+  const c=document.getElementById(id);
+  c.classList.toggle('open');
+}
+
+// Scroll to section
+function scrollTo(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const y=el.getBoundingClientRect().top+window.pageYOffset-64;
+  window.scrollTo({top:y,behavior:'smooth'});
+  // open card if it's a chapter
+  const cMap={s1:'c1',s2:'c2',s3:'c3',s4:'c4',s5:'c5',s6:'c6'};
+  if(cMap[id]){const card=document.getElementById(cMap[id]);if(!card.classList.contains('open'))card.classList.add('open');}
+}
+
+// Quiz
+const answers={q1:1,q2:2,q3:2};
+const explanations={
+  q1:{right:'✅ 正確！猛健樂主要用於有明確醫療需求的患者，需醫師評估後才使用。',
+      wrong:'❌ 不正確。猛健樂需在有代謝問題且生活調整效果有限時，由醫師評估使用，不是一般減重工具。'},
+  q2:{right:'✅ 正確！阻力訓練與足夠蛋白質是避免肌肉流失的關鍵，不能只依賴藥物。',
+      wrong:'❌ 不正確。光靠藥物不夠，且不可自行停藥，必須在醫師監測下調整。'},
+  q3:{right:'✅ 正確！這些是嚴重警訊，需立刻就醫，不能忍耐等待。',
+      wrong:'❌ 不正確。輕微腸胃不適屬常見反應，但劇烈腹痛、反覆嘔吐、嚴重脫水是需要立刻就醫的警訊。'}
+};
+let answered={};
+
+function answer(qid,idx,qnum){
+  if(answered[qid])return;
+  answered[qid]=true;
+  const btns=document.querySelectorAll(`#${qid} .opt-btn`);
+  const correct=answers[qid];
+  btns.forEach((b,i)=>{
+    b.disabled=true;
+    if(i===correct)b.classList.add('correct');
+    else if(i===idx&&idx!==correct)b.classList.add('wrong');
+  });
+  const fb=document.getElementById(qid+'-fb');
+  const right=idx===correct;
+  fb.textContent=right?explanations[qid].right:explanations[qid].wrong;
+  fb.className='quiz-feedback show '+(right?'good':'bad');
+  if(Object.keys(answered).length===3) showScore();
+}
+
+function showScore(){
+  const total=3;
+  const correct=Object.keys(answered).filter(q=>{
+    const qCard=document.getElementById(q);
+    return qCard.querySelector('.opt-btn.correct')!==null;
+  });
+  // count correct answers the user selected (not auto-highlighted)
+  let score=0;
+  ['q1','q2','q3'].forEach(q=>{
+    const btns=document.querySelectorAll(`#${q} .opt-btn`);
+    btns.forEach(b=>{if(b.classList.contains('correct')&&!b.classList.contains('wrong')){}});
+    // check feedback
+    const fb=document.getElementById(q+'-fb');
+    if(fb.classList.contains('good'))score++;
+  });
+  const scoreEl=document.getElementById('quiz-score');
+  document.getElementById('score-text').textContent=
+    `你答對了 ${score} / ${total} 題 ${score===3?'🎉 全對！非常棒！':score===2?'👍 答得不錯！':score===1?'📖 再複習看看吧！':'💪 重新閱讀後再試試！'}`;
+  scoreEl.style.display='block';
+}
+
+function resetQuiz(){
+  answered={};
+  ['q1','q2','q3'].forEach(q=>{
+    const btns=document.querySelectorAll(`#${q} .opt-btn`);
+    btns.forEach(b=>{b.disabled=false;b.classList.remove('correct','wrong');});
+    const fb=document.getElementById(q+'-fb');
+    fb.className='quiz-feedback';fb.textContent='';
+  });
+  document.getElementById('quiz-score').style.display='none';
+}
+</script>
+</body>
+</html>

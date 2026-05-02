@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>膽結石一般常識</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue-deep: #1a3a6b;
+            --blue-mid: #2c5aa0;
+            --blue-light: #4a90d9;
+            --blue-pale: #e8f2ff;
+            --teal: #0d8fa4;
+            --white: #ffffff;
+            --text-dark: #1e2d4a;
+            --text-mid: #3a5278;
+            --accent-red: #e05252;
+            --accent-gold: #f0a500;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+            background-color: #0d1f3c;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* === ANIMATED BACKGROUND === */
+        .bg-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            background: linear-gradient(160deg, #0d1f3c 0%, #1a3a6b 40%, #0d3352 70%, #0a2040 100%);
+            overflow: hidden;
+        }
+
+        /* Floating medical icons via SVG */
+        .bg-canvas svg.med-bg {
+            position: absolute;
+            opacity: 0.07;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10%  { opacity: 0.07; }
+            90%  { opacity: 0.07; }
+            100% { transform: translateY(-10vh) rotate(20deg); opacity: 0; }
+        }
+
+        /* Grid pulse lines */
+        .grid-lines {
+            position: absolute;
+            width: 100%; height: 100%;
+            background-image:
+                linear-gradient(rgba(74, 144, 217, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74, 144, 217, 0.06) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Glowing orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: pulse 8s ease-in-out infinite alternate;
+        }
+        .orb-1 { width: 400px; height: 400px; background: rgba(44,90,160,0.3); top: -100px; left: -100px; }
+        .orb-2 { width: 300px; height: 300px; background: rgba(13,143,164,0.2); bottom: 10%; right: -50px; animation-delay: -3s; }
+        .orb-3 { width: 250px; height: 250px; background: rgba(74,144,217,0.15); top: 40%; left: 30%; animation-delay: -5s; }
+
+        @keyframes pulse {
+            from { transform: scale(1); opacity: 0.6; }
+            to   { transform: scale(1.2); opacity: 1; }
+        }
+
+        /* DNA helix side decoration */
+        .dna-left {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.12;
+            z-index: 1;
+        }
+        .dna-right {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.12;
+            z-index: 1;
+        }
+
+        /* === MAIN CONTENT === */
+        .page-wrapper {
+            position: relative;
+            z-index: 2;
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 40px 20px 60px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 30px 35px;
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(74,144,217,0.2);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--teal), var(--blue-light), var(--blue-mid), var(--teal));
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .header-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(74,144,217,0.5);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: rgba(180,210,255,0.7);
+            font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        /* Intro card */
+        .intro-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(74,144,217,0.15);
+            border-radius: 16px;
+            padding: 22px 28px;
+            margin-bottom: 24px;
+            color: rgba(200,225,255,0.9);
+            line-height: 1.8;
+            font-size: 0.97rem;
+        }
+
+        /* Section cards */
+        .section-card {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(74,144,217,0.15);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 22px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .section-card:hover {
+            border-color: rgba(74,144,217,0.4);
+            box-shadow: 0 8px 30px rgba(44,90,160,0.25);
+        }
+
+        h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #7ec8f0;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 1px;
+        }
+        h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(74,144,217,0.4), transparent);
+        }
+
+        /* List items */
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(74,144,217,0.08);
+            color: rgba(200,225,255,0.85);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .list-item:last-child { border-bottom: none; }
+
+        .list-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--blue-light);
+            flex-shrink: 0;
+            margin-top: 8px;
+            box-shadow: 0 0 6px rgba(74,144,217,0.6);
+        }
+
+        strong {
+            color: #a0d4f5;
+            font-weight: 600;
+        }
+
+        /* Treatment cards */
+        .treatment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-top: 4px;
+        }
+        .treat-card {
+            background: rgba(44,90,160,0.12);
+            border: 1px solid rgba(74,144,217,0.18);
+            border-radius: 12px;
+            padding: 16px;
+            transition: background 0.3s;
+        }
+        .treat-card:hover { background: rgba(44,90,160,0.22); }
+        .treat-label {
+            font-size: 0.78rem;
+            color: #7ec8f0;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .treat-desc {
+            font-size: 0.9rem;
+            color: rgba(200,225,255,0.8);
+            line-height: 1.6;
+        }
+
+        /* Prevention tips */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .tip-badge {
+            background: rgba(13,143,164,0.1);
+            border: 1px solid rgba(13,143,164,0.25);
+            border-radius: 10px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(200,225,255,0.85);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .tip-icon { font-size: 1.4rem; flex-shrink: 0; }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: rgba(240,165,0,0.08);
+            border: 1px solid rgba(240,165,0,0.25);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin: 24px 0 16px;
+            color: rgba(255,220,120,0.9);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .disclaimer-icon { font-size: 1.4rem; flex-shrink: 0; }
+
+        /* Source */
+        .source {
+            text-align: right;
+            color: rgba(130,170,220,0.5);
+            font-size: 0.8rem;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.6rem; }
+            .tips-grid { grid-template-columns: 1fr; }
+            .treatment-grid { grid-template-columns: 1fr; }
+            .dna-left, .dna-right { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- BACKGROUND -->
+<div class="bg-canvas">
+    <div class="grid-lines"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Floating medical SVG icons -->
+    <!-- Cross -->
+    <svg class="med-bg" width="60" height="60" viewBox="0 0 60 60" style="left:8%;animation-duration:18s;animation-delay:0s;">
+        <rect x="22" y="5" width="16" height="50" rx="4" fill="white"/>
+        <rect x="5" y="22" width="50" height="16" rx="4" fill="white"/>
+    </svg>
+    <!-- Pill -->
+    <svg class="med-bg" width="70" height="35" viewBox="0 0 70 35" style="left:20%;animation-duration:22s;animation-delay:-4s;">
+        <rect x="2" y="2" width="66" height="31" rx="15" fill="none" stroke="white" stroke-width="4"/>
+        <line x1="35" y1="2" x2="35" y2="33" stroke="white" stroke-width="4"/>
+    </svg>
+    <!-- Stethoscope simplified -->
+    <svg class="med-bg" width="60" height="60" viewBox="0 0 60 60" style="right:10%;animation-duration:25s;animation-delay:-8s;">
+        <circle cx="30" cy="40" r="15" fill="none" stroke="white" stroke-width="4"/>
+        <path d="M15 25 Q10 10 20 8 Q30 6 28 20" fill="none" stroke="white" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="20" cy="8" r="4" fill="white"/>
+    </svg>
+    <!-- Heartbeat line -->
+    <svg class="med-bg" width="100" height="40" viewBox="0 0 100 40" style="right:25%;animation-duration:20s;animation-delay:-12s;">
+        <polyline points="0,20 20,20 28,5 36,35 44,10 52,30 60,20 100,20" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <!-- DNA dots -->
+    <svg class="med-bg" width="50" height="100" viewBox="0 0 50 100" style="left:50%;animation-duration:30s;animation-delay:-6s;">
+        <ellipse cx="10" cy="10" rx="8" ry="5" fill="none" stroke="white" stroke-width="2.5"/>
+        <ellipse cx="40" cy="25" rx="8" ry="5" fill="none" stroke="white" stroke-width="2.5"/>
+        <ellipse cx="10" cy="40" rx="8" ry="5" fill="none" stroke="white" stroke-width="2.5"/>
+        <ellipse cx="40" cy="55" rx="8" ry="5" fill="none" stroke="white" stroke-width="2.5"/>
+        <ellipse cx="10" cy="70" rx="8" ry="5" fill="none" stroke="white" stroke-width="2.5"/>
+        <ellipse cx="40" cy="85" rx="8" ry="5" fill="none" stroke="white" stroke-width="2.5"/>
+    </svg>
+    <!-- Microscope -->
+    <svg class="med-bg" width="60" height="80" viewBox="0 0 60 80" style="left:75%;animation-duration:28s;animation-delay:-15s;">
+        <rect x="22" y="5" width="16" height="30" rx="4" fill="none" stroke="white" stroke-width="3"/>
+        <circle cx="30" cy="50" r="16" fill="none" stroke="white" stroke-width="3"/>
+        <line x1="10" y1="75" x2="50" y2="75" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <line x1="30" y1="66" x2="30" y2="75" stroke="white" stroke-width="3"/>
+    </svg>
+    <!-- Plus small -->
+    <svg class="med-bg" width="30" height="30" viewBox="0 0 30 30" style="left:40%;animation-duration:15s;animation-delay:-2s;">
+        <rect x="12" y="2" width="6" height="26" rx="2" fill="white"/>
+        <rect x="2" y="12" width="26" height="6" rx="2" fill="white"/>
+    </svg>
+</div>
+
+<!-- DNA side decorations -->
+<svg class="dna-left" width="40" height="500" viewBox="0 0 40 500">
+    <defs>
+        <linearGradient id="dnaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#4a90d9;stop-opacity:0"/>
+            <stop offset="50%" style="stop-color:#4a90d9;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#4a90d9;stop-opacity:0"/>
+        </linearGradient>
+    </defs>
+    <path d="M5,0 Q35,50 5,100 Q-25,150 5,200 Q35,250 5,300 Q-25,350 5,400 Q35,450 5,500" fill="none" stroke="url(#dnaGrad)" stroke-width="2"/>
+    <path d="M35,0 Q5,50 35,100 Q65,150 35,200 Q5,250 35,300 Q65,350 35,400 Q5,450 35,500" fill="none" stroke="url(#dnaGrad)" stroke-width="2"/>
+    <line x1="5" y1="25" x2="35" y2="37" stroke="url(#dnaGrad)" stroke-width="1.5"/>
+    <line x1="5" y1="75" x2="35" y2="63" stroke="url(#dnaGrad)" stroke-width="1.5"/>
+    <line x1="5" y1="125" x2="35" y2="137" stroke="url(#dnaGrad)" stroke-width="1.5"/>
+    <line x1="5" y1="175" x2="35" y2="163" stroke="url(#dnaGrad)" stroke-width="1.5"/>
+    <line x1="5" y1="225" x2="35" y2="237" stroke="url(#dnaGrad)" stroke-width="1.5"/>
+    <line x1="5" y1="275" x2="35" y2="263" stroke="url(#dnaGrad)" stroke-width="1.5"/>
+    <line x1="5" y1="325" x2="35" y2="337" stroke="url(#dnaGrad)" stroke-width="1.5"/>
+    <line x1="5" y1="375" x2="35" y2="363" stroke="url(#dnaGrad)" stroke-width="1.5"/>
+    <line x1="5" y1="425" x2="35" y2="437" stroke="url(#dnaGrad)" stroke-width="1.5"/>
+    <line x1="5" y1="475" x2="35" y2="463" stroke="url(#dnaGrad)" stroke-width="1.5"/>
+</svg>
+<svg class="dna-right" width="40" height="500" viewBox="0 0 40 500">
+    <path d="M5,0 Q35,50 5,100 Q-25,150 5,200 Q35,250 5,300 Q-25,350 5,400 Q35,450 5,500" fill="none" stroke="#4a90d9" stroke-width="2"/>
+    <path d="M35,0 Q5,50 35,100 Q65,150 35,200 Q5,250 35,300 Q65,350 35,400 Q5,450 35,500" fill="none" stroke="#4a90d9" stroke-width="2"/>
+    <line x1="5" y1="25" x2="35" y2="37" stroke="#4a90d9" stroke-width="1.5"/>
+    <line x1="5" y1="75" x2="35" y2="63" stroke="#4a90d9" stroke-width="1.5"/>
+    <line x1="5" y1="125" x2="35" y2="137" stroke="#4a90d9" stroke-width="1.5"/>
+    <line x1="5" y1="175" x2="35" y2="163" stroke="#4a90d9" stroke-width="1.5"/>
+    <line x1="5" y1="225" x2="35" y2="237" stroke="#4a90d9" stroke-width="1.5"/>
+    <line x1="5" y1="275" x2="35" y2="263" stroke="#4a90d9" stroke-width="1.5"/>
+    <line x1="5" y1="325" x2="35" y2="337" stroke="#4a90d9" stroke-width="1.5"/>
+    <line x1="5" y1="375" x2="35" y2="363" stroke="#4a90d9" stroke-width="1.5"/>
+    <line x1="5" y1="425" x2="35" y2="437" stroke="#4a90d9" stroke-width="1.5"/>
+    <line x1="5" y1="475" x2="35" y2="463" stroke="#4a90d9" stroke-width="1.5"/>
+</svg>
+
+<!-- CONTENT -->
+<div class="page-wrapper">
+
+    <div class="header">
+        <span class="header-icon">🫀</span>
+        <h1>膽結石一般常識</h1>
+        <p class="subtitle">GALLSTONE HEALTH EDUCATION</p>
+    </div>
+
+    <div class="intro-card">
+        膽結石（俗稱膽石）是膽囊裡長出的小石頭，常見於西方國家，也會發生在台灣人身上。很多人有膽結石卻完全沒感覺，就像身體裡藏了個「隱形客人」。
+    </div>
+
+    <!-- 盛行率 -->
+    <div class="section-card">
+        <h2>📊 膽結石有多常見？</h2>
+        <div class="list-item"><div class="list-dot"></div><div>在美國，約 <strong>6% 的男性、9% 的女性</strong>有膽結石。</div></div>
+        <div class="list-item"><div class="list-dot"></div><div>大多數人<strong>終生無症狀</strong>，通常在照超音波或其他檢查時才意外發現。</div></div>
+        <div class="list-item"><div class="list-dot"></div><div>台灣也有不少人，尤其<strong>女性、肥胖者或年紀較大者</strong>風險較高。</div></div>
+    </div>
+
+    <!-- 處理方式 -->
+    <div class="section-card">
+        <h2>🏥 該怎麼辦？</h2>
+        <div class="treatment-grid">
+            <div class="treat-card">
+                <div class="treat-label">🔵 無症狀時</div>
+                <div class="treat-desc">通常不用治療，只要定期追蹤即可，就像監視「安分」的石頭。</div>
+            </div>
+            <div class="treat-card">
+                <div class="treat-label">🟡 有症狀時</div>
+                <div class="treat-desc">如肚子痛、噁心，醫生會依症狀決定治療，可能手術移除膽囊（常見且安全）。</div>
+            </div>
+            <div class="treat-card">
+                <div class="treat-label">🔴 有併發症時</div>
+                <div class="treat-desc">如發炎，需緊急處理，請立即就醫。</div>
+            </div>
+            <div class="treat-card">
+                <div class="treat-label">📋 診斷流程</div>
+                <div class="treat-desc">醫生會看您的症狀、超音波等影像檢查，再決定下一步。</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 預防 -->
+    <div class="section-card">
+        <h2>🌿 預防小 Tips</h2>
+        <div class="tips-grid">
+            <div class="tip-badge"><span class="tip-icon">⚖️</span><span>保持<strong>正常體重</strong>，避免快速減重</span></div>
+            <div class="tip-badge"><span class="tip-icon">🥦</span><span>多吃<strong>蔬果</strong>，少吃油膩食物</span></div>
+            <div class="tip-badge"><span class="tip-icon">🚶</span><span>規律<strong>運動</strong>，維持健康代謝</span></div>
+            <div class="tip-badge"><span class="tip-icon">⚠️</span><span><strong>女性、孕婦</strong>要特別注意風險</span></div>
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        <span class="disclaimer-icon">⚠️</span>
+        <div><strong>注意：</strong>這是給一般民眾的基本知識，不是醫療建議。請務必諮詢醫師，依個人情況評估。</div>
+    </div>
+
+    <p class="source">參考來源：UpToDate® (2026版)，經簡化整理。更多專業資訊請諮詢醫師。</p>
+</div>
+
+</body>
+</html>

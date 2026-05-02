@@ -1,0 +1,587 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>膽囊結石手術評估問卷</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #faf6f0;
+      --warm-white: #fff9f4;
+      --border: #e8ddd2;
+      --border-soft: #f0e8df;
+      --ink: #2d2017;
+      --ink-soft: #7a6555;
+      --ink-muted: #a8947f;
+      --amber: #c07830;
+      --amber-light: #fdf3e7;
+      --amber-mid: #e8a050;
+      --brown: #8b5e3c;
+      --brown-dark: #5c3820;
+      --red: #c44a2a;
+      --red-light: #fdf0ec;
+      --orange: #d4722a;
+      --orange-light: #fef5ee;
+      --green: #4a7c5a;
+      --green-light: #eef5f0;
+      --shadow-sm: 0 2px 8px rgba(139,94,60,0.08);
+      --shadow-md: 0 6px 24px rgba(139,94,60,0.13);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans TC', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; }
+
+    .header {
+      background: linear-gradient(135deg, #6b3a1f 0%, #9c5a2d 50%, #c07830 100%);
+      padding: 56px 24px 52px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 20% 50%, rgba(255,200,120,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 30%, rgba(255,160,60,0.1) 0%, transparent 50%);
+    }
+    .header::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 36px;
+      background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .header-emblem {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 72px; height: 72px;
+      background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%; font-size: 32px; margin-bottom: 18px; position: relative;
+    }
+    .header h1 {
+      font-family: 'Noto Serif TC', serif; font-size: 26px; font-weight: 700;
+      color: #fff; letter-spacing: 0.06em; position: relative;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .header p {
+      margin-top: 10px; font-size: 13px; color: rgba(255,240,220,0.8);
+      font-weight: 300; position: relative; letter-spacing: 0.03em;
+    }
+
+    .progress-bar-wrap {
+      background: var(--warm-white); border-bottom: 1px solid var(--border);
+      padding: 14px 24px; position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 12px rgba(139,94,60,0.1);
+    }
+    .progress-info { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-soft); margin-bottom: 8px; font-weight: 500; }
+    .progress-track { height: 6px; background: var(--border-soft); border-radius: 10px; overflow: hidden; }
+    .progress-fill {
+      height: 100%; background: linear-gradient(90deg, var(--brown), var(--amber-mid));
+      border-radius: 10px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); width: 0%;
+    }
+
+    .container { max-width: 700px; margin: 0 auto; padding: 40px 20px 64px; }
+
+    .section-card {
+      background: var(--warm-white); border: 1px solid var(--border);
+      border-radius: 16px; margin-bottom: 24px;
+      box-shadow: var(--shadow-sm); overflow: hidden;
+      opacity: 0; transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease, box-shadow 0.25s ease;
+    }
+    .section-card.visible { opacity: 1; transform: translateY(0); }
+    .section-card:hover { box-shadow: var(--shadow-md); }
+
+    .section-header {
+      background: linear-gradient(135deg, #7a4020 0%, #a86030 100%);
+      padding: 16px 24px; display: flex; align-items: center; gap: 12px;
+    }
+    .section-num {
+      width: 30px; height: 30px; background: rgba(255,255,255,0.18);
+      border: 1.5px solid rgba(255,255,255,0.35); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: rgba(255,240,220,0.95); flex-shrink: 0;
+    }
+    .section-title { font-family: 'Noto Serif TC', serif; font-size: 15.5px; font-weight: 600; color: #fff5ec; letter-spacing: 0.04em; }
+    .section-body { padding: 26px 24px; }
+
+    .question-block { margin-bottom: 26px; }
+    .question-block:last-child { margin-bottom: 0; }
+    .q-label { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 12px; line-height: 1.65; display: flex; gap: 8px; }
+    .q-num { color: var(--amber); font-weight: 700; flex-shrink: 0; }
+    .q-hint { display: block; font-size: 12.5px; color: var(--ink-muted); font-weight: 300; margin-top: 3px; }
+    .q-divider { border: none; border-top: 1px dashed var(--border); margin: 22px 0; }
+
+    .option-list { display: flex; flex-direction: column; gap: 8px; padding-left: 18px; }
+    .option-item {
+      display: flex; align-items: center; gap: 11px;
+      padding: 10px 15px; border: 1.5px solid var(--border); border-radius: 10px;
+      cursor: pointer; transition: all 0.2s ease; background: var(--cream);
+      user-select: none; font-size: 13.5px; line-height: 1.5; color: var(--ink-soft);
+    }
+    .option-item:hover { border-color: var(--amber-mid); background: var(--amber-light); color: var(--ink); }
+    .option-item.checked { border-color: var(--amber); background: var(--amber-light); color: var(--brown-dark); font-weight: 500; }
+    .option-item input { display: none; }
+    .option-box {
+      width: 19px; height: 19px; border: 1.5px solid var(--border); border-radius: 5px;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease; background: #fff;
+    }
+    .option-item.checked .option-box { background: var(--amber); border-color: var(--amber); }
+    .option-box::after {
+      content: ''; width: 10px; height: 6px;
+      border-left: 2px solid white; border-bottom: 2px solid white;
+      transform: rotate(-45deg) scale(0); transition: transform 0.15s ease; margin-top: -2px;
+    }
+    .option-item.checked .option-box::after { transform: rotate(-45deg) scale(1); }
+    .option-item.radio-style .option-box { border-radius: 50%; }
+    .option-item.radio-style.checked .option-box::after {
+      width: 7px; height: 7px; border: none; background: white;
+      border-radius: 50%; margin-top: 0; transform: scale(1);
+    }
+
+    .validation-msg { font-size: 12px; color: var(--red); margin-top: 8px; display: none; padding-left: 18px; }
+    .validation-msg.show { display: block; }
+    .section-card.error-shake { animation: shake 0.4s ease; }
+    @keyframes shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 60% { transform: translateX(6px); } }
+
+    .submit-wrap { text-align: center; margin: 38px 0 14px; }
+    .btn-submit {
+      background: linear-gradient(135deg, var(--brown-dark), var(--brown));
+      color: #fff5ec; border: none; padding: 17px 52px;
+      font-size: 15px; font-family: 'Noto Serif TC', serif; font-weight: 600;
+      letter-spacing: 0.1em; border-radius: 50px; cursor: pointer;
+      transition: all 0.25s ease; box-shadow: 0 4px 20px rgba(92,56,32,0.3);
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(92,56,32,0.38); }
+    .btn-submit:active { transform: translateY(0); }
+    .reset-link { display: block; text-align: center; margin-top: 14px; font-size: 12.5px; color: var(--ink-muted); cursor: pointer; text-decoration: underline; }
+    .reset-link:hover { color: var(--brown); }
+
+    .result-card {
+      border-radius: 16px; padding: 32px 28px; margin-top: 10px;
+      display: none; animation: fadeUp 0.6s ease forwards; border: 1.5px solid transparent;
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .result-card.show { display: block; }
+    .result-card.high { background: var(--red-light); border-color: #e8b0a0; }
+    .result-card.medium { background: var(--orange-light); border-color: #f0c090; }
+    .result-card.low { background: var(--green-light); border-color: #a8cdb8; }
+
+    .result-eyebrow {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 4px 13px; border-radius: 20px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; margin-bottom: 14px;
+    }
+    .high .result-eyebrow { background: var(--red); color: #fff; }
+    .medium .result-eyebrow { background: var(--orange); color: #fff; }
+    .low .result-eyebrow { background: var(--green); color: #fff; }
+
+    .result-title { font-family: 'Noto Serif TC', serif; font-size: 22px; font-weight: 700; margin-bottom: 18px; line-height: 1.3; }
+    .high .result-title { color: var(--red); }
+    .medium .result-title { color: var(--orange); }
+    .low .result-title { color: var(--green); }
+
+    .result-reasons {
+      background: rgba(255,255,255,0.65); border-radius: 10px; padding: 14px 18px;
+      font-size: 13.5px; line-height: 2; color: var(--ink); margin-bottom: 18px;
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    .result-recommend { font-size: 14px; line-height: 1.9; color: var(--ink-soft); }
+    .result-recommend strong { color: var(--ink); }
+    .disclaimer {
+      margin-top: 20px; padding: 12px 16px; background: rgba(255,255,255,0.5);
+      border-radius: 8px; font-size: 12px; color: var(--ink-muted); line-height: 1.6;
+      border: 1px solid rgba(200,170,140,0.3);
+    }
+
+    /* Next button for checkbox questions */
+    .next-btn {
+      display: none;
+      margin-top: 14px;
+      margin-left: 18px;
+      padding: 8px 20px;
+      background: linear-gradient(135deg, var(--brown-dark), var(--brown));
+      color: #fff5ec;
+      border: none;
+      border-radius: 20px;
+      font-size: 13px;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      box-shadow: 0 2px 10px rgba(92,56,32,0.25);
+      transition: all 0.2s ease;
+      animation: fadeIn 0.25s ease;
+    }
+    .next-btn:hover { transform: translateX(3px); box-shadow: 0 4px 14px rgba(92,56,32,0.35); }
+    .next-btn.show { display: inline-flex; align-items: center; gap: 6px; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Scroll highlight pulse */
+    .question-block.highlight-pulse {
+      animation: pulse 0.6s ease;
+    }
+    @keyframes pulse {
+      0%   { background: transparent; }
+      30%  { background: rgba(192,120,48,0.07); border-radius: 10px; }
+      100% { background: transparent; }
+    }
+
+    @media(max-width:500px) {
+      .header h1 { font-size: 21px; }
+      .container { padding: 28px 14px 52px; }
+      .btn-submit { padding: 15px 36px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-emblem">🫀</div>
+  <h1>膽囊結石手術評估問卷</h1>
+  <p>本問卷僅供初步評估參考，最終仍需由醫師專業判斷</p>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-info">
+    <span>📋 問卷進度</span>
+    <span id="progressText">0 / 8 題</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="container">
+
+  <div class="section-card" id="sec1">
+    <div class="section-header">
+      <div class="section-num">一</div>
+      <div class="section-title">症狀評估</div>
+    </div>
+    <div class="section-body">
+      <div class="question-block" data-qname="q1">
+        <div class="q-label">
+          <span class="q-num">Q1.</span>
+          <span>是否曾出現典型膽絞痛？<span class="q-hint">右上腹或上腹劇痛，持續 30 分鐘～6 小時，常合併噁心、嘔吐</span></span>
+        </div>
+        <div class="option-list">
+          <label class="option-item radio-style"><input type="radio" name="q1" value="yes"><div class="option-box"></div>是</label>
+          <label class="option-item radio-style"><input type="radio" name="q1" value="no"><div class="option-box"></div>否</label>
+        </div>
+        <div class="validation-msg" id="err-q1">⚠ 請選擇一個選項</div>
+      </div>
+      <hr class="q-divider">
+      <div class="question-block" data-qname="q2">
+        <div class="q-label"><span class="q-num">Q2.</span> 上述疼痛是否曾反覆發作（超過 1 次）？</div>
+        <div class="option-list">
+          <label class="option-item radio-style"><input type="radio" name="q2" value="yes"><div class="option-box"></div>是</label>
+          <label class="option-item radio-style"><input type="radio" name="q2" value="no"><div class="option-box"></div>否</label>
+        </div>
+        <div class="validation-msg" id="err-q2">⚠ 請選擇一個選項</div>
+      </div>
+      <hr class="q-divider">
+      <div class="question-block" data-qname="q3">
+        <div class="q-label"><span class="q-num">Q3.</span> 疼痛是否曾嚴重到需要急診或注射止痛藥？</div>
+        <div class="option-list">
+          <label class="option-item radio-style"><input type="radio" name="q3" value="yes"><div class="option-box"></div>是</label>
+          <label class="option-item radio-style"><input type="radio" name="q3" value="no"><div class="option-box"></div>否</label>
+        </div>
+        <div class="validation-msg" id="err-q3">⚠ 請選擇一個選項</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="sec2">
+    <div class="section-header">
+      <div class="section-num">二</div>
+      <div class="section-title">是否已有膽結石併發症</div>
+    </div>
+    <div class="section-body">
+      <div class="question-block" data-qname="q4">
+        <div class="q-label"><span class="q-num">Q4.</span> 是否曾被診斷以下疾病？ <span style="font-size:12px;color:var(--ink-muted);font-weight:300;">（可複選）</span></div>
+        <div class="option-list">
+          <label class="option-item"><input type="checkbox" name="q4" value="acute_cholecystitis"><div class="option-box"></div>急性膽囊炎</label>
+          <label class="option-item"><input type="checkbox" name="q4" value="cbd_stone"><div class="option-box"></div>膽管結石</label>
+          <label class="option-item"><input type="checkbox" name="q4" value="cholangitis"><div class="option-box"></div>急性膽管炎</label>
+          <label class="option-item"><input type="checkbox" name="q4" value="pancreatitis"><div class="option-box"></div>膽結石性胰臟炎</label>
+          <label class="option-item"><input type="checkbox" name="q4" value="mirizzi"><div class="option-box"></div>Mirizzi syndrome</label>
+          <label class="option-item"><input type="checkbox" name="q4" value="none"><div class="option-box"></div>以上皆無</label>
+        </div>
+        <div class="validation-msg" id="err-q4">⚠ 請至少選擇一個選項</div>
+        <button class="next-btn" id="next-q4" onclick="scrollToNext('q4')">確認，繼續 →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="sec3">
+    <div class="section-header">
+      <div class="section-num">三</div>
+      <div class="section-title">無症狀但需注意的高風險因子</div>
+    </div>
+    <div class="section-body">
+      <div class="question-block" data-qname="q5">
+        <div class="q-label"><span class="q-num">Q5.</span> 是否有以下任一情況？ <span style="font-size:12px;color:var(--ink-muted);font-weight:300;">（可複選）</span></div>
+        <div class="option-list">
+          <label class="option-item"><input type="checkbox" name="q5" value="porcelain"><div class="option-box"></div>瓷化膽囊</label>
+          <label class="option-item"><input type="checkbox" name="q5" value="polyp"><div class="option-box"></div>膽囊息肉（較大）</label>
+          <label class="option-item"><input type="checkbox" name="q5" value="large_stone"><div class="option-box"></div>膽結石 &gt; 3 公分</label>
+          <label class="option-item"><input type="checkbox" name="q5" value="pbm"><div class="option-box"></div>異常胰膽管匯流</label>
+          <label class="option-item"><input type="checkbox" name="q5" value="none"><div class="option-box"></div>以上皆無</label>
+        </div>
+        <div class="validation-msg" id="err-q5">⚠ 請至少選擇一個選項</div>
+        <button class="next-btn" id="next-q5" onclick="scrollToNext('q5')">確認，繼續 →</button>
+      </div>
+      <hr class="q-divider">
+      <div class="question-block" data-qname="q6">
+        <div class="q-label"><span class="q-num">Q6.</span> 是否有溶血性疾病？ <span style="font-size:12px;color:var(--ink-muted);font-weight:300;">（可複選）</span></div>
+        <div class="option-list">
+          <label class="option-item"><input type="checkbox" name="q6" value="sickle"><div class="option-box"></div>鐮刀型貧血</label>
+          <label class="option-item"><input type="checkbox" name="q6" value="sphero"><div class="option-box"></div>遺傳性球形紅血球症</label>
+          <label class="option-item"><input type="checkbox" name="q6" value="none"><div class="option-box"></div>以上皆無</label>
+        </div>
+        <div class="validation-msg" id="err-q6">⚠ 請至少選擇一個選項</div>
+        <button class="next-btn" id="next-q6" onclick="scrollToNext('q6')">確認，繼續 →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="sec4">
+    <div class="section-header">
+      <div class="section-num">四</div>
+      <div class="section-title">手術與腹腔鏡適應性評估</div>
+    </div>
+    <div class="section-body">
+      <div class="question-block" data-qname="q7">
+        <div class="q-label"><span class="q-num">Q7.</span> 是否能接受全身麻醉？</div>
+        <div class="option-list">
+          <label class="option-item radio-style"><input type="radio" name="q7" value="yes"><div class="option-box"></div>是</label>
+          <label class="option-item radio-style"><input type="radio" name="q7" value="no"><div class="option-box"></div>否 / 不確定</label>
+        </div>
+        <div class="validation-msg" id="err-q7">⚠ 請選擇一個選項</div>
+      </div>
+      <hr class="q-divider">
+      <div class="question-block" data-qname="q8">
+        <div class="q-label"><span class="q-num">Q8.</span> 是否有以下情況？ <span style="font-size:12px;color:var(--ink-muted);font-weight:300;">（可複選）</span></div>
+        <div class="option-list">
+          <label class="option-item"><input type="checkbox" name="q8" value="coag"><div class="option-box"></div>嚴重凝血異常</label>
+          <label class="option-item"><input type="checkbox" name="q8" value="cirrhosis"><div class="option-box"></div>嚴重肝硬化合併門脈高壓</label>
+          <label class="option-item"><input type="checkbox" name="q8" value="cholangitis_active"><div class="option-box"></div>活動性膽管炎</label>
+          <label class="option-item"><input type="checkbox" name="q8" value="none"><div class="option-box"></div>以上皆無</label>
+        </div>
+        <div class="validation-msg" id="err-q8">⚠ 請至少選擇一個選項</div>
+        <button class="next-btn" id="next-q8" onclick="scrollToNext('q8')">確認，繼續 →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-wrap">
+    <button class="btn-submit" onclick="runEvaluation()">查看評估結果 →</button>
+    <span class="reset-link" onclick="resetForm()">重新填寫問卷</span>
+  </div>
+
+  <div class="result-card high" id="resultHigh">
+    <div class="result-eyebrow">⚠ 結果 A</div>
+    <div class="result-title">高度建議手術</div>
+    <div class="result-reasons" id="highReasons"></div>
+    <div class="result-recommend">
+      <strong>👉 建議：膽囊切除手術</strong><br>
+      若可接受全身麻醉，且無重大禁忌症：<strong>首選腹腔鏡膽囊切除術</strong>
+    </div>
+    <div class="disclaimer">⚕️ 本評估僅供參考，請諮詢您的外科或腸胃科醫師以獲得個別化的專業建議。</div>
+  </div>
+
+  <div class="result-card medium" id="resultMedium">
+    <div class="result-eyebrow">ℹ 結果 B</div>
+    <div class="result-title">可能需要手術（視情況而定）</div>
+    <div class="result-reasons">
+      ✔ 偶發症狀，尚無明確併發症<br>
+      ✔ 症狀可能影響日常生活品質
+    </div>
+    <div class="result-recommend">
+      <strong>👉 建議與醫師討論</strong>手術與追蹤觀察的利弊<br>
+      若決定手術，多數情況可選擇腹腔鏡方式進行
+    </div>
+    <div class="disclaimer">⚕️ 本評估僅供參考，請諮詢您的外科或腸胃科醫師以獲得個別化的專業建議。</div>
+  </div>
+
+  <div class="result-card low" id="resultLow">
+    <div class="result-eyebrow">✓ 結果 C</div>
+    <div class="result-title">目前不必要手術</div>
+    <div class="result-reasons">
+      ✔ 完全無症狀<br>
+      ✔ 無已知併發症與高風險因子
+    </div>
+    <div class="result-recommend">
+      <strong>👉 建議：追蹤觀察與症狀衛教即可</strong><br>
+      若日後出現新症狀，請及時就醫評估
+    </div>
+    <div class="disclaimer">⚕️ 本評估僅供參考，請諮詢您的外科或腸胃科醫師以獲得個別化的專業建議。</div>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.section-card').forEach((card, i) => {
+    setTimeout(() => card.classList.add('visible'), 80 + i * 130);
+  });
+
+  const radioNames = ['q1','q2','q3','q7'];
+  const checkNames = ['q4','q5','q6','q8'];
+
+  // Question order for auto-scroll navigation
+  const questionOrder = ['q1','q2','q3','q4','q5','q6','q7','q8'];
+
+  function getNextTarget(qname) {
+    const idx = questionOrder.indexOf(qname);
+    if(idx === -1 || idx >= questionOrder.length - 1) return null;
+    return questionOrder[idx + 1];
+  }
+
+  function scrollToQuestion(qname) {
+    const block = document.querySelector(`[data-qname="${qname}"]`);
+    if(!block) return;
+    // Account for sticky progress bar height
+    const progressH = document.querySelector('.progress-bar-wrap').offsetHeight;
+    const blockTop = block.getBoundingClientRect().top + window.scrollY - progressH - 24;
+    window.scrollTo({ top: blockTop, behavior: 'smooth' });
+    // Pulse highlight
+    block.classList.remove('highlight-pulse');
+    void block.offsetWidth;
+    block.classList.add('highlight-pulse');
+  }
+
+  function scrollToNext(qname) {
+    const next = getNextTarget(qname);
+    if(next) {
+      scrollToQuestion(next);
+    } else {
+      // Last question — scroll to submit button
+      document.querySelector('.submit-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  function countAnswered() {
+    let c = 0;
+    radioNames.forEach(n => { if(document.querySelector(`input[name="${n}"]:checked`)) c++; });
+    checkNames.forEach(n => { if(document.querySelector(`input[name="${n}"]:checked`)) c++; });
+    return c;
+  }
+  function updateProgress() {
+    const n = countAnswered();
+    document.getElementById('progressText').textContent = `${n} / 8 題`;
+    document.getElementById('progressFill').style.width = `${(n/8)*100}%`;
+  }
+
+  document.querySelectorAll('.option-item').forEach(item => {
+    item.addEventListener('click', function() {
+      const inp = this.querySelector('input');
+      if(inp.type === 'radio') {
+        const name = inp.name;
+        document.querySelectorAll(`input[name="${name}"]`).forEach(r => r.closest('.option-item').classList.remove('checked'));
+        inp.checked = true;
+        this.classList.add('checked');
+        document.getElementById(`err-${name}`)?.classList.remove('show');
+        // Auto-scroll to next question after short delay
+        setTimeout(() => scrollToNext(name), 320);
+      } else {
+        const name = inp.name;
+        const isNone = inp.value === 'none';
+        if(isNone) {
+          document.querySelectorAll(`input[name="${name}"]`).forEach(cb => {
+            if(cb !== inp) { cb.checked = false; cb.closest('.option-item').classList.remove('checked'); }
+          });
+        } else {
+          const noneInp = document.querySelector(`input[name="${name}"][value="none"]`);
+          if(noneInp) { noneInp.checked = false; noneInp.closest('.option-item').classList.remove('checked'); }
+        }
+        inp.checked = !inp.checked;
+        inp.checked ? this.classList.add('checked') : this.classList.remove('checked');
+        if(document.querySelector(`input[name="${name}"]:checked`)) {
+          document.getElementById(`err-${name}`)?.classList.remove('show');
+          // Show next button for checkbox questions
+          const nextBtn = document.getElementById(`next-${name}`);
+          if(nextBtn) nextBtn.classList.add('show');
+        } else {
+          // Hide next button if nothing selected
+          const nextBtn = document.getElementById(`next-${name}`);
+          if(nextBtn) nextBtn.classList.remove('show');
+        }
+      }
+      updateProgress();
+    });
+  });
+
+  function getRadio(n) { const e = document.querySelector(`input[name="${n}"]:checked`); return e ? e.value : null; }
+  function getChecked(n) { return [...document.querySelectorAll(`input[name="${n}"]:checked`)].map(e=>e.value); }
+
+  function validate() {
+    let ok = true;
+    radioNames.forEach(n => { if(!getRadio(n)) { document.getElementById(`err-${n}`).classList.add('show'); ok = false; } });
+    checkNames.forEach(n => { if(!getChecked(n).length) { document.getElementById(`err-${n}`).classList.add('show'); ok = false; } });
+    if(!ok) {
+      document.querySelectorAll('.section-card').forEach(c => {
+        if(c.querySelector('.validation-msg.show')) {
+          c.classList.remove('error-shake'); void c.offsetWidth; c.classList.add('error-shake');
+        }
+      });
+    }
+    return ok;
+  }
+
+  function runEvaluation() {
+    if(!validate()) {
+      document.querySelector('.validation-msg.show')?.closest('.section-card')?.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    ['resultHigh','resultMedium','resultLow'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('show'); el.style.display = 'none';
+    });
+
+    const q1 = getRadio('q1')==='yes', q2 = getRadio('q2')==='yes', q3 = getRadio('q3')==='yes';
+    const q4 = getChecked('q4').filter(v=>v!=='none');
+    const q5 = getChecked('q5').filter(v=>v!=='none');
+    const q6 = getChecked('q6').filter(v=>v!=='none');
+
+    let resultId = 'resultLow';
+    const reasons = [];
+
+    if(q4.length) {
+      resultId = 'resultHigh';
+      const L = {'acute_cholecystitis':'急性膽囊炎','cbd_stone':'膽管結石','cholangitis':'急性膽管炎','pancreatitis':'膽結石性胰臟炎','mirizzi':'Mirizzi syndrome'};
+      reasons.push(`✔ 曾診斷膽結石併發症：${q4.map(v=>L[v]).join('、')}`);
+    }
+    if(q1 && q2) { resultId = 'resultHigh'; reasons.push('✔ 典型膽絞痛反覆發作'); }
+    if(q3)       { resultId = 'resultHigh'; reasons.push('✔ 疼痛嚴重至需急診或注射止痛藥'); }
+    if(q5.length || q6.length) {
+      resultId = 'resultHigh';
+      const L = {'porcelain':'瓷化膽囊','polyp':'膽囊息肉','large_stone':'膽結石 > 3cm','pbm':'異常胰膽管匯流','sickle':'鐮刀型貧血','sphero':'遺傳性球形紅血球症'};
+      reasons.push(`✔ 高風險因子：${[...q5,...q6].map(v=>L[v]).join('、')}`);
+    }
+    if(resultId !== 'resultHigh' && q1 && !q2) {
+      resultId = 'resultMedium';
+    }
+
+    if(resultId === 'resultHigh')
+      document.getElementById('highReasons').innerHTML = reasons.join('<br>');
+
+    const el = document.getElementById(resultId);
+    el.style.display = 'block';
+    setTimeout(() => el.classList.add('show'), 10);
+    setTimeout(() => el.scrollIntoView({behavior:'smooth',block:'start'}), 100);
+  }
+
+  function resetForm() {
+    document.querySelectorAll('input').forEach(i => i.checked = false);
+    document.querySelectorAll('.option-item').forEach(i => i.classList.remove('checked'));
+    document.querySelectorAll('.validation-msg').forEach(e => e.classList.remove('show'));
+    document.querySelectorAll('.next-btn').forEach(b => b.classList.remove('show'));
+    ['resultHigh','resultMedium','resultLow'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('show'); el.style.display = 'none';
+    });
+    updateProgress();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
