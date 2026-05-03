@@ -1,77 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>急診故事集 | DRJimmy 健康醫學教育</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap');
-  .er-root { font-family: 'Noto Sans TC', sans-serif; background: var(--color-background-tertiary); }
-  .er-hero { background: #0a1628; color: #fff; padding: 3rem 2rem 2.5rem; position: relative; overflow: hidden; }
-  .er-hero::before { content: ''; position: absolute; top:0;left:0;right:0;bottom:0; background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,0.015) 2px,rgba(255,255,255,0.015) 4px); pointer-events:none; }
-  .er-badge { display:inline-flex;align-items:center;gap:6px;background:rgba(220,38,38,0.2);border:1px solid rgba(220,38,38,0.5);color:#fca5a5;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:1.2rem; }
-  .er-pulse { width:7px;height:7px;background:#ef4444;border-radius:50%;animation:pulse 1.5s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
-  .er-title { font-family:'Noto Serif TC',serif;font-size:2.6rem;font-weight:700;line-height:1.2;margin:0 0 0.75rem;color:#f8fafc; }
-  .er-title span { color:#f87171; }
-  .er-subtitle { font-size:0.95rem;color:#94a3b8;font-weight:300;line-height:1.7;max-width:520px;margin:0 0 2rem; }
-  .er-stats { display:flex;gap:2rem; }
-  .er-stat-num { font-size:1.4rem;font-weight:600;color:#f8fafc; }
-  .er-stat-label { font-size:11px;color:#64748b;letter-spacing:0.05em;text-transform:uppercase; }
-  .er-divider { width:1px;background:rgba(255,255,255,0.1);height:36px;align-self:center; }
-  .er-ekg { position:absolute;right:2rem;top:50%;transform:translateY(-50%);opacity:0.07;pointer-events:none; }
-  .er-section-label { padding:0 1.5rem;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-secondary);font-weight:500;margin-bottom:0.75rem; }
-  .er-separator { height:0.5px;background:var(--color-border-tertiary);margin:0.5rem 1.5rem 1.5rem; }
-  .er-grid { padding:0 1.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem; }
-  .er-card { background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);cursor:pointer;transition:transform 0.15s,border-color 0.15s;overflow:hidden;display:block; }
-  .er-card:hover { transform:translateY(-2px);border-color:var(--color-border-secondary); }
-  .er-card-header { padding:1.1rem 1.25rem 0.75rem;display:flex;align-items:flex-start;gap:12px; }
-  .er-card-icon { width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px; }
-  .er-card-meta { flex:1; }
-  .er-card-tag { font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;padding:2px 8px;border-radius:20px;display:inline-block; }
-  .er-card-title { font-family:'Noto Serif TC',serif;font-size:1.05rem;font-weight:600;color:var(--color-text-primary);line-height:1.35;margin:2px 0 0; }
-  .er-card-body { padding:0 1.25rem 1rem; }
-  .er-card-desc { font-size:0.82rem;color:var(--color-text-secondary);line-height:1.65;margin:0 0 0.75rem; }
-  .er-card-footer { border-top:0.5px solid var(--color-border-tertiary);padding:0.7rem 1.25rem;display:flex;align-items:center;justify-content:space-between; }
-  .er-card-level { display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary); }
-  .er-level-dot { width:8px;height:8px;border-radius:50%; }
-  .level-1{background:#dc2626} .level-2{background:#ea580c} .level-3{background:#ca8a04}
-  .er-card-arrow { color:var(--color-text-secondary);font-size:14px;transition:transform 0.15s; }
-  .er-card:hover .er-card-arrow { transform:translateX(3px); }
-  .er-new-badge { font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;background:#dcfce7;color:#15803d;padding:2px 7px;border-radius:20px;margin-left:6px;vertical-align:middle; }
-  .er-featured-card { background:#0a1628;border-color:rgba(255,255,255,0.08);grid-column:1/-1; }
-  .er-featured-card .er-card-title { color:#f1f5f9;font-size:1.2rem; }
-  .er-featured-card .er-card-desc { color:#94a3b8; }
-  .er-featured-card .er-card-footer { border-top-color:rgba(255,255,255,0.08); }
-  .er-featured-card .er-card-level,.er-featured-card .er-card-arrow { color:#64748b; }
-  .er-featured-card:hover { border-color:rgba(255,255,255,0.15); }
-  .er-featured-banner { font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#f87171;font-weight:500;padding:0.5rem 1.25rem 0;opacity:0.9; }
-</style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: #f8f9fa;
+      color: #1a1a2e;
+      min-height: 100vh;
+    }
 
-<div class="er-root">
-  <div class="er-hero">
-    <svg class="er-ekg" width="320" height="80" viewBox="0 0 320 80">
-      <polyline points="0,40 40,40 55,40 65,10 75,65 85,20 95,40 140,40 155,40 165,10 175,65 185,20 195,40 240,40 255,40 265,10 275,65 285,20 295,40 320,40" fill="none" stroke="white" stroke-width="2"/>
-    </svg>
-    <div class="er-badge"><div class="er-pulse"></div>急診醫學教育</div>
-    <h1 class="er-title">急診<span>故事集</span></h1>
-    <p class="er-subtitle">透過真實情境的臨床故事學習急診醫學。每一個案例都是一次診斷的挑戰，每一個決策都攸關生死。</p>
-    <div class="er-stats">
-      <div><div class="er-stat-num">7</div><div class="er-stat-label">臨床案例</div></div>
-      <div class="er-divider"></div>
-      <div><div class="er-stat-num">互動式</div><div class="er-stat-label">學習體驗</div></div>
-      <div class="er-divider"></div>
-      <div><div class="er-stat-num">實證</div><div class="er-stat-label">醫學內容</div></div>
+    /* ── Hero ── */
+    .er-hero {
+      background: #0a1628;
+      color: #fff;
+      padding: 3.5rem 2.5rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .er-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(255,255,255,0.015) 2px, rgba(255,255,255,0.015) 4px
+      );
+      pointer-events: none;
+    }
+    .er-ekg {
+      position: absolute;
+      right: 3rem;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    .er-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(220,38,38,0.2);
+      border: 1px solid rgba(220,38,38,0.5);
+      color: #fca5a5;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 1.3rem;
+    }
+    .er-pulse {
+      width: 7px; height: 7px;
+      background: #ef4444;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .er-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+      color: #f8fafc;
+    }
+    .er-title span { color: #f87171; }
+
+    .er-subtitle {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      font-weight: 300;
+      line-height: 1.75;
+      max-width: 540px;
+      margin-bottom: 2rem;
+    }
+    .er-stats {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .er-stat-num { font-size: 1.5rem; font-weight: 600; color: #f8fafc; }
+    .er-stat-label { font-size: 11px; color: #64748b; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 2px; }
+    .er-divider { width: 1px; background: rgba(255,255,255,0.1); height: 38px; align-self: center; }
+
+    /* ── Layout ── */
+    .er-content { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; }
+
+    .er-section-header {
+      padding: 2.5rem 0 0.6rem;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6b7280;
+      font-weight: 500;
+    }
+    .er-separator {
+      height: 1px;
+      background: #e5e7eb;
+      margin: 0.5rem 0 1.5rem;
+    }
+
+    /* ── Cards ── */
+    .er-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .er-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+    }
+    .er-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      border-color: #d1d5db;
+    }
+    .er-card-header {
+      padding: 1.1rem 1.25rem 0.75rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .er-card-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 20px;
+    }
+    .er-card-tag {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 9px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+    .er-card-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #111827;
+      line-height: 1.35;
+    }
+    .er-card-body { padding: 0 1.25rem 1rem; }
+    .er-card-desc {
+      font-size: 0.82rem;
+      color: #6b7280;
+      line-height: 1.7;
+    }
+    .er-card-footer {
+      border-top: 1px solid #f3f4f6;
+      padding: 0.7rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .er-card-level {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+    .er-level-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .level-1 { background: #dc2626; }
+    .level-2 { background: #ea580c; }
+    .er-card-arrow {
+      color: #9ca3af;
+      font-size: 14px;
+      transition: transform 0.15s;
+    }
+    .er-card:hover .er-card-arrow { transform: translateX(4px); }
+
+    .er-new-badge {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: #dcfce7;
+      color: #15803d;
+      padding: 2px 7px;
+      border-radius: 20px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    /* Featured card */
+    .er-featured-card {
+      background: #0a1628;
+      border-color: rgba(255,255,255,0.08);
+      grid-column: 1 / -1;
+    }
+    .er-featured-card:hover { border-color: rgba(255,255,255,0.18); box-shadow: 0 8px 28px rgba(0,0,0,0.25); }
+    .er-featured-card .er-card-title { color: #f1f5f9; font-size: 1.2rem; }
+    .er-featured-card .er-card-desc { color: #94a3b8; }
+    .er-featured-card .er-card-footer { border-top-color: rgba(255,255,255,0.07); }
+    .er-featured-card .er-card-level { color: #64748b; }
+    .er-featured-card .er-card-arrow { color: #64748b; }
+    .er-featured-banner {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #f87171;
+      font-weight: 500;
+      padding: 0.6rem 1.25rem 0;
+    }
+
+    /* ── Resource section ── */
+    .er-resource-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+    }
+    .er-resource-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .er-resource-header-text .title { font-size: 0.9rem; font-weight: 500; color: #111827; }
+    .er-resource-header-text .sub { font-size: 0.75rem; color: #6b7280; margin-top: 2px; }
+
+    .er-resource-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1.25rem;
+      cursor: pointer;
+      transition: background 0.12s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      text-decoration: none;
+      color: inherit;
+    }
+    .er-resource-item:hover { background: #f9fafb; }
+    .er-resource-item + .er-resource-item { border-top: 1px solid #f3f4f6; }
+    .er-resource-item-left { display: flex; align-items: center; gap: 10px; }
+    .er-resource-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .er-resource-name { font-size: 0.85rem; color: #374151; }
+    .er-resource-tag { font-size: 10px; color: #9ca3af; margin-left: 6px; }
+    .er-resource-item-arrow { font-size: 12px; color: #9ca3af; transition: transform 0.12s; }
+    .er-resource-item:hover .er-resource-item-arrow { transform: translateX(3px); }
+
+    /* Extension button */
+    .er-ext-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 1.4rem;
+      background: linear-gradient(135deg, #0a1628, #1e3a5f);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.15s;
+      border: 1px solid rgba(255,255,255,0.1);
+      text-decoration: none;
+      color: inherit;
+    }
+    .er-ext-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .er-ext-btn-left { display: flex; align-items: center; gap: 14px; }
+    .er-ext-btn-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background: rgba(248,113,113,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .er-ext-btn-title { font-size: 0.92rem; font-weight: 500; color: #f1f5f9; }
+    .er-ext-btn-sub { font-size: 0.75rem; color: #94a3b8; margin-top: 3px; }
+    .er-ext-btn-arrow { color: #f87171; font-size: 18px; transition: transform 0.15s; }
+    .er-ext-btn:hover .er-ext-btn-arrow { transform: translateX(5px); }
+
+    /* Footer */
+    .er-footer {
+      margin-top: 3rem;
+      padding: 1.5rem 2.5rem;
+      background: #0a1628;
+      text-align: center;
+      font-size: 12px;
+      color: #475569;
+      letter-spacing: 0.04em;
+    }
+    .er-footer a { color: #64748b; text-decoration: none; }
+    .er-footer a:hover { color: #94a3b8; }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="er-hero">
+  <svg class="er-ekg" width="400" height="90" viewBox="0 0 400 90">
+    <polyline points="0,45 50,45 68,45 80,10 92,75 104,20 116,45 170,45 188,45 200,10 212,75 224,20 236,45 290,45 308,45 320,10 332,75 344,20 356,45 400,45"
+      fill="none" stroke="white" stroke-width="2"/>
+  </svg>
+  <div class="er-badge">
+    <div class="er-pulse"></div>
+    急診醫學教育
+  </div>
+  <h1 class="er-title">急診<span>故事集</span></h1>
+  <p class="er-subtitle">透過真實情境的臨床故事學習急診醫學。每一個案例都是一次診斷的挑戰，每一個決策都攸關生死。</p>
+  <div class="er-stats">
+    <div>
+      <div class="er-stat-num">7</div>
+      <div class="er-stat-label">臨床案例</div>
+    </div>
+    <div class="er-divider"></div>
+    <div>
+      <div class="er-stat-num">互動式</div>
+      <div class="er-stat-label">學習體驗</div>
+    </div>
+    <div class="er-divider"></div>
+    <div>
+      <div class="er-stat-num">實證</div>
+      <div class="er-stat-label">醫學內容</div>
     </div>
   </div>
+</div>
 
-  <div style="padding:2rem 1.5rem 0.5rem;">
-    <div class="er-section-label">精選案例</div>
-    <div class="er-separator"></div>
-  </div>
+<!-- Main content -->
+<div class="er-content">
+
+  <div class="er-section-header">精選案例</div>
+  <div class="er-separator"></div>
 
   <div class="er-grid">
 
-    <div class="er-featured-card er-card" onclick="sendPrompt('告訴我急診室故事集的概覽')">
+    <!-- Featured -->
+    <a href="EmergencyRoomStory.html" class="er-card er-featured-card">
       <div class="er-featured-banner">■ 故事入口</div>
       <div class="er-card-header">
         <div class="er-card-icon" style="background:rgba(239,68,68,0.15);">🚨</div>
-        <div class="er-card-meta">
+        <div>
           <span class="er-card-tag" style="background:rgba(239,68,68,0.15);color:#fca5a5;">急診全覽</span>
           <div class="er-card-title">急診室的一天</div>
         </div>
@@ -83,82 +371,85 @@
         <div class="er-card-level"><div class="er-level-dot level-1"></div>複合情境</div>
         <span class="er-card-arrow">→</span>
       </div>
-    </div>
+    </a>
 
-    <!-- NEW: Acute Stroke -->
-    <div class="er-card" onclick="sendPrompt('急性中風的處置流程與黃金時間是什麼？')">
+    <!-- Acute Stroke -->
+    <a href="AcuteStrokeManagement.html" class="er-card">
       <div class="er-card-header">
         <div class="er-card-icon" style="background:#fef3c7;">🧠</div>
-        <div class="er-card-meta">
+        <div>
           <span class="er-card-tag" style="background:#fef3c7;color:#92400e;">神經急症</span>
           <div class="er-card-title">急性中風處置 <span class="er-new-badge">NEW</span></div>
         </div>
       </div>
       <div class="er-card-body">
-        <p class="er-card-desc">Face drooping、Arm weakness、Speech difficulty——FAST辨識後，如何在4.5小時黃金窗口內完成靜脈溶栓或取栓決策？</p>
+        <p class="er-card-desc">FAST 辨識後，如何在 4.5 小時黃金窗口內完成靜脈溶栓或取栓決策？掌握神經急症的處置流程。</p>
       </div>
       <div class="er-card-footer">
         <div class="er-card-level"><div class="er-level-dot level-1"></div>高度緊急</div>
         <span class="er-card-arrow">→</span>
       </div>
-    </div>
+    </a>
 
-    <!-- NEW: Aortic Dissection -->
-    <div class="er-card" onclick="sendPrompt('主動脈剝離的分型、診斷與手術時機是什麼？')">
+    <!-- Aortic Dissection -->
+    <a href="AorticDissectionManagement.html" class="er-card">
       <div class="er-card-header">
         <div class="er-card-icon" style="background:#fce7f3;">❤️‍🩹</div>
-        <div class="er-card-meta">
+        <div>
           <span class="er-card-tag" style="background:#fce7f3;color:#9d174d;">主動脈急症</span>
           <div class="er-card-title">主動脈剝離處置 <span class="er-new-badge">NEW</span></div>
         </div>
       </div>
       <div class="er-card-body">
-        <p class="er-card-desc">撕裂性胸背痛合併兩側血壓不對稱。Stanford A 型需緊急手術、B 型如何藥物控制？CT angiography 的關鍵影像判讀。</p>
+        <p class="er-card-desc">撕裂性胸背痛合併兩側血壓不對稱。Stanford 分型與 CT angiography 關鍵影像判讀及手術時機。</p>
       </div>
       <div class="er-card-footer">
         <div class="er-card-level"><div class="er-level-dot level-1"></div>高度緊急</div>
         <span class="er-card-arrow">→</span>
       </div>
-    </div>
+    </a>
 
-    <div class="er-card" onclick="sendPrompt('急性尿滯留的診斷和處置有哪些重點？')">
+    <!-- Acute Urine Retention -->
+    <a href="AcuteUrineRetention.html" class="er-card">
       <div class="er-card-header">
         <div class="er-card-icon" style="background:#fffbeb;">🫧</div>
-        <div class="er-card-meta">
+        <div>
           <span class="er-card-tag" style="background:#fffbeb;color:#92400e;">泌尿急症</span>
           <div class="er-card-title">急性尿滯留</div>
         </div>
       </div>
       <div class="er-card-body">
-        <p class="er-card-desc">患者突發下腹脹痛、無法排尿。如何在黃金時間內正確診斷、置入導尿管，避免腎臟損傷？</p>
+        <p class="er-card-desc">患者突發下腹脹痛、無法排尿。如何正確診斷、置入導尿管，避免腎臟損傷？</p>
       </div>
       <div class="er-card-footer">
         <div class="er-card-level"><div class="er-level-dot level-2"></div>緊急處置</div>
         <span class="er-card-arrow">→</span>
       </div>
-    </div>
+    </a>
 
-    <div class="er-card" onclick="sendPrompt('股動脈假性動脈瘤是什麼？如何診斷與治療？')">
+    <!-- Femoral Pseudoaneurysm -->
+    <a href="FemoralPseudoAneurysm.html" class="er-card">
       <div class="er-card-header">
         <div class="er-card-icon" style="background:#fef2f2;">🩸</div>
-        <div class="er-card-meta">
+        <div>
           <span class="er-card-tag" style="background:#fef2f2;color:#991b1b;">血管外科</span>
           <div class="er-card-title">股動脈假性動脈瘤</div>
         </div>
       </div>
       <div class="er-card-body">
-        <p class="er-card-desc">介入性手術後腹股溝出現搏動性腫塊，超音波下漩渦狀血流。認識假性動脈瘤的特徵與緊急處理原則。</p>
+        <p class="er-card-desc">介入性手術後腹股溝出現搏動性腫塊，超音波下漩渦狀血流。緊急處理原則與超音波壓迫療法。</p>
       </div>
       <div class="er-card-footer">
         <div class="er-card-level"><div class="er-level-dot level-1"></div>高度緊急</div>
         <span class="er-card-arrow">→</span>
       </div>
-    </div>
+    </a>
 
-    <div class="er-card" onclick="sendPrompt('高血壓急症的處置原則是什麼？')">
+    <!-- Hypertension -->
+    <a href="hypertension_interactive.html" class="er-card">
       <div class="er-card-header">
         <div class="er-card-icon" style="background:#eff6ff;">💊</div>
-        <div class="er-card-meta">
+        <div>
           <span class="er-card-tag" style="background:#eff6ff;color:#1e40af;">心血管</span>
           <div class="er-card-title">高血壓急症</div>
         </div>
@@ -170,12 +461,13 @@
         <div class="er-card-level"><div class="er-level-dot level-1"></div>高度緊急</div>
         <span class="er-card-arrow">→</span>
       </div>
-    </div>
+    </a>
 
-    <div class="er-card" onclick="sendPrompt('肺栓塞的臨床表現、診斷工具和治療方式是什麼？')">
+    <!-- Pulmonary Embolism -->
+    <a href="pulmonary-embolism.html" class="er-card">
       <div class="er-card-header">
         <div class="er-card-icon" style="background:#f0fdf4;">🫁</div>
-        <div class="er-card-meta">
+        <div>
           <span class="er-card-tag" style="background:#f0fdf4;color:#166534;">呼吸系統</span>
           <div class="er-card-title">肺動脈栓塞</div>
         </div>
@@ -187,20 +479,92 @@
         <div class="er-card-level"><div class="er-level-dot level-1"></div>高度緊急</div>
         <span class="er-card-arrow">→</span>
       </div>
-    </div>
+    </a>
 
-  </div>
+  </div><!-- /er-grid -->
 
-  <div style="padding:1.5rem 1.5rem 2rem;">
-    <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="sendPrompt('有哪些急診醫學的學習資源？')">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="font-size:20px;">📖</div>
-        <div>
-          <div style="font-size:0.9rem;font-weight:500;color:var(--color-text-primary);">更多急診學習資源</div>
-          <div style="font-size:0.78rem;color:var(--color-text-secondary);">ACLS、心電圖判讀、常見急診問題</div>
-        </div>
+  <!-- Resource Section -->
+  <div class="er-section-header" style="padding-top:2rem;">學習資源</div>
+  <div class="er-separator"></div>
+
+  <div class="er-resource-card">
+    <div class="er-resource-header">
+      <span style="font-size:20px;">📚</span>
+      <div class="er-resource-header-text">
+        <div class="title">急診醫學延伸學習資源</div>
+        <div class="sub">線上平台、教科書、課程與 App</div>
       </div>
-      <span style="color:var(--color-text-secondary);font-size:14px;">→</span>
     </div>
+
+    <a href="https://www.uptodate.com" target="_blank" class="er-resource-item">
+      <div class="er-resource-item-left">
+        <div class="er-resource-dot" style="background:#3b82f6;"></div>
+        <span class="er-resource-name">UpToDate</span>
+        <span class="er-resource-tag">臨床決策支援</span>
+      </div>
+      <span class="er-resource-item-arrow">→</span>
+    </a>
+    <a href="https://emcrit.org" target="_blank" class="er-resource-item">
+      <div class="er-resource-item-left">
+        <div class="er-resource-dot" style="background:#8b5cf6;"></div>
+        <span class="er-resource-name">EMCrit</span>
+        <span class="er-resource-tag">急重症 Podcast</span>
+      </div>
+      <span class="er-resource-item-arrow">→</span>
+    </a>
+    <a href="https://litfl.com" target="_blank" class="er-resource-item">
+      <div class="er-resource-item-left">
+        <div class="er-resource-dot" style="background:#10b981;"></div>
+        <span class="er-resource-name">Life in the Fast Lane</span>
+        <span class="er-resource-tag">心電圖 · 毒物學</span>
+      </div>
+      <span class="er-resource-item-arrow">→</span>
+    </a>
+    <a href="https://www.aliem.com" target="_blank" class="er-resource-item">
+      <div class="er-resource-item-left">
+        <div class="er-resource-dot" style="background:#f59e0b;"></div>
+        <span class="er-resource-name">ALiEM</span>
+        <span class="er-resource-tag">住院醫師教育</span>
+      </div>
+      <span class="er-resource-item-arrow">→</span>
+    </a>
+    <a href="https://www.heart.org/en/cpr-and-ecc/acls-for-healthcare-providers" target="_blank" class="er-resource-item">
+      <div class="er-resource-item-left">
+        <div class="er-resource-dot" style="background:#ef4444;"></div>
+        <span class="er-resource-name">ACLS / ATLS / PALS</span>
+        <span class="er-resource-tag">證照課程</span>
+      </div>
+      <span class="er-resource-item-arrow">→</span>
+    </a>
+    <a href="https://www.mdcalc.com" target="_blank" class="er-resource-item">
+      <div class="er-resource-item-left">
+        <div class="er-resource-dot" style="background:#06b6d4;"></div>
+        <span class="er-resource-name">MDCalc / Epocrates</span>
+        <span class="er-resource-tag">臨床計算工具</span>
+      </div>
+      <span class="er-resource-item-arrow">→</span>
+    </a>
   </div>
+
+  <!-- ExtensionResourse link button -->
+  <a href="ExtensionResourse.html" class="er-ext-btn">
+    <div class="er-ext-btn-left">
+      <div class="er-ext-btn-icon">🔗</div>
+      <div>
+        <div class="er-ext-btn-title">查看完整延伸資源頁面</div>
+        <div class="er-ext-btn-sub">ExtensionResourse.html — 所有推薦資源的完整介紹</div>
+      </div>
+    </div>
+    <span class="er-ext-btn-arrow">→</span>
+  </a>
+
+  <div style="height:2.5rem;"></div>
+</div><!-- /er-content -->
+
+<!-- Footer -->
+<div class="er-footer">
+  <p>© 2026 <a href="../index.html">DRJimmyHealthExaminationMedicalEducation</a> &nbsp;·&nbsp; 本網站內容僅供醫學教育用途，不取代專業臨床判斷</p>
 </div>
+
+</body>
+</html>
