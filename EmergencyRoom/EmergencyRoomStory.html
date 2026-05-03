@@ -1,1 +1,452 @@
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap');
+
+  .er-root {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--color-background-tertiary);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .er-hero {
+    background: #0a1628;
+    color: #fff;
+    padding: 3rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .er-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.015) 2px,
+      rgba(255,255,255,0.015) 4px
+    );
+    pointer-events: none;
+  }
+
+  .er-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(220,38,38,0.2);
+    border: 1px solid rgba(220,38,38,0.5);
+    color: #fca5a5;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 1.2rem;
+  }
+
+  .er-pulse {
+    width: 7px; height: 7px;
+    background: #ef4444;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .er-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    color: #f8fafc;
+    letter-spacing: -0.01em;
+  }
+
+  .er-title span {
+    color: #f87171;
+  }
+
+  .er-subtitle {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 0 0 2rem;
+  }
+
+  .er-stats {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .er-stat-num {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #f8fafc;
+  }
+
+  .er-stat-label {
+    font-size: 11px;
+    color: #64748b;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .er-divider {
+    width: 1px;
+    background: rgba(255,255,255,0.1);
+    height: 36px;
+    align-self: center;
+  }
+
+  .er-grid {
+    padding: 2rem 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .er-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+  }
+
+  .er-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-border-secondary);
+  }
+
+  .er-card-header {
+    padding: 1.1rem 1.25rem 0.75rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .er-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+
+  .icon-red { background: #fef2f2; }
+  .icon-amber { background: #fffbeb; }
+  .icon-blue { background: #eff6ff; }
+  .icon-purple { background: #f5f3ff; }
+  .icon-green { background: #f0fdf4; }
+
+  .er-card-meta {
+    flex: 1;
+  }
+
+  .er-card-tag {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    display: inline-block;
+  }
+
+  .tag-critical { background: #fef2f2; color: #b91c1c; }
+  .tag-vascular { background: #fff7ed; color: #c2410c; }
+  .tag-cardiac { background: #eff6ff; color: #1d4ed8; }
+  .tag-respiratory { background: #f0fdf4; color: #15803d; }
+  .tag-metabolic { background: #fdf4ff; color: #7e22ce; }
+
+  .er-card-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    line-height: 1.35;
+    margin: 2px 0 0;
+  }
+
+  .er-card-body {
+    padding: 0 1.25rem 1rem;
+  }
+
+  .er-card-desc {
+    font-size: 0.82rem;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    margin: 0 0 0.75rem;
+  }
+
+  .er-card-footer {
+    border-top: 0.5px solid var(--color-border-tertiary);
+    padding: 0.7rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .er-card-level {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--color-text-secondary);
+  }
+
+  .er-level-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  .level-1 { background: #dc2626; }
+  .level-2 { background: #ea580c; }
+  .level-3 { background: #ca8a04; }
+
+  .er-card-arrow {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    transition: transform 0.15s;
+  }
+
+  .er-card:hover .er-card-arrow {
+    transform: translateX(3px);
+  }
+
+  .er-section-label {
+    padding: 0 1.5rem;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+
+  .er-separator {
+    height: 0.5px;
+    background: var(--color-border-tertiary);
+    margin: 0.5rem 1.5rem 1.5rem;
+  }
+
+  .er-featured-card {
+    background: #0a1628;
+    border-color: rgba(255,255,255,0.08);
+    grid-column: 1 / -1;
+  }
+
+  .er-featured-card .er-card-title {
+    color: #f1f5f9;
+    font-size: 1.2rem;
+  }
+
+  .er-featured-card .er-card-desc {
+    color: #94a3b8;
+  }
+
+  .er-featured-card .er-card-footer {
+    border-top-color: rgba(255,255,255,0.08);
+  }
+
+  .er-featured-card .er-card-level {
+    color: #64748b;
+  }
+
+  .er-featured-card .er-card-arrow {
+    color: #64748b;
+  }
+
+  .er-featured-card:hover {
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .er-featured-banner {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #f87171;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem 0;
+    opacity: 0.9;
+  }
+
+  .er-ekg {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.07;
+    pointer-events: none;
+  }
+</style>
+
+<div class="er-root">
+  <div class="er-hero">
+    <svg class="er-ekg" width="320" height="80" viewBox="0 0 320 80">
+      <polyline points="0,40 40,40 55,40 65,10 75,65 85,20 95,40 140,40 155,40 165,10 175,65 185,20 195,40 240,40 255,40 265,10 275,65 285,20 295,40 320,40" fill="none" stroke="white" stroke-width="2"/>
+    </svg>
+    <div class="er-badge">
+      <div class="er-pulse"></div>
+      急診醫學教育
+    </div>
+    <h1 class="er-title">急診<span>故事集</span></h1>
+    <p class="er-subtitle">透過真實情境的臨床故事學習急診醫學。每一個案例都是一次診斷的挑戰，每一個決策都攸關生死。</p>
+    <div class="er-stats">
+      <div>
+        <div class="er-stat-num">5</div>
+        <div class="er-stat-label">臨床案例</div>
+      </div>
+      <div class="er-divider"></div>
+      <div>
+        <div class="er-stat-num">互動式</div>
+        <div class="er-stat-label">學習體驗</div>
+      </div>
+      <div class="er-divider"></div>
+      <div>
+        <div class="er-stat-num">實證</div>
+        <div class="er-stat-label">醫學內容</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 2rem 1.5rem 0.5rem;">
+    <div class="er-section-label">精選案例</div>
+    <div class="er-separator"></div>
+  </div>
+
+  <div class="er-grid">
+
+    <div class="er-featured-card er-card" onclick="sendPrompt('告訴我更多關於急診故事集的EmergencyRoomStory首頁設計建議')">
+      <div class="er-featured-banner">■ 故事入口</div>
+      <div class="er-card-header">
+        <div class="er-card-icon" style="background: rgba(239,68,68,0.15);">🚨</div>
+        <div class="er-card-meta">
+          <span class="er-card-tag" style="background: rgba(239,68,68,0.15); color: #fca5a5;">急診全覽</span>
+          <div class="er-card-title">急診室的一天</div>
+        </div>
+      </div>
+      <div class="er-card-body">
+        <p class="er-card-desc">走進急診室，跟隨醫護人員經歷每一次生死交關的瞬間。這裡匯集各類急症案例，每個故事都是一段真實的醫療現場紀錄。</p>
+      </div>
+      <div class="er-card-footer">
+        <div class="er-card-level">
+          <div class="er-level-dot level-1"></div>
+          複合情境
+        </div>
+        <span class="er-card-arrow">→</span>
+      </div>
+    </div>
+
+    <div class="er-card" onclick="sendPrompt('急性尿滯留的診斷和處置有哪些重點？')">
+      <div class="er-card-header">
+        <div class="er-card-icon icon-amber">🫧</div>
+        <div class="er-card-meta">
+          <span class="er-card-tag tag-critical">泌尿急症</span>
+          <div class="er-card-title">急性尿滯留</div>
+        </div>
+      </div>
+      <div class="er-card-body">
+        <p class="er-card-desc">患者突發下腹脹痛、無法排尿。如何在黃金時間內正確診斷、置入導尿管，避免腎臟損傷？</p>
+      </div>
+      <div class="er-card-footer">
+        <div class="er-card-level">
+          <div class="er-level-dot level-2"></div>
+          緊急處置
+        </div>
+        <span class="er-card-arrow">→</span>
+      </div>
+    </div>
+
+    <div class="er-card" onclick="sendPrompt('股動脈假性動脈瘤是什麼？如何診斷與治療？')">
+      <div class="er-card-header">
+        <div class="er-card-icon icon-red">🩸</div>
+        <div class="er-card-meta">
+          <span class="er-card-tag tag-vascular">血管外科</span>
+          <div class="er-card-title">股動脈假性動脈瘤</div>
+        </div>
+      </div>
+      <div class="er-card-body">
+        <p class="er-card-desc">介入性手術後腹股溝出現搏動性腫塊，超音波下漩渦狀血流。認識假性動脈瘤的特徵與緊急處理原則。</p>
+      </div>
+      <div class="er-card-footer">
+        <div class="er-card-level">
+          <div class="er-level-dot level-1"></div>
+          高度緊急
+        </div>
+        <span class="er-card-arrow">→</span>
+      </div>
+    </div>
+
+    <div class="er-card" onclick="sendPrompt('高血壓急症的處置原則是什麼？什麼時候需要立即降壓？')">
+      <div class="er-card-header">
+        <div class="er-card-icon icon-blue">💊</div>
+        <div class="er-card-meta">
+          <span class="er-card-tag tag-cardiac">心血管</span>
+          <div class="er-card-title">高血壓急症</div>
+        </div>
+      </div>
+      <div class="er-card-body">
+        <p class="er-card-desc">血壓 220/130 mmHg 合併頭痛與視力模糊。如何區別高血壓急症與次急症，選擇正確的降壓策略？</p>
+      </div>
+      <div class="er-card-footer">
+        <div class="er-card-level">
+          <div class="er-level-dot level-1"></div>
+          高度緊急
+        </div>
+        <span class="er-card-arrow">→</span>
+      </div>
+    </div>
+
+    <div class="er-card" onclick="sendPrompt('肺栓塞的臨床表現、診斷工具和治療方式是什麼？')">
+      <div class="er-card-header">
+        <div class="er-card-icon icon-green">🫁</div>
+        <div class="er-card-meta">
+          <span class="er-card-tag tag-respiratory">呼吸系統</span>
+          <div class="er-card-title">肺動脈栓塞</div>
+        </div>
+      </div>
+      <div class="er-card-body">
+        <p class="er-card-desc">突發呼吸困難、胸痛、血氧下降。D-dimer、CTPA 如何幫助診斷？抗凝療法的時機與選擇。</p>
+      </div>
+      <div class="er-card-footer">
+        <div class="er-card-level">
+          <div class="er-level-dot level-1"></div>
+          高度緊急
+        </div>
+        <span class="er-card-arrow">→</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="padding: 0 1.5rem 2rem;">
+    <div style="background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer;" onclick="sendPrompt('有哪些急診醫學的學習資源？')">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="font-size: 20px;">📖</div>
+        <div>
+          <div style="font-size: 0.9rem; font-weight: 500; color: var(--color-text-primary);">更多急診學習資源</div>
+          <div style="font-size: 0.78rem; color: var(--color-text-secondary);">ACLS、心電圖判讀、常見急診問題</div>
+        </div>
+      </div>
+      <span style="color: var(--color-text-secondary); font-size: 14px;">→</span>
+    </div>
+  </div>
+</div>
