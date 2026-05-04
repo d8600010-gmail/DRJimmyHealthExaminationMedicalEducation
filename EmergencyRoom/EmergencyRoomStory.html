@@ -8,14 +8,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'Noto Sans TC', sans-serif;
       background: #f8f9fa;
       color: #1a1a2e;
       min-height: 100vh;
     }
-
     /* ── Hero ── */
     .er-hero {
       background: #0a1628;
@@ -64,7 +62,6 @@
       animation: pulse 1.5s infinite;
     }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
     .er-title {
       font-family: 'Noto Serif TC', serif;
       font-size: clamp(2rem, 5vw, 2.8rem);
@@ -74,7 +71,6 @@
       color: #f8fafc;
     }
     .er-title span { color: #f87171; }
-
     .er-subtitle {
       font-size: 0.95rem;
       color: #94a3b8;
@@ -91,10 +87,8 @@
     .er-stat-num { font-size: 1.5rem; font-weight: 600; color: #f8fafc; }
     .er-stat-label { font-size: 11px; color: #64748b; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 2px; }
     .er-divider { width: 1px; background: rgba(255,255,255,0.1); height: 38px; align-self: center; }
-
     /* ── Layout ── */
     .er-content { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; }
-
     .er-section-header {
       padding: 2.5rem 0 0.6rem;
       font-size: 11px;
@@ -108,7 +102,6 @@
       background: #e5e7eb;
       margin: 0.5rem 0 1.5rem;
     }
-
     /* ── Cards ── */
     .er-grid {
       display: grid;
@@ -187,13 +180,13 @@
     .er-level-dot { width: 8px; height: 8px; border-radius: 50%; }
     .level-1 { background: #dc2626; }
     .level-2 { background: #ea580c; }
+    .level-3 { background: #d97706; }
     .er-card-arrow {
       color: #9ca3af;
       font-size: 14px;
       transition: transform 0.15s;
     }
     .er-card:hover .er-card-arrow { transform: translateX(4px); }
-
     .er-new-badge {
       font-size: 9px;
       font-weight: 600;
@@ -206,7 +199,6 @@
       margin-left: 6px;
       vertical-align: middle;
     }
-
     /* Featured card */
     .er-featured-card {
       background: #0a1628;
@@ -227,7 +219,6 @@
       font-weight: 500;
       padding: 0.6rem 1.25rem 0;
     }
-
     /* ── Resource section ── */
     .er-resource-card {
       background: #fff;
@@ -245,7 +236,6 @@
     }
     .er-resource-header-text .title { font-size: 0.9rem; font-weight: 500; color: #111827; }
     .er-resource-header-text .sub { font-size: 0.75rem; color: #6b7280; margin-top: 2px; }
-
     .er-resource-item {
       display: flex;
       align-items: center;
@@ -268,7 +258,6 @@
     .er-resource-tag { font-size: 10px; color: #9ca3af; margin-left: 6px; }
     .er-resource-item-arrow { font-size: 12px; color: #9ca3af; transition: transform 0.12s; }
     .er-resource-item:hover .er-resource-item-arrow { transform: translateX(3px); }
-
     /* Extension button */
     .er-ext-btn {
       display: flex;
@@ -299,7 +288,6 @@
     .er-ext-btn-sub { font-size: 0.75rem; color: #94a3b8; margin-top: 3px; }
     .er-ext-btn-arrow { color: #f87171; font-size: 18px; transition: transform 0.15s; }
     .er-ext-btn:hover .er-ext-btn-arrow { transform: translateX(5px); }
-
     /* Footer */
     .er-footer {
       margin-top: 3rem;
@@ -315,7 +303,6 @@
   </style>
 </head>
 <body>
-
 <!-- Hero -->
 <div class="er-hero">
   <svg class="er-ekg" width="400" height="90" viewBox="0 0 400 90">
@@ -330,7 +317,7 @@
   <p class="er-subtitle">透過真實情境的臨床故事學習急診醫學。每一個案例都是一次診斷的挑戰，每一個決策都攸關生死。</p>
   <div class="er-stats">
     <div>
-      <div class="er-stat-num">7</div>
+      <div class="er-stat-num">10</div>
       <div class="er-stat-label">臨床案例</div>
     </div>
     <div class="er-divider"></div>
@@ -345,15 +332,11 @@
     </div>
   </div>
 </div>
-
 <!-- Main content -->
 <div class="er-content">
-
   <div class="er-section-header">精選案例</div>
   <div class="er-separator"></div>
-
   <div class="er-grid">
-
     <!-- Featured -->
     <a href="EmergencyRoomStory.html" class="er-card er-featured-card">
       <div class="er-featured-banner">■ 故事入口</div>
@@ -372,7 +355,6 @@
         <span class="er-card-arrow">→</span>
       </div>
     </a>
-
     <!-- Acute Stroke -->
     <a href="AcuteStrokeManagement.html" class="er-card">
       <div class="er-card-header">
@@ -390,7 +372,6 @@
         <span class="er-card-arrow">→</span>
       </div>
     </a>
-
     <!-- Aortic Dissection -->
     <a href="AorticDissectionManagement.html" class="er-card">
       <div class="er-card-header">
@@ -408,7 +389,6 @@
         <span class="er-card-arrow">→</span>
       </div>
     </a>
-
     <!-- Acute Urine Retention -->
     <a href="AcuteUrineRetention.html" class="er-card">
       <div class="er-card-header">
@@ -426,7 +406,6 @@
         <span class="er-card-arrow">→</span>
       </div>
     </a>
-
     <!-- Femoral Pseudoaneurysm -->
     <a href="FemoralPseudoAneurysm.html" class="er-card">
       <div class="er-card-header">
@@ -444,7 +423,6 @@
         <span class="er-card-arrow">→</span>
       </div>
     </a>
-
     <!-- Hypertension -->
     <a href="hypertension_interactive.html" class="er-card">
       <div class="er-card-header">
@@ -462,7 +440,6 @@
         <span class="er-card-arrow">→</span>
       </div>
     </a>
-
     <!-- Pulmonary Embolism -->
     <a href="pulmonary-embolism.html" class="er-card">
       <div class="er-card-header">
@@ -481,12 +458,67 @@
       </div>
     </a>
 
+    <!-- ── 新增卡片 ── -->
+
+    <!-- Alcohol Related Myopathy -->
+    <a href="AlcoholRelatedMyopathy.html" class="er-card">
+      <div class="er-card-header">
+        <div class="er-card-icon" style="background:#fdf4ff;">🍶</div>
+        <div>
+          <span class="er-card-tag" style="background:#fdf4ff;color:#7e22ce;">肌肉病變</span>
+          <div class="er-card-title">酒精性肌病 <span class="er-new-badge">NEW</span></div>
+        </div>
+      </div>
+      <div class="er-card-body">
+        <p class="er-card-desc">長期飲酒後出現四肢無力、肌肉疼痛與 CK 升高。如何辨別急性與慢性酒精性肌病，並排除橫紋肌溶解症？</p>
+      </div>
+      <div class="er-card-footer">
+        <div class="er-card-level"><div class="er-level-dot level-2"></div>緊急處置</div>
+        <span class="er-card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Exercise Related Myopathy -->
+    <a href="ExerciseRleateMyopathy.html" class="er-card">
+      <div class="er-card-header">
+        <div class="er-card-icon" style="background:#f0fdf4;">🏋️</div>
+        <div>
+          <span class="er-card-tag" style="background:#f0fdf4;color:#166534;">運動醫學</span>
+          <div class="er-card-title">運動性肌病 <span class="er-new-badge">NEW</span></div>
+        </div>
+      </div>
+      <div class="er-card-body">
+        <p class="er-card-desc">劇烈運動後肌肉腫脹、尿液呈茶色。橫紋肌溶解症的早期識別、積極水化治療與急性腎損傷預防策略。</p>
+      </div>
+      <div class="er-card-footer">
+        <div class="er-card-level"><div class="er-level-dot level-2"></div>緊急處置</div>
+        <span class="er-card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Occupational Injury -->
+    <a href="OccupationalInjury.html" class="er-card">
+      <div class="er-card-header">
+        <div class="er-card-icon" style="background:#fff7ed;">🦺</div>
+        <div>
+          <span class="er-card-tag" style="background:#fff7ed;color:#9a3412;">職業醫學</span>
+          <div class="er-card-title">職業傷害處置 <span class="er-new-badge">NEW</span></div>
+        </div>
+      </div>
+      <div class="er-card-body">
+        <p class="er-card-desc">工作現場創傷、化學品暴露或職業性疾病的急診評估。傷病認定流程、勞保申報與後續職業復健規劃。</p>
+      </div>
+      <div class="er-card-footer">
+        <div class="er-card-level"><div class="er-level-dot level-3"></div>一般緊急</div>
+        <span class="er-card-arrow">→</span>
+      </div>
+    </a>
+
   </div><!-- /er-grid -->
 
   <!-- Resource Section -->
   <div class="er-section-header" style="padding-top:2rem;">學習資源</div>
   <div class="er-separator"></div>
-
   <div class="er-resource-card">
     <div class="er-resource-header">
       <span style="font-size:20px;">📚</span>
@@ -495,7 +527,6 @@
         <div class="sub">線上平台、教科書、課程與 App</div>
       </div>
     </div>
-
     <a href="https://www.uptodate.com" target="_blank" class="er-resource-item">
       <div class="er-resource-item-left">
         <div class="er-resource-dot" style="background:#3b82f6;"></div>
@@ -545,7 +576,6 @@
       <span class="er-resource-item-arrow">→</span>
     </a>
   </div>
-
   <!-- ExtensionResourse link button -->
   <a href="ExtensionResourse.html" class="er-ext-btn">
     <div class="er-ext-btn-left">
@@ -557,14 +587,11 @@
     </div>
     <span class="er-ext-btn-arrow">→</span>
   </a>
-
   <div style="height:2.5rem;"></div>
 </div><!-- /er-content -->
-
 <!-- Footer -->
 <div class="er-footer">
   <p>© 2026 <a href="../index.html">DRJimmyHealthExaminationMedicalEducation</a> &nbsp;·&nbsp; 本網站內容僅供醫學教育用途，不取代專業臨床判斷</p>
 </div>
-
 </body>
 </html>
