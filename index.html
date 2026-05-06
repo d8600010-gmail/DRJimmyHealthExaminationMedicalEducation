@@ -25,7 +25,6 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { font-family: "Noto Sans TC", sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
-    /* ── HEADER ── */
     header { position: relative; min-height: 340px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 70px 24px 60px; overflow: hidden; }
     .header-bg { position: absolute; inset: 0; background: var(--ink); z-index: 0; }
     .header-bg::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 20% 30%, rgba(44,155,138,0.28) 0%, transparent 60%), radial-gradient(ellipse 50% 70% at 80% 70%, rgba(74,111,165,0.22) 0%, transparent 55%), radial-gradient(ellipse 40% 40% at 60% 10%, rgba(200,151,74,0.12) 0%, transparent 50%); }
@@ -35,13 +34,11 @@
     header h1 span { font-style: italic; color: rgba(255,255,255,0.7); }
     .header-sub { position: relative; z-index: 1; font-size: 1.05em; font-weight: 300; color: rgba(255,255,255,0.6); letter-spacing: 0.04em; margin-top: 4px; }
     .header-line { position: relative; z-index: 1; width: 60px; height: 2px; background: linear-gradient(90deg, var(--accent-teal), var(--accent-indigo)); margin: 22px auto 0; border-radius: 2px; }
-    /* ── LAYOUT ── */
     .container { max-width: 1080px; margin: 0 auto; padding: 56px 24px 80px; }
     .section-label { font-size: 0.72em; letter-spacing: 0.18em; font-weight: 500; color: var(--muted); text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     .section-gap { margin-top: 52px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 24px; }
-    /* ── CARDS ── */
     .card { background: white; border-radius: 20px; border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-soft); transition: transform 0.28s cubic-bezier(.22,.68,0,1.2), box-shadow 0.28s ease; cursor: pointer; }
     .card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
     .card-header { padding: 28px 28px 0; display: flex; align-items: flex-start; gap: 16px; }
@@ -61,7 +58,6 @@
     .card h2 { font-family: "Noto Serif TC", serif; font-size: 1.25em; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 6px; }
     .card-count { font-size: 0.74em; color: var(--muted); letter-spacing: 0.04em; }
     .card-desc { padding: 14px 28px 22px; font-size: 0.9em; color: var(--ink-soft); line-height: 1.7; font-weight: 300; }
-    /* ── CARD ACTIONS ROW ── */
     .card-actions { margin: 0 28px 22px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .card-toggle-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82em; font-weight: 500; padding: 8px 16px; border-radius: 8px; border: 1.5px solid transparent; cursor: pointer; transition: all 0.2s; background: transparent; font-family: inherit; }
     .card-toggle-btn.teal    { color: var(--accent-teal);    border-color: rgba(44,155,138,0.35); }
@@ -86,11 +82,9 @@
     .card-toggle-btn.amber:hover,   .card-toggle-btn.amber.open   { background: var(--accent-amber-light); }
     .btn-arrow { display: inline-block; transition: transform 0.25s; }
     .card-toggle-btn.open .btn-arrow { transform: rotate(180deg); }
-    /* ── INLINE LINK BUTTON (for use inside card-actions) ── */
     .card-inline-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82em; font-weight: 500; padding: 8px 16px; border-radius: 8px; border: 1.5px solid transparent; cursor: pointer; transition: all 0.2s; background: transparent; font-family: inherit; text-decoration: none; }
     .card-inline-link.crimson { color: var(--accent-crimson); border-color: rgba(176,58,46,0.35); }
     .card-inline-link.crimson:hover { background: var(--accent-crimson-light); }
-    /* ── STORY LIST ── */
     .story-list { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
     .story-list.open { max-height: 1200px; }
     .story-list-inner { padding: 0 16px 16px; }
@@ -110,7 +104,6 @@
     .slate-dot   { background: var(--accent-slate); }
     .amber-dot   { background: var(--accent-amber); }
     .copper-dot  { background: var(--accent-copper); }
-    /* ── CRITICAL ITEM ── */
     .story-item.critical {
       background: linear-gradient(135deg, rgba(176,58,46,0.06) 0%, rgba(74,111,165,0.04) 100%);
       border: 1px solid rgba(176,58,46,0.18);
@@ -127,12 +120,9 @@
       background: rgba(176,58,46,0.12); color: var(--accent-crimson);
       text-transform: uppercase; flex-shrink: 0; margin-left: 2px;
     }
-    /* ── BADGES ── */
     .soon-badge { display: inline-block; font-size: 0.65em; font-weight: 600; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 6px; background: #f0ede8; color: var(--muted); text-transform: uppercase; vertical-align: middle; margin-left: 8px; }
-    /* ── DISABLED CARDS ── */
     .card.disabled { opacity: 0.7; cursor: default; }
     .card.disabled:hover { transform: none; box-shadow: var(--shadow-soft); }
-    /* ── LINK CARDS ── */
     .card.card-link { text-decoration: none; color: inherit; display: block; }
     .card.card-link .card-cta { margin: 0 28px 22px; display: inline-flex; align-items: center; gap: 6px; font-size: 0.82em; font-weight: 500; padding: 8px 16px; border-radius: 8px; border: 1.5px solid rgba(58,125,92,0.35); color: var(--accent-forest); background: transparent; transition: background 0.2s; }
     .card.card-link:hover .card-cta { background: var(--accent-forest-light); }
@@ -153,7 +143,6 @@
     .card.card-link.teal-link .card-cta    { border-color: rgba(44,155,138,0.35);  color: var(--accent-teal); }
     .card.card-link.teal-link:hover .card-cta    { background: var(--accent-teal-light); }
     .card-cta-arrow { font-size: 1em; }
-    /* ── SMOKING CESSATION SPECIAL CARD ── */
     .card.smoking-card { grid-column: 1 / -1; cursor: default; }
     .card.smoking-card:hover { transform: none; box-shadow: var(--shadow-soft); }
     .smoking-headline { padding: 0 28px 10px; }
@@ -161,10 +150,8 @@
     .smoking-links { display: flex; flex-wrap: wrap; gap: 10px; padding: 0 28px 22px; }
     .smoking-link-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82em; font-weight: 500; padding: 8px 16px; border-radius: 8px; border: 1.5px solid rgba(160,82,45,0.35); color: var(--accent-amber); background: transparent; text-decoration: none; transition: background 0.2s; }
     .smoking-link-btn:hover { background: var(--accent-amber-light); }
-    /* ── FOOTER ── */
     footer { border-top: 1px solid var(--border); padding: 28px 24px; text-align: center; font-size: 0.82em; color: var(--muted); letter-spacing: 0.03em; }
     footer .footer-brand { font-family: "DM Serif Display", serif; font-style: italic; color: var(--ink-soft); font-size: 1.1em; }
-    /* ── ANIMATIONS ── */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
     .card { animation: fadeUp 0.55s ease both; }
     .card:nth-child(1) { animation-delay: 0.05s; } .card:nth-child(2) { animation-delay: 0.15s; }
@@ -172,7 +159,6 @@
     .card:nth-child(5) { animation-delay: 0.45s; } .card:nth-child(6) { animation-delay: 0.55s; }
     .card:nth-child(7) { animation-delay: 0.65s; } .card:nth-child(8) { animation-delay: 0.72s; }
     .card:nth-child(9) { animation-delay: 0.79s; }
-    /* ── VISITOR COUNTER ── */
     .visitor-counter {
       position: fixed; top: 18px; right: 20px; z-index: 200;
       display: flex; align-items: center; gap: 7px;
@@ -314,6 +300,15 @@
       </div>
       <p class="card-desc">所有健診常見問題的完整索引頁面,快速找到你想了解的檢查項目與解析文章。</p>
       <div class="card-cta">前往總覽 <span class="card-cta-arrow">↗</span></div>
+    </a>
+    <!-- 關於健康你應該知道的事 -->
+    <a class="card card-link teal-link" href="AboutHealth/AboutHealthConcept.html">
+      <div class="card-header">
+        <div class="card-icon teal">💡</div>
+        <div class="card-title-wrap"><h2>關於健康你應該知道的事</h2><div class="card-count">健康觀念導讀</div></div>
+      </div>
+      <p class="card-desc">健康不只是沒有生病——從預防醫學的角度出發,帶你建立正確的健康觀念,讓生活每一天都更有質感。</p>
+      <div class="card-cta">前往閱讀 <span class="card-cta-arrow">↗</span></div>
     </a>
     <!-- 體育大學成人病理學園地 -->
     <a class="card card-link" href="https://drjimmy603ntsu.github.io/AfterClassFeedBack/" target="_blank" rel="noopener noreferrer">
