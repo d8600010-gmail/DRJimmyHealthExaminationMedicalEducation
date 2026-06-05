@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>壓力與習慣自我評估</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue-dark: #1a365d;
+    --blue-mid: #2b6cb0;
+    --blue-light: #63b3ed;
+    --blue-pale: #ebf4ff;
+    --gray-text: #4a5568;
+    --gray-light: #718096;
+    --bg: #f0f4f8;
+    --green: #4a9e6e;
+    --amber: #c07d2a;
+    --red: #c0392b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--bg);
+    color: var(--gray-text);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700; font-size: 17px;
+    color: var(--blue-dark); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    text-decoration: none; font-size: 14px;
+    color: var(--gray-light); font-weight: 400; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--blue-mid); }
+  .nav-cta {
+    background: var(--blue-mid); color: white !important;
+    padding: 8px 20px; border-radius: 50px;
+    font-size: 13px !important; font-weight: 500 !important;
+    transition: background .2s, transform .2s !important; cursor: pointer;
+  }
+  .nav-cta:hover { background: var(--blue-dark) !important; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 60%, #4299e1 100%);
+    color: white; padding: 96px 48px 80px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+    border-radius: 50px; padding: 6px 16px; font-size: 13px;
+    margin-bottom: 28px; backdrop-filter: blur(4px); position: relative;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(28px,5vw,48px); font-weight: 700;
+    line-height: 1.3; margin-bottom: 20px; position: relative;
+  }
+  .hero h1 span { color: #90cdf4; }
+  .hero p {
+    font-size: clamp(14px,2vw,17px); line-height: 1.8;
+    color: rgba(255,255,255,.82); max-width: 560px;
+    margin: 0 auto 40px; position: relative;
+  }
+  .hero-btns {
+    display: flex; gap: 14px; justify-content: center;
+    flex-wrap: wrap; position: relative;
+  }
+  .btn-primary {
+    background: white; color: var(--blue-dark);
+    padding: 14px 32px; border-radius: 50px; font-size: 15px; font-weight: 600;
+    text-decoration: none; transition: transform .2s, box-shadow .2s;
+    box-shadow: 0 4px 16px rgba(0,0,0,.15); cursor: pointer; border: none;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+  .btn-ghost {
+    background: transparent; color: white; padding: 14px 32px;
+    border-radius: 50px; font-size: 15px; font-weight: 500; text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,.5); transition: background .2s, border-color .2s; cursor: pointer;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,.1); border-color: white; }
+
+  /* ── STATS ── */
+  .stats {
+    background: white; padding: 36px 48px;
+    display: flex; justify-content: center;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .stat-item {
+    flex: 1; max-width: 200px; text-align: center;
+    padding: 16px 24px; border-right: 1px solid #e2e8f0;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Noto Serif TC', serif; font-size: 32px;
+    font-weight: 700; color: var(--blue-mid); display: block;
+  }
+  .stat-label { font-size: 13px; color: var(--gray-light); margin-top: 4px; }
+
+  /* ── CONTENT SECTIONS ── */
+  .section { padding: 80px 48px; max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    display: inline-block; font-size: 12px; font-weight: 600;
+    color: var(--blue-mid); letter-spacing: .1em;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(22px,3vw,32px); color: var(--blue-dark);
+    font-weight: 700; margin-bottom: 16px; line-height: 1.4;
+  }
+  .section-sub {
+    font-size: 15px; color: var(--gray-light); line-height: 1.8;
+    max-width: 560px; margin-bottom: 48px;
+  }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 24px; }
+  .feature-card {
+    background: white; border-radius: 16px; padding: 28px;
+    border: 1.5px solid #e2e8f0; transition: box-shadow .2s, transform .2s, border-color .2s;
+  }
+  .feature-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,.08); transform: translateY(-3px); border-color: #bee3f8; }
+  .feature-icon {
+    width: 48px; height: 48px; background: var(--blue-pale); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 16px;
+  }
+  .feature-card h3 { font-family: 'Noto Serif TC',serif; font-size: 16px; color: var(--blue-dark); margin-bottom: 8px; font-weight: 600; }
+  .feature-card p { font-size: 14px; color: var(--gray-light); line-height: 1.7; }
+  .how-bg { background: linear-gradient(160deg, #f7faff 0%, #edf2f7 100%); }
+  .steps { display: flex; flex-direction: column; gap: 0; max-width: 640px; }
+  .step { display: flex; gap: 24px; align-items: flex-start; padding: 24px 0; border-bottom: 1px solid #e2e8f0; }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    width: 40px; height: 40px; min-width: 40px; background: var(--blue-mid); color: white;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px;
+  }
+  .step h4 { font-family: 'Noto Serif TC',serif; font-size: 16px; color: var(--blue-dark); margin-bottom: 6px; font-weight: 600; }
+  .step p { font-size: 14px; color: var(--gray-light); line-height: 1.7; }
+  .results-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 20px; }
+  .result-card { border-radius: 16px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,.07); }
+  .result-card-top { padding: 24px; display: flex; align-items: center; gap: 14px; }
+  .result-emoji { font-size: 32px; }
+  .result-card-bottom { background: white; padding: 16px 24px; font-size: 13px; color: var(--gray-light); line-height: 1.6; border-top: 1px solid rgba(0,0,0,.06); }
+  .cta-banner { background: linear-gradient(135deg, #2b6cb0, #1a365d); color: white; text-align: center; padding: 80px 48px; }
+  .cta-banner h2 { font-family: 'Noto Serif TC',serif; font-size: clamp(22px,3vw,32px); margin-bottom: 16px; }
+  .cta-banner p { font-size: 15px; color: rgba(255,255,255,.75); margin-bottom: 36px; line-height: 1.8; }
+  footer { background: var(--blue-dark); color: rgba(255,255,255,.5); text-align: center; padding: 28px 48px; font-size: 13px; }
+  footer span { color: rgba(255,255,255,.25); margin: 0 8px; }
+
+  /* ── QUIZ OVERLAY ── */
+  #quiz-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(15,30,55,.7); backdrop-filter: blur(6px);
+    z-index: 300; align-items: center; justify-content: center; padding: 24px;
+  }
+  #quiz-overlay.active { display: flex; }
+
+  .quiz-modal {
+    background: white; border-radius: 24px;
+    width: 100%; max-width: 600px; max-height: 92vh; overflow-y: auto;
+    box-shadow: 0 24px 80px rgba(0,0,0,.3);
+    animation: slideUp .35s cubic-bezier(.4,0,.2,1);
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(32px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .quiz-header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .quiz-header h2 { font-family: 'Noto Serif TC',serif; font-size: 18px; color: var(--blue-dark); font-weight: 700; }
+  .quiz-close {
+    width: 36px; height: 36px; border: none; background: #f0f4f8;
+    border-radius: 50%; cursor: pointer; font-size: 18px; color: var(--gray-light);
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s, color .2s; flex-shrink: 0;
+  }
+  .quiz-close:hover { background: #e2e8f0; color: var(--blue-dark); }
+
+  /* Progress */
+  .progress-bar-wrap { padding: 16px 32px 0; }
+  .progress-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--gray-light); margin-bottom: 8px; }
+  .progress-track { height: 6px; background: #e2e8f0; border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--blue-light), var(--blue-mid)); border-radius: 99px; transition: width .4s cubic-bezier(.4,0,.2,1); }
+
+  .quiz-body { padding: 28px 32px 32px; }
+
+  /* Question */
+  .question-area { animation: fadeQ .25s ease; }
+  @keyframes fadeQ { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: translateX(0); } }
+
+  .q-label { font-size: 12px; font-weight: 600; color: var(--blue-mid); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 12px; }
+  .q-text { font-family: 'Noto Serif TC',serif; font-size: 18px; line-height: 1.6; color: var(--blue-dark); margin-bottom: 28px; font-weight: 500; }
+
+  .options { display: flex; flex-direction: column; gap: 12px; }
+  .option-btn {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px; border-radius: 14px;
+    border: 2px solid #e2e8f0; background: #fafbfd;
+    cursor: pointer; transition: border-color .2s, background .2s, transform .15s;
+    text-align: left; width: 100%; font-family: 'Noto Sans TC', sans-serif;
+  }
+  .option-btn:hover { border-color: var(--blue-light); background: var(--blue-pale); transform: translateX(3px); }
+  .option-btn.selected { border-color: var(--blue-mid); background: var(--blue-pale); }
+  .option-badge {
+    width: 32px; height: 32px; min-width: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; background: white; border: 1.5px solid #e2e8f0;
+    transition: background .2s, border-color .2s;
+  }
+  .option-btn.selected .option-badge { background: var(--blue-mid); border-color: var(--blue-mid); color: white; }
+  .option-label { font-size: 15px; color: var(--gray-text); font-weight: 500; }
+  .option-sub { font-size: 12px; color: var(--gray-light); margin-top: 2px; }
+
+  .quiz-nav { display: flex; justify-content: space-between; margin-top: 28px; align-items: center; }
+  .btn-nav-back {
+    background: none; border: 1.5px solid #e2e8f0; color: var(--gray-light);
+    padding: 10px 24px; border-radius: 50px; cursor: pointer; font-size: 14px;
+    transition: border-color .2s, color .2s;
+  }
+  .btn-nav-back:hover { border-color: var(--blue-light); color: var(--blue-mid); }
+  .btn-nav-next {
+    background: var(--blue-mid); color: white; border: none;
+    padding: 12px 28px; border-radius: 50px; cursor: pointer; font-size: 14px; font-weight: 600;
+    transition: background .2s, transform .15s; opacity: .4; pointer-events: none;
+  }
+  .btn-nav-next.ready { opacity: 1; pointer-events: auto; }
+  .btn-nav-next.ready:hover { background: var(--blue-dark); transform: translateY(-1px); }
+
+  /* ── RESULT SCREEN ── */
+  .result-screen { display: none; padding: 32px; text-align: center; animation: fadeQ .3s ease; }
+  .result-screen.show { display: block; }
+
+  .result-icon-big { font-size: 72px; margin-bottom: 16px; animation: pop .4s cubic-bezier(.4,0,.2,1); }
+  @keyframes pop { from { transform: scale(.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+  .result-badge-big {
+    display: inline-block; font-size: 13px; font-weight: 600;
+    padding: 4px 18px; border-radius: 50px; border: 1.5px solid;
+    margin-bottom: 12px;
+  }
+  .result-score-display { font-family: 'Noto Serif TC',serif; font-size: 42px; font-weight: 700; color: var(--blue-dark); margin-bottom: 4px; }
+  .result-score-label { font-size: 13px; color: var(--gray-light); margin-bottom: 20px; }
+  .result-title { font-family: 'Noto Serif TC',serif; font-size: 22px; color: var(--blue-dark); font-weight: 700; margin-bottom: 12px; }
+  .result-desc { font-size: 15px; color: var(--gray-text); line-height: 1.8; margin-bottom: 28px; }
+
+  .score-bar-wrap { background: #f0f4f8; border-radius: 12px; overflow: hidden; height: 10px; margin: 0 auto 28px; max-width: 360px; }
+  .score-bar-fill { height: 100%; border-radius: 12px; transition: width 1s cubic-bezier(.4,0,.2,1) .3s; }
+
+  .suggestions { background: #f7faff; border-radius: 16px; padding: 20px 24px; margin-bottom: 28px; text-align: left; }
+  .suggestions h4 { font-family: 'Noto Serif TC',serif; font-size: 15px; color: var(--blue-dark); margin-bottom: 12px; font-weight: 600; }
+  .suggestions ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .suggestions li { font-size: 14px; color: var(--gray-text); line-height: 1.6; display: flex; gap: 8px; }
+  .suggestions li::before { content: '✦'; color: var(--blue-light); flex-shrink: 0; }
+
+  .result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-restart {
+    background: var(--blue-mid); color: white; border: none;
+    padding: 12px 28px; border-radius: 50px; cursor: pointer; font-size: 14px; font-weight: 600;
+    transition: background .2s; font-family: 'Noto Sans TC', sans-serif;
+  }
+  .btn-restart:hover { background: var(--blue-dark); }
+  .btn-close-result {
+    background: white; color: var(--blue-mid); border: 1.5px solid var(--blue-mid);
+    padding: 12px 28px; border-radius: 50px; cursor: pointer; font-size: 14px; font-weight: 600;
+    transition: background .2s; font-family: 'Noto Sans TC', sans-serif;
+  }
+  .btn-close-result:hover { background: var(--blue-pale); }
+
+  @media (max-width: 640px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 64px 24px 56px; }
+    .stats { flex-wrap: wrap; padding: 24px; }
+    .stat-item { min-width: 120px; border-right: none; border-bottom: 1px solid #e2e8f0; }
+    .stat-item:last-child { border-bottom: none; }
+    .section { padding: 56px 24px; }
+    .cta-banner { padding: 56px 24px; }
+    footer { padding: 24px; }
+    .quiz-modal { border-radius: 16px; }
+    .quiz-header, .quiz-body, .progress-bar-wrap { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">🧘 心理健康評估</a>
+  <ul class="nav-links">
+    <li><a href="#features">功能介紹</a></li>
+    <li><a href="#how">使用方式</a></li>
+    <li><a href="#results">評估結果</a></li>
+    <li><a href="#" class="nav-cta" onclick="openQuiz(); return false;">立即開始</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">✨ 免費・匿名・兩分鐘完成</div>
+  <h1>了解你的<span>壓力狀態</span><br>從自我覺察開始</h1>
+  <p>透過 10 道問題，幫助你觀察近兩週的日常習慣與身心訊號，找到屬於你的壓力模式。</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="openQuiz()">🚀 開始評估</button>
+    <a href="#how" class="btn-ghost">了解更多</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item"><span class="stat-num">10</span><div class="stat-label">道題目</div></div>
+  <div class="stat-item"><span class="stat-num">2</span><div class="stat-label">分鐘完成</div></div>
+  <div class="stat-item"><span class="stat-num">3</span><div class="stat-label">種評估結果</div></div>
+  <div class="stat-item"><span class="stat-num">100%</span><div class="stat-label">完全匿名</div></div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-label">功能介紹</div>
+  <h2 class="section-title">不只是問卷，<br>是一次與自己的對話</h2>
+  <p class="section-sub">這份評估涵蓋四個面向，幫助你全面了解自己的身心狀態。</p>
+  <div class="features-grid">
+    <div class="feature-card"><div class="feature-icon">🧠</div><h3>日常思緒狀態</h3><p>觀察你的大腦是否持續運轉，是否難以真正放鬆與靜下來。</p></div>
+    <div class="feature-card"><div class="feature-icon">⚡</div><h3>壓力反應模式</h3><p>了解你在壓力下的習慣性行為，例如飲食或滑手機的衝動。</p></div>
+    <div class="feature-card"><div class="feature-icon">🫀</div><h3>身體緊繃訊號</h3><p>辨識肩頸緊繃、睡前思緒紛飛等身體向你發出的壓力警訊。</p></div>
+    <div class="feature-card"><div class="feature-icon">📱</div><h3>注意力分散度</h3><p>評估你在專注時是否頻繁被手機打斷，以及忙碌感的來源。</p></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div class="how-bg" id="how">
+  <section class="section">
+    <div class="section-label">使用方式</div>
+    <h2 class="section-title">三步驟，兩分鐘<br>完成自我評估</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div><h4>回想最近兩週的狀態</h4><p>不需要完美答案，只要如實反映你的真實日常感受即可。</p></div></div>
+      <div class="step"><div class="step-num">2</div><div><h4>針對每題選擇最符合的頻率</h4><p>每題有「經常」、「有時」、「很少」三個選項，依據直覺作答最準確。</p></div></div>
+      <div class="step"><div class="step-num">3</div><div><h4>查看個人化評估結果</h4><p>根據你的分數，獲得對應的壓力狀態分析與調整建議。</p></div></div>
+    </div>
+  </section>
+</div>
+
+<!-- RESULTS PREVIEW -->
+<section class="section" id="results">
+  <div class="section-label">評估結果</div>
+  <h2 class="section-title">三種狀態，<br>找到你的位置</h2>
+  <p class="section-sub">評估完成後，你會落在以下三個區間之一，並獲得對應的說明與建議。</p>
+  <div class="results-grid">
+    <div class="result-card">
+      <div class="result-card-top" style="background:linear-gradient(135deg,#e8f5ee,#d4edda);">
+        <div class="result-emoji">🌿</div>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#4a9e6e;border:1.5px solid #4a9e6e;background:white;padding:2px 10px;border-radius:50px;display:inline-block;margin-bottom:4px;">狀態穩定</div>
+          <div style="font-size:13px;color:#718096;">0 – 6 分</div>
+        </div>
+      </div>
+      <div class="result-card-bottom">整體壓力穩定，保持良好的休息與生活節奏即可。</div>
+    </div>
+    <div class="result-card">
+      <div class="result-card-top" style="background:linear-gradient(135deg,#fef9ec,#fdecc8);">
+        <div class="result-emoji">🌤</div>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#c07d2a;border:1.5px solid #c07d2a;background:white;padding:2px 10px;border-radius:50px;display:inline-block;margin-bottom:4px;">輕微隱性壓力</div>
+          <div style="font-size:13px;color:#718096;">7 – 14 分</div>
+        </div>
+      </div>
+      <div class="result-card-bottom">有些隱性壓力，適度休息與放鬆練習有助於調整狀態。</div>
+    </div>
+    <div class="result-card">
+      <div class="result-card-top" style="background:linear-gradient(135deg,#fdf0ef,#fadadd);">
+        <div class="result-emoji">🌧</div>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#c0392b;border:1.5px solid #c0392b;background:white;padding:2px 10px;border-radius:50px;display:inline-block;margin-bottom:4px;">壓力負荷偏高</div>
+          <div style="font-size:13px;color:#718096;">15 – 20 分</div>
+        </div>
+      </div>
+      <div class="result-card-bottom">壓力較高，建議嘗試放鬆練習，考慮與專業人員討論。</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-banner" id="start">
+  <h2>準備好了嗎？</h2>
+  <p>花兩分鐘，認識一個更真實的自己。<br>這份評估完全免費、匿名，無需登入。</p>
+  <button class="btn-primary" style="font-size:16px;padding:16px 40px;" onclick="openQuiz()">🧘 開始壓力評估</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 心理健康評估 · 本問卷僅供自我參考，不構成醫療診斷建議
+    <span>|</span> 使用即代表您同意相關使用條款
+  </p>
+</footer>
+
+<!-- ─────────────── QUIZ OVERLAY ─────────────── -->
+<div id="quiz-overlay">
+  <div class="quiz-modal" id="quiz-modal">
+
+    <!-- Header -->
+    <div class="quiz-header">
+      <h2>🧘 壓力與習慣自我評估</h2>
+      <button class="quiz-close" onclick="closeQuiz()" aria-label="關閉">✕</button>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-bar-wrap" id="progress-wrap">
+      <div class="progress-meta">
+        <span id="q-counter">第 1 題，共 10 題</span>
+        <span id="q-percent">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Question body -->
+    <div class="quiz-body" id="quiz-body">
+      <div class="question-area" id="question-area"></div>
+      <div class="quiz-nav">
+        <button class="btn-nav-back" id="btn-back" onclick="prevQ()">← 上一題</button>
+        <button class="btn-nav-next" id="btn-next" onclick="nextQ()">下一題 →</button>
+      </div>
+    </div>
+
+    <!-- Result screen -->
+    <div class="result-screen" id="result-screen">
+      <div id="result-icon" class="result-icon-big"></div>
+      <div id="result-badge" class="result-badge-big"></div>
+      <div id="result-score" class="result-score-display"></div>
+      <div class="result-score-label">總分（滿分 20 分）</div>
+      <div class="score-bar-wrap"><div class="score-bar-fill" id="score-bar-fill"></div></div>
+      <div id="result-title" class="result-title"></div>
+      <div id="result-desc" class="result-desc"></div>
+      <div class="suggestions" id="suggestions-box">
+        <h4>💡 給你的建議</h4>
+        <ul id="suggestions-list"></ul>
+      </div>
+      <div class="result-actions">
+        <button class="btn-restart" onclick="restartQuiz()">🔄 重新評估</button>
+        <button class="btn-close-result" onclick="closeQuiz()">✕ 關閉</button>
+      </div>
+      <p style="font-size:12px;color:#a0aec0;margin-top:20px;line-height:1.6;">本問卷僅供自我參考，不構成醫療診斷建議。<br>如有持續困擾，建議尋求專業心理諮詢。</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    text: "在最近兩週，你是否感覺腦袋停不下來，即使休息時也持續思考待辦事項或煩惱？",
+    category: "日常思緒",
+    options: [
+      { label: "經常", sub: "幾乎每天都這樣", score: 2 },
+      { label: "有時", sub: "偶爾出現，不算頻繁", score: 1 },
+      { label: "很少", sub: "通常能好好放鬆", score: 0 }
+    ]
+  },
+  {
+    text: "你是否在壓力大時，會不自覺地吃零食或暴飲暴食來紓解情緒？",
+    category: "壓力反應",
+    options: [
+      { label: "經常", sub: "這是我的習慣性反應", score: 2 },
+      { label: "有時", sub: "偶爾會這樣", score: 1 },
+      { label: "很少", sub: "我通常不會這樣", score: 0 }
+    ]
+  },
+  {
+    text: "你是否注意到最近肩頸或背部持續緊繃，甚至頭痛或胸悶？",
+    category: "身體訊號",
+    options: [
+      { label: "經常", sub: "身體幾乎每天都在緊繃", score: 2 },
+      { label: "有時", sub: "偶爾出現身體緊繃", score: 1 },
+      { label: "很少", sub: "身體狀態大致輕鬆", score: 0 }
+    ]
+  },
+  {
+    text: "你在嘗試專注做一件事時，是否頻繁想拿起手機或分心滑社群媒體？",
+    category: "注意力",
+    options: [
+      { label: "經常", sub: "很難維持 10 分鐘專注", score: 2 },
+      { label: "有時", sub: "偶爾會分心", score: 1 },
+      { label: "很少", sub: "能夠長時間專注", score: 0 }
+    ]
+  },
+  {
+    text: "在過去兩週，你是否難以入睡，或者睡前腦中思緒紛飛難以平靜？",
+    category: "睡眠狀態",
+    options: [
+      { label: "經常", sub: "幾乎每晚都不好睡", score: 2 },
+      { label: "有時", sub: "偶爾會有睡眠困擾", score: 1 },
+      { label: "很少", sub: "睡眠品質還不錯", score: 0 }
+    ]
+  },
+  {
+    text: "你是否即使在放假或休息日，仍感到有「必須完成某件事」的壓迫感？",
+    category: "日常思緒",
+    options: [
+      { label: "經常", sub: "完全無法放鬆休假", score: 2 },
+      { label: "有時", sub: "偶爾會有這樣的感覺", score: 1 },
+      { label: "很少", sub: "休假時能真正放鬆", score: 0 }
+    ]
+  },
+  {
+    text: "當事情沒有按計劃進行時，你是否會感到明顯的焦躁或不安？",
+    category: "壓力反應",
+    options: [
+      { label: "經常", sub: "變化讓我很難承受", score: 2 },
+      { label: "有時", sub: "有時會感到困擾", score: 1 },
+      { label: "很少", sub: "能接受計劃改變", score: 0 }
+    ]
+  },
+  {
+    text: "你是否感到精力下降、容易疲累，即使睡了足夠時間仍感到疲憊？",
+    category: "身體訊號",
+    options: [
+      { label: "經常", sub: "每天都感到疲倦沉重", score: 2 },
+      { label: "有時", sub: "某些時候特別累", score: 1 },
+      { label: "很少", sub: "精力大致充沛", score: 0 }
+    ]
+  },
+  {
+    text: "你是否覺得自己「很忙」，但回想起來又說不清楚到底做了什麼？",
+    category: "注意力",
+    options: [
+      { label: "經常", sub: "忙碌感很強但效率很低", score: 2 },
+      { label: "有時", sub: "偶爾有這樣的感覺", score: 1 },
+      { label: "很少", sub: "通常清楚自己在做什麼", score: 0 }
+    ]
+  },
+  {
+    text: "與過去相比，你是否對原本喜歡的事情感到興趣下降或提不起勁？",
+    category: "情緒狀態",
+    options: [
+      { label: "經常", sub: "明顯失去熱情與動力", score: 2 },
+      { label: "有時", sub: "偶爾對事情感到無趣", score: 1 },
+      { label: "很少", sub: "仍對生活保有熱情", score: 0 }
+    ]
+  }
+];
+
+const results = [
+  {
+    range: [0, 6],
+    icon: "🌿",
+    badge: "狀態穩定",
+    badgeColor: "#4a9e6e",
+    barColor: "#4a9e6e",
+    title: "你目前的壓力狀態相對穩定",
+    desc: "根據你的回答，近兩週你的身心狀態整體良好。你能夠有效管理日常壓力，保持良好的生活節奏。繼續維持目前的自我照顧習慣，這是非常棒的基礎！",
+    suggestions: [
+      "持續保有規律的運動或伸展習慣",
+      "維持固定的睡眠時間，讓身體保持穩定節律",
+      "定期為自己安排真正的「無任務時間」",
+      "培養一個能讓你完全投入的興趣或嗜好"
+    ]
+  },
+  {
+    range: [7, 14],
+    icon: "🌤",
+    badge: "輕微隱性壓力",
+    badgeColor: "#c07d2a",
+    barColor: "#f6ad55",
+    title: "你有些隱性壓力正在累積",
+    desc: "你的回答顯示有一些值得關注的壓力訊號。這些壓力可能尚未造成明顯困擾，但若長期忽視，可能逐漸影響你的身心狀態。現在是調整的好時機！",
+    suggestions: [
+      "嘗試每天 5–10 分鐘的腹式呼吸或冥想",
+      "減少睡前一小時的手機使用時間",
+      "每週安排至少一次讓你真正放鬆的活動",
+      "練習覺察並記錄觸發焦慮的情境或想法",
+      "嘗試將大任務拆解成小步驟，降低壓迫感"
+    ]
+  },
+  {
+    range: [15, 20],
+    icon: "🌧",
+    badge: "壓力負荷偏高",
+    badgeColor: "#c0392b",
+    barColor: "#fc8181",
+    title: "你目前的壓力負荷較重，需要積極調整",
+    desc: "你的回答顯示近期有明顯的壓力累積，身體和心理都在發出訊號。這不代表你出了什麼問題，而是提醒你需要優先照顧自己。適度減輕負擔並尋求支持是重要的第一步。",
+    suggestions: [
+      "考慮與信任的朋友、家人或心理師分享你的狀態",
+      "先從一件「可以不做」的事情開始，學習放下",
+      "每天安排固定的放鬆儀式，例如散步或泡澡",
+      "嘗試漸進式肌肉放鬆法來釋放身體緊繃",
+      "如果困擾持續超過兩週，建議尋求專業心理諮詢",
+      "不要對自己太嚴苛——承認自己的疲憊本身就是勇氣"
+    ]
+  }
+];
+
+let current = 0;
+let answers = new Array(questions.length).fill(null);
+
+function openQuiz() {
+  current = 0;
+  answers = new Array(questions.length).fill(null);
+  document.getElementById('quiz-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  showQuestion();
+  document.getElementById('result-screen').classList.remove('show');
+  document.getElementById('quiz-body').style.display = '';
+  document.getElementById('progress-wrap').style.display = '';
+}
+
+function closeQuiz() {
+  document.getElementById('quiz-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function showQuestion() {
+  const q = questions[current];
+  const total = questions.length;
+
+  document.getElementById('q-counter').textContent = `第 ${current + 1} 題，共 ${total} 題`;
+  const pct = Math.round((current / total) * 100);
+  document.getElementById('q-percent').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const area = document.getElementById('question-area');
+  area.innerHTML = `
+    <div class="q-label">${q.category}</div>
+    <div class="q-text">${q.text}</div>
+    <div class="options">
+      ${q.options.map((opt, i) => `
+        <button class="option-btn ${answers[current] === i ? 'selected' : ''}"
+                onclick="selectOption(${i})" id="opt-${i}">
+          <div class="option-badge">${['A','B','C'][i]}</div>
+          <div>
+            <div class="option-label">${opt.label}</div>
+            <div class="option-sub">${opt.sub}</div>
+          </div>
+        </button>
+      `).join('')}
+    </div>
+  `;
+
+  // Back button
+  const backBtn = document.getElementById('btn-back');
+  backBtn.style.visibility = current === 0 ? 'hidden' : 'visible';
+
+  // Next button
+  const nextBtn = document.getElementById('btn-next');
+  nextBtn.textContent = current === total - 1 ? '查看結果 ✓' : '下一題 →';
+  updateNextBtn();
+
+  // Re-animate
+  area.style.animation = 'none';
+  area.offsetHeight;
+  area.style.animation = '';
+}
+
+function selectOption(idx) {
+  answers[current] = idx;
+  document.querySelectorAll('.option-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === idx);
+  });
+  updateNextBtn();
+  // Auto advance after short delay
+  setTimeout(() => { if (answers[current] !== null) nextQ(); }, 400);
+}
+
+function updateNextBtn() {
+  const btn = document.getElementById('btn-next');
+  if (answers[current] !== null) btn.classList.add('ready');
+  else btn.classList.remove('ready');
+}
+
+function nextQ() {
+  if (answers[current] === null) return;
+  if (current < questions.length - 1) {
+    current++;
+    showQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function prevQ() {
+  if (current > 0) { current--; showQuestion(); }
+}
+
+function showResult() {
+  const total = answers.reduce((sum, ans, i) => sum + (ans !== null ? questions[i].options[ans].score : 0), 0);
+
+  const r = results.find(r => total >= r.range[0] && total <= r.range[1]);
+
+  document.getElementById('result-icon').textContent = r.icon;
+
+  const badge = document.getElementById('result-badge');
+  badge.textContent = r.badge;
+  badge.style.color = r.badgeColor;
+  badge.style.borderColor = r.badgeColor;
+
+  document.getElementById('result-score').textContent = total;
+  document.getElementById('result-title').textContent = r.title;
+  document.getElementById('result-desc').textContent = r.desc;
+
+  const bar = document.getElementById('score-bar-fill');
+  bar.style.background = r.barColor;
+  bar.style.width = '0%';
+  setTimeout(() => { bar.style.width = (total / 20 * 100) + '%'; }, 50);
+
+  const list = document.getElementById('suggestions-list');
+  list.innerHTML = r.suggestions.map(s => `<li>${s}</li>`).join('');
+
+  document.getElementById('quiz-body').style.display = 'none';
+  document.getElementById('progress-wrap').style.display = 'none';
+  document.getElementById('result-screen').classList.add('show');
+
+  document.getElementById('quiz-modal').scrollTop = 0;
+}
+
+function restartQuiz() {
+  openQuiz();
+}
+
+// Close on backdrop click
+document.getElementById('quiz-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeQuiz();
+});
+
+// Keyboard support
+document.addEventListener('keydown', function(e) {
+  if (!document.getElementById('quiz-overlay').classList.contains('active')) return;
+  if (e.key === 'Escape') closeQuiz();
+  if (e.key === '1') selectOption(0);
+  if (e.key === '2') selectOption(1);
+  if (e.key === '3') selectOption(2);
+});
+</script>
+</body>
+</html>

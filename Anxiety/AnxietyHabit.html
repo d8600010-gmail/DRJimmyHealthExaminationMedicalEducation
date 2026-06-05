@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>為什麼越焦慮越戒不掉？</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700;900&family=Noto+Sans+TC:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sand: #f5f0e8;
+  --sand-dark: #ede5d5;
+  --cream: #faf7f2;
+  --ink: #1e1a14;
+  --ink-mid: #4a4235;
+  --ink-soft: #8a7d6b;
+  --sage: #6b8c6e;
+  --sage-light: #c8d9c4;
+  --sage-pale: #eef4ed;
+  --terra: #c4653a;
+  --terra-light: #f0c4a8;
+  --terra-pale: #fdf0e8;
+  --gold: #c49a3a;
+  --gold-pale: #fdf5e0;
+  --line: rgba(30,26,20,0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--sand);
+  color: var(--ink);
+  font-family: 'Noto Serif TC', serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.6;
+}
+
+/* Background organic shapes */
+.bg-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-blob-1 {
+  width: 500px; height: 500px;
+  background: var(--sage-light);
+  top: -100px; right: -100px;
+}
+.bg-blob-2 {
+  width: 400px; height: 400px;
+  background: var(--terra-light);
+  bottom: 200px; left: -80px;
+}
+
+/* ── Layout ── */
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 50px 24px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Masthead ── */
+.masthead {
+  text-align: center;
+  margin-bottom: 52px;
+  opacity: 0;
+  animation: rise 0.7s ease forwards 0.1s;
+}
+.masthead-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.masthead-eyebrow::before,
+.masthead-eyebrow::after {
+  content: '';
+  display: block;
+  width: 30px; height: 1px;
+  background: var(--ink-soft);
+  opacity: 0.5;
+}
+.masthead h1 {
+  font-family: 'Playfair Display', 'Noto Serif TC', serif;
+  font-size: clamp(26px, 6vw, 44px);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.3;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+.masthead h1 span {
+  color: var(--terra);
+  font-style: italic;
+}
+.masthead-sub {
+  margin-top: 14px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--ink-soft);
+  letter-spacing: 0.1em;
+}
+
+/* ── Cards ── */
+.card {
+  border-radius: 16px;
+  padding: 38px 40px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(0,0,0,0.04);
+  pointer-events: none;
+}
+
+.card-cream {
+  background: var(--cream);
+  box-shadow: 0 2px 20px rgba(30,26,20,0.07), 0 8px 40px rgba(30,26,20,0.04);
+}
+.card-sage {
+  background: var(--sage-pale);
+  box-shadow: 0 2px 20px rgba(107,140,110,0.12), 0 8px 40px rgba(107,140,110,0.06);
+}
+.card-terra {
+  background: var(--terra-pale);
+  box-shadow: 0 2px 20px rgba(196,101,58,0.1), 0 8px 40px rgba(196,101,58,0.05);
+}
+.card-dark {
+  background: var(--ink);
+  box-shadow: 0 8px 40px rgba(30,26,20,0.25);
+}
+.card-gold {
+  background: var(--gold-pale);
+  box-shadow: 0 2px 20px rgba(196,154,58,0.1);
+}
+
+/* Decorative number */
+.card-num {
+  position: absolute;
+  top: -10px; right: 28px;
+  font-family: 'Playfair Display', serif;
+  font-size: 100px;
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(30,26,20,0.05);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.card-dark .card-num { color: rgba(255,255,255,0.04); }
+
+.card-tag {
+  display: inline-block;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.tag-sage { background: var(--sage-light); color: var(--sage); }
+.tag-terra { background: var(--terra-light); color: var(--terra); }
+.tag-gold { background: #f0dfa0; color: var(--gold); }
+.tag-white { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); }
+
+.card h2 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 18px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+.card-dark h2 { color: white; }
+
+.card p {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 2.1;
+  color: var(--ink-mid);
+  margin-bottom: 16px;
+}
+.card-dark p { color: rgba(255,255,255,0.7); }
+
+/* ── Hero quote card ── */
+.hero-quote {
+  padding: 48px 44px 40px;
+}
+.hero-quote .open-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: 72px;
+  font-style: italic;
+  color: var(--terra-light);
+  line-height: 0.6;
+  display: block;
+  margin-bottom: 20px;
+}
+.voice-line {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px dashed rgba(30,26,20,0.1);
+}
+.voice-line:last-of-type { border-bottom: none; }
+.voice-arrow {
+  font-size: 13px;
+  color: var(--terra);
+  flex-shrink: 0;
+}
+.voice-text {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--ink-mid);
+  line-height: 1.8;
+  margin: 0;
+}
+.hero-punchline {
+  margin-top: 28px !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  color: var(--ink) !important;
+  padding-top: 20px;
+  border-top: 2px solid var(--terra-light);
+}
+
+/* ── Pill list ── */
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0;
+}
+.pill {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1px solid var(--line);
+  color: var(--ink-mid);
+  background: rgba(255,255,255,0.5);
+  transition: all 0.2s;
+  cursor: default;
+}
+.pill:hover {
+  background: var(--ink);
+  color: white;
+  border-color: var(--ink);
+  transform: translateY(-1px);
+}
+.pill-sage {
+  border-color: var(--sage-light);
+  color: var(--sage);
+  background: var(--sage-pale);
+}
+.pill-sage:hover { background: var(--sage); color: white; border-color: var(--sage); }
+
+/* ── Loop model ── */
+.loop-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 24px 20px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.loop-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 70px;
+  text-align: center;
+}
+.loop-icon {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.loop-label {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.3;
+}
+.loop-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  font-family: 'Noto Sans TC', sans-serif;
+  letter-spacing: 0.1em;
+}
+.loop-sep {
+  font-size: 18px;
+  color: var(--terra-light);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+/* ── Example grid ── */
+.ex-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 20px 0;
+}
+.ex-item {
+  background: rgba(255,255,255,0.5);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s;
+}
+.ex-item:hover {
+  background: white;
+  box-shadow: 0 4px 16px rgba(30,26,20,0.08);
+  transform: translateY(-2px);
+}
+.ex-emoji { font-size: 24px; flex-shrink: 0; }
+.ex-text {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+.ex-text strong { display: block; color: var(--ink); font-weight: 500; font-size: 13px; }
+
+/* ── Cycle diagram ── */
+.cycle-wrap {
+  margin: 24px 0;
+  position: relative;
+}
+.cycle-step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+}
+.cycle-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+.cycle-dot-terra { background: var(--terra); }
+.cycle-dot-sage  { background: var(--sage); }
+.cycle-dot-gold  { background: var(--gold); }
+.cycle-text-inner {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+}
+.cycle-connector {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 2px 0 2px 18px;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+.cycle-punchline {
+  margin-top: 20px;
+  background: var(--ink);
+  color: white;
+  padding: 16px 20px;
+  border-radius: 10px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.8;
+  letter-spacing: 0.03em;
+}
+
+/* ── Key insight ── */
+.insight-box {
+  border: 2px solid var(--sage-light);
+  border-radius: 12px;
+  padding: 24px 26px;
+  margin: 20px 0;
+  background: rgba(255,255,255,0.4);
+}
+.insight-box p {
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: var(--sage) !important;
+  line-height: 2 !important;
+  margin: 0 !important;
+}
+
+/* ── Question list ── */
+.q-list { margin: 20px 0; }
+.q-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.q-item:last-child { border-bottom: none; }
+.q-marker {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: white;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.q-text {
+  font-size: 15px !important;
+  font-weight: 300 !important;
+  color: var(--ink-mid) !important;
+  line-height: 1.9 !important;
+  margin: 0 !important;
+}
+
+/* ── Closing card ── */
+.card-dark .big-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(18px, 3.5vw, 26px);
+  font-style: italic;
+  font-weight: 400;
+  color: white;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  letter-spacing: 0.02em;
+}
+.card-dark .closing-note {
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 300;
+  line-height: 2;
+  margin: 0;
+}
+
+/* ── Closing glow ── */
+.card-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 40%, rgba(196,101,58,0.18) 0%, transparent 55%),
+              radial-gradient(ellipse at 80% 60%, rgba(107,140,110,0.14) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  opacity: 0;
+  animation: rise 0.7s ease forwards 0.3s;
+}
+.footer-tags {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.footer-tag {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 11px;
+  color: var(--ink-soft);
+  letter-spacing: 0.1em;
+}
+.footer-tag::before { content: '— '; }
+.footer-line {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-soft);
+  opacity: 0.5;
+}
+
+/* ── Scroll-in animations ── */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 540px) {
+  .page { padding: 36px 16px 60px; }
+  .card { padding: 28px 24px; }
+  .ex-grid { grid-template-columns: 1fr; }
+  .loop-row { gap: 8px; }
+  .hero-quote { padding: 36px 28px 30px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-blob bg-blob-1"></div>
+<div class="bg-blob bg-blob-2"></div>
+
+<main class="page">
+
+  <!-- Masthead -->
+  <div class="masthead">
+    <div class="masthead-eyebrow">身心醫學 · 習慣科學</div>
+    <h1>為什麼越<span>焦慮</span>，<br>越戒不掉壞習慣？</h1>
+    <p class="masthead-sub">神經科學 × 心理研究 × 日常覺察</p>
+  </div>
+
+  <!-- Card 1: Opening voices -->
+  <div class="card card-cream hero-quote">
+    <span class="open-quote">"</span>
+    <div class="voice-line">
+      <span class="voice-arrow">→</span>
+      <p class="voice-text">壓力大，就想抽菸。</p>
+    </div>
+    <div class="voice-line">
+      <span class="voice-arrow">→</span>
+      <p class="voice-text">焦慮起來，就吃甜食。</p>
+    </div>
+    <div class="voice-line">
+      <span class="voice-arrow">→</span>
+      <p class="voice-text">累了，就拿起手機。</p>
+    </div>
+    <p class="hero-punchline">
+      明明知道不好，卻很難停下來。<br>
+      <strong>其實，這不是意志力的問題。</strong>
+    </p>
+  </div>
+
+  <!-- Card 2: Chronic anxiety -->
+  <div class="card card-sage">
+    <span class="card-num">一</span>
+    <span class="card-tag tag-sage">慢性焦慮</span>
+    <h2>現代人其實都在「慢性焦慮」</h2>
+    <p>心理學研究指出，很多人的焦慮並不是恐慌發作，而是一種長期存在的背景焦慮——悄悄地、持續地消耗著我們。</p>
+    <div class="pill-list">
+      <span class="pill pill-sage">腦中一直在想事情</span>
+      <span class="pill pill-sage">很難真正放鬆</span>
+      <span class="pill pill-sage">事情永遠做不完</span>
+      <span class="pill pill-sage">總覺得哪裡不對勁</span>
+    </div>
+    <div class="insight-box">
+      <p>這種狀態，被稱為<strong>「慢性焦慮 Chronic Anxiety」</strong></p>
+    </div>
+  </div>
+
+  <!-- Card 3: Brain loop (dark) -->
+  <div class="card card-dark">
+    <span class="card-num">二</span>
+    <span class="card-tag tag-white">大腦學習機制</span>
+    <h2>大腦會自動找「快速紓壓」</h2>
+    <p>神經科學研究發現，大腦會形成一個習慣學習迴路：</p>
+
+    <div class="loop-row">
+      <div class="loop-node">
+        <div class="loop-icon">⚡</div>
+        <div class="loop-label">觸發</div>
+        <div class="loop-sub">Trigger</div>
+      </div>
+      <div class="loop-sep">→</div>
+      <div class="loop-node">
+        <div class="loop-icon">🔄</div>
+        <div class="loop-label">行為</div>
+        <div class="loop-sub">Behavior</div>
+      </div>
+      <div class="loop-sep">→</div>
+      <div class="loop-node">
+        <div class="loop-icon">✨</div>
+        <div class="loop-label">短暫舒服</div>
+        <div class="loop-sub">Reward</div>
+      </div>
+    </div>
+
+    <div class="ex-grid">
+      <div class="ex-item">
+        <span class="ex-emoji">🚬</span>
+        <div class="ex-text"><strong>焦慮 → 抽菸</strong>短暫鬆一口氣</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-emoji">🍩</span>
+        <div class="ex-text"><strong>壓力 → 吃東西</strong>即時獲得慰藉</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-emoji">📱</span>
+        <div class="ex-text"><strong>無聊 → 滑手機</strong>逃離空白感</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-emoji">🍺</span>
+        <div class="ex-text"><strong>疲憊 → 喝酒</strong>麻痺緊繃感</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 4: Cycle -->
+  <div class="card card-terra">
+    <span class="card-num">三</span>
+    <span class="card-tag tag-terra">惡性循環</span>
+    <h2>於是形成「焦慮－習慣循環」</h2>
+
+    <div class="cycle-wrap">
+      <div class="cycle-step">
+        <div class="cycle-dot cycle-dot-terra"></div>
+        <span class="cycle-text-inner">焦慮</span>
+      </div>
+      <div class="cycle-connector">↓ 觸發想紓壓的衝動</div>
+      <div class="cycle-step">
+        <div class="cycle-dot cycle-dot-sage"></div>
+        <span class="cycle-text-inner">習慣行為（菸、酒、手機）</span>
+      </div>
+      <div class="cycle-connector">↓ 帶來短暫放鬆</div>
+      <div class="cycle-step">
+        <div class="cycle-dot cycle-dot-gold"></div>
+        <span class="cycle-text-inner">焦慮再回來</span>
+      </div>
+      <div class="cycle-punchline">
+        這就是為什麼「壓力越大，越戒不掉」。<br>
+        因為習慣已成為焦慮的出口。
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 5: Root cause -->
+  <div class="card card-sage">
+    <span class="card-num">四</span>
+    <span class="card-tag tag-sage">根本原因</span>
+    <h2>真正需要處理的，其實不是習慣</h2>
+    <p>很多時候，問題不是意志力不足，也不是自制力不好。</p>
+    <div class="pill-list">
+      <span class="pill" style="text-decoration:line-through;opacity:0.5;">意志力問題</span>
+      <span class="pill" style="text-decoration:line-through;opacity:0.5;">自制力問題</span>
+    </div>
+    <div class="insight-box">
+      <p>真正的關鍵是<strong>焦慮本身沒有被看見</strong>。<br>
+      如果焦慮沒有被理解，習慣行為就會一直出現。</p>
+    </div>
+  </div>
+
+  <!-- Card 6: Awareness -->
+  <div class="card card-gold">
+    <span class="card-num">五</span>
+    <span class="card-tag tag-gold">改變的起點</span>
+    <h2>改變的第一步：覺察</h2>
+    <p>當你想要某個習慣行為時，先停一下，問自己：</p>
+    <div class="q-list">
+      <div class="q-item">
+        <div class="q-marker">1</div>
+        <p class="q-text">我現在是不是在焦慮？這個衝動從哪裡來？</p>
+      </div>
+      <div class="q-item">
+        <div class="q-marker">2</div>
+        <p class="q-text">我是不是在找紓壓？身體有什麼感覺？</p>
+      </div>
+      <div class="q-item">
+        <div class="q-marker">3</div>
+        <p class="q-text">我真正需要的是休息，還是支持？</p>
+      </div>
+    </div>
+    <p>很多時候，只要<strong>看見這個過程</strong>，習慣就會開始鬆動。</p>
+  </div>
+
+  <!-- Closing -->
+  <div class="card card-dark" style="text-align:center; padding:52px 44px;">
+    <div class="big-quote">
+      很多習慣問題，<br>其實不是「意志力問題」，<br>
+      而是「情緒與壓力沒有被理解」。
+    </div>
+    <p class="closing-note">
+      當我們開始理解焦慮，<br>很多改變就會自然發生。
+    </p>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-tags">
+      <span class="footer-tag">身心醫學</span>
+      <span class="footer-tag">健康知識</span>
+      <span class="footer-tag">生活習慣</span>
+    </div>
+    <div class="footer-line">Mind &amp; Body Wellness</div>
+  </footer>
+
+</main>
+
+<script>
+// Scroll-triggered card animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, 60);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.card').forEach((card, i) => {
+  // Stagger first few cards on load
+  if (i < 2) {
+    setTimeout(() => card.classList.add('visible'), 200 + i * 120);
+  } else {
+    observer.observe(card);
+  }
+});
+</script>
+</body>
+</html>

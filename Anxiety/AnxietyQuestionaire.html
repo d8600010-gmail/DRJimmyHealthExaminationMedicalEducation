@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>反直覺焦慮傾向問卷（15題）</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --soft: #f0ede8;
+    --warm: #e8e0d8;
+    --accent: #c17a3f;
+    --accent2: #7a6b9e;
+    --muted: #888;
+    --card-bg: #faf8f5;
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans TC", sans-serif;
+    background: var(--soft);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 100px;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.5;
+  }
+  .container { max-width: 680px; width: 100%; position: relative; z-index: 1; }
+
+  .header { text-align: center; margin-bottom: 44px; animation: fadeUp 0.8s ease both; }
+  .eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 12px; }
+  .header h1 { font-family: "Noto Serif TC", serif; font-size: clamp(24px, 5vw, 36px); font-weight: 700; line-height: 1.3; margin-bottom: 14px; }
+  .header p { font-size: 14px; color: var(--muted); line-height: 1.9; max-width: 500px; margin: 0 auto; }
+
+  .progress-wrap { margin-bottom: 32px; animation: fadeUp 0.8s 0.15s ease both; }
+  .progress-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .progress-bar { height: 3px; background: var(--warm); border-radius: 10px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 10px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); width: 0%; }
+
+  .question-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 28px 30px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.04), 0 1px 4px rgba(0,0,0,0.05);
+    transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0; transform: translateY(22px); pointer-events: none;
+  }
+  .question-card.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
+  .question-card.active { border-color: rgba(193,122,63,0.28); box-shadow: 0 4px 28px rgba(193,122,63,0.09), 0 1px 6px rgba(0,0,0,0.07); }
+  .question-card.answered { opacity: 0.68; }
+
+  .q-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .q-number { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+  .q-check { font-size: 12px; color: var(--accent); opacity: 0; transition: opacity 0.3s ease; }
+  .q-check.show { opacity: 1; }
+  .q-text { font-family: "Noto Serif TC", serif; font-size: 16px; font-weight: 600; line-height: 1.6; margin-bottom: 20px; }
+
+  .options { display: flex; flex-direction: column; gap: 9px; }
+  .option-label {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 15px; border-radius: 10px; cursor: pointer;
+    border: 1.5px solid transparent; background: var(--warm);
+    transition: all 0.2s ease; position: relative; overflow: hidden;
+  }
+  .option-label::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(193,122,63,0.07), rgba(122,107,158,0.07));
+    opacity: 0; transition: opacity 0.2s ease;
+  }
+  .option-label:hover { border-color: rgba(193,122,63,0.3); background: #fff; }
+  .option-label:hover::before { opacity: 1; }
+  .option-label.selected { border-color: var(--accent); background: #fff; box-shadow: 0 2px 10px rgba(193,122,63,0.12); }
+  .option-label.selected::before { opacity: 1; }
+  input[type="radio"] { display: none; }
+  .radio-dot {
+    width: 17px; height: 17px; border-radius: 50%; border: 2px solid #ccc;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 1; transition: border-color 0.2s ease;
+  }
+  .radio-dot::after {
+    content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+    opacity: 0; transform: scale(0); transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .option-label.selected .radio-dot { border-color: var(--accent); }
+  .option-label.selected .radio-dot::after { opacity: 1; transform: scale(1); }
+  .option-text { font-size: 13.5px; line-height: 1.5; color: var(--ink); position: relative; z-index: 1; }
+
+  .submit-wrap { text-align: center; margin-top: 28px; opacity: 0; transform: translateY(14px); transition: all 0.5s ease; pointer-events: none; }
+  .submit-wrap.show { opacity: 1; transform: translateY(0); pointer-events: all; }
+  .submit-btn {
+    padding: 14px 44px; background: var(--ink); color: white; border: none;
+    border-radius: 50px; font-size: 15px; font-family: "Noto Sans TC", sans-serif;
+    cursor: pointer; letter-spacing: 1px; transition: all 0.3s ease; position: relative; overflow: hidden;
+  }
+  .submit-btn::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    opacity: 0; transition: opacity 0.3s ease;
+  }
+  .submit-btn:hover::before { opacity: 1; }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+  .submit-btn span { position: relative; z-index: 1; }
+
+  .result-section { display: none; animation: fadeUp 0.8s ease both; }
+  .result-section.show { display: block; }
+
+  .result-header { text-align: center; margin-bottom: 30px; }
+  .result-badge {
+    display: inline-block; padding: 6px 18px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white; border-radius: 50px; font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .result-title { font-family: "Noto Serif TC", serif; font-size: clamp(22px, 4vw, 30px); font-weight: 700; line-height: 1.4; margin-bottom: 10px; }
+  .result-sub { font-size: 13px; color: var(--muted); line-height: 1.8; }
+
+  .rcard {
+    background: var(--card-bg); border-radius: var(--radius); padding: 26px 30px;
+    margin-bottom: 14px; border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 2px 18px rgba(0,0,0,0.04);
+  }
+  .rcard h3 { font-family: "Noto Serif TC", serif; font-size: 14px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 9px; }
+  .rcard-icon { width: 26px; height: 26px; border-radius: 7px; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 13px; color: white; flex-shrink: 0; }
+  .rcard p { font-size: 13.5px; line-height: 1.95; color: #444; }
+
+  .ai-loading { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 13px; padding: 8px 0; }
+  .dots span { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: bounce 1.2s infinite; }
+  .dots span:nth-child(2) { animation-delay: 0.2s; }
+  .dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+
+  .score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; font-size: 12px; }
+  .score-label { width: 76px; color: var(--muted); flex-shrink: 0; }
+  .score-track { flex: 1; height: 6px; background: var(--warm); border-radius: 10px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 1s cubic-bezier(0.4,0,0.2,1) 0.4s; }
+  .score-val { width: 24px; text-align: right; color: var(--muted); flex-shrink: 0; }
+
+  .secondary-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .stag { padding: 5px 13px; border-radius: 50px; background: var(--warm); font-size: 12px; color: var(--muted); border: 1px solid rgba(0,0,0,0.06); }
+  .stag.highlight { background: rgba(193,122,63,0.1); color: var(--accent); border-color: rgba(193,122,63,0.2); }
+
+  .restart-btn { display: block; margin: 24px auto 0; padding: 11px 30px; background: transparent; border: 1.5px solid var(--ink); border-radius: 50px; font-size: 14px; cursor: pointer; font-family: "Noto Sans TC", sans-serif; transition: all 0.2s ease; color: var(--ink); }
+  .restart-btn:hover { background: var(--ink); color: white; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header" id="quizHeader">
+    <div class="eyebrow">Self Assessment · 15 Questions</div>
+    <h1>反直覺焦慮傾向問卷</h1>
+    <p>不直接問「你焦慮嗎？」<br>而是透過你的 <strong>行為模式與思考方式</strong> 來了解你的壓力傾向。</p>
+  </div>
+
+  <div id="quizSection">
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span id="progressLabel">0 / 15 完成</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+    <div id="questionsWrap"></div>
+    <div class="submit-wrap" id="submitWrap">
+      <button class="submit-btn" onclick="submitQuiz()"><span>查看我的分析 →</span></button>
+    </div>
+  </div>
+
+  <div class="result-section" id="resultSection">
+    <div class="result-header">
+      <div class="result-badge">你的焦慮傾向</div>
+      <div class="result-title" id="resultTitle">——</div>
+      <div class="result-sub">以下是根據你 15 題的回答所生成的個人化分析與建議</div>
+    </div>
+    <div class="rcard">
+      <h3><span class="rcard-icon">✦</span>核心特質分析</h3>
+      <p id="traitText"><div class="ai-loading">正在生成個人化分析<div class="dots"><span></span><span></span><span></span></div></div></p>
+    </div>
+    <div class="rcard">
+      <h3><span class="rcard-icon">◈</span>具體建議</h3>
+      <p id="adviceText"><div class="ai-loading">正在生成建議<div class="dots"><span></span><span></span><span></span></div></div></p>
+    </div>
+    <div class="rcard">
+      <h3><span class="rcard-icon">▦</span>各傾向分佈（共 15 題）</h3>
+      <div id="scoreChart"></div>
+      <div class="secondary-tags" id="secondaryTags"></div>
+    </div>
+    <button class="restart-btn" onclick="restartQuiz()">重新作答</button>
+  </div>
+
+</div>
+<script>
+const questions = [
+  { q:"當事情沒有按照計畫進行時", o:[["A","我會開始分析哪個環節出了問題"],["B","我會覺得自己應該做得更好"],["C","我會先安撫相關的人"],["D","我會先去做別的事情"],["E","我會突然覺得很沒動力"]] },
+  { q:"當別人對我不滿時", o:[["A","我會反覆回想對話內容"],["B","我會想辦法把事情修正到最好"],["C","我會先道歉讓氣氛好一點"],["D","我會先忙別的事轉移注意"],["E","我會開始懷疑自己的人生選擇"]] },
+  { q:"如果今天完全沒有行程", o:[["A","我會想很多未來計畫"],["B","我會覺得自己應該更有效率"],["C","我會想是不是別人需要我幫忙"],["D","我會找事情讓自己忙"],["E","我會有點空虛"]] },
+  { q:"當我做錯事情", o:[["A","我會一直回想整個過程"],["B","我會覺得自己不應該犯錯"],["C","我會擔心別人怎麼看我"],["D","我會趕快投入下一件事"],["E","我會開始懷疑自己的能力"]] },
+  { q:"當我需要做重大決定", o:[["A","我會分析各種可能性"],["B","我會想找到最完美的選擇"],["C","我會考慮別人的期待"],["D","我會先拖一下再說"],["E","我會想這件事到底有沒有意義"]] },
+  { q:"當工作很多時", o:[["A","我會一直思考優先順序"],["B","我會要求自己做到最好"],["C","我會先協助別人完成"],["D","我會拼命工作不停下"],["E","我會突然很疲憊"]] },
+  { q:"當朋友情緒低落", o:[["A","我會分析他為什麼會這樣"],["B","我會想找到最好的建議"],["C","我會優先陪伴他"],["D","我會建議一起做點事情"],["E","我會思考人生是不是都很辛苦"]] },
+  { q:"當事情結果不確定時", o:[["A","我會一直想最壞的情況"],["B","我會努力把準備做到最好"],["C","我會先問別人意見"],["D","我會先忙別的事"],["E","我會想人生很多事都無法控制"]] },
+  { q:"當我有空閒時間", o:[["A","我會思考很多事情"],["B","我會覺得應該更有效率"],["C","我會回覆很多訊息"],["D","我會找事情填滿時間"],["E","我會思考人生方向"]] },
+  { q:"當別人批評我", o:[["A","我會反覆想那句話"],["B","我會想證明自己做得很好"],["C","我會很在意對方感受"],["D","我會把注意力放在其他事情"],["E","我會開始懷疑自己"]] },
+  { q:"當計畫突然改變", o:[["A","我會開始重新分析情況"],["B","我會覺得事情不夠完美"],["C","我會先看別人怎麼想"],["D","我會馬上安排別的事"],["E","我會覺得有點迷失"]] },
+  { q:"當壓力很大時", o:[["A","我會一直思考原因"],["B","我會逼自己撐住"],["C","我會想顧及大家感受"],["D","我會讓自己更忙"],["E","我會開始懷疑努力的意義"]] },
+  { q:"當我和別人意見不同", o:[["A","我會一直思考誰比較合理"],["B","我會努力證明自己是對的"],["C","我會先讓步"],["D","我會轉移話題"],["E","我會覺得這些事情很累"]] },
+  { q:"當想到未來", o:[["A","我會想到很多可能風險"],["B","我會想把人生規劃好"],["C","我會想家人朋友的期待"],["D","我會讓自己忙著工作"],["E","我會想人生意義"]] },
+  { q:"當一件事情完成後", o:[["A","我會回想整個過程"],["B","我會想還可以更好"],["C","我會關心大家感受"],["D","我會馬上做下一件事"],["E","我會想這一切值不值得"]] }
+];
+
+const typeNames = { A:"過度思考型焦慮", B:"完美控制型焦慮", C:"討好型焦慮", D:"忙碌逃避型焦慮", E:"意義迷失型焦慮" };
+const labelMap = { A:"過度思考", B:"完美控制", C:"討好型", D:"忙碌逃避", E:"意義迷失" };
+
+let answers = {}, answeredCount = 0;
+
+// Build cards
+const wrap = document.getElementById("questionsWrap");
+questions.forEach((item, qi) => {
+  const card = document.createElement("div");
+  card.className = "question-card";
+  card.id = `qcard-${qi}`;
+  card.innerHTML = `
+    <div class="q-meta">
+      <div class="q-number">Q${String(qi+1).padStart(2,'0')} / 15</div>
+      <div class="q-check" id="qcheck-${qi}">✓ 已記錄</div>
+    </div>
+    <div class="q-text">${item.q}</div>
+    <div class="options">
+      ${item.o.map(([v,t]) => `
+        <label class="option-label" id="opt-${qi}-${v}" onclick="selectOption(${qi},'${v}')">
+          <input type="radio" name="q${qi}" value="${v}">
+          <span class="radio-dot"></span>
+          <span class="option-text">${v}. ${t}</span>
+        </label>`).join('')}
+    </div>`;
+  wrap.appendChild(card);
+});
+
+setTimeout(() => revealCard(0), 150);
+
+function revealCard(index) {
+  const card = document.getElementById(`qcard-${index}`);
+  if (!card) return;
+  card.classList.add("visible");
+  setTimeout(() => {
+    card.classList.add("active");
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, 60);
+}
+
+function selectOption(qi, value) {
+  const wasAnswered = answers[qi] !== undefined;
+  answers[qi] = value;
+
+  ["A","B","C","D","E"].forEach(v => {
+    document.getElementById(`opt-${qi}-${v}`).classList.toggle("selected", v === value);
+  });
+
+  document.getElementById(`qcheck-${qi}`).classList.add("show");
+  const card = document.getElementById(`qcard-${qi}`);
+  card.classList.remove("active");
+  setTimeout(() => card.classList.add("answered"), 300);
+
+  if (!wasAnswered) {
+    answeredCount++;
+    updateProgress();
+  }
+
+  setTimeout(() => {
+    if (qi + 1 < questions.length) {
+      revealCard(qi + 1);
+    } else {
+      const sw = document.getElementById("submitWrap");
+      sw.classList.add("show");
+      setTimeout(() => sw.scrollIntoView({ behavior: "smooth", block: "center" }), 200);
+    }
+  }, 400);
+}
+
+function updateProgress() {
+  const pct = Math.round((answeredCount / questions.length) * 100);
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressLabel").textContent = `${answeredCount} / ${questions.length} 完成`;
+  document.getElementById("progressPct").textContent = pct + "%";
+}
+
+function submitQuiz() {
+  if (Object.keys(answers).length < questions.length) { alert("請完成所有題目。"); return; }
+
+  const counts = { A:0, B:0, C:0, D:0, E:0 };
+  Object.values(answers).forEach(v => counts[v]++);
+  const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+  const max = sorted[0][0];
+
+  document.getElementById("quizSection").style.display = "none";
+  document.getElementById("quizHeader").style.display = "none";
+  document.getElementById("resultSection").classList.add("show");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  document.getElementById("resultTitle").textContent = typeNames[max];
+
+  // Score chart
+  document.getElementById("scoreChart").innerHTML = sorted.map(([k,v]) => `
+    <div class="score-row">
+      <div class="score-label">${labelMap[k]}</div>
+      <div class="score-track"><div class="score-fill" style="width:${(v/questions.length)*100}%"></div></div>
+      <div class="score-val">${v}</div>
+    </div>`).join('');
+
+  // Tags
+  document.getElementById("secondaryTags").innerHTML = sorted.map(([k,v], i) =>
+    `<span class="stag${i===0?' highlight':''}">${i===0?'主要：':''}${typeNames[k]}（${v}題）</span>`
+  ).join('');
+
+  // Build prompt
+  const answerSummary = questions.map((item, i) => {
+    const v = answers[i];
+    const opt = item.o.find(o => o[0] === v);
+    return `第${i+1}題「${item.q}」→ ${v}. ${opt[1]}`;
+  }).join('\n');
+
+  const secondaryNote = sorted[1][1] > 1 ? `，次要傾向為${typeNames[sorted[1][0]]}（${sorted[1][1]}題）` : '';
+
+  const prompt = `你是一位溫暖而深刻的心理諮詢師。以下是一份 15 題反直覺焦慮問卷的完整作答：
+
+${answerSummary}
+
+各傾向得分：
+- 過度思考型：${counts.A}/15
+- 完美控制型：${counts.B}/15
+- 討好型：${counts.C}/15
+- 忙碌逃避型：${counts.D}/15
+- 意義迷失型：${counts.E}/15
+
+主要焦慮傾向：${typeNames[max]}（${counts[max]}題）${secondaryNote}
+
+請根據此人的具體答題內容（不要泛泛而談），提供：
+
+【核心特質】
+用 3 段溫暖且具洞察力的文字，分析這個人的焦慮模式與內在驅動力。請引用他們的具體回答，讓分析有個人感。
+
+【具體建議】
+提供 4 個針對此人主要傾向的實際可執行建議，每個建議包含具體做法。語氣溫暖，像朋友一樣說話。
+
+請用繁體中文。格式：先輸出【核心特質】內容（純文字，不含標題），再輸出分隔線「---」，再輸出【具體建議】內容（純文字，不含標題）。`;
+
+  fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1200,
+      messages: [{ role: "user", content: prompt }]
+    })
+  })
+  .then(r => r.json())
+  .then(data => {
+    const text = data.content.map(c => c.text || "").join("");
+    const parts = text.split("---");
+    document.getElementById("traitText").innerHTML = (parts[0]||"").trim().replace(/\n/g,"<br>");
+    document.getElementById("adviceText").innerHTML = (parts[1]||"").trim().replace(/\n/g,"<br>");
+  })
+  .catch(() => {
+    const fb = fallback(max);
+    document.getElementById("traitText").innerHTML = fb.trait;
+    document.getElementById("adviceText").innerHTML = fb.advice;
+  });
+}
+
+function fallback(type) {
+  const map = {
+    A:{ trait:"你習慣透過不斷分析來降低不確定感，當事情出現變數，你的第一反應是深入思考找出原因。這份細膩讓你做事周全，卻也讓大腦難以真正休息。<br><br>你的焦慮不是因為能力不足，而是因為你想在行動前就把所有可能性想清楚，但現實是不確定性永遠存在。<br><br>你需要的不是更多答案，而是學會「帶著不確定前進」的能力。",
+      advice:"1. 設定思考截止時間：給自己 15 分鐘思考某個問題，時間到就選擇行動。<br><br>2. 區分「有用的思考」與「無益的擔憂」：有行動方向的是思考，在原地打轉的是擔憂。<br><br>3. 把擔憂寫下來：把腦中反覆的念頭寫在紙上，讓大腦暫時卸下重擔。<br><br>4. 練習「足夠好」的決定：多數情況下 70 分的決定比延遲的完美決定更有價值。" },
+    B:{ trait:"你對自己有很高的期待，希望在每件事上都能做到最好。錯誤對你來說不只是「事情搞砸了」，而更像是對自我價值的否定。<br><br>這種模式讓你具備強大的執行力，但也讓你長期生活在一種隱隱的壓力下，生怕某個環節出錯。<br><br>真正的自信不是永遠做對，而是能接受自己也會出錯，並從中成長。你值得給自己更多溫柔。",
+      advice:"1. 每天記錄一件「足夠好的事」：練習欣賞不完美但已完成的成果。<br><br>2. 區分「我做錯了」和「我不好」：錯誤是行為，不代表你整個人的價值。<br><br>3. 刻意練習「不修改」：交出一份沒有反覆修改的文件，體驗結果其實沒那麼糟。<br><br>4. 對自己說你會對好朋友說的話：如果是朋友犯了同樣的錯，你會怎麼對他說？" },
+    C:{ trait:"你對人際關係中的氣氛非常敏感，當感受到任何不和諧，你會自然地想修復、讓對方開心。這種特質讓你成為一個體貼、善解人意的人。<br><br>然而，你也可能習慣把別人的感受放在第一位，而把自己的需求排在最後。長期下來，你可能會感到疲憊，甚至不太清楚「自己真正想要什麼」。<br><br>你對他人的關愛是真實而珍貴的，但健康的關係需要你也好好照顧自己。",
+      advice:"1. 每天問自己一次「我現在想要什麼」：練習意識到自己的感受與需求。<br><br>2. 試著說一次小小的「不」：從低風險的情境開始，體驗拒絕不一定會毀掉關係。<br><br>3. 辨識「真心幫忙」vs「焦慮驅動的討好」：前者讓你充實，後者讓你疲憊。<br><br>4. 給自己「不照顧任何人」的時間：每週安排一段只為自己存在的時間。" },
+    D:{ trait:"你傾向透過讓自己保持忙碌來管理內在的不安。當有空白出現，你會感到說不清楚的不對勁，於是本能地填滿它。忙碌讓你感到有價值、有方向。<br><br>這種模式讓你高效、行動力強。但它也可能讓你與自己的真實情緒保持距離——你在逃跑，但你不一定知道在逃什麼。<br><br>停下來，有時候才是真正的前進。",
+      advice:"1. 每天安排 15 分鐘「什麼都不做」：允許無聊，觀察什麼情緒浮現。<br><br>2. 在開始新任務前問自己：「我是真的想做，還是在逃避某件事？」<br><br>3. 嘗試慢速活動：散步、手沖咖啡、寫日記，練習和自己的內在同在。<br><br>4. 把休息排進行程：如果你需要理由才能休息，就把休息當成一個重要任務。" },
+    E:{ trait:"你對生命的意義與方向有深刻的追求，這是你獨特而珍貴的一面。當生活缺乏目標感，你容易陷入一種廣泛的疲憊與懷疑感。<br><br>這不是消極，而是你的內在對「值得活」的生命有更高的要求。你想要的不只是「過日子」，而是真正感受到活著的意義。<br><br>意義不一定在遠方的大目標裡，它也存在於每一個微小的當下。",
+      advice:"1. 從「微小的意義」開始：今天讓某人開心了、學到一個新知識，這些也是意義。<br><br>2. 區分「暫時的空虛」和「長期的方向問題」：前者像天氣會過去，後者值得慢慢探索。<br><br>3. 找一件不需要有意義就可以喜歡的事：讓自己有時候只是「享受」，不必追求目的。<br><br>4. 和有相似思考深度的人交流：你的迷茫在某些人眼中是最想討論的話題。" }
+  };
+  return map[type];
+}
+
+function restartQuiz() {
+  answers = {}; answeredCount = 0;
+  document.getElementById("resultSection").classList.remove("show");
+  document.getElementById("quizHeader").style.display = "";
+  document.getElementById("quizSection").style.display = "";
+  questions.forEach((_, i) => {
+    const card = document.getElementById(`qcard-${i}`);
+    card.className = "question-card";
+    document.getElementById(`qcheck-${i}`).classList.remove("show");
+    ["A","B","C","D","E"].forEach(v => document.getElementById(`opt-${i}-${v}`).classList.remove("selected"));
+  });
+  document.getElementById("submitWrap").classList.remove("show");
+  document.getElementById("progressFill").style.width = "0%";
+  document.getElementById("progressLabel").textContent = "0 / 15 完成";
+  document.getElementById("progressPct").textContent = "0%";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  setTimeout(() => revealCard(0), 300);
+}
+</script>
+</body>
+</html>

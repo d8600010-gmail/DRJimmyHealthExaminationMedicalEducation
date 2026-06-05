@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:"Noto Sans TC",system-ui,sans-serif;background:#0d0d0d;color:#ddd;overflow:hidden}
+
+/* Stage */
+#stage{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center}
+
+/* Chapter label */
+#chapter{font-size:11px;letter-spacing:.15em;color:#555;margin-bottom:28px;transition:opacity .6s}
+
+/* Main text */
+#line{font-size:clamp(17px,3.5vw,24px);line-height:1.8;max-width:620px;min-height:120px;color:#ccc}
+#line .red{color:#e84040;font-weight:600}
+#line .big{font-size:clamp(36px,9vw,72px);font-weight:700;color:#e84040;display:block;line-height:1.1;letter-spacing:.04em}
+#line .sub{font-size:clamp(13px,2.5vw,16px);color:#666;display:block;margin-top:8px}
+
+/* Cursor blink */
+.cursor{display:inline-block;width:2px;height:1.1em;background:#e84040;vertical-align:middle;animation:blink .8s step-end infinite;margin-left:2px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* Progress dots */
+#dots{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);display:flex;gap:8px}
+.dot{width:6px;height:6px;border-radius:50%;background:#333;transition:background .4s}
+.dot.done{background:#555}
+.dot.active{background:#e84040}
+
+/* Continue hint */
+#hint{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);font-size:12px;color:#444;letter-spacing:.08em;transition:opacity .5s;opacity:0}
+
+/* Heartbeat line */
+#hb{position:fixed;top:0;left:0;width:100%;height:3px;background:#0d0d0d;overflow:hidden}
+#hb-bar{height:100%;width:0%;background:#e84040;transition:width .3s ease}
+
+/* Choice screen */
+#choices{display:none;flex-direction:column;align-items:center;gap:14px;margin-top:32px;width:100%;max-width:400px}
+.choice-btn{width:100%;padding:14px 20px;border:1px solid #333;border-radius:8px;background:transparent;color:#bbb;font-size:14px;font-family:inherit;cursor:pointer;text-align:left;transition:all .25s;line-height:1.5}
+.choice-btn:hover{border-color:#e84040;color:#fff;background:#1a0a0a}
+
+/* Response */
+#response{margin-top:24px;font-size:15px;color:#e84040;font-weight:500;min-height:28px;max-width:500px;line-height:1.7;opacity:0;transition:opacity .6s}
+
+/* Restart */
+#restart{display:none;margin-top:28px;font-size:12px;color:#444;cursor:pointer;letter-spacing:.08em;border-bottom:1px solid #333;padding-bottom:2px}
+#restart:hover{color:#888}
+
+/* Overlay fade */
+#fade{position:fixed;inset:0;background:#0d0d0d;pointer-events:none;transition:opacity .8s;opacity:0;z-index:99}
+</style>
+</head>
+<body>
+<div id="hb"><div id="hb-bar"></div></div>
+<div id="fade"></div>
+
+<div id="stage">
+  <div id="chapter"></div>
+  <div id="line"></div>
+  <div id="choices">
+    <div style="font-size:13px;color:#666;margin-bottom:4px;letter-spacing:.05em">你是哪一種人？</div>
+    <button class="choice-btn" onclick="choose('r1')">我也是一直在撐的人</button>
+    <button class="choice-btn" onclick="choose('r2')">我身邊有這樣的人</button>
+    <button class="choice-btn" onclick="choose('r3')">我從沒想過這件事</button>
+    <div id="response"></div>
+    <div id="restart" onclick="restartStory()">↺ 再讀一次</div>
+  </div>
+</div>
+
+<div id="hint">點擊繼續</div>
+<div id="dots"></div>
+
+<script>
+const scenes = [
+  {
+    chapter:"第一幕",
+    lines:[
+      {type:"type", text:"阿翰走進體檢中心，"},
+      {type:"type", text:"看起來不像病人。"},
+    ]
+  },
+  {
+    chapter:"血壓讀數",
+    lines:[
+      {type:"big", text:"250 / 140", sub:"mmHg"},
+    ]
+  },
+  {
+    chapter:"第一幕",
+    lines:[
+      {type:"type", text:'護理師問：「你有不舒服嗎？」'},
+      {type:"pause", ms:600},
+      {type:"type", text:'他笑了：「<span class="red">沒有欸，很正常。</span>」'},
+    ]
+  },
+  {
+    chapter:"第二幕",
+    lines:[
+      {type:"type", text:"他有高血壓。"},
+      {type:"type", text:"藥吃了會不舒服，所以就不吃了。"},
+      {type:"pause", ms:500},
+      {type:"type", text:'<span class="red">習慣危險，比危險本身更可怕。</span>'},
+    ]
+  },
+  {
+    chapter:"第三幕",
+    lines:[
+      {type:"type", text:"痛風、蜂窩性組織炎、體重 120 公斤。"},
+      {type:"type", text:"他想運動，但膝蓋痛。"},
+      {type:"pause", ms:400},
+      {type:"type", text:'「<span class="red">不是我不動，是身體不讓我動。</span>」'},
+    ]
+  },
+  {
+    chapter:"第四幕",
+    lines:[
+      {type:"type", text:"父親中風、心肌梗塞過世。"},
+      {type:"type", text:"母親高血壓。"},
+      {type:"type", text:"18 歲的兒子，他不讓他打工。"},
+      {type:"pause", ms:600},
+      {type:"type", text:'「<span class="red">錢我來賺就好。</span>」'},
+    ]
+  },
+  {
+    chapter:"第五幕",
+    lines:[
+      {type:"type", text:"他知道要減肥、吃藥、運動。"},
+      {type:"pause", ms:800},
+      {type:"type", text:'他說：'},
+      {type:"pause", ms:600},
+      {type:"big", text:"「我現在<br>沒辦法停下來。」"},
+    ]
+  },
+  {
+    chapter:"最可怕的事",
+    lines:[
+      {type:"type", text:"不是血壓 250。"},
+      {type:"type", text:"不是 120 公斤。"},
+      {type:"pause", ms:700},
+      {type:"big", text:"而是——<br>我們不知道<br>自己該停了。"},
+    ]
+  },
+  {
+    chapter:"現在換你",
+    lines:[],
+    choice: true
+  }
+];
+
+let sceneIdx = 0, lineIdx = 0, typing = false, waiting = false;
+let typeTimer = null;
+
+const lineEl = document.getElementById('line');
+const chapterEl = document.getElementById('chapter');
+const hintEl = document.getElementById('hint');
+const hbBar = document.getElementById('hb-bar');
+const fadeEl = document.getElementById('fade');
+const choicesEl = document.getElementById('choices');
+const dotsEl = document.getElementById('dots');
+
+// Build dots
+scenes.forEach((_,i) => {
+  const d = document.createElement('div');
+  d.className = 'dot';
+  d.id = 'dot'+i;
+  dotsEl.appendChild(d);
+});
+
+function updateDots() {
+  scenes.forEach((_,i) => {
+    const d = document.getElementById('dot'+i);
+    d.className = 'dot' + (i < sceneIdx ? ' done' : i===sceneIdx ? ' active' : '');
+  });
+  hbBar.style.width = Math.round((sceneIdx/(scenes.length-1))*100)+'%';
+}
+
+function typeText(html, el, speed, cb) {
+  // Strip tags for typing, then insert
+  const temp = document.createElement('div');
+  temp.innerHTML = html;
+  const plain = temp.textContent;
+  let i = 0;
+  el.innerHTML = '';
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  el.appendChild(cursor);
+  typing = true;
+  function tick() {
+    if (i >= plain.length) {
+      cursor.remove();
+      typing = false;
+      if (cb) cb();
+      return;
+    }
+    // rebuild partial html
+    el.innerHTML = html.substring(0, Math.ceil((i/plain.length)*html.length));
+    el.appendChild(cursor);
+    i++;
+    typeTimer = setTimeout(tick, speed);
+  }
+  tick();
+}
+
+async function runScene(s) {
+  chapterEl.textContent = s.chapter;
+  chapterEl.style.opacity = 1;
+  lineEl.innerHTML = '';
+  hintEl.style.opacity = 0;
+  choicesEl.style.display = 'none';
+
+  if (s.choice) {
+    lineEl.innerHTML = '';
+    choicesEl.style.display = 'flex';
+    return;
+  }
+
+  for (let l of s.lines) {
+    if (l.type === 'pause') {
+      await sleep(l.ms);
+    } else if (l.type === 'big') {
+      lineEl.innerHTML = `<span class="big">${l.text}</span>${l.sub ? `<span class="sub">${l.sub}</span>` : ''}`;
+      await sleep(400);
+    } else if (l.type === 'type') {
+      await new Promise(res => {
+        const p = document.createElement('p');
+        lineEl.appendChild(p);
+        typeText(l.text, p, 45, res);
+      });
+      await sleep(200);
+    }
+  }
+
+  waiting = true;
+  hintEl.style.opacity = 1;
+}
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+function advance() {
+  if (typing) {
+    // Skip to end
+    clearTimeout(typeTimer);
+    const ps = lineEl.querySelectorAll('p');
+    const scene = scenes[sceneIdx];
+    if (scene && !scene.choice) {
+      const texts = scene.lines.filter(l=>l.type==='type').map(l=>l.text);
+      lineEl.innerHTML = '';
+      texts.forEach(t => {
+        const p = document.createElement('p');
+        p.innerHTML = t;
+        lineEl.appendChild(p);
+      });
+    }
+    typing = false;
+    waiting = true;
+    hintEl.style.opacity = 1;
+    return;
+  }
+  if (!waiting) return;
+  waiting = false;
+  hintEl.style.opacity = 0;
+  sceneIdx++;
+  if (sceneIdx >= scenes.length) return;
+  updateDots();
+  fadeEl.style.opacity = 1;
+  setTimeout(() => {
+    fadeEl.style.opacity = 0;
+    runScene(scenes[sceneIdx]);
+  }, 500);
+}
+
+document.addEventListener('click', e => {
+  if (e.target.closest('.choice-btn') || e.target.id === 'restart') return;
+  advance();
+});
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' || e.code === 'ArrowRight' || e.code === 'Enter') advance();
+});
+
+function choose(type) {
+  const msgs = {
+    r1: '你不是機器。\n撐久了，是會壞掉的。\n\n請讓自己有一個停下來的理由。',
+    r2: '請你，去關心那個人。\n他可能已經撐太久了，\n只是沒說出口。',
+    r3: '那今天，是你第一次看見這件事。\n\n看見，是改變的第一步。'
+  };
+  const r = document.getElementById('response');
+  r.textContent = msgs[type];
+  r.style.opacity = 1;
+  document.getElementById('restart').style.display = 'inline';
+  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+}
+
+function restartStory() {
+  sceneIdx = 0; lineIdx = 0; typing = false; waiting = false;
+  choicesEl.style.display = 'none';
+  document.getElementById('response').style.opacity = 0;
+  document.getElementById('restart').style.display = 'none';
+  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = false);
+  updateDots();
+  fadeEl.style.opacity = 1;
+  setTimeout(() => { fadeEl.style.opacity = 0; runScene(scenes[0]); }, 600);
+}
+
+updateDots();
+runScene(scenes[0]);
+</script>
+</body>
+</html>
