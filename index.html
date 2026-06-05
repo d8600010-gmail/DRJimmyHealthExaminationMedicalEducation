@@ -147,6 +147,9 @@
     .card.card-link.copper-link:hover .card-cta  { background: var(--accent-copper-light); }
     .card.card-link.teal-link .card-cta    { border-color: rgba(44,155,138,0.35);  color: var(--accent-teal); }
     .card.card-link.teal-link:hover .card-cta    { background: var(--accent-teal-light); }
+    /* ── 新增：rose-link ── */
+    .card.card-link.rose-link .card-cta    { border-color: rgba(192,86,106,0.35);  color: var(--accent-rose); }
+    .card.card-link.rose-link:hover .card-cta    { background: var(--accent-rose-light); }
     .card-cta-arrow { font-size: 1em; }
     .card.smoking-card { grid-column: 1 / -1; cursor: default; }
     .card.smoking-card:hover { transform: none; box-shadow: var(--shadow-soft); }
@@ -293,6 +296,15 @@
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='NeuroDisorder/DementialTorschPeople.html'"><span class="story-num">01</span><span class="story-dot neuro-dot"></span>折磨人的失智症 🔎</div>
       </div></div>
     </div>
+    <!-- ✨ 新增：健診常見皮膚問題 -->
+    <a class="card card-link rose-link" href="CardiacProblem/CardiacProblemGlobalView.html">
+      <div class="card-header">
+        <div class="card-icon rose">🩹</div>
+        <div class="card-title-wrap"><h2>健診常見皮膚問題</h2><div class="card-count">皮膚科解析</div></div>
+      </div>
+      <p class="card-desc">健診報告裡那些關於皮膚的發現——斑點、色素異常、皮疹與慢性皮膚病——用臨床故事帶你認識皮膚透露的健康訊息。</p>
+      <div class="card-cta">前往閱讀 <span class="card-cta-arrow">↗</span></div>
+    </a>
     <!-- 急診室故事集 -->
     <div class="card" onclick="toggleCard('er', this)">
       <div class="card-header">
