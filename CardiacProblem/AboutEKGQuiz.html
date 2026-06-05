@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Noto Sans TC",system-ui,sans-serif;background:#f0f4fb;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:32px 16px}
+.wrap{width:100%;max-width:540px}
+
+/* Header */
+.header{text-align:center;margin-bottom:28px}
+.header-icon{font-size:36px;margin-bottom:10px}
+.header h1{font-size:22px;font-weight:600;color:#1a2540;line-height:1.3}
+.header p{font-size:13px;color:#7a8099;margin-top:6px}
+
+/* Progress */
+.prog-wrap{margin-bottom:24px}
+.prog-info{display:flex;justify-content:space-between;font-size:12px;color:#7a8099;margin-bottom:6px}
+.prog-track{height:5px;background:#dce3f0;border-radius:3px;overflow:hidden}
+.prog-bar{height:5px;background:#2c7be5;border-radius:3px;transition:width .4s ease}
+
+/* Question card */
+.qcard{background:#fff;border-radius:16px;padding:28px 24px;box-shadow:0 2px 12px rgba(44,123,229,.08);margin-bottom:12px;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.qnum{font-size:11px;font-weight:600;letter-spacing:.06em;color:#2c7be5;margin-bottom:10px}
+.qtext{font-size:16px;font-weight:500;color:#1a2540;line-height:1.55;margin-bottom:22px}
+
+/* Option buttons */
+.opt{display:flex;align-items:center;gap:12px;width:100%;padding:13px 16px;border:1.5px solid #e2e8f4;border-radius:10px;background:#fafbff;cursor:pointer;font-size:14px;color:#2d3a55;text-align:left;transition:all .2s;margin-bottom:10px}
+.opt:last-child{margin-bottom:0}
+.opt:hover{border-color:#2c7be5;background:#f0f6ff;color:#1a2540}
+.opt.selected-correct{border-color:#28a745;background:#f0faf3;color:#1a5c2e}
+.opt.selected-wrong{border-color:#e55353;background:#fff5f5;color:#7a1a1a}
+.opt-icon{font-size:18px;flex-shrink:0}
+
+/* Feedback pill */
+.feedback{font-size:12px;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:14px;font-weight:500}
+.fb-correct{background:#e8f7ee;color:#28a745}
+.fb-wrong{background:#fff0f0;color:#e55353}
+
+/* Result card */
+.rcard{background:#fff;border-radius:16px;padding:32px 24px;box-shadow:0 2px 12px rgba(44,123,229,.08);text-align:center;animation:fadeIn .4s ease}
+.risk-badge{display:inline-block;font-size:15px;font-weight:600;padding:10px 24px;border-radius:30px;margin-bottom:20px}
+.risk-low{background:#e8f7ee;color:#1e7e34}
+.risk-mid{background:#fff8e0;color:#856404}
+.risk-high{background:#fff0f0;color:#c62828}
+.score-row{display:flex;justify-content:center;gap:28px;margin:18px 0 22px}
+.sbox{text-align:center}
+.sbox-num{font-size:28px;font-weight:600;color:#1a2540}
+.sbox-label{font-size:11px;color:#7a8099;margin-top:2px}
+.desc{font-size:13px;color:#4a5370;line-height:1.7;margin-bottom:20px;text-align:left;background:#f7f9fc;border-radius:10px;padding:14px 16px}
+.restart-btn{display:inline-block;padding:11px 28px;border-radius:8px;background:#2c7be5;color:#fff;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:background .2s}
+.restart-btn:hover{background:#1a6ad4}
+.disclaimer{font-size:11px;color:#9aa0b8;margin-top:14px;line-height:1.6}
+
+/* Review list */
+.review{margin-bottom:20px}
+.rv-item{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:#4a5370;padding:8px 0;border-bottom:0.5px solid #edf0f7}
+.rv-item:last-child{border-bottom:none}
+.rv-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.rv-correct{background:#28a745}
+.rv-wrong{background:#e55353}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="header-icon">🩺</div>
+    <h1>心電圖異常<br>反直覺風險測驗</h1>
+    <p>測試你對心電圖常見迷思的了解程度</p>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-info">
+      <span id="prog-label">第 1 題，共 6 題</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="prog-track"><div class="prog-bar" id="prog-bar"></div></div>
+  </div>
+
+  <div id="quiz"></div>
+  <div id="result" style="display:none"></div>
+</div>
+
+<script>
+const qs = [
+  {
+    q: "平常沒有胸痛，所以心臟一定健康？",
+    opts: ["✔ 是的，沒症狀就沒問題", "❗ 不一定，許多異常無症狀"],
+    correct: 1,
+    explain: "許多心臟問題（如早期心律不整、WPW 症候群）可完全無症狀，健檢心電圖是重要的篩檢工具。"
+  },
+  {
+    q: "健檢前熬夜，但應該不影響心電圖結果？",
+    opts: ["✔ 應該沒差，只是累而已", "❗ 其實會影響，睡眠不足會改變自律神經"],
+    correct: 1,
+    explain: "睡眠不足可使交感神經張力上升，造成心率增快、QT 間期輕微延長，可能干擾判讀。"
+  },
+  {
+    q: "有在規律運動，所以出現心電圖異常一定是不正常？",
+    opts: ["✔ 對，運動的人不應該有異常", "❗ 不一定，運動員心臟有特殊變化"],
+    correct: 1,
+    explain: "長期耐力訓練者可出現竇性心搏過緩、不完全右束支傳導阻滯等「運動員心臟」表現，屬於正常適應。"
+  },
+  {
+    q: "壓力大只是心理問題，不會影響心電圖？",
+    opts: ["✔ 對，心理跟心電圖無關", "❗ 其實會影響，壓力改變自律神經"],
+    correct: 1,
+    explain: "慢性壓力或急性焦慮可透過交感神經活化，導致 ST 段變化、T 波改變或心率變異度降低。"
+  },
+  {
+    q: "年輕女性出現 T 波倒置，一定代表有心臟病？",
+    opts: ["✔ 一定有問題，需要緊急處理", "❗ 不一定，部分導程為正常表現"],
+    correct: 1,
+    explain: "健康年輕女性在 V1–V3 導程出現 T 波倒置屬常見正常變異，需結合臨床症狀與其他導程綜合判斷。"
+  },
+  {
+    q: "沒有家族史，就不用擔心心臟遺傳性疾病？",
+    opts: ["✔ 是的，有遺傳病才需要注意", "❗ 不完全正確，新發突變也可能發生"],
+    correct: 1,
+    explain: "約 1/3 的長 QT 症候群、Brugada 症候群病例為新發突變（de novo），無家族史不能排除遺傳性心律不整。"
+  }
+];
+
+let cur = 0, answered = [], chosen = [];
+
+function render() {
+  const pct = Math.round((cur / qs.length) * 100);
+  document.getElementById('prog-bar').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-label').textContent = cur < qs.length
+    ? `第 ${cur+1} 題，共 ${qs.length} 題` : `已完成`;
+
+  if (cur >= qs.length) { showResult(); return; }
+
+  const q = qs[cur];
+  document.getElementById('quiz').innerHTML = `
+    <div class="qcard">
+      <div class="qnum">Q${cur+1} / ${qs.length}</div>
+      <div class="qtext">${q.q}</div>
+      ${q.opts.map((o,i) => `<button class="opt" id="opt${i}" onclick="pick(${i})">
+        <span class="opt-icon">${i===0?'🅰':'🅱'}</span>${o}
+      </button>`).join('')}
+      <div id="fb" style="display:none"></div>
+    </div>`;
+}
+
+function pick(i) {
+  const q = qs[cur];
+  const isCorrect = i === q.correct;
+  chosen.push(i);
+  answered.push(isCorrect);
+
+  document.querySelectorAll('.opt').forEach(b => b.onclick = null);
+  document.getElementById('opt'+i).classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+  if (!isCorrect) document.getElementById('opt'+q.correct).classList.add('selected-correct');
+
+  const fb = document.getElementById('fb');
+  fb.style.display = 'block';
+  fb.innerHTML = `<span class="feedback ${isCorrect?'fb-correct':'fb-wrong'}">${isCorrect?'✓ 正確！':'✗ 反直覺'}</span>
+    <p style="font-size:12px;color:#4a5370;line-height:1.6;margin-top:8px">${q.explain}</p>
+    <div style="margin-top:14px;display:flex;align-items:center;gap:10px;font-size:12px;color:#7a8099">
+      <div style="flex:1;height:4px;background:#dce3f0;border-radius:2px;overflow:hidden">
+        <div id="auto-bar" style="height:4px;width:0%;background:#2c7be5;border-radius:2px;transition:width 2s linear"></div>
+      </div>
+      <span id="auto-label">2 秒後自動繼續</span>
+    </div>`;
+  setTimeout(() => { document.getElementById('auto-bar').style.width = '100%'; }, 30);
+  setTimeout(next, 2000);
+}
+
+function next() { cur++; render(); }
+
+function showResult() {
+  document.getElementById('quiz').style.display = 'none';
+  const correct = answered.filter(Boolean).length;
+  const pct = Math.round((correct / qs.length) * 100);
+  let badge, bdClass, desc;
+
+  if (pct >= 80) {
+    badge = '🟢 概念清晰'; bdClass = 'risk-low';
+    desc = '你對心電圖常見迷思有清楚的認識，能夠辨別反直覺的臨床情境。建議繼續深入學習各種心律不整的鑑別診斷。';
+  } else if (pct >= 50) {
+    badge = '🟡 部分正確'; bdClass = 'risk-mid';
+    desc = '你有基本概念，但仍有部分迷思值得釐清。建議複習自律神經對心電圖的影響，以及運動員心臟與正常變異的相關知識。';
+  } else {
+    badge = '🔴 迷思較多'; bdClass = 'risk-high';
+    desc = '心電圖判讀有許多反直覺的地方，建議從基礎自律神經生理學開始複習，並搭配臨床案例加深理解。';
+  }
+
+  const reviewHTML = qs.map((q,i) => `
+    <div class="rv-item">
+      <div class="rv-dot ${answered[i]?'rv-correct':'rv-wrong'}"></div>
+      <div><strong>Q${i+1}</strong> ${q.q}<br><span style="color:${answered[i]?'#28a745':'#e55353'}">${answered[i]?'✓ 答對':'✗ 答錯'}</span></div>
+    </div>`).join('');
+
+  document.getElementById('result').innerHTML = `
+    <div class="rcard">
+      <span class="risk-badge ${bdClass}">${badge}</span>
+      <div class="score-row">
+        <div class="sbox"><div class="sbox-num">${correct}</div><div class="sbox-label">答對題數</div></div>
+        <div class="sbox"><div class="sbox-num">${qs.length}</div><div class="sbox-label">總題數</div></div>
+        <div class="sbox"><div class="sbox-num">${pct}%</div><div class="sbox-label">正確率</div></div>
+      </div>
+      <div class="desc">${desc}</div>
+      <div class="review">${reviewHTML}</div>
+      <button class="restart-btn" onclick="restart()">再測一次</button>
+      <div class="disclaimer">⚠️ 本測驗僅供教育用途，如有症狀請諮詢醫師</div>
+    </div>`;
+
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('prog-bar').style.width = '100%';
+  document.getElementById('prog-pct').textContent = '100%';
+}
+
+function restart() {
+  cur = 0; answered = []; chosen = [];
+  document.getElementById('quiz').style.display = 'block';
+  document.getElementById('result').style.display = 'none';
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
