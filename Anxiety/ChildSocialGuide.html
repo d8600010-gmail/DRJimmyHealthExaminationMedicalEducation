@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家長社交引導風格評測 - 兒童情緒教育版</title>
+    <style>
+        body { font-family: "Microsoft JhengHei", sans-serif; line-height: 1.6; color: #333; max-width: 700px; margin: 20px auto; padding: 20px; background-color: #f0f4f8; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; text-align: center; border-bottom: 3px solid #3498db; padding-bottom: 15px; }
+        .intro { background: #e8f4fd; padding: 15px; border-radius: 8px; font-size: 0.95em; margin-bottom: 25px; color: #444; }
+        .question-block { margin-bottom: 30px; padding: 20px; border: 1px solid #edf2f7; border-radius: 10px; transition: 0.3s; }
+        .question-block:hover { background-color: #fcfcfc; border-color: #3498db; }
+        .question-text { font-weight: bold; margin-bottom: 15px; color: #2d3748; font-size: 1.1em; }
+        .option-label { display: block; margin-bottom: 12px; cursor: pointer; padding: 10px; border-radius: 6px; background: #fff; border: 1px solid #ddd; font-size: 0.95em; }
+        .option-label:hover { background: #f1f9ff; }
+        input[type="radio"] { margin-right: 10px; }
+        button { display: block; width: 100%; padding: 15px; background: #3498db; color: white; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; margin-top: 30px; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #2980b9; transform: translateY(-2px); }
+        #resultArea { margin-top: 30px; padding: 25px; border-radius: 10px; display: none; border-left: 10px solid; }
+        .style-a { border-color: #f6ad55; background: #fffaf0; color: #7b341e; } /* 焦慮干預型 */
+        .style-b { border-color: #48bb78; background: #f0fff4; color: #22543d; } /* 教練引導型 */
+        .style-c { border-color: #fc8181; background: #fff5f5; color: #742a2a; } /* 強勢定義型 */
+        .style-d { border-color: #a0aec0; background: #f7fafc; color: #2d3748; } /* 順其自然型 */
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>家長社交引導風格評測</h2>
+    <div class="intro">
+        作為家長，我們面對孩子社交挫折時的反應，常在無意間強化了他的「獨狼」傾向。請選擇最符合您平時反應的選項。
+    </div>
+    
+    <div id="quizContainer"></div>
+
+    <button onclick="analyzeResult()">送出評量，查看專家建議</button>
+
+    <div id="resultArea"></div>
+</div>
+
+<script>
+    const questions = [
+        {
+            q: "1. 帶孩子去公園，看到一群小孩在玩，孩子站在旁邊看。您的反應是：",
+            options: [
+                { text: "立刻推著他過去說：『去啊，去跟小朋友玩！』", type: "A", weight: 3 },
+                { text: "在旁邊陪他觀察，小聲說：『你想玩可以告訴我，我陪你走過去。』", type: "B", weight: 1 },
+                { text: "對旁邊的人解釋：『他很害羞，總是不敢跟人玩。』", type: "C", weight: 4 },
+                { text: "隨便他，自己滑手機，覺得他想玩自然會去。", type: "D", weight: 2 }
+            ]
+        },
+        {
+            q: "2. 孩子回家抱怨：『小明今天不跟我玩。』您的第一反應是：",
+            options: [
+                { text: "『是不是你做了什麼讓他不開心？你要檢討。』", type: "C", weight: 4 },
+                { text: "『沒關係，我們自己玩更好玩，不需要他。』", type: "A", weight: 3 },
+                { text: "『聽起來有點難過，後來你改玩什麼呢？』", type: "B", weight: 1 },
+                { text: "『喔，明天他就跟你玩了啦。』", type: "D", weight: 2 }
+            ]
+        },
+        {
+            q: "3. 看到孩子在學校分組時落單，您心裡的感受主要是：",
+            options: [
+                { text: "極度焦慮，覺得孩子被排擠，想打電話給老師。抽離感。", type: "A", weight: 4 },
+                { text: "觀察孩子是否自在，若他不適則計畫在家練習社交開場白。", type: "B", weight: 1 },
+                { text: "覺得很丟臉，為什麼我的孩子這麼沒社交能力。", type: "C", weight: 3 },
+                { text: "覺得沒什麼，每個人都有落單的時候。", type: "D", weight: 2 }
+            ]
+        },
+        {
+            q: "4. 孩子想加入別人的遊戲但被拒絕，您會跟孩子說：",
+            options: [
+                { text: "『他們太壞了，我們去跟老師告狀！』", type: "A", weight: 3 },
+                { text: "『也許他們人數夠了，等一下我們再試試問別組。』", type: "B", weight: 1 },
+                { text: "『一定是因為你剛剛沒有禮貌，別人才不理你。』", type: "C", weight: 4 },
+                { text: "『沒關係啦，你自己玩那個滑梯也很好啊。』", type: "D", weight: 2 }
+            ]
+        },
+        {
+            q: "5. 家裡有小客人來訪，孩子卻躲在房間不出來。您會：",
+            options: [
+                { text: "強行把孩子拉出來，要求他打招呼、分享玩具。", type: "C", weight: 4 },
+                { text: "幫孩子代言：『他今天心情不好，大家別理他。』", type: "A", weight: 3 },
+                { text: "先讓孩子在房內，隔一段時間進去邀他參與一個簡單的小任務。", type: "B", weight: 1 },
+                { text: "不管他，讓客人在客廳玩，孩子在房裡也好，省得吵架。", type: "D", weight: 2 }
+            ]
+        },
+        {
+            q: "6. 孩子說：『我比較喜歡一個人玩。』您的反應是：",
+            options: [
+                { text: "擔心他變孤僻，開始列舉一個人玩的壞處。", type: "A", weight: 3 },
+                { text: "肯定他：『一個人玩很安靜、很有創意，但需要幫忙時記得開口。』", type: "B", weight: 1 },
+                { text: "生氣地說：『你這樣以後長大會沒朋友！』", type: "C", weight: 4 },
+                { text: "隨便他，覺得這樣也挺省心的。", type: "D", weight: 2 }
+            ]
+        },
+        {
+            q: "7. 當孩子在社交場合表現出退縮，您最常做的動作是：",
+            options: [
+                { text: "替孩子回答所有的問題，怕他尷尬。", type: "A", weight: 3 },
+                { text: "給孩子一個鼓勵的眼神，耐心地等他開口。", type: "B", weight: 1 },
+                { text: "不斷催促他：『快說啊！快叫人啊！』", type: "C", weight: 4 },
+                { text: "無視他的尷尬，繼續跟別的家長聊天。", type: "D", weight: 2 }
+            ]
+        },
+        {
+            q: "8. 關於『交朋友』這件事，您對孩子的核心態度是：",
+            options: [
+                { text: "朋友越多越好，不能輸在起跑點。", type: "A", weight: 3 },
+                { text: "學習與人相處的技巧，比交到多少朋友更重要。", type: "B", weight: 1 },
+                { text: "必須聽從長輩挑選『好同學』交往。", type: "C", weight: 4 },
+                { text: "隨緣就好，反正以後長大都會變。", type: "D", weight: 2 }
+            ]
+        },
+        {
+            q: "9. 孩子在群體中被撞到，正要哭時，您會：",
+            options: [
+                { text: "衝過去大聲責問對方小孩：『你怎麼撞人的？』", type: "A", weight: 3 },
+                { text: "走過去確認傷勢，引導孩子說出感受並決定是否要繼續玩。", type: "B", weight: 1 },
+                { text: "責怪孩子：『你就是這麼軟弱，別人才敢撞你。』", type: "C", weight: 4 },
+                { text: "遠遠喊：『沒事，站起來繼續玩！』", type: "D", weight: 2 }
+            ]
+        },
+        {
+            q: "10. 如果老師反映孩子在校像『獨狼』，您的第一行動是：",
+            options: [
+                { text: "要求老師強迫其他同學跟我的孩子玩。", type: "A", weight: 4 },
+                { text: "跟孩子聊聊他在學校觀察到什麼，有哪些他感興趣的同學。", type: "B", weight: 1 },
+                { text: "回家訓斥孩子，要求他明天必須交到一個朋友。", type: "C", weight: 3 },
+                { text: "覺得老師大驚小怪，孩子只是安靜而已。", type: "D", weight: 2 }
+            ]
+        }
+    ];
+
+    const container = document.getElementById('quizContainer');
+    questions.forEach((q, i) => {
+        let optionsHtml = q.options.map((opt, oi) => `
+            <label class="option-label">
+                <input type="radio" name="q${i}" value="${opt.type}" data-weight="${opt.weight}" ${oi===0?'checked':''}>
+                ${opt.text}
+            </label>
+        `).join('');
+        container.innerHTML += `
+            <div class="question-block">
+                <div class="question-text">${q.q}</div>
+                ${optionsHtml}
+            </div>
+        `;
+    });
+
+    function analyzeResult() {
+        const counts = { A: 0, B: 0, C: 0, D: 0 };
+        let totalScore = 0;
+        
+        questions.forEach((_, i) => {
+            const selected = document.querySelector(`input[name="q${i}"]:checked`);
+            counts[selected.value]++;
+            totalScore += parseInt(selected.dataset.weight);
+        });
+
+        const resDiv = document.getElementById('resultArea');
+        resDiv.style.display = 'block';
+        
+        // 判定主導風格
+        let mainStyle = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+        
+        let resultHTML = "";
+        if (mainStyle === "A") {
+            resDiv.className = "style-a";
+            resultHTML = "<h3>【焦慮護航型】</h3>建議：您非常愛孩子，但過度的焦慮與『代答』會剝奪孩子的社交韌性。孩子會因為不想讓您擔心，或覺得社交太複雜而退回『獨狼』狀態。嘗試退後一步，讓孩子練習處理小衝突。";
+        } else if (mainStyle === "B") {
+            resDiv.className = "style-b";
+            resultHTML = "<h3>【教練引導型】</h3>建議：恭喜！您能共情孩子的感受，同時給予適度的社交空間。這種引導方式能讓孩子即便在獨處時也充滿自信，未來他能根據需要靈活切換社交模式。";
+        } else if (mainStyle === "C") {
+            resDiv.className = "style-c";
+            resultHTML = "<h3>【評價壓力型】</h3>建議：您對孩子的社交表現有較高期望，但負面標籤（如害羞、沒用）會讓孩子為了逃避評價而拒絕社交。建議多觀察孩子的微小進步，少一點指責，多一點示範。";
+        } else {
+            resDiv.className = "style-d";
+            resultHTML = "<h3>【隨性放任型】</h3>建議：給予孩子自由是好事，但小一小二的孩子仍需要一些『工具』來導航人際關係。建議多與孩子聊聊學校的人際互動，增加他對『人』的敏感度。";
+        }
+
+        resDiv.innerHTML = `<h4>評測結果：</h4>${resultHTML}<br><br><small>加權社交壓力指數：${totalScore} (分數越高，家長給予孩子的社交心理負擔可能越重)</small>`;
+        resDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
