@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家醫門診整合型心悸評估</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d1b2a;
+  --surface: #132236;
+  --surface2: #1a2f47;
+  --navy: #0f2340;
+  --accent: #e8523a;
+  --accent2: #f0a500;
+  --teal: #2dd4bf;
+  --text: #f0f4f8;
+  --text-dim: #8fa3bb;
+  --border: rgba(255,255,255,0.08);
+  --r: 16px;
+  --cb: 22px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+/* ── HEADER ── */
+.hdr{
+  background:linear-gradient(160deg,#0a1520 0%,#132236 60%,#0f1e30 100%);
+  padding:56px 0 48px;
+  position:relative;overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+.hdr::before{
+  content:'';position:absolute;top:-120px;right:-80px;
+  width:420px;height:420px;
+  background:radial-gradient(circle,rgba(232,82,58,.18) 0%,transparent 65%);
+  border-radius:50%;
+}
+.hdr::after{
+  content:'';position:absolute;bottom:-80px;left:20%;
+  width:280px;height:280px;
+  background:radial-gradient(circle,rgba(45,212,191,.1) 0%,transparent 65%);
+  border-radius:50%;
+}
+.hdr-in{max-width:780px;margin:0 auto;padding:0 36px;position:relative;z-index:1}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:20px;
+}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--teal);}
+h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(26px,4.5vw,42px);
+  font-weight:400;line-height:1.15;color:var(--text);
+  margin-bottom:14px;
+}
+h1 em{font-style:italic;color:rgba(240,244,248,.35);}
+.hdr-sub{font-size:13.5px;color:var(--text-dim);font-weight:300;line-height:1.85;max-width:480px;}
+
+/* ── PROGRESS TRACK ── */
+.pg-wrap{background:rgba(255,255,255,.06);height:2px;}
+.pg-fill{height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .4s ease;}
+
+/* ── STEP COUNTER ── */
+.steps-row{
+  max-width:780px;margin:0 auto;padding:28px 36px 0;
+  display:flex;align-items:center;gap:0;
+}
+.step-dot{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  flex:1;cursor:default;
+}
+.step-dot:not(:last-child)::after{
+  content:'';position:absolute;top:12px;left:calc(50% + 14px);
+  width:calc(100% - 28px);height:1px;background:var(--border);
+  pointer-events:none;
+}
+.step-dot{position:relative;}
+.sd-circle{
+  width:26px;height:26px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:var(--text-dim);
+  transition:all .3s ease;background:var(--surface);
+  position:relative;z-index:1;
+}
+.sd-label{font-size:10px;color:var(--text-dim);font-weight:500;text-align:center;white-space:nowrap;}
+.step-dot.active .sd-circle{border-color:var(--teal);color:var(--teal);box-shadow:0 0 12px rgba(45,212,191,.3);}
+.step-dot.done .sd-circle{background:var(--teal);border-color:var(--teal);color:#0d1b2a;}
+.step-dot.done .sd-label,.step-dot.active .sd-label{color:var(--text);}
+
+/* ── MAIN ── */
+.main{max-width:780px;margin:0 auto;padding:32px 36px 80px;}
+
+/* ── SECTION CARD ── */
+.section{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  margin-bottom:16px;
+  overflow:hidden;
+  transition:border-color .3s,box-shadow .3s;
+}
+.section.active-section{
+  border-color:rgba(45,212,191,.3);
+  box-shadow:0 0 0 1px rgba(45,212,191,.1),0 8px 32px rgba(0,0,0,.3);
+}
+.section.completed-section{
+  border-color:rgba(45,212,191,.15);
+  opacity:.75;
+}
+
+.sec-hd{
+  display:flex;align-items:center;gap:12px;
+  padding:18px 22px 15px;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+  transition:background .2s;
+}
+.sec-hd:hover{background:rgba(255,255,255,.02);}
+.sec-ico{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.sec-hd h2{
+  font-family:'DM Serif Display',serif;
+  font-size:16px;font-weight:400;color:var(--text);
+}
+.sec-meta{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.sec-count{
+  font-size:10px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-dim);
+}
+.sec-chevron{font-size:12px;color:var(--text-dim);transition:transform .3s;}
+.section.collapsed .sec-chevron{transform:rotate(-90deg);}
+.sec-tag{
+  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 8px;border-radius:20px;
+}
+.tag-red{background:rgba(232,82,58,.18);color:#f0856e;}
+.tag-dsm{background:rgba(160,100,220,.18);color:#c084fc;}
+.tag-phq{background:rgba(59,130,246,.18);color:#93c5fd;}
+
+/* ── OPTIONS ── */
+.opts-wrap{overflow:hidden;transition:max-height .4s ease,opacity .3s ease;max-height:600px;opacity:1;}
+.section.collapsed .opts-wrap{max-height:0;opacity:0;}
+.opts{padding:12px 22px 18px;display:flex;flex-direction:column;gap:5px;}
+.odiv{height:1px;background:var(--border);margin:5px 0;}
+
+.cl{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:10px 12px;border-radius:10px;
+  cursor:pointer;transition:background .15s;user-select:none;
+}
+.cl:hover{background:rgba(255,255,255,.04);}
+.cl input{display:none;}
+.cb{
+  width:var(--cb);height:var(--cb);
+  border:2px solid rgba(255,255,255,.2);border-radius:6px;
+  flex-shrink:0;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .18s;position:relative;background:rgba(255,255,255,.03);
+}
+.cb::after{
+  content:'';width:5px;height:9px;
+  border-right:2.5px solid #0d1b2a;border-bottom:2.5px solid #0d1b2a;
+  transform:rotate(45deg) scale(0) translate(-1px,-1px);
+  transition:transform .15s;position:absolute;
+}
+.cl input:checked ~ .cb{background:var(--teal);border-color:var(--teal);}
+.cl.crit input:checked ~ .cb{background:var(--accent);border-color:var(--accent);}
+.cl.warn input:checked ~ .cb{background:var(--accent2);border-color:var(--accent2);}
+.cl input:checked ~ .cb::after{transform:rotate(45deg) scale(1) translate(-1px,-1px);}
+.cl input:checked ~ .ct{color:var(--text);font-weight:500;}
+
+.ct{font-size:14px;color:rgba(240,244,248,.7);line-height:1.55;transition:color .15s;}
+.ct-note{display:block;font-size:11.5px;color:var(--text-dim);font-weight:300;margin-top:2px;}
+
+/* icon bgs */
+.i-arr{background:rgba(45,212,191,.1);}
+.i-cad{background:rgba(240,165,0,.1);}
+.i-pan{background:rgba(160,100,220,.1);}
+.i-phq{background:rgba(59,130,246,.1);}
+.i-endo{background:rgba(45,212,191,.08);}
+
+/* ── NEXT SECTION INDICATOR ── */
+.next-hint{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 22px 14px;
+  font-size:12px;color:var(--teal);font-weight:500;
+  opacity:0;transition:opacity .3s;
+}
+.next-hint.show{opacity:1;}
+.next-arrow{animation:bounce .8s ease infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+/* ── LIVE ALERT ── */
+#liveAlert{margin-bottom:18px;}
+.la{
+  display:flex;align-items:center;gap:12px;
+  padding:13px 18px;border-radius:12px;
+  font-size:13.5px;font-weight:600;
+  animation:apop .35s ease;
+}
+@keyframes apop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.la-red{background:rgba(232,82,58,.15);color:#f0856e;border:1px solid rgba(232,82,58,.3);}
+.la-orange{background:rgba(240,165,0,.12);color:#f5c842;border:1px solid rgba(240,165,0,.25);}
+.la-icon{font-size:20px;}
+.la-close{margin-left:auto;cursor:pointer;font-size:15px;color:inherit;opacity:.5;background:none;border:none;font-family:inherit;}
+.la-close:hover{opacity:1;}
+
+/* ── REPORT ── */
+#reportZone{margin-top:32px;}
+
+.report-shell{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  overflow:hidden;
+  opacity:0;transform:translateY(20px);
+  animation:slideUp .5s ease forwards;
+}
+@keyframes slideUp{to{opacity:1;transform:translateY(0)}}
+
+.report-hdr{
+  padding:24px 28px 18px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:16px;
+}
+.report-icon{font-size:32px;}
+.report-lbl{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px;}
+.report-title{font-family:'DM Serif Display',serif;font-size:21px;font-weight:400;line-height:1.3;}
+
+.report-body{padding:22px 28px 26px;}
+
+/* score bars */
+.scores{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin-bottom:22px;}
+.sc-card{background:var(--surface2);border-radius:10px;padding:12px 14px;}
+.sc-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;}
+.sc-bar-bg{height:3px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;margin-bottom:6px;}
+.sc-bar{height:3px;border-radius:4px;transition:width .8s ease .2s;}
+.sc-val{font-size:15px;font-weight:600;}
+
+/* clinical recommendations */
+.recs-title{
+  font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.recs-title::after{content:'';flex:1;height:1px;background:var(--border);}
+.rec-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:11px 14px;border-radius:10px;
+  background:var(--surface2);margin-bottom:8px;
+  border-left:3px solid transparent;
+  transition:border-color .2s;
+}
+.rec-urgent{border-left-color:var(--accent);}
+.rec-medium{border-left-color:var(--accent2);}
+.rec-normal{border-left-color:var(--teal);}
+.rec-ico{font-size:16px;flex-shrink:0;margin-top:1px;}
+.rec-text{font-size:13.5px;color:rgba(240,244,248,.8);line-height:1.55;}
+.rec-text strong{color:var(--text);font-weight:600;}
+.rec-text small{display:block;font-size:11.5px;color:var(--text-dim);margin-top:2px;}
+
+/* generating skeleton */
+.generating{
+  padding:32px 28px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.skel{height:14px;background:linear-gradient(90deg,var(--surface2) 25%,rgba(255,255,255,.06) 50%,var(--surface2) 75%);background-size:200% 100%;border-radius:6px;animation:shimmer 1.4s ease infinite;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel.w60{width:60%;}
+.skel.w80{width:80%;}
+.skel.w45{width:45%;}
+
+/* themes on report */
+.t-red .report-hdr{background:linear-gradient(135deg,rgba(232,82,58,.12),transparent);}
+.t-red .report-lbl{color:var(--accent);}
+.t-orange .report-hdr{background:linear-gradient(135deg,rgba(240,165,0,.1),transparent);}
+.t-orange .report-lbl{color:var(--accent2);}
+.t-teal .report-hdr{background:linear-gradient(135deg,rgba(45,212,191,.08),transparent);}
+.t-teal .report-lbl{color:var(--teal);}
+.t-blue .report-hdr{background:linear-gradient(135deg,rgba(59,130,246,.1),transparent);}
+.t-blue .report-lbl{color:#93c5fd;}
+.t-purple .report-hdr{background:linear-gradient(135deg,rgba(160,100,220,.1),transparent);}
+.t-purple .report-lbl{color:#c084fc;}
+
+/* disclaimer */
+.disc{
+  margin-top:28px;padding:16px 20px;
+  background:var(--surface2);border-radius:12px;
+  border-left:3px solid rgba(255,255,255,.1);
+  font-size:12px;color:var(--text-dim);line-height:1.75;
+}
+.disc strong{color:rgba(240,244,248,.6);}
+
+/* reset btn */
+.reset-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:20px;padding:11px 28px;
+  font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;
+  background:rgba(255,255,255,.06);color:var(--text-dim);
+  border:1px solid var(--border);border-radius:50px;cursor:pointer;
+  transition:all .2s;
+}
+.reset-btn:hover{background:rgba(255,255,255,.1);color:var(--text);}
+
+@media(max-width:560px){
+  .main{padding:20px 16px 60px;}
+  .hdr-in{padding:0 20px;}
+  .steps-row{padding:20px 16px 0;}
+  .sd-label{display:none;}
+  .sec-hd{padding:14px 16px 12px;}
+  .opts{padding:8px 16px 14px;}
+  .report-hdr{padding:18px 18px 14px;}
+  .report-body{padding:16px 18px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-in">
+    <div class="eyebrow">家醫科整合評估系統</div>
+    <h1>心悸臨床評估<br><em>Integrated Assessment</em></h1>
+    <p class="hdr-sub">逐步完成五個面向的問卷，系統將在所有項目填寫完畢後自動生成臨床分析報告。</p>
+  </div>
+</div>
+<div class="pg-wrap"><div class="pg-fill" id="pgfill"></div></div>
+
+<!-- STEP DOTS -->
+<div class="steps-row" id="stepsRow">
+  <div class="step-dot active" data-step="0"><div class="sd-circle">1</div><div class="sd-label">心律</div></div>
+  <div class="step-dot" data-step="1"><div class="sd-circle">2</div><div class="sd-label">冠心病</div></div>
+  <div class="step-dot" data-step="2"><div class="sd-circle">3</div><div class="sd-label">恐慌</div></div>
+  <div class="step-dot" data-step="3"><div class="sd-circle">4</div><div class="sd-label">PHQ-4</div></div>
+  <div class="step-dot" data-step="4"><div class="sd-circle">5</div><div class="sd-label">代謝</div></div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div id="liveAlert"></div>
+
+  <!-- S1 -->
+  <div class="section active-section" id="s0" data-step="0">
+    <div class="sec-hd" onclick="toggleSection(0)">
+      <div class="sec-ico i-arr">💓</div>
+      <h2>心律模式辨識</h2>
+      <div class="sec-meta">
+        <span class="sec-count" id="cnt0">0 / 5</span>
+        <span class="sec-chevron">▼</span>
+      </div>
+    </div>
+    <div class="opts-wrap">
+      <div class="opts" id="opts0">
+        <label class="cl"><input type="checkbox" data-section="0" id="suddenOnset"><div class="cb"></div><span class="ct">突然開始、突然停止</span></label>
+        <label class="cl"><input type="checkbox" data-section="0" id="irregular"><div class="cb"></div><span class="ct">明顯不規則亂跳</span></label>
+        <label class="cl"><input type="checkbox" data-section="0" id="fastRegular"><div class="cb"></div><span class="ct">非常快但節律規則 <span class="ct-note">SVT 典型表現</span></span></label>
+        <label class="cl"><input type="checkbox" data-section="0" id="exerciseInduced"><div class="cb"></div><span class="ct">運動時或運動後誘發</span></label>
+        <div class="odiv"></div>
+        <label class="cl crit"><input type="checkbox" data-section="0" id="syncope" class="redFlag"><div class="cb"></div><span class="ct">曾昏厥（完全失去意識）</span></label>
+      </div>
+      <div class="next-hint" id="hint0"><span class="next-arrow">↓</span> 繼續填寫下一節：冠心病風險</div>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="section collapsed" id="s1" data-step="1">
+    <div class="sec-hd" onclick="toggleSection(1)">
+      <div class="sec-ico i-cad">🫁</div>
+      <h2>冠心病風險整合</h2>
+      <div class="sec-meta">
+        <span class="sec-count" id="cnt1">0 / 5</span>
+        <span class="sec-chevron">▼</span>
+      </div>
+    </div>
+    <div class="opts-wrap">
+      <div class="opts" id="opts1">
+        <label class="cl"><input type="checkbox" data-section="1" id="dm"><div class="cb"></div><span class="ct">糖尿病</span></label>
+        <label class="cl"><input type="checkbox" data-section="1" id="htn"><div class="cb"></div><span class="ct">高血壓</span></label>
+        <label class="cl"><input type="checkbox" data-section="1" id="smoking"><div class="cb"></div><span class="ct">目前吸菸</span></label>
+        <label class="cl"><input type="checkbox" data-section="1" id="dyslipidemia"><div class="cb"></div><span class="ct">高血脂</span></label>
+        <div class="odiv"></div>
+        <label class="cl warn"><input type="checkbox" data-section="1" id="chestPain" class="cadFlag"><div class="cb"></div><span class="ct">勞動性胸悶或胸痛 <span class="ct-note">高度提示冠心病，計 2 分</span></span></label>
+      </div>
+      <div class="next-hint" id="hint1"><span class="next-arrow">↓</span> 繼續填寫下一節：恐慌核心症狀</div>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="section collapsed" id="s2" data-step="2">
+    <div class="sec-hd" onclick="toggleSection(2)">
+      <div class="sec-ico i-pan">🧠</div>
+      <h2>恐慌核心症狀</h2>
+      <div class="sec-meta">
+        <span class="sec-tag tag-dsm">DSM-5</span>
+        <span class="sec-count" id="cnt2">0 / 5</span>
+        <span class="sec-chevron">▼</span>
+      </div>
+    </div>
+    <div class="opts-wrap">
+      <div class="opts" id="opts2">
+        <label class="cl"><input type="checkbox" data-section="2" id="panicPeak"><div class="cb"></div><span class="ct">10–20 分鐘達高峰後自然緩解</span></label>
+        <label class="cl"><input type="checkbox" data-section="2" id="fearDeath"><div class="cb"></div><span class="ct">強烈瀕死感或失控感</span></label>
+        <label class="cl"><input type="checkbox" data-section="2" id="paresthesia"><div class="cb"></div><span class="ct">手麻、腳麻</span></label>
+        <label class="cl"><input type="checkbox" data-section="2" id="derealization"><div class="cb"></div><span class="ct">不真實感或解離感</span></label>
+        <label class="cl"><input type="checkbox" data-section="2" id="anticipatoryAnxiety"><div class="cb"></div><span class="ct">持續擔心再次發作</span></label>
+      </div>
+      <div class="next-hint" id="hint2"><span class="next-arrow">↓</span> 繼續填寫下一節：PHQ-4 篩查</div>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="section collapsed" id="s3" data-step="3">
+    <div class="sec-hd" onclick="toggleSection(3)">
+      <div class="sec-ico i-phq">📋</div>
+      <h2>PHQ-4 簡式篩查</h2>
+      <div class="sec-meta">
+        <span class="sec-tag tag-phq">PHQ-4</span>
+        <span class="sec-count" id="cnt3">0 / 4</span>
+        <span class="sec-chevron">▼</span>
+      </div>
+    </div>
+    <div class="opts-wrap">
+      <div class="opts" id="opts3">
+        <label class="cl"><input type="checkbox" data-section="3" id="anxious"><div class="cb"></div><span class="ct">常感到緊張或焦慮</span></label>
+        <label class="cl"><input type="checkbox" data-section="3" id="uncontrollableWorry"><div class="cb"></div><span class="ct">無法控制擔心的感覺</span></label>
+        <div class="odiv"></div>
+        <label class="cl"><input type="checkbox" data-section="3" id="depressed"><div class="cb"></div><span class="ct">情緒低落或沮喪</span></label>
+        <label class="cl"><input type="checkbox" data-section="3" id="anhedonia"><div class="cb"></div><span class="ct">對事情失去興趣或樂趣</span></label>
+      </div>
+      <div class="next-hint" id="hint3"><span class="next-arrow">↓</span> 繼續填寫最後一節：內分泌與代謝</div>
+    </div>
+  </div>
+
+  <!-- S5 -->
+  <div class="section collapsed" id="s4" data-step="4">
+    <div class="sec-hd" onclick="toggleSection(4)">
+      <div class="sec-ico i-endo">🔬</div>
+      <h2>內分泌、代謝與生活因子</h2>
+      <div class="sec-meta">
+        <span class="sec-count" id="cnt4">0 / 3</span>
+        <span class="sec-chevron">▼</span>
+      </div>
+    </div>
+    <div class="opts-wrap">
+      <div class="opts" id="opts4">
+        <label class="cl"><input type="checkbox" data-section="4" id="thyroid"><div class="cb"></div><span class="ct">體重下降、怕熱、手抖 <span class="ct-note">甲狀腺功能亢進三聯症</span></span></label>
+        <label class="cl"><input type="checkbox" data-section="4" id="anemia"><div class="cb"></div><span class="ct">蒼白、疲倦、月經量大 <span class="ct-note">缺鐵性貧血</span></span></label>
+        <label class="cl"><input type="checkbox" data-section="4" id="caffeine"><div class="cb"></div><span class="ct">咖啡因過量（每日 &gt;400mg）</span></label>
+      </div>
+      <div class="next-hint" id="hint4"><span class="next-arrow">↓</span> 所有項目填寫完畢，正在生成報告…</div>
+    </div>
+  </div>
+
+  <!-- REPORT ZONE -->
+  <div id="reportZone"></div>
+
+  <div class="disc">
+    <strong>⚕️ 臨床使用說明：</strong>本系統作為門診輔助決策工具，提供結構化病史收集與初步風險分層，不取代臨床醫師完整評估。所有建議應結合理學檢查與完整病史綜合判斷。
+  </div>
+</div>
+
+<script>
+// ── CONFIG ──
+const SECTION_MAX = [5, 5, 5, 4, 3];
+const SECTION_NAMES = ['心律模式辨識','冠心病風險整合','恐慌核心症狀','PHQ-4 篩查','內分泌代謝'];
+const NEXT_HINTS = ['冠心病風險','恐慌核心症狀','PHQ-4 篩查','內分泌與代謝',null];
+
+// section open/close state
+let sectionOpen = [true,false,false,false,false];
+// have we auto-advanced to a section already?
+let sectionUnlocked = [true,false,false,false,false];
+// track first-interaction per section
+let sectionInteracted = [false,false,false,false,false];
+
+let reportGenerated = false;
+
+// ── TOGGLE ──
+function toggleSection(idx) {
+  if (!sectionUnlocked[idx]) return;
+  sectionOpen[idx] = !sectionOpen[idx];
+  renderSections();
+}
+
+function renderSections() {
+  for (let i=0;i<5;i++) {
+    const el = document.getElementById('s'+i);
+    el.classList.toggle('collapsed', !sectionOpen[i]);
+    // active = currently open AND not completed
+    const checked = countChecked(i);
+    el.classList.toggle('active-section', sectionOpen[i]);
+    el.classList.toggle('completed-section', !sectionOpen[i] && checked > 0);
+  }
+}
+
+function countChecked(sIdx) {
+  return document.querySelectorAll(`input[data-section="${sIdx}"]:checked`).length;
+}
+
+// ── PROGRESS ──
+function updateProgress() {
+  const total = SECTION_MAX.reduce((a,b)=>a+b,0);
+  const done  = [0,1,2,3,4].reduce((a,i)=>a+countChecked(i),0);
+  document.getElementById('pgfill').style.width = Math.min(done/total*100,100)+'%';
+}
+
+// ── STEP DOTS ──
+function updateStepDots() {
+  document.querySelectorAll('.step-dot').forEach(dot => {
+    const i = parseInt(dot.dataset.step);
+    const checked = countChecked(i);
+    dot.classList.remove('active','done');
+    if (!sectionUnlocked[i]) return;
+    if (checked === SECTION_MAX[i] || (i===1 && checked>=1)) {
+      // mark done only if section has been interacted
+    }
+    if (sectionOpen[i]) dot.classList.add('active');
+    else if (sectionInteracted[i]) dot.classList.add('done');
+  });
+}
+
+// ── NEXT SECTION HINT ──
+function showHint(sIdx) {
+  const hint = document.getElementById('hint'+sIdx);
+  if (hint) hint.classList.add('show');
+}
+function hideHint(sIdx) {
+  const hint = document.getElementById('hint'+sIdx);
+  if (hint) hint.classList.remove('show');
+}
+
+// ── AUTO ADVANCE ──
+let advanceTimers = {};
+
+function tryAutoAdvance(sIdx) {
+  // Show hint immediately on first interaction
+  if (!sectionInteracted[sIdx]) {
+    sectionInteracted[sIdx] = true;
+    updateStepDots();
+  }
+  showHint(sIdx);
+
+  // Clear existing timer
+  if (advanceTimers[sIdx]) clearTimeout(advanceTimers[sIdx]);
+
+  // Auto-advance after 1.8s of no changes in this section
+  advanceTimers[sIdx] = setTimeout(() => {
+    const next = sIdx + 1;
+    if (next < 5) {
+      // Unlock & open next
+      sectionUnlocked[next] = true;
+      sectionOpen[sIdx] = false;
+      sectionOpen[next] = true;
+      renderSections();
+      updateStepDots();
+
+      // Scroll to next section
+      const nextEl = document.getElementById('s'+next);
+      setTimeout(() => {
+        nextEl.scrollIntoView({behavior:'smooth', block:'start'});
+      }, 100);
+    } else {
+      // Last section filled — close it and generate report
+      sectionOpen[sIdx] = false;
+      renderSections();
+      if (!reportGenerated) {
+        reportGenerated = true;
+        showGeneratingReport();
+        setTimeout(() => generateReport(), 1400);
+      }
+    }
+    hideHint(sIdx);
+  }, 1800);
+}
+
+// ── LIVE ALERTS ──
+function checkLiveAlerts() {
+  const syncopeEl = document.getElementById('syncope');
+  const chestPainEl = document.getElementById('chestPain');
+  const dmEl = document.getElementById('dm');
+  const htnEl = document.getElementById('htn');
+  const smokingEl = document.getElementById('smoking');
+  const dysEl = document.getElementById('dyslipidemia');
+
+  const anyRed = syncopeEl && syncopeEl.checked;
+  const cadScore = [dmEl,htnEl,smokingEl,dysEl].filter(e=>e&&e.checked).length
+                 + (chestPainEl&&chestPainEl.checked?2:0);
+  const anyCad = cadScore>=3 && chestPainEl && chestPainEl.checked;
+
+  const zone = document.getElementById('liveAlert');
+  if (anyRed) {
+    zone.innerHTML = `<div class="la la-red">
+      <span class="la-icon">🔴</span>
+      <span>偵測到高風險：昏厥陽性 — 建議立即心電圖，必要時轉急診</span>
+      <button class="la-close" onclick="this.parentElement.parentElement.innerHTML=''">✕</button>
+    </div>`;
+  } else if (anyCad) {
+    zone.innerHTML = `<div class="la la-orange">
+      <span class="la-icon">🟠</span>
+      <span>多項冠心病危險因子 + 勞動性胸痛 — 建議優先心臟科評估</span>
+      <button class="la-close" onclick="this.parentElement.parentElement.innerHTML=''">✕</button>
+    </div>`;
+  } else {
+    zone.innerHTML = '';
+  }
+}
+
+// ── CHECKBOX LISTENERS ──
+document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    const sIdx = parseInt(cb.dataset.section);
+    updateProgress();
+    checkLiveAlerts();
+    updateSectionCount(sIdx);
+    tryAutoAdvance(sIdx);
+  });
+});
+
+function updateSectionCount(sIdx) {
+  const checked = countChecked(sIdx);
+  const el = document.getElementById('cnt'+sIdx);
+  if (el) el.textContent = checked + ' / ' + SECTION_MAX[sIdx];
+}
+
+// ── GENERATING SKELETON ──
+function showGeneratingReport() {
+  const zone = document.getElementById('reportZone');
+  zone.innerHTML = `
+    <div class="report-shell">
+      <div class="generating">
+        <div class="skel w60" style="height:18px"></div>
+        <div class="skel w80"></div>
+        <div class="skel w45"></div>
+        <div style="margin-top:8px"></div>
+        <div class="skel w80"></div>
+        <div class="skel w60"></div>
+        <div class="skel w80"></div>
+      </div>
+    </div>`;
+  zone.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ── GENERATE REPORT ──
+function generateReport() {
+  const g = id => {
+    const el = document.getElementById(id);
+    return el ? el.checked : false;
+  };
+
+  let red = g('syncope');
+  let arr=0, cad=0, panic=0, phq=0, meta=0;
+
+  if(g('suddenOnset'))    arr++;
+  if(g('irregular'))      arr++;
+  if(g('fastRegular'))    arr++;
+  if(g('exerciseInduced'))arr++;
+  if(g('dm'))             cad++;
+  if(g('htn'))            cad++;
+  if(g('smoking'))        cad++;
+  if(g('dyslipidemia'))   cad++;
+  if(g('chestPain'))      cad+=2;
+  if(g('panicPeak'))      panic++;
+  if(g('fearDeath'))      panic++;
+  if(g('paresthesia'))    panic++;
+  if(g('derealization'))  panic++;
+  if(g('anticipatoryAnxiety'))panic++;
+  if(g('anxious'))        phq++;
+  if(g('uncontrollableWorry'))phq++;
+  if(g('depressed'))      phq++;
+  if(g('anhedonia'))      phq++;
+  if(g('thyroid'))        meta++;
+  if(g('anemia'))         meta++;
+  if(g('caffeine'))       meta++;
+
+  const scores = [
+    {label:'心律',val:arr,max:4,color:'#f0a500'},
+    {label:'冠心病',val:cad,max:6,color:'#e8523a'},
+    {label:'恐慌',val:panic,max:5,color:'#c084fc'},
+    {label:'PHQ-4',val:phq,max:4,color:'#93c5fd'},
+    {label:'代謝',val:meta,max:3,color:'#2dd4bf'},
+  ];
+
+  const scoreBars = `<div class="scores">${scores.map(s=>`
+    <div class="sc-card">
+      <div class="sc-lbl">${s.label}</div>
+      <div class="sc-bar-bg"><div class="sc-bar" style="width:${Math.min(s.val/s.max*100,100)}%;background:${s.color}"></div></div>
+      <div class="sc-val" style="color:${s.color}">${s.val}<span style="font-size:11px;opacity:.4;font-weight:300"> / ${s.max}</span></div>
+    </div>`).join('')}
+  </div>`;
+
+  let theme, emoji, label, title, recs;
+
+  if (red) {
+    theme='t-red'; emoji='🔴'; label='高風險 — 立即處置';
+    title='昏厥陽性，建議立即心律評估';
+    recs=[
+      {cls:'rec-urgent',ico:'⚡',text:'<strong>立即執行 12 導程心電圖</strong>',sub:'排除 VT、完全性房室傳導阻滯等危及生命病因'},
+      {cls:'rec-urgent',ico:'🏥',text:'<strong>考慮轉急診或心臟科緊急評估</strong>',sub:'勿延遲，昏厥合併心悸為高風險組合'},
+      {cls:'rec-medium',ico:'🧪',text:'Troponin、電解質抽血',sub:'排除急性心肌缺血'},
+      {cls:'rec-normal',ico:'📡',text:'評估植入式心律記錄器（ILR）適應症',sub:'若間歇性且無法以 Holter 捕捉'},
+    ];
+  } else if (arr>=3) {
+    theme='t-orange'; emoji='🟠'; label='中高風險 — 心律不整';
+    title='疑似陣發性心律不整，建議 Holter 監測';
+    recs=[
+      {cls:'rec-urgent',ico:'📊',text:'<strong>12 導程靜態心電圖</strong>',sub:'評估基礎節律、PR/QT 間期、預激症候群'},
+      {cls:'rec-medium',ico:'📡',text:'24–48 小時 Holter 心律監測',sub:'或事件記錄器（Event Monitor）'},
+      {cls:'rec-medium',ico:'🫀',text:'超音波心動圖排除結構異常',sub:'評估心室功能與瓣膜病變'},
+      {cls:'rec-normal',ico:'🧪',text:'電解質、甲狀腺功能（TSH）',sub:'排除次發性心律不整誘因'},
+    ];
+  } else if (cad>=3) {
+    theme='t-orange'; emoji='🟠'; label='中高風險 — 冠心病';
+    title='冠心病風險偏高，建議心臟評估';
+    recs=[
+      {cls:'rec-urgent',ico:'📊',text:'<strong>靜態及運動心電圖</strong>',sub:'評估缺血性 ST 變化'},
+      {cls:'rec-urgent',ico:'🏥',text:'<strong>心臟科轉診</strong>',sub:'評估冠心病，必要時安排冠狀動脈 CTA'},
+      {cls:'rec-medium',ico:'🧪',text:'Troponin、空腹血脂、HbA1c',sub:'危險因子基礎評估'},
+      {cls:'rec-normal',ico:'💊',text:'積極控制危險因子',sub:'血糖、血壓、血脂、戒菸'},
+    ];
+  } else if (panic>=4) {
+    theme='t-purple'; emoji='🔵'; label='心理相關 — 恐慌症';
+    title='符合恐慌發作模式，建議身心醫學評估';
+    recs=[
+      {cls:'rec-medium',ico:'📊',text:'<strong>基礎心電圖排除器質性問題</strong>',sub:'確認非心律不整後積極介入'},
+      {cls:'rec-urgent',ico:'🧠',text:'<strong>身心醫學科或精神科轉介</strong>',sub:'DSM-5 恐慌症正式診斷'},
+      {cls:'rec-medium',ico:'🗣️',text:'認知行為治療（CBT）為第一線治療',sub:'有效率約 60–80%'},
+      {cls:'rec-normal',ico:'💊',text:'必要時短期 SSRI / SNRI 輔助',sub:'Sertraline、Escitalopram 等'},
+    ];
+  } else if (phq>=3) {
+    theme='t-blue'; emoji='🔵'; label='心理相關 — 焦慮/憂鬱';
+    title='PHQ-4 陽性，建議完整心理評估';
+    recs=[
+      {cls:'rec-medium',ico:'📋',text:'<strong>PHQ-9 / GAD-7 完整評估</strong>',sub:'確認焦慮與憂鬱嚴重度'},
+      {cls:'rec-medium',ico:'🔬',text:'排除甲狀腺功能異常（TSH）',sub:'甲亢可呈現類似焦慮症狀'},
+      {cls:'rec-urgent',ico:'🧠',text:'心理諮商或精神科評估',sub:'討論心理治療與藥物適應症'},
+      {cls:'rec-normal',ico:'🌿',text:'生活壓力因應策略',sub:'正念減壓、規律運動、睡眠衛生'},
+    ];
+  } else if (meta>=2) {
+    theme='t-teal'; emoji='🟢'; label='內分泌 / 代謝';
+    title='疑似甲狀腺、貧血或代謝因素';
+    recs=[
+      {cls:'rec-urgent',ico:'🔬',text:'<strong>甲狀腺功能：TSH、Free T4</strong>',sub:'排除甲亢為最常見代謝性心悸原因'},
+      {cls:'rec-medium',ico:'🧪',text:'CBC 排除貧血，鐵蛋白、TIBC',sub:'缺鐵性貧血可顯著降低心悸閾值'},
+      {cls:'rec-medium',ico:'📊',text:'空腹血糖、電解質',sub:'排除低血糖及電解質失衡'},
+      {cls:'rec-normal',ico:'☕',text:'建議減少咖啡因攝取 &lt;200 mg/日',sub:'咖啡因是最常見可改變之生活誘因'},
+    ];
+  } else {
+    theme='t-teal'; emoji='⚪'; label='低風險';
+    title='多為良性期外收縮，門診追蹤即可';
+    recs=[
+      {cls:'rec-normal',ico:'📊',text:'<strong>基礎心電圖確認</strong>',sub:'PVC/PAC 在一般族群中極為常見，通常無需積極處置'},
+      {cls:'rec-normal',ico:'☕',text:'減少咖啡因、規律睡眠、壓力管理',sub:'生活型態調整常可顯著改善症狀'},
+      {cls:'rec-normal',ico:'📅',text:'症狀加重或頻率增加時返診',sub:'設定追蹤時間點'},
+    ];
+  }
+
+  const recsHTML = `
+    <div class="recs-title">臨床建議</div>
+    ${recs.map(r=>`
+      <div class="rec-item ${r.cls}">
+        <div class="rec-ico">${r.ico}</div>
+        <div class="rec-text">${r.text}${r.sub?`<small>${r.sub}</small>`:''}</div>
+      </div>`).join('')}`;
+
+  const zone = document.getElementById('reportZone');
+  zone.innerHTML = `
+    <div class="report-shell ${theme}">
+      <div class="report-hdr">
+        <div class="report-icon">${emoji}</div>
+        <div>
+          <div class="report-lbl">${label}</div>
+          <div class="report-title">${title}</div>
+        </div>
+      </div>
+      <div class="report-body">
+        ${scoreBars}
+        ${recsHTML}
+        <div style="text-align:center;margin-top:22px">
+          <button class="reset-btn" onclick="resetAll()">↺ 重新填寫</button>
+        </div>
+      </div>
+    </div>`;
+
+  setTimeout(() => zone.scrollIntoView({behavior:'smooth',block:'start'}), 100);
+}
+
+// ── RESET ──
+function resetAll() {
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked=false);
+  sectionOpen = [true,false,false,false,false];
+  sectionUnlocked = [true,false,false,false,false];
+  sectionInteracted = [false,false,false,false,false];
+  reportGenerated = false;
+  Object.values(advanceTimers).forEach(t=>clearTimeout(t));
+  advanceTimers = {};
+  for(let i=0;i<5;i++) updateSectionCount(i);
+  renderSections();
+  updateProgress();
+  updateStepDots();
+  document.getElementById('reportZone').innerHTML='';
+  document.getElementById('liveAlert').innerHTML='';
+  document.querySelectorAll('.next-hint').forEach(h=>h.classList.remove('show'));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// init
+renderSections();
+updateStepDots();
+</script>
+</body>
+</html>

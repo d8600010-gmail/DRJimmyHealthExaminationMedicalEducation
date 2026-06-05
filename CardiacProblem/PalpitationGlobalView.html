@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>運動時心跳狂飆，是正常還是危險？</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: rgba(255,255,255,0.07);
+    --accent-red: #ff3a3a;
+    --accent-amber: #ffaa00;
+    --accent-green: #00e5a0;
+    --accent-blue: #4da6ff;
+    --text-primary: #f0f2f5;
+    --text-secondary: #8a9ab8;
+    --text-muted: #4a5568;
+    --pulse: #ff3a3a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 400;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── ECG background animation ── */
+  .ecg-bg {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .ecg-bg svg {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    opacity: 0.03;
+  }
+  .ecg-line {
+    stroke: var(--pulse);
+    stroke-width: 2;
+    fill: none;
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: drawECG 6s linear infinite;
+  }
+  @keyframes drawECG {
+    to { stroke-dashoffset: -2000; }
+  }
+
+  /* ── Noise overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 60px 0 48px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 56px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-red);
+    border: 1px solid rgba(255,58,58,0.3);
+    padding: 5px 12px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent-red);
+    border-radius: 50%;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 900;
+    font-size: clamp(28px, 5vw, 44px);
+    line-height: 1.3;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .hero h1 span { color: var(--accent-red); }
+
+  .hero-lead {
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    max-width: 560px;
+  }
+
+  /* ── Scenario cards ── */
+  .scenarios {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 56px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .scenario-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 16px;
+    text-align: center;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .scenario-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255,255,255,0.15);
+  }
+  .scenario-card .icon { font-size: 28px; margin-bottom: 10px; display: block; }
+  .scenario-card p { font-size: 13px; color: var(--text-secondary); }
+
+  /* ── Section heading ── */
+  .section {
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .section h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* ── Status block ── */
+  .status-block {
+    border-radius: 10px;
+    padding: 24px 28px;
+    border: 1px solid;
+  }
+  .status-block.safe {
+    background: rgba(0,229,160,0.04);
+    border-color: rgba(0,229,160,0.2);
+  }
+  .status-block.warning {
+    background: rgba(255,170,0,0.04);
+    border-color: rgba(255,170,0,0.2);
+  }
+  .status-block.danger {
+    background: rgba(255,58,58,0.04);
+    border-color: rgba(255,58,58,0.2);
+  }
+  .status-block .status-head {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .status-block.safe .status-head { color: var(--accent-green); }
+  .status-block.warning .status-head { color: var(--accent-amber); }
+  .status-block.danger .status-head { color: var(--accent-red); }
+  .status-block ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .status-block li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--text-secondary);
+  }
+  .status-block li::before {
+    content: '→';
+    font-family: 'DM Mono', monospace;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .status-block.safe li::before { color: var(--accent-green); }
+  .status-block.warning li::before { color: var(--accent-amber); }
+  .status-block.danger li::before { color: var(--accent-red); }
+
+  /* ── Warning items ── */
+  .warning-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .warning-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+  .warning-item:hover { border-color: rgba(255,170,0,0.3); }
+  .warning-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-amber);
+    background: rgba(255,170,0,0.08);
+    border: 1px solid rgba(255,170,0,0.2);
+    border-radius: 4px;
+    padding: 2px 8px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .warning-title { font-weight: 500; font-size: 15px; margin-bottom: 4px; }
+  .warning-desc { font-size: 13px; color: var(--text-muted); }
+
+  /* ── Disease tags ── */
+  .disease-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .disease-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .disease-card strong {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--accent-blue);
+    margin-bottom: 4px;
+  }
+  .disease-card:hover { border-color: rgba(77,166,255,0.3); color: var(--text-primary); }
+
+  /* ── Danger checklist ── */
+  .danger-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .danger-item {
+    background: rgba(255,58,58,0.04);
+    border: 1px solid rgba(255,58,58,0.15);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .danger-dot {
+    width: 7px; height: 7px;
+    background: var(--accent-red);
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  /* ── Check list ── */
+  .check-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+    color: var(--text-secondary);
+  }
+  .check-row:last-child { border-bottom: none; }
+  .check-icon {
+    width: 32px; height: 32px;
+    background: var(--surface2);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  /* ── Cause tags ── */
+  .causes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .cause-tag {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .cause-tag:hover {
+    border-color: rgba(255,255,255,0.2);
+    color: var(--text-primary);
+  }
+
+  /* ── CTA ── */
+  .cta {
+    margin-top: 64px;
+    background: linear-gradient(135deg, #0e1520 0%, #141a28 100%);
+    border: 1px solid rgba(77,166,255,0.2);
+    border-radius: 16px;
+    padding: 48px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .cta::before {
+    content: '♥';
+    position: absolute;
+    font-size: 240px;
+    opacity: 0.015;
+    top: -60px; right: -40px;
+    color: var(--accent-red);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .cta-stat {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+  .cta-stat .big {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 72px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--accent-blue);
+  }
+  .cta-stat .unit {
+    font-size: 20px;
+    color: var(--text-muted);
+  }
+  .cta h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+  }
+  .cta p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    max-width: 480px;
+    margin: 0 auto 12px;
+  }
+  .cta .key-note {
+    display: inline-block;
+    margin-top: 16px;
+    background: rgba(77,166,255,0.08);
+    border: 1px solid rgba(77,166,255,0.2);
+    border-radius: 8px;
+    padding: 14px 24px;
+    font-size: 14px;
+    color: var(--accent-blue);
+    max-width: 480px;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 12px 0 32px;
+  }
+
+  /* ── Card wrapper ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section:nth-child(1) { animation-delay: 0.05s; }
+  .section:nth-child(2) { animation-delay: 0.10s; }
+  .section:nth-child(3) { animation-delay: 0.15s; }
+  .section:nth-child(4) { animation-delay: 0.20s; }
+  .section:nth-child(5) { animation-delay: 0.25s; }
+  .section:nth-child(6) { animation-delay: 0.30s; }
+  .section:nth-child(7) { animation-delay: 0.35s; }
+
+  @media (max-width: 560px) {
+    .scenarios { grid-template-columns: 1fr; }
+    .danger-grid { grid-template-columns: 1fr; }
+    .disease-grid { grid-template-columns: 1fr; }
+    .cta { padding: 36px 24px; }
+    .cta-stat .big { font-size: 56px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ecg-bg">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+    <path class="ecg-line" d="M0,60 L120,60 L140,60 L155,10 L165,110 L175,60 L190,60 L310,60 L330,60 L345,10 L355,110 L365,60 L380,60 L500,60 L520,60 L535,10 L545,110 L555,60 L570,60 L690,60 L710,60 L725,10 L735,110 L745,60 L760,60 L880,60 L900,60 L915,10 L925,110 L935,60 L950,60 L1070,60 L1090,60 L1105,10 L1115,110 L1125,60 L1140,60 L1260,60 L1280,60 L1295,10 L1305,110 L1315,60 L1440,60"/>
+  </svg>
+</div>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-tag">心臟健康 · 運動醫學</div>
+    <h1>運動時心跳狂飆<br>是<span>變強的證明</span>，<br>還是猝死前兆？</h1>
+    <p class="hero-lead">心跳加速是運動的正常反應，但某些模式可能預示危險。學會辨識差異，比盲目恐懼更有價值。</p>
+  </div>
+
+  <!-- Scenarios -->
+  <div class="scenarios">
+    <div class="scenario-card">
+      <span class="icon">🏀</span>
+      <p>打球時心跳突然衝到 190</p>
+    </div>
+    <div class="scenario-card">
+      <span class="icon">🧘‍♀️</span>
+      <p>做瑜伽卻感覺心臟亂跳</p>
+    </div>
+    <div class="scenario-card">
+      <span class="icon">🏃</span>
+      <p>跑步時突然胸悶頭暈</p>
+    </div>
+  </div>
+
+  <!-- Section 1: Normal -->
+  <div class="section">
+    <div class="section-label">01 — 良性反應</div>
+    <h2>💓 大多數情況並不危險</h2>
+    <div class="status-block safe">
+      <div class="status-head">✓ 正常運動性心跳加快</div>
+      <ul>
+        <li>心跳是「慢慢加快」的</li>
+        <li>停止運動後「慢慢降下來」</li>
+        <li>沒有暈倒或胸痛感</li>
+      </ul>
+    </div>
+    <p style="margin-top:16px; font-size:14px; color:var(--text-muted);">以上模式代表身體正在適應與強化，而非出現問題。</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Section 2: Warning -->
+  <div class="section">
+    <div class="section-label">02 — 警示信號</div>
+    <h2>⚡ 這幾種情況不能忽略</h2>
+    <div class="warning-list">
+      <div class="warning-item">
+        <span class="warning-num">01</span>
+        <div>
+          <div class="warning-title">突然發作、突然停止</div>
+          <div class="warning-desc">可能是上心室心搏過速（SVT），包含 WPW 症候群</div>
+        </div>
+      </div>
+      <div class="warning-item">
+        <span class="warning-num">02</span>
+        <div>
+          <div class="warning-title">運動中暈倒或差點昏倒</div>
+          <div class="warning-desc">須排除肥厚型心肌病或致命性心律不整</div>
+        </div>
+      </div>
+      <div class="warning-item">
+        <span class="warning-num">03</span>
+        <div>
+          <div class="warning-title">家族有人 40 歲前猝死</div>
+          <div class="warning-desc">務必進行完整心臟評估</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Section 3: Diseases -->
+  <div class="section">
+    <div class="section-label">03 — 潛在病因</div>
+    <h2>🧬 年輕人常見的危險疾病</h2>
+    <div class="disease-grid">
+      <div class="disease-card">
+        <strong>HCM</strong>
+        肥厚型心肌病
+      </div>
+      <div class="disease-card">
+        <strong>LQTS</strong>
+        長 QT 症候群
+      </div>
+      <div class="disease-card">
+        <strong>BrS</strong>
+        Brugada 症候群
+      </div>
+      <div class="disease-card">
+        <strong>WPW</strong>
+        WPW 症候群
+      </div>
+    </div>
+    <p style="margin-top:14px; font-size:13px; color:var(--text-muted);">雖然少見，卻往往是年輕運動員猝死的主因。</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Section 4: Go to ER -->
+  <div class="section">
+    <div class="section-label">04 — 就醫指標</div>
+    <h2>🚨 出現這些症狀請立即就醫</h2>
+    <div class="danger-grid">
+      <div class="danger-item"><span class="danger-dot"></span>運動時暈厥</div>
+      <div class="danger-item"><span class="danger-dot"></span>胸痛</div>
+      <div class="danger-item"><span class="danger-dot"></span>心跳超過 200 bpm</div>
+      <div class="danger-item"><span class="danger-dot"></span>停止運動後持續很久</div>
+      <div class="danger-item"><span class="danger-dot"></span>家族猝死史</div>
+      <div class="danger-item"><span class="danger-dot"></span>心電圖異常</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Section 5: Tests -->
+  <div class="section">
+    <div class="section-label">05 — 醫療評估</div>
+    <h2>🩺 醫師通常怎麼檢查？</h2>
+    <div class="card">
+      <div class="check-row">
+        <div class="check-icon">📋</div>
+        <div>心電圖（ECG）— 最基礎的初步篩檢</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon">⏱</div>
+        <div>24 小時心律監測（Holter Monitor）</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon">🏃</div>
+        <div>運動心電圖（壓力測試）</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon">🔊</div>
+        <div>心臟超音波（Echocardiogram）</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Section 6: Causes -->
+  <div class="section">
+    <div class="section-label">06 — 其他原因</div>
+    <h2>☕ 很多心悸其實是這些原因</h2>
+    <div class="causes">
+      <span class="cause-tag">☕ 咖啡因過量</span>
+      <span class="cause-tag">😴 睡眠不足</span>
+      <span class="cause-tag">😰 焦慮與壓力</span>
+      <span class="cause-tag">🩸 貧血（女性常見）</span>
+      <span class="cause-tag">🦋 甲狀腺亢進</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Section 7: Still exercise? -->
+  <div class="section">
+    <div class="section-label">07 — 行動建議</div>
+    <h2>🏃 那我還能運動嗎？</h2>
+    <div class="status-block safe">
+      <div class="status-head">✓ 如果檢查正常</div>
+      <ul>
+        <li>大多數人可以安心繼續運動</li>
+        <li>避免突然爆發式的高強度衝刺</li>
+        <li>規律睡眠，減少咖啡因等刺激物</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-stat">
+      <span class="big">90%</span>
+      <span class="unit">以上</span>
+    </div>
+    <h2>運動心悸是良性的</h2>
+    <p>但剩下的 5% 可能關乎生命。</p>
+    <p>判斷的關鍵不在「心跳多快」，而在「發作方式與是否伴隨暈厥」。</p>
+    <div class="key-note">
+      如果你有疑慮，與心臟科醫師討論一次，<br>比自己嚇自己安全得多。
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
