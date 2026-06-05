@@ -1,1 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>健診皮膚問題總覽 | SkinProblem</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Noto+Sans+TC:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream:    #f8f4ef;
+      --ink:      #1a1410;
+      --rust:     #b85c38;
+      --gold:     #c9963a;
+      --muted:    #7a6e65;
+      --pale:     #e8e0d6;
+      --white-spot: #f0ede8;
+      --sky:      #dde8f0;
+    }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Noto Sans TC', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      padding: 3rem 5vw 2rem;
+      border-bottom: 2px solid var(--pale);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .breadcrumb {
+      font-size: .75rem;
+      color: var(--muted);
+      letter-spacing: .08em;
+      margin-bottom: .6rem;
+    }
+    .breadcrumb span { color: var(--rust); font-weight: 500; }
+    header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      line-height: 1.1;
+      letter-spacing: -.01em;
+    }
+    header h1 em {
+      font-style: normal;
+      color: var(--rust);
+    }
+    .header-sub {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-top: .5rem;
+      font-family: 'Noto Serif TC', serif;
+      letter-spacing: .06em;
+    }
+    .header-badge {
+      background: var(--ink);
+      color: var(--cream);
+      font-size: .7rem;
+      letter-spacing: .12em;
+      padding: .35rem .9rem;
+      border-radius: 2px;
+      white-space: nowrap;
+      align-self: flex-start;
+      margin-top: .5rem;
+      font-weight: 500;
+    }
+
+    /* ── INTRO STRIP ── */
+    .intro {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 1.4rem 5vw;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: .88rem;
+      line-height: 1.7;
+    }
+    .intro-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+
+    /* ── MAIN GRID ── */
+    main {
+      padding: 3rem 5vw 5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: .7rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--rust);
+      font-weight: 500;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--pale);
+    }
+
+    /* ── VITILIGO FEATURE CARDS ── */
+    .vitiligo-section { margin-bottom: 4rem; }
+
+    .vitiligo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 720px) {
+      .vitiligo-grid { grid-template-columns: 1fr; }
+    }
+
+    .vitiligo-card {
+      border: 1px solid var(--pale);
+      border-radius: 4px;
+      overflow: hidden;
+      background: #fff;
+      transition: box-shadow .25s, transform .25s;
+    }
+    .vitiligo-card:hover {
+      box-shadow: 0 12px 40px rgba(26,20,16,.12);
+      transform: translateY(-4px);
+    }
+
+    /* SVG illustration panels */
+    .card-illustration {
+      width: 100%;
+      height: 220px;
+      display: block;
+      background: var(--sky);
+    }
+
+    .card-body {
+      padding: 1.5rem 1.6rem 1.8rem;
+    }
+    .card-tag {
+      display: inline-block;
+      font-size: .65rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      background: var(--rust);
+      color: #fff;
+      padding: .2rem .6rem;
+      border-radius: 2px;
+      margin-bottom: .8rem;
+      font-weight: 500;
+    }
+    .card-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: .6rem;
+      line-height: 1.4;
+    }
+    .card-desc {
+      font-size: .85rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+    .card-bullets {
+      list-style: none;
+      font-size: .82rem;
+      color: var(--ink);
+      line-height: 1.7;
+    }
+    .card-bullets li::before {
+      content: '▸ ';
+      color: var(--rust);
+      font-size: .75rem;
+    }
+
+    /* ── NAVIGATION CARDS ── */
+    .nav-section { margin-bottom: 3rem; }
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.2rem;
+    }
+    .nav-card {
+      border: 1px solid var(--pale);
+      border-radius: 4px;
+      padding: 1.4rem 1.5rem;
+      background: #fff;
+      cursor: pointer;
+      transition: background .2s, border-color .2s, transform .2s;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+    .nav-card:hover {
+      background: var(--ink);
+      border-color: var(--ink);
+      transform: translateY(-2px);
+    }
+    .nav-card:hover .nav-card-title,
+    .nav-card:hover .nav-card-sub { color: var(--cream); }
+    .nav-card:hover .nav-card-icon { filter: invert(1); }
+    .nav-card-icon { font-size: 1.6rem; }
+    .nav-card-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ink);
+      transition: color .2s;
+    }
+    .nav-card-sub {
+      font-size: .78rem;
+      color: var(--muted);
+      line-height: 1.5;
+      transition: color .2s;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--pale);
+      padding: 1.5rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .72rem;
+      color: var(--muted);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    footer a { color: var(--rust); text-decoration: none; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .vitiligo-card, .nav-card {
+      animation: fadeUp .5s ease both;
+    }
+    .vitiligo-card:nth-child(1) { animation-delay: .1s; }
+    .vitiligo-card:nth-child(2) { animation-delay: .22s; }
+    .nav-card:nth-child(1) { animation-delay: .05s; }
+    .nav-card:nth-child(2) { animation-delay: .12s; }
+    .nav-card:nth-child(3) { animation-delay: .19s; }
+    .nav-card:nth-child(4) { animation-delay: .26s; }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div>
+    <div class="breadcrumb">
+      DRJimmyHealthExaminationMedicalEducation &nbsp;/&nbsp;
+      HealthExamCommonProblem &nbsp;/&nbsp;
+      <span>SkinProblem</span>
+    </div>
+    <h1>健診皮膚問題<br><em>總覽</em></h1>
+    <p class="header-sub">Health Examination · Common Skin Conditions</p>
+  </div>
+  <div class="header-badge">Medical Education</div>
+</header>
+
+<!-- ══ INTRO ══ -->
+<div class="intro">
+  <span class="intro-icon">🩺</span>
+  <p>健康檢查中常見的皮膚問題涵蓋色素異常、感染性病灶、良性腫瘤及過敏反應。本頁彙整各類常見皮膚狀況的臨床特徵與處置建議，協助醫師及受檢者快速掌握重點。</p>
+</div>
+
+<!-- ══ MAIN ══ -->
+<main>
+
+  <!-- ─ VITILIGO FEATURE ─ -->
+  <div class="vitiligo-section">
+    <div class="section-label">焦點疾病 · 白斑症 Vitiligo</div>
+
+    <div class="vitiligo-grid">
+
+      <!-- Card 1 ── 白斑症示意圖 (skin cross-section) -->
+      <div class="vitiligo-card">
+        <svg class="card-illustration" viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg">
+          <!-- background -->
+          <rect width="480" height="220" fill="#dde8f0"/>
+          <!-- skin layers -->
+          <!-- epidermis normal zone -->
+          <rect x="0" y="80" width="220" height="40" fill="#e8c9a0" rx="0"/>
+          <!-- epidermis vitiligo zone (depigmented) -->
+          <rect x="220" y="80" width="260" height="40" fill="#f5f0ea" rx="0"/>
+          <!-- dermis -->
+          <rect x="0" y="120" width="480" height="60" fill="#d4a57a" opacity=".7"/>
+          <!-- subcutaneous -->
+          <rect x="0" y="180" width="480" height="40" fill="#c4926a" opacity=".5"/>
+
+          <!-- melanocytes normal side -->
+          <ellipse cx="55"  cy="98" rx="9" ry="6" fill="#5c3a1e"/>
+          <ellipse cx="105" cy="95" rx="9" ry="6" fill="#5c3a1e"/>
+          <ellipse cx="160" cy="99" rx="9" ry="6" fill="#5c3a1e"/>
+          <!-- melanocyte dendrites -->
+          <line x1="55"  y1="92" x2="40"  y2="84" stroke="#5c3a1e" stroke-width="1.5"/>
+          <line x1="55"  y1="92" x2="70"  y2="84" stroke="#5c3a1e" stroke-width="1.5"/>
+          <line x1="105" y1="89" x2="90"  y2="81" stroke="#5c3a1e" stroke-width="1.5"/>
+          <line x1="105" y1="89" x2="120" y2="81" stroke="#5c3a1e" stroke-width="1.5"/>
+          <line x1="160" y1="93" x2="145" y2="85" stroke="#5c3a1e" stroke-width="1.5"/>
+          <line x1="160" y1="93" x2="175" y2="85" stroke="#5c3a1e" stroke-width="1.5"/>
+
+          <!-- vitiligo zone — absent melanocytes indicator -->
+          <text x="295" y="106" font-family="sans-serif" font-size="11" fill="#b85c38" text-anchor="middle">黑色素細胞缺失</text>
+          <line x1="220" y1="80" x2="220" y2="160" stroke="#b85c38" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+          <!-- white patch on skin surface -->
+          <ellipse cx="330" cy="74" rx="60" ry="12" fill="white" opacity=".85"/>
+          <ellipse cx="330" cy="74" rx="60" ry="12" fill="none" stroke="#b85c38" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="330" y="69" font-family="sans-serif" font-size="10" fill="#b85c38" text-anchor="middle">白斑病灶</text>
+
+          <!-- layer labels -->
+          <text x="8" y="75" font-family="sans-serif" font-size="10" fill="#4a3728">表皮層</text>
+          <text x="8" y="140" font-family="sans-serif" font-size="10" fill="#4a3728">真皮層</text>
+          <text x="8" y="198" font-family="sans-serif" font-size="10" fill="#4a3728">皮下組織</text>
+
+          <!-- legend -->
+          <rect x="10" y="156" width="10" height="10" fill="#5c3a1e" rx="2"/>
+          <text x="24" y="165" font-family="sans-serif" font-size="9" fill="#4a3728">正常黑色素細胞</text>
+          <rect x="130" y="156" width="10" height="10" fill="#f5f0ea" stroke="#b85c38" stroke-width="1" rx="2"/>
+          <text x="144" y="165" font-family="sans-serif" font-size="9" fill="#b85c38">白斑區 (無色素)</text>
+
+          <!-- title -->
+          <text x="240" y="18" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1a1410" text-anchor="middle">白斑症皮膚截面示意圖</text>
+          <text x="240" y="34" font-family="sans-serif" font-size="10" fill="#7a6e65" text-anchor="middle">Vitiligo · Skin Cross-Section</text>
+        </svg>
+
+        <div class="card-body">
+          <span class="card-tag">色素異常</span>
+          <div class="card-title">白斑症 — 病理機轉</div>
+          <p class="card-desc">白斑症（Vitiligo）為後天性色素脫失疾病，因表皮黑色素細胞受自體免疫攻擊或氧化壓力破壞，導致皮膚出現界線清楚的乳白色斑塊。</p>
+          <ul class="card-bullets">
+            <li>T細胞媒介之自體免疫反應為主因</li>
+            <li>皮損邊界清晰、呈乳白色或粉白色</li>
+            <li>Wood's lamp 下呈亮藍白色螢光</li>
+            <li>常見於手背、臉部、生殖器及關節周圍</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Card 2 ── 白斑體表分佈圖 -->
+      <div class="vitiligo-card">
+        <svg class="card-illustration" viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg">
+          <!-- background -->
+          <rect width="480" height="220" fill="#f0ede8"/>
+
+          <!-- ── body silhouette (front view) ── -->
+          <g transform="translate(170,10)" fill="#d4b896" stroke="#b89070" stroke-width="1">
+            <!-- head -->
+            <ellipse cx="70" cy="26" rx="24" ry="26"/>
+            <!-- neck -->
+            <rect x="62" y="48" width="16" height="14" rx="4"/>
+            <!-- torso -->
+            <rect x="40" y="60" width="60" height="70" rx="8"/>
+            <!-- left arm -->
+            <rect x="18" y="62" width="20" height="58" rx="10"/>
+            <!-- right arm -->
+            <rect x="102" y="62" width="20" height="58" rx="10"/>
+            <!-- left leg -->
+            <rect x="42" y="128" width="22" height="72" rx="10"/>
+            <!-- right leg -->
+            <rect x="76" y="128" width="22" height="72" rx="10"/>
+          </g>
+
+          <!-- ── vitiligo patches (white spots) ── -->
+          <!-- face patches -->
+          <ellipse cx="228" cy="28" rx="10" ry="7" fill="white" opacity=".9" stroke="#b85c38" stroke-width="1"/>
+          <ellipse cx="252" cy="30" rx="8"  ry="6" fill="white" opacity=".9" stroke="#b85c38" stroke-width="1"/>
+          <!-- hand / wrist patches -->
+          <ellipse cx="191" cy="122" rx="9" ry="6" fill="white" opacity=".9" stroke="#b85c38" stroke-width="1"/>
+          <ellipse cx="303" cy="120" rx="9" ry="6" fill="white" opacity=".9" stroke="#b85c38" stroke-width="1"/>
+          <!-- knee patches -->
+          <ellipse cx="216" cy="178" rx="10" ry="7" fill="white" opacity=".9" stroke="#b85c38" stroke-width="1"/>
+          <ellipse cx="246" cy="180" rx="9"  ry="6" fill="white" opacity=".9" stroke="#b85c38" stroke-width="1"/>
+          <!-- neck patch -->
+          <ellipse cx="240" cy="68" rx="7" ry="5" fill="white" opacity=".85" stroke="#b85c38" stroke-width="1"/>
+
+          <!-- ── callout lines & labels ── -->
+          <line x1="228" y1="21" x2="140" y2="10" stroke="#b85c38" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="60" y="12" font-family="sans-serif" font-size="9.5" fill="#b85c38">臉部 Face</text>
+
+          <line x1="191" y1="116" x2="120" y2="100" stroke="#b85c38" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="30" y="102" font-family="sans-serif" font-size="9.5" fill="#b85c38">手腕/手背</text>
+          <text x="30" y="113" font-family="sans-serif" font-size="9.5" fill="#b85c38">Wrist/Dorsum</text>
+
+          <line x1="216" y1="185" x2="130" y2="198" stroke="#b85c38" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="38" y="200" font-family="sans-serif" font-size="9.5" fill="#b85c38">膝蓋周圍 Knee</text>
+
+          <line x1="303" y1="114" x2="375" y2="96" stroke="#b85c38" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="370" y="98" font-family="sans-serif" font-size="9.5" fill="#b85c38">肘部 Elbow</text>
+
+          <line x1="240" y1="63" x2="370" y2="55" stroke="#b85c38" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="365" y="57" font-family="sans-serif" font-size="9.5" fill="#b85c38">頸部 Neck</text>
+
+          <!-- prevalence badge -->
+          <rect x="340" y="140" width="128" height="60" rx="6" fill="#1a1410" opacity=".88"/>
+          <text x="404" y="158" font-family="sans-serif" font-size="9" fill="#c9963a" text-anchor="middle" font-weight="bold">全球盛行率</text>
+          <text x="404" y="174" font-family="sans-serif" font-size="18" fill="white" text-anchor="middle" font-weight="bold">0.5–2%</text>
+          <text x="404" y="192" font-family="sans-serif" font-size="8.5" fill="#a09088" text-anchor="middle">無種族差異 · 男女相當</text>
+
+          <!-- title -->
+          <text x="240" y="215" font-family="sans-serif" font-size="11" fill="#7a6e65" text-anchor="middle">白斑症好發部位 · Common Distribution</text>
+        </svg>
+
+        <div class="card-body">
+          <span class="card-tag">臨床評估</span>
+          <div class="card-title">白斑症 — 健診重點與處置</div>
+          <p class="card-desc">健檢時發現白斑應詳細記錄分佈、大小、邊界，並評估是否合併甲狀腺疾病、糖尿病等自體免疫共病。</p>
+          <ul class="card-bullets">
+            <li>詢問家族史、發病年齡與進展速度</li>
+            <li>檢查 TSH、Free T4、ANA 等自體免疫指標</li>
+            <li>轉介皮膚科評估 NB-UVB 或 JAK 抑制劑治療</li>
+            <li>告知防曬重要性 (SPF 50+)，減少同形反應</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─ NAVIGATION CARDS ─ -->
+  <div class="nav-section">
+    <div class="section-label">其他常見皮膚問題 · More Skin Conditions</div>
+    <div class="nav-grid">
+
+      <div class="nav-card" onclick="location.href='VitilgoManagement.html'">
+        <span class="nav-card-icon">💊</span>
+        <div class="nav-card-title">白斑症治療管理</div>
+        <div class="nav-card-sub">VitilgoManagement · 藥物、光療及手術選項</div>
+      </div>
+
+      <div class="nav-card" onclick="location.href='VitiligoDiagnosis.html'">
+        <span class="nav-card-icon">🔬</span>
+        <div class="nav-card-title">白斑症診斷指引</div>
+        <div class="nav-card-sub">VitiligoDiagnosis · 鑑別診斷與檢查流程</div>
+      </div>
+
+      <div class="nav-card">
+        <span class="nav-card-icon">🌿</span>
+        <div class="nav-card-title">黑色棘皮症</div>
+        <div class="nav-card-sub">Acanthosis Nigricans · 代謝症候群相關皮膚表現</div>
+      </div>
+
+      <div class="nav-card">
+        <span class="nav-card-icon">☀️</span>
+        <div class="nav-card-title">日光性角化症</div>
+        <div class="nav-card-sub">Actinic Keratosis · 癌前病變辨識與轉介</div>
+      </div>
+
+      <div class="nav-card">
+        <span class="nav-card-icon">🔴</span>
+        <div class="nav-card-title">脂漏性皮膚炎</div>
+        <div class="nav-card-sub">Seborrheic Dermatitis · 頭皮及顏面處置</div>
+      </div>
+
+      <div class="nav-card">
+        <span class="nav-card-icon">📋</span>
+        <div class="nav-card-title">皮膚癌篩檢</div>
+        <div class="nav-card-sub">Skin Cancer Screening · ABCDE 原則與轉介時機</div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <span>© DRJimmyHealthExaminationMedicalEducation · 僅供醫學教育參考</span>
+  <span>
+    <a href="VitilgoManagement.html">白斑治療</a> &nbsp;|&nbsp;
+    <a href="VitiligoDiagnosis.html">白斑診斷</a>
+  </span>
+</footer>
+
+</body>
+</html>
