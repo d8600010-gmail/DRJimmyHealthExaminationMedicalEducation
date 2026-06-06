@@ -32,6 +32,8 @@
     .header-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; }
     .header-badge { position: relative; z-index: 1; display: inline-block; font-size: 0.72em; font-weight: 500; letter-spacing: 0.22em; color: var(--accent-teal); text-transform: uppercase; margin-bottom: 18px; padding: 5px 14px; border: 1px solid rgba(44,155,138,0.4); border-radius: 20px; background: rgba(44,155,138,0.08); }
     header h1 { position: relative; z-index: 1; font-family: "DM Serif Display", "Noto Serif TC", serif; font-size: clamp(2.2em, 5vw, 3.4em); color: white; font-weight: 400; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 14px; }
+    header h1 a { color: inherit; text-decoration: none; transition: opacity 0.2s; }
+    header h1 a:hover { opacity: 0.75; }
     header h1 span { font-style: italic; color: rgba(255,255,255,0.7); }
     .header-sub { position: relative; z-index: 1; font-size: 1.05em; font-weight: 300; color: rgba(255,255,255,0.6); letter-spacing: 0.04em; margin-top: 4px; }
     .header-line { position: relative; z-index: 1; width: 60px; height: 2px; background: linear-gradient(90deg, var(--accent-teal), var(--accent-indigo)); margin: 22px auto 0; border-radius: 2px; }
@@ -147,7 +149,6 @@
     .card.card-link.copper-link:hover .card-cta  { background: var(--accent-copper-light); }
     .card.card-link.teal-link .card-cta    { border-color: rgba(44,155,138,0.35);  color: var(--accent-teal); }
     .card.card-link.teal-link:hover .card-cta    { background: var(--accent-teal-light); }
-    /* ── 新增：rose-link ── */
     .card.card-link.rose-link .card-cta    { border-color: rgba(192,86,106,0.35);  color: var(--accent-rose); }
     .card.card-link.rose-link:hover .card-cta    { background: var(--accent-rose-light); }
     .card-cta-arrow { font-size: 1em; }
@@ -206,7 +207,7 @@
   <div class="header-bg"></div>
   <div class="header-grid"></div>
   <div class="header-badge">Medical Stories · 醫學敘事</div>
-  <h1>Dr. Jimmy<br><span>診間故事集</span></h1>
+  <h1><a href="https://cooljimmyhinetmsa.github.io/JimmyChenInCGMH/" target="_blank" rel="noopener">Dr. Jimmy</a><br><span>診間故事集</span></h1>
   <p class="header-sub">用故事,讓健康變得更容易理解</p>
   <div class="header-line"></div>
 </header>
