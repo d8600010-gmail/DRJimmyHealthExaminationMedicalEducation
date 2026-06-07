@@ -32,7 +32,7 @@
     .header-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; }
     .header-badge { position: relative; z-index: 1; display: inline-block; font-size: 0.72em; font-weight: 500; letter-spacing: 0.22em; color: var(--accent-teal); text-transform: uppercase; margin-bottom: 18px; padding: 5px 14px; border: 1px solid rgba(44,155,138,0.4); border-radius: 20px; background: rgba(44,155,138,0.08); }
     header h1 { position: relative; z-index: 1; font-family: "DM Serif Display", "Noto Serif TC", serif; font-size: clamp(2.2em, 5vw, 3.4em); color: white; font-weight: 400; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 14px; }
-    header h1 a { color: inherit; text-decoration: none; transition: opacity 0.2s; }
+    header h1 a { color: inherit; text-decoration: none; transition: opacity 0.2s; cursor: pointer; }
     header h1 a:hover { opacity: 0.75; }
     header h1 span { font-style: italic; color: rgba(255,255,255,0.7); }
     .header-sub { position: relative; z-index: 1; font-size: 1.05em; font-weight: 300; color: rgba(255,255,255,0.6); letter-spacing: 0.04em; margin-top: 4px; }
@@ -191,7 +191,7 @@
     .visitor-counter .vc-num { font-size: 0.82em; font-weight: 600; color: white; letter-spacing: 0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
     .visitor-counter .vc-num.loading { opacity: 0.4; }
 
-    /* ── Password Modal ── */
+    /* ── Password Modal (shared styles) ── */
     .pw-modal-overlay {
       position: fixed; inset: 0; z-index: 1000;
       background: rgba(26,26,46,0.72); backdrop-filter: blur(6px);
@@ -266,6 +266,24 @@
     }
     .pw-modal-close:hover { background: var(--border); color: var(--ink); }
 
+    /* ── Dr. Jimmy modal – teal/indigo theme ── */
+    #jimmy-modal-overlay .pw-modal-icon {
+      background: linear-gradient(135deg, rgba(44,155,138,0.12), rgba(74,111,165,0.10));
+      border-color: rgba(44,155,138,0.25);
+    }
+    #jimmy-modal-overlay .pw-input:focus {
+      border-color: var(--accent-teal);
+      box-shadow: 0 0 0 3px rgba(44,155,138,0.12);
+    }
+    #jimmy-modal-overlay .pw-input.error { border-color: var(--accent-crimson); }
+    #jimmy-modal-overlay .pw-btn-confirm {
+      background: var(--accent-teal); border-color: var(--accent-teal);
+    }
+    #jimmy-modal-overlay .pw-btn-confirm:hover {
+      background: #227a6d; border-color: #227a6d;
+      box-shadow: 0 4px 12px rgba(44,155,138,0.3);
+    }
+
     /* Professional card special styling */
     .card.pro-case-card {
       border: 1.5px solid rgba(176,58,46,0.2);
@@ -299,7 +317,24 @@
 </head>
 <body>
 
-<!-- ── Password Modal ── -->
+<!-- ── Dr. Jimmy Password Modal ── -->
+<div class="pw-modal-overlay" id="jimmy-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="jimmy-pw-title">
+  <div class="pw-modal">
+    <button class="pw-modal-close" onclick="closeJimmyModal()" aria-label="關閉">✕</button>
+    <div class="pw-modal-icon">🩺</div>
+    <h3 id="jimmy-pw-title">Dr. Jimmy 個人頁面</h3>
+    <p>此頁面受密碼保護。<br>請輸入通關密語以繼續瀏覽。</p>
+    <input class="pw-input" type="password" id="jimmy-pw-input" placeholder="請輸入密碼"
+      autocomplete="off" onkeydown="if(event.key==='Enter') confirmJimmyPassword()" />
+    <span class="pw-error-msg" id="jimmy-pw-error-msg">⚠ 密碼錯誤，請再試一次</span>
+    <div class="pw-btn-row">
+      <button class="pw-btn pw-btn-cancel" onclick="closeJimmyModal()">取消</button>
+      <button class="pw-btn pw-btn-confirm" onclick="confirmJimmyPassword()">確認進入 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Professional Case Password Modal ── -->
 <div class="pw-modal-overlay" id="pw-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="pw-title">
   <div class="pw-modal">
     <button class="pw-modal-close" onclick="closeModal()" aria-label="關閉">✕</button>
@@ -325,7 +360,7 @@
   <div class="header-bg"></div>
   <div class="header-grid"></div>
   <div class="header-badge">Medical Stories · 醫學敘事</div>
-  <h1><a href="https://cooljimmyhinetmsa.github.io/JimmyChenInCGMH/" target="_blank" rel="noopener">Dr. Jimmy</a><br><span>診間故事集</span></h1>
+  <h1><a onclick="openJimmyModal()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openJimmyModal()">Dr. Jimmy</a><br><span>診間故事集</span></h1>
   <p class="header-sub">用故事,讓健康變得更容易理解</p>
   <div class="header-line"></div>
 </header>
@@ -451,7 +486,7 @@
         <div class="story-item" onclick="event.stopPropagation(); window.location.href='EmergencyRoom/AcuteUrineRetention.html'"><span class="story-num">04</span><span class="story-dot crimson-dot"></span>急性尿滯留——憋不住的緊急警訊 🔎</div>
       </div></div>
     </div>
-    <!-- ★ 專專急診個案討論園地 (NEW) ★ -->
+    <!-- ★ 專專急診個案討論園地 ★ -->
     <div class="card pro-case-card" onclick="openPasswordModal()">
       <div class="card-header">
         <div class="card-icon crimson">🏥</div>
@@ -720,7 +755,44 @@
     btn.childNodes[0].textContent = isOpen ? '展開故事 ' : '收起故事 ';
   }
 
-  /* ── Password Modal ── */
+  /* ── Dr. Jimmy Password Modal ── */
+  const JIMMY_PASSWORDS = ['1278', '5657', 'jimmy'];
+  const JIMMY_URL = 'https://cooljimmyhinetmsa.github.io/JimmyChenInCGMH/';
+
+  function openJimmyModal() {
+    const overlay = document.getElementById('jimmy-modal-overlay');
+    const input   = document.getElementById('jimmy-pw-input');
+    const errMsg  = document.getElementById('jimmy-pw-error-msg');
+    input.value = '';
+    input.classList.remove('error');
+    errMsg.classList.remove('show');
+    overlay.classList.add('show');
+    setTimeout(() => input.focus(), 340);
+  }
+
+  function closeJimmyModal() {
+    document.getElementById('jimmy-modal-overlay').classList.remove('show');
+  }
+
+  function confirmJimmyPassword() {
+    const input  = document.getElementById('jimmy-pw-input');
+    const errMsg = document.getElementById('jimmy-pw-error-msg');
+    if (JIMMY_PASSWORDS.includes(input.value.trim())) {
+      closeJimmyModal();
+      window.open(JIMMY_URL, '_blank', 'noopener,noreferrer');
+    } else {
+      input.classList.add('error');
+      errMsg.classList.add('show');
+      input.select();
+      setTimeout(() => input.classList.remove('error'), 500);
+    }
+  }
+
+  document.getElementById('jimmy-modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeJimmyModal();
+  });
+
+  /* ── Professional Case Password Modal ── */
   const VALID_PASSWORDS = ['1278', '5657', '2026'];
   const TARGET_URL = 'https://cgmherlink-hub.github.io/EmergencyRoomProfessionalCaseSurvey/';
 
@@ -756,8 +828,12 @@
   document.getElementById('pw-modal-overlay').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
   });
+
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Escape') {
+      closeModal();
+      closeJimmyModal();
+    }
   });
 
   (function() {
