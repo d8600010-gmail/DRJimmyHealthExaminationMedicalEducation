@@ -45,6 +45,15 @@
             overflow: hidden;
         }
 
+        .slide-img-preview {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #eaeaea;
+        }
+
         .slide-footer {
             text-align: right;
             font-size: 12px;
@@ -61,28 +70,13 @@
             font-size: 26px;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         /* Slide 1 Cover */
         .cover {
             text-align: center;
-            padding: 60px 40px;
-        }
-
-        .ring-icon {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            border: 8px solid transparent;
-            background: linear-gradient(white, white) padding-box,
-                        conic-gradient(#27ae60, #f1c40f, #e74c3c, #27ae60) border-box;
-            margin: 0 auto 30px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 40px;
         }
 
         .cover h1 {
@@ -130,7 +124,7 @@
             border-radius: 12px;
             padding: 15px;
             text-align: center;
-            border: 1fr solid #eee;
+            border: 1px solid #eee;
         }
 
         .stage-card.danger {
@@ -169,7 +163,7 @@
         }
 
         .enemy-card {
-            padding: 30px 20px;
+            padding: 25px 20px;
             border-radius: 16px;
             text-align: center;
         }
@@ -185,24 +179,24 @@
         }
 
         .enemy-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
+            font-size: 36px;
+            margin-bottom: 10px;
         }
 
         .enemy-card h3 {
-            font-size: 22px;
+            font-size: 20px;
             margin-bottom: 5px;
         }
 
         .enemy-card .subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: #777;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .enemy-card p {
             font-size: 14px;
-            line-height: 1.6;
+            line-height: 1.5;
             color: #555;
             margin: 0;
         }
@@ -230,7 +224,7 @@
             background: #fff;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 25px;
+            padding: 20px;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
@@ -238,11 +232,11 @@
         .dashboard-metrics {
             display: flex;
             justify-content: space-around;
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
         .metric-num {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: bold;
             color: var(--primary-color);
         }
@@ -277,14 +271,6 @@
             text-align: center;
         }
 
-        .gauge-visual {
-            height: 100px;
-            border-radius: 100px 100px 0 0;
-            background: linear-gradient(90deg, #27ae60, #f1c40f, #e74c3c);
-            margin-bottom: 15px;
-            position: relative;
-        }
-
         .desc-pill {
             background: #edf2f7;
             padding: 12px;
@@ -301,7 +287,7 @@
 
         .thermo-bar {
             width: 24px;
-            height: 300px;
+            height: 280px;
             background: linear-gradient(0deg, #27ae60, #f1c40f, #e74c3c);
             border-radius: 12px;
             position: relative;
@@ -312,7 +298,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .thermo-item {
@@ -325,7 +311,7 @@
 
         .thermo-item strong {
             display: block;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .thermo-item span {
@@ -342,16 +328,16 @@
 
         .funnel-stage {
             background: #edf2f7;
-            padding: 15px;
+            padding: 12px;
             border-radius: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: bold;
         }
 
         .funnel-arrow {
-            font-size: 20px;
+            font-size: 18px;
             color: #a0aec0;
-            margin: 5px 0;
+            margin: 4px 0;
         }
 
         .light-pill {
@@ -385,7 +371,7 @@
 
         .risk-sidebar h3 {
             color: inherit;
-            font-size: 22px;
+            font-size: 20px;
             margin-bottom: 10px;
         }
 
@@ -403,14 +389,14 @@
             background: #fff;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .action-card h5 {
-            margin: 0 0 5px 0;
-            font-size: 15px;
+            margin: 0 0 4px 0;
+            font-size: 14px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -418,7 +404,7 @@
 
         .action-card p {
             margin: 0;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-sub);
         }
 
@@ -438,7 +424,7 @@
 
     <!-- Slide 1 -->
     <div class="slide cover">
-        <div class="ring-icon">🫀</div>
+        <img src="/image/投影片1.jpg" alt="您的肝臟健康指南" class="slide-img-preview">
         <h1>您的肝臟健康指南：看懂身體的隱形信號</h1>
         <p>告別難懂醫學術語，用最簡單的「紅黃綠燈」看懂您的 FibroScan® 檢測結果。</p>
         <div class="slide-footer">NotebookLM</div>
@@ -446,6 +432,7 @@
 
     <!-- Slide 2 -->
     <div class="slide">
+        <img src="/image/投影片2.jpg" alt="肝臟疾病進展階段" class="slide-img-preview">
         <div class="stage-header-bg">
             <div class="stage-header-asymp">無症狀期 (Asymptomatic Patient)</div>
             <div class="stage-header-symp">有症狀期 (Symptomatic Patient)</div>
@@ -476,6 +463,7 @@
 
     <!-- Slide 3 -->
     <div class="slide">
+        <img src="/image/投影片3.jpg" alt="肝臟的兩個隱形敵人" class="slide-img-preview">
         <h2 class="slide-title">肝臟的兩個隱形敵人</h2>
         <div class="grid-2">
             <div class="enemy-card enemy-fat">
@@ -496,6 +484,7 @@
 
     <!-- Slide 4 -->
     <div class="slide">
+        <img src="/image/投影片4.jpg" alt="認識 FibroScan®" class="slide-img-preview">
         <h2 class="slide-title">認識 FibroScan®：您的肝臟健康雷達</h2>
         <div class="grid-2">
             <div>
@@ -533,10 +522,10 @@
 
     <!-- Slide 5 -->
     <div class="slide">
+        <img src="/image/投影片5.jpg" alt="解密檢測數據" class="slide-img-preview">
         <h2 class="slide-title">解密檢測數據：您的雙指標儀表板</h2>
         <div class="grid-2">
             <div class="gauge-card">
-                <div class="gauge-visual"></div>
                 <h3>CAP™ (測量脂肪)</h3>
                 <br>
                 <div class="desc-pill">
@@ -544,7 +533,6 @@
                 </div>
             </div>
             <div class="gauge-card">
-                <div class="gauge-visual"></div>
                 <h3>LSM (測量硬度)</h3>
                 <br>
                 <div class="desc-pill">
@@ -557,6 +545,7 @@
 
     <!-- Slide 6 -->
     <div class="slide">
+        <img src="/image/投影片6.jpg" alt="解讀肝臟硬度" class="slide-img-preview">
         <h2 class="slide-title">關鍵的「5的倍數」：解讀肝臟硬度 (kPa)</h2>
         <div class="thermometer-container">
             <div class="thermo-bar"></div>
@@ -588,6 +577,7 @@
 
     <!-- Slide 7 -->
     <div class="slide">
+        <img src="/image/投影片7.jpg" alt="您的專屬行動燈號" class="slide-img-preview">
         <h2 class="slide-title">從複雜數據到簡單信號：您的專屬行動燈號</h2>
         <div class="funnel-container">
             <div class="funnel-stage">檢測數據：CAP & LSM</div>
@@ -608,6 +598,7 @@
 
     <!-- Slide 8 -->
     <div class="slide">
+        <img src="/image/投影片8.jpg" alt="綠燈區：低風險" class="slide-img-preview">
         <div class="risk-slide">
             <div class="risk-sidebar risk-green">
                 <h3>🟢 綠燈區：低風險 (Low Risk)</h3>
@@ -634,6 +625,7 @@
 
     <!-- Slide 9 -->
     <div class="slide">
+        <img src="/image/投影片9.jpg" alt="黃燈區：中度風險" class="slide-img-preview">
         <div class="risk-slide">
             <div class="risk-sidebar risk-yellow">
                 <h3>🟡 黃燈區：中度風險 (Intermediate Zone)</h3>
@@ -656,6 +648,7 @@
 
     <!-- Slide 10 -->
     <div class="slide">
+        <img src="/image/投影片10.jpg" alt="紅燈區：高風險" class="slide-img-preview">
         <div class="risk-slide">
             <div class="risk-sidebar risk-red">
                 <h3>🔴 紅燈區：高風險 (At Risk / High Risk)</h3>
