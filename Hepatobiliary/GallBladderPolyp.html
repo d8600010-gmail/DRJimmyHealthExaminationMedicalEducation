@@ -119,6 +119,23 @@
             margin: 1rem 0;
         }
 
+        /* Image Display Styling */
+        .img-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .img-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
         /* Table Styling */
         table {
             width: 100%;
@@ -143,18 +160,6 @@
 
         td {
             color: var(--text-main);
-        }
-
-        /* Diagrams & Visuals */
-        .radar-bg {
-            position: relative;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            background: radial-gradient(circle, rgba(56,189,248,0.05) 0%, rgba(0,0,0,0) 70%);
         }
 
         .alert-banner {
@@ -210,6 +215,18 @@
             <p style="font-size: 1.5rem; color: var(--accent-cyan); margin-bottom: 2rem;">解碼偶然發現的膽囊病變、鑑別診斷與癌症風險分級</p>
             <hr style="border: 0; height: 1px; background: var(--accent-cyan); opacity: 0.3; margin: 2rem auto; width: 60%;">
             <p style="color: var(--text-muted); font-size: 1.1rem;">臨床導航視覺手冊：從超音波影像特徵到精準外科決策演算法。</p>
+        </div>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Visual Clinical Overview Guide -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">膽囊息肉：分類、風險評估與臨床管理指南</h2>
+            <p class="slide-subtitle">總覽圖解指南</p>
+        </div>
+        <div class="img-container">
+            <img src="GBpolyimage/膽囊息肉臨床管理指南.png" alt="膽囊息肉分類、風險評估與臨床管理指南">
         </div>
         <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
     </section>
@@ -428,7 +445,7 @@
             </div>
         </div>
         <div class="alert-banner">
-            危險信號 (Red Flag)：當無蒂息肉伴隨膽囊壁局部增厚 &gt; 4 mm (Focal wall thickness &gt; 4mm) 時，高度暗示惡性浸潤。
+            危險信號 (Red Flag)：當無蒂息肉伴隨膽囊壁局部增厚 &gt; 4 mm (Focal wall thickness &gt; 4mm) 時，高度暗指惡性浸潤。
         </div>
         <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
     </section>
