@@ -1,1 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>膽囊息肉：超音波下的臨床偵探課</title>
+    <style>
+        :root {
+            --bg-color: #0b1320;
+            --card-bg: #132238;
+            --card-border: #1e3a5f;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-cyan: #38bdf8;
+            --accent-teal: #2dd4bf;
+            --accent-gold: #fbbf24;
+            --accent-red: #f87171;
+            --accent-orange: #fb923c;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        /* Slide Layout Base */
+        .slide {
+            background: radial-gradient(circle at center, #112238 0%, #0a101d 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .slide-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .slide-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .slide-subtitle {
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+            margin-top: 0.5rem;
+        }
+
+        /* Common Components */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-cyan { border-color: var(--accent-cyan); }
+        .card-gold { border-color: var(--accent-gold); }
+        .card-red { border-color: var(--accent-red); }
+
+        .stat-box {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            line-height: 1;
+            margin: 1rem 0;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--card-border);
+        }
+
+        th {
+            background-color: #1a3150;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        td {
+            color: var(--text-main);
+        }
+
+        /* Diagrams & Visuals */
+        .radar-bg {
+            position: relative;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            background: radial-gradient(circle, rgba(56,189,248,0.05) 0%, rgba(0,0,0,0) 70%);
+        }
+
+        .alert-banner {
+            background: rgba(248, 113, 113, 0.15);
+            border: 1px solid var(--accent-red);
+            color: #fca5a5;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 1.5rem;
+        }
+
+        .footer-tag {
+            position: absolute;
+            bottom: 1rem;
+            right: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .tree-node {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            .slide {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Slide 1: Cover -->
+    <section class="slide" style="text-align: center; padding: 5rem 2rem;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div style="font-size: 4rem; color: var(--accent-cyan); margin-bottom: 1rem;">🎯</div>
+            <h1 style="font-size: 3rem; color: #fff; margin-bottom: 1rem; font-weight: 800;">膽囊息肉：超音波下的臨床偵探課</h1>
+            <p style="font-size: 1.5rem; color: var(--accent-cyan); margin-bottom: 2rem;">解碼偶然發現的膽囊病變、鑑別診斷與癌症風險分級</p>
+            <hr style="border: 0; height: 1px; background: var(--accent-cyan); opacity: 0.3; margin: 2rem auto; width: 60%;">
+            <p style="color: var(--text-muted); font-size: 1.1rem;">臨床導航視覺手冊：從超音波影像特徵到精準外科決策演算法。</p>
+        </div>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Slide 2: Incidental Finding -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">陰影中的意外訪客：高達 8% 的偶然發現</h2>
+        </div>
+        <div class="grid-2">
+            <div class="card" style="justify-content: center; align-items: center; background: rgba(0,0,0,0.2);">
+                <div style="width: 200px; height: 200px; border-radius: 50%; border: 2px dashed var(--accent-cyan); display: flex; justify-content: center; align-items: center; position: relative;">
+                    <div style="width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--accent-cyan); display: flex; justify-content: center; align-items: center;">
+                        <div style="width: 20px; height: 20px; background: var(--accent-gold); border-radius: 50%; box-shadow: 0 0 15px var(--accent-gold);"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div class="card card-cyan">
+                    <h3 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">多數為偶然發現 (Incidental Finding)</h3>
+                    <p>多數膽囊息肉是在因其他原因進行腹部超音波時意外發現，患者通常完全無症狀。</p>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">8%</div>
+                    <p>在大型世代研究中，成人腹部超音波發現膽囊息肉的盛行率高達 8%。</p>
+                </div>
+                <div class="card card-cyan">
+                    <h3 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">臨床核心懸念</h3>
+                    <p>雖然絕大多數息肉是無害的良性病變，但初始影像無法完全排除膽囊癌 (Gallbladder carcinoma) 或癌前腺瘤的可能性。</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Slide 3: Differential Diagnosis -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">鑑別診斷：是息肉、結石，還是膽泥？</h2>
+        </div>
+        <div class="grid-2" style="margin-bottom: 1.5rem;">
+            <div class="card">
+                <h3 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">圖解 A：重力測試 (The Gravity Test)</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">平躺 (Supine) vs 側躺 (Lateral)</p>
+                <div style="margin-top: 1rem; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <span style="color: var(--accent-gold);">結石：隨體位移動</span> | <span style="color: var(--accent-cyan);">息肉：固定於壁上 (Fixed)</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">圖解 B：聲影力學 (Acoustic Shadowing)</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">超音波束穿透性與反射</p>
+                <div style="margin-top: 1rem; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <span style="color: var(--accent-gold);">強烈聲影 (Acoustic Shadow)</span> vs <span style="color: var(--accent-cyan);">無聲影</span>
+                </div>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="color: var(--accent-gold);">膽囊息肉 (Polyp)</th>
+                    <th style="color: var(--accent-cyan);">膽結石 (Gallstone)</th>
+                    <th style="color: var(--accent-teal);">膽泥球 (Sludge Ball)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>移動性</strong></td>
+                    <td>固定於膽囊壁 (Fixed)</td>
+                    <td>隨體位快速移動 (Mobile)</td>
+                    <td>隨體位緩慢移動 (Sluggish)</td>
+                </tr>
+                <tr>
+                    <td><strong>聲影 (Shadowing)</strong></td>
+                    <td>無聲影</td>
+                    <td>具強烈聲影</td>
+                    <td>無聲影</td>
+                </tr>
+                <tr>
+                    <td><strong>回音特徵</strong></td>
+                    <td>隨組織特性變化</td>
+                    <td>極高回音</td>
+                    <td>低處沉積</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Slide 4: Pathology -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">嫌犯列隊：解構膽囊息肉的病理分類</h2>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <!-- Non-neoplastic -->
+            <div style="border: 1px solid var(--accent-cyan); border-radius: 12px; padding: 1.5rem; background: rgba(56, 189, 248, 0.03);">
+                <h3 style="color: var(--accent-cyan); margin-bottom: 1rem;">【非腫瘤性 Non-neoplastic】<span style="font-size: 0.9rem; font-weight: normal; color: var(--text-muted);">(佔絕大多數，無惡性潛力)</span></h3>
+                <div class="grid-2">
+                    <div class="card">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">膽固醇息肉 (Cholesterol Polyps)</h4>
+                        <p style="font-size: 0.95rem; color: var(--text-muted);">最常見 (佔切除案例 20%)，通常 &lt;1cm。多發性，本質為脂質沉積而非真正增生。</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">發炎性息肉 (Inflammatory Polyps)</h4>
+                        <p style="font-size: 0.95rem; color: var(--text-muted);">尺寸約 5-10mm，由肉芽組織與纖維組織組成，含有漿細胞與淋巴球。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Neoplastic -->
+            <div style="border: 1px solid var(--accent-red); border-radius: 12px; padding: 1.5rem; background: rgba(248, 113, 113, 0.03);">
+                <h3 style="color: var(--accent-red); margin-bottom: 1rem;">【腫瘤性 Neoplastic】<span style="font-size: 0.9rem; font-weight: normal; color: var(--text-muted);">(具惡性潛力或本身即為惡性)</span></h3>
+                <div class="grid-2">
+                    <div class="card card-gold">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">腺瘤 (Adenomas)</h4>
+                        <p style="font-size: 0.95rem; color: var(--text-muted);">最常見的良性腫瘤，被視為<strong style="color: var(--accent-gold);">癌前病變 (Premalignant)</strong>，具有潛在惡化風險。</p>
+                    </div>
+                    <div class="card card-red">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">腺癌 (Adenocarcinomas)</h4>
+                        <p style="font-size: 0.95rem; color: var(--text-muted);">最常見的惡性息肉。通常 &gt;1cm，臨床發生率甚至比良性腺瘤更高。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Slide 5: Strawberry Gallbladder -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">無辜的偽裝者：膽固醇沉積症與「草莓膽囊」</h2>
+        </div>
+        <div class="grid-2">
+            <div class="card" style="justify-content: center; align-items: center; background: rgba(248, 113, 113, 0.05); border-color: rgba(248, 113, 113, 0.2);">
+                <div style="width: 100%; height: 250px; border-radius: 8px; border: 1px dashed var(--accent-red); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1rem;">
+                    <div style="font-size: 3rem;">🍓</div>
+                    <div style="color: var(--accent-red); font-weight: bold;">Strawberry Gallbladder</div>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div class="card">
+                    <h4 style="color: var(--accent-cyan);">巨觀視覺 (草莓隱喻)</h4>
+                    <p style="font-size: 0.95rem;">黃色的脂質結節點綴在充血發紅的黏膜上，肉眼外觀宛如草莓表面 (Strawberry gallbladder)。</p>
+                </div>
+                <div class="card">
+                    <h4 style="color: var(--accent-cyan);">病理機制</h4>
+                    <p style="font-size: 0.95rem;">並非真正的細胞增生，而是膽囊黏膜異常堆積三酸甘油酯與膽固醇酯。</p>
+                </div>
+                <div class="card">
+                    <h4 style="color: var(--accent-cyan);">微觀解剖</h4>
+                    <p style="font-size: 0.95rem;">充滿脂質的巨噬細胞 (Lipid-laden macrophages) 撐大並延長了組織絨毛。</p>
+                </div>
+                <div class="card card-gold">
+                    <h4 style="color: var(--accent-gold);">臨床風險</h4>
+                    <p style="font-size: 0.95rem;">無惡性可能。但其脆弱的蒂 (Fragile stalk) 可能斷裂脫落，導致膽絞痛或阻塞性黃疸。</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Slide 6: Sonographic Matrix -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">聲納特徵矩陣：如何在超音波下辨識危險</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="color: #fff; width: 30%;">膽固醇息肉</th>
+                    <th style="color: var(--accent-gold); width: 30%;">腺瘤 (癌前)</th>
+                    <th style="color: var(--accent-red); width: 30%;">腺癌 (惡性)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>尺寸與數量</strong></td>
+                    <td>通常 &lt; 1 cm<br><span style="color: var(--text-muted); font-size: 0.85rem;">(多為多發性)</span></td>
+                    <td>尺寸可變<br><span style="color: var(--text-muted); font-size: 0.85rem;">(單發性)</span></td>
+                    <td>通常 &gt; 1 cm<br><span style="color: var(--text-muted); font-size: 0.85rem;">(單發性)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>超音波回音<br>(Echogenicity)</strong></td>
+                    <td><strong style="color: var(--accent-cyan);">高回音 (Hyperechoic)</strong><br>- 比肝臟實質亮</td>
+                    <td><strong style="color: var(--accent-teal);">等回音 (Isoechoic)</strong><br>- 亮度與肝臟相似</td>
+                    <td><strong style="color: var(--accent-red);">等回音或異質性</strong><br>(Heterogeneous)</td>
+                </tr>
+                <tr>
+                    <td><strong>形態與血流</strong></td>
+                    <td><strong style="color: var(--accent-cyan);">桑葚狀表面，具細蒂</strong><br>(Ball-on-wall 外觀)</td>
+                    <td>表面平滑，通常<strong style="color: var(--accent-gold);">無蒂</strong>，都卜勒可見內部血流</td>
+                    <td><strong style="color: var(--accent-red);">基底廣泛、血流豐富</strong>，常伴隨膽囊壁局部增厚</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Slide 7: Morphology & Risk -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">形態與危機：為什麼「基底寬度」決定了危險性？</h2>
+        </div>
+        <div class="grid-2">
+            <div class="card card-cyan" style="text-align: center;">
+                <div style="height: 120px; display: flex; align-items: center; justify-content: center; font-size: 3rem;">🎈</div>
+                <h3 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">有蒂息肉 (Pedunculated)</h3>
+                <p style="font-size: 0.95rem;">透過狹窄的莖連接膽囊壁。惡性機率較低。</p>
+            </div>
+            <div class="card card-red" style="text-align: center;">
+                <div style="height: 120px; display: flex; align-items: center; justify-content: center; font-size: 3rem;">⛰️</div>
+                <h3 style="color: var(--accent-red); margin-bottom: 0.5rem;">無蒂/廣基底息肉 (Sessile)</h3>
+                <p style="font-size: 0.95rem;">直接平貼於膽囊壁生長。這是惡性腫瘤的獨立危險因子，<strong style="color: var(--accent-red);">惡性風險增加 7 倍</strong>。</p>
+            </div>
+        </div>
+        <div class="alert-banner">
+            危險信號 (Red Flag)：當無蒂息肉伴隨膽囊壁局部增厚 &gt; 4 mm (Focal wall thickness &gt; 4mm) 時，高度暗示惡性浸潤。
+        </div>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Slide 8: Host Risk Factors -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">宿主風險分析：放大癌症機率的患者背景</h2>
+            <p style="color: var(--text-muted);">在相同的息肉尺寸下，以下患者背景因素會大幅改變臨床處置標準 (促使更積極的外科切除)。</p>
+        </div>
+        <div class="grid-3">
+            <div class="card card-cyan">
+                <div style="font-size: 2.5rem; text-align: center; margin-bottom: 1rem;">👴</div>
+                <h3 style="color: var(--accent-cyan); text-align: center; margin-bottom: 0.5rem;">1. 年齡門檻</h3>
+                <p style="font-size: 0.95rem; text-align: center;">超過 <strong>60 歲 (Age &gt;60 years)</strong> 的患者，息肉惡性風險與癌變機率顯著升高。</p>
+            </div>
+            <div class="card card-cyan">
+                <div style="font-size: 2.5rem; text-align: center; margin-bottom: 1rem;">🌍</div>
+                <h3 style="color: var(--accent-cyan); text-align: center; margin-bottom: 0.5rem;">2. 高風險地理族群</h3>
+                <p style="font-size: 0.95rem; text-align: center;">東亞 (East Asian)、印度 (Indian) 以及北美原住民 (Native American) 族群具有較高的膽囊癌先天發生率。</p>
+            </div>
+            <div class="card card-red">
+                <div style="font-size: 2.5rem; text-align: center; margin-bottom: 1rem;">🩺</div>
+                <h3 style="color: var(--accent-red); text-align: center; margin-bottom: 0.5rem;">3. 原發性硬化性膽管炎</h3>
+                <p style="font-size: 0.95rem; text-align: center;">PSC 患者的膽囊病變具極高惡性風險，其處置需額外考量肝臟合成功能與失代償風險。</p>
+            </div>
+        </div>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Slide 9: Size Golden Rule -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">尺寸的黃金法則：臨床處置的底層邏輯</h2>
+        </div>
+        <div style="position: relative; padding: 2rem 0;">
+            <!-- Simple Visual Scale -->
+            <div style="height: 8px; background: linear-gradient(90deg, var(--accent-teal) 0%, var(--accent-gold) 50%, var(--accent-red) 100%); border-radius: 4px; margin-bottom: 2rem;"></div>
+            <div class="grid-4">
+                <div class="tree-node" style="border-top: 4px solid var(--accent-teal);">
+                    <h4 style="color: var(--accent-teal);">≤ 5 mm</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0.5rem 0;">(極低風險)</p>
+                    <p style="font-size: 0.85rem;">發生膽囊癌風險極微，多為膽固醇息肉。</p>
+                </div>
+                <div class="tree-node" style="border-top: 4px solid var(--accent-gold);">
+                    <h4 style="color: var(--accent-gold);">6 - 9 mm</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0.5rem 0;">(灰色地帶)</p>
+                    <p style="font-size: 0.85rem;">風險開始爬升，處置完全取決於是否合併患者額外風險因子。</p>
+                </div>
+                <div class="tree-node" style="border-top: 4px solid var(--accent-orange);">
+                    <h4 style="color: var(--accent-orange);">≥ 10 mm</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0.5rem 0;">(手術臨界點)</p>
+                    <p style="font-size: 0.85rem;">癌變機率急劇上升 (約 128.2/100,000 人年)。</p>
+                </div>
+                <div class="tree-node" style="border-top: 4px solid var(--accent-red);">
+                    <h4 style="color: var(--accent-red);">&gt; 20 mm</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0.5rem 0;">(絕對危險)</p>
+                    <p style="font-size: 0.85rem;">惡性率幾乎接近 100%，需進行擴大性切除。</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Slide 10: Decision Algorithm 1 -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">決策演算法 (一)：立即行動的手術指徵</h2>
+        </div>
+        <div style="background: rgba(56, 189, 248, 0.05); border: 1px solid var(--accent-cyan); border-radius: 8px; padding: 1rem; text-align: center; margin-bottom: 1.5rem; font-weight: bold; color: var(--accent-cyan);">
+            觸發條件：強烈建議外科介入
+        </div>
+        <div class="grid-2">
+            <div class="card card-cyan">
+                <h3 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">條件 1：有症狀 (Symptomatic)</h3>
+                <p style="margin-bottom: 1rem;">伴隨膽絞痛 (Biliary colic) 或膽囊炎。</p>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">*注意：非特異性消化不良不算在此列，切除膽囊未必能緩解症狀。*</p>
+                <div style="margin-top: auto; background: rgba(56, 189, 248, 0.2); padding: 0.8rem; border-radius: 6px; text-align: center; font-weight: bold; color: #fff;">
+                    標準膽囊切除術 (Cholecystectomy)
+                </div>
+            </div>
+            <div class="card card-red">
+                <h3 style="color: var(--accent-red); margin-bottom: 0.5rem;">條件 2：大型息肉 (≥10 mm)</h3>
+                <p style="margin-bottom: 1rem;">體積達標，具有顯著惡性可能。</p>
+                <div class="grid-2" style="margin-top: auto; gap: 0.5rem;">
+                    <div style="background: rgba(248, 113, 113, 0.2); padding: 0.8rem; border-radius: 6px; text-align: center; font-size: 0.85rem; color: #fff;">
+                        <strong>10 - 20 mm</strong><br>單純膽囊切除合併全層剝離 (Full-thickness dissection)。術前需進行 CT 評估。
+                    </div>
+                    <div style="background: rgba(248, 113, 113, 0.4); padding: 0.8rem; border-radius: 6px; text-align: center; font-size: 0.85rem; color: #fff;">
+                        <strong>&gt; 20 mm</strong><br>擴大性膽囊切除術 (Extended cholecystectomy)，包含淋巴結清除及相鄰肝臟切除。
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Slide 11: Decision Algorithm 2 -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">決策演算法 (二)：小型息肉 (&lt;10mm) 的監測守則</h2>
+        </div>
+        <div style="text-align: center; margin-bottom: 1.5rem; background: var(--card-bg); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--card-border); font-weight: bold; color: var(--accent-cyan);">
+            無症狀小型息肉 (&lt;10 mm)
+        </div>
+        <div class="grid-2">
+            <!-- With Risk Factors -->
+            <div class="card card-gold">
+                <h3 style="color: var(--accent-gold); text-align: center; margin-bottom: 1rem;">有額外風險因子</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 1rem;">(年齡&gt;60，廣基底&gt;4mm，高風險族群)</p>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                    <div style="background: rgba(251, 191, 36, 0.1); border: 1px solid var(--accent-gold); padding: 0.8rem; border-radius: 6px;">
+                        <strong style="color: var(--accent-gold);">6 - 9 mm ➔</strong> 建議膽囊切除術<span style="font-size: 0.8rem; color: var(--text-muted);">(若無法手術，則每 6 個月超音波追蹤一年)</span>。
+                    </div>
+                    <div style="background: rgba(251, 191, 36, 0.05); border: 1px dashed var(--accent-gold); padding: 0.8rem; border-radius: 6px;">
+                        <strong style="color: var(--accent-gold);">≤ 5 mm ➔</strong> 每 6 個月超音波追蹤一年，若穩定則每年追蹤。
+                    </div>
+                </div>
+            </div>
+
+            <!-- Without Risk Factors -->
+            <div class="card card-cyan">
+                <h3 style="color: var(--accent-cyan); text-align: center; margin-bottom: 1rem;">無額外風險因子</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 1rem;">&nbsp;</p>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                    <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent-cyan); padding: 0.8rem; border-radius: 6px;">
+                        <strong style="color: var(--accent-cyan);">6 - 9 mm ➔</strong> 每 6 個月超音波追蹤一年，若穩定則每年追蹤。
+                    </div>
+                    <div style="background: rgba(56, 189, 248, 0.05); border: 1px dashed var(--accent-cyan); padding: 0.8rem; border-radius: 6px;">
+                        <strong style="color: var(--accent-cyan);">≤ 5 mm ➔</strong> 於第 1、3、5 年進行超音波監測。若尺寸穩定，5 年後停止追蹤；若息肉消失，即可中止協議。
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Slide 12: Growth Trajectory -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">追蹤的意義：如何解讀息肉的生長軌跡？</h2>
+            <p style="color: var(--text-muted);">多數膽囊息肉在自然史中會緩慢增長或維持穩定，甚至有 8% 會完全消失。</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1rem;">
+            <div class="card card-gold">
+                <div class="grid-2" style="align-items: center;">
+                    <div>
+                        <h3 style="color: var(--accent-gold); margin-bottom: 0.5rem;">0年 ➔ 2年內：&gt; 2 mm</h3>
+                        <h4 style="color: #fff;">臨床相關增長 (Clinically Relevant)</h4>
+                    </div>
+                    <div>
+                        <p style="font-size: 0.95rem;">代表具備臨床意義的尺寸增加，應將最終尺寸、患者偏好與風險因子納入跨專科團隊評估，考慮切除。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-red">
+                <div class="grid-2" style="align-items: center;">
+                    <div>
+                        <h3 style="color: var(--accent-red); margin-bottom: 0.5rem;">0年 ➔ 1年內：&gt; 3 mm</h3>
+                        <h4 style="color: #fff;">高風險增長 (High Risk) - 絕對指徵</h4>
+                    </div>
+                    <div>
+                        <p style="font-size: 0.95rem;">強烈暗示膽囊癌的高風險生長率，是膽囊切除的絕對指徵。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Slide 13: Adenomyomatosis -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">偽裝大師：膽囊肌腺症 (Adenomyomatosis)</h2>
+        </div>
+        <div class="grid-2">
+            <div class="card" style="justify-content: center; align-items: center; background: rgba(0,0,0,0.3);">
+                <div style="width: 100%; height: 200px; border: 1px dashed var(--accent-cyan); border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 0.5rem;">
+                    <div style="color: var(--accent-cyan); font-weight: bold;">Localized Fundal Thickening</div>
+                    <div style="color: var(--text-muted); font-size: 0.8rem;">Rokitansky-Aschoff Sinuses</div>
+                    <div style="color: var(--accent-gold); font-size: 0.8rem;">Comet-tail Artifacts</div>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div class="card">
+                    <h3 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">並非真正的息肉</h3>
+                    <p style="font-size: 0.95rem;">而是膽囊黏膜過度生長與肌肉層增厚，形成陷入囊壁的憩室 (Rokitansky-Aschoff sinuses)。</p>
+                </div>
+                <div class="card">
+                    <h3 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">局部型與聲鈉特徵</h3>
+                    <p style="font-size: 0.95rem;">常發生在膽囊底部 (Fundus)，突出進入腸腔極易被誤認為腫瘤。常伴隨高回音結晶，產生經典的<strong style="color: var(--accent-gold);">「彗星尾偽影」(Comet-tail artifacts)</strong>。</p>
+                </div>
+                <div class="card card-teal">
+                    <h3 style="color: var(--accent-teal); margin-bottom: 0.5rem;">臨床處置</h3>
+                    <p style="font-size: 0.95rem;">無症狀者無需醫療介入或影像監測，其本身惡性風險極低。</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+    <!-- Slide 14: Summary -->
+    <section class="slide">
+        <div class="slide-header">
+            <h2 class="slide-title">撥雲見日：從偶然發現到精準決策</h2>
+        </div>
+        <div class="grid-3" style="margin-bottom: 2rem;">
+            <div class="card" style="text-align: center; border-top: 4px solid var(--accent-cyan);">
+                <div style="font-size: 2rem; color: var(--accent-cyan); font-weight: bold; margin-bottom: 0.5rem;">1</div>
+                <h3 style="color: #fff; margin-bottom: 0.5rem;">辨識 (Identify)</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">確認固定且無聲影 (排除結石與膽泥)。</p>
+            </div>
+            <div class="card" style="text-align: center; border-top: 4px solid var(--accent-gold);">
+                <div style="font-size: 2rem; color: var(--accent-gold); font-weight: bold; margin-bottom: 0.5rem;">2</div>
+                <h3 style="color: #fff; margin-bottom: 0.5rem;">分層 (Stratify)</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">以 10 mm 為分水嶺，結合形態 (無蒂/厚壁) 與宿主背景 (年齡/族群/PSC) 評估風險。</p>
+            </div>
+            <div class="card" style="text-align: center; border-top: 4px solid var(--accent-teal);">
+                <div style="font-size: 2rem; color: var(--accent-teal); font-weight: bold; margin-bottom: 0.5rem;">3</div>
+                <h3 style="color: #fff; margin-bottom: 0.5rem;">行動 (Act)</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                    <strong style="color: var(--accent-red);">≥ 10 mm 或有症狀 ➔ 外科介入 (Surgery)</strong><br>
+                    <strong style="color: var(--accent-cyan);">&lt; 10 mm ➔ 啟動尺寸與風險驅動的超音波監測 (Surveillance)</strong>
+                </p>
+            </div>
+        </div>
+        <div style="background: linear-gradient(90deg, rgba(56, 189, 248, 0.1) 0%, rgba(45, 212, 191, 0.1) 100%); border: 1px solid var(--accent-teal); border-radius: 8px; padding: 1.2rem; text-align: center; font-size: 1.1rem; color: #fff; font-weight: bold;">
+            最終心法：多數的陰影只是無害的膽固醇結節，精準的超音波判讀能讓患者免於不必要的恐慌與手術。
+        </div>
+        <div class="footer-tag"><span>☁️</span> Gemini Notebook</div>
+    </section>
+
+</div>
+
+</body>
+</html>
