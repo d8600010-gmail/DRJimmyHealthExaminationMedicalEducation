@@ -1,1 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>肝膽科 Hepatobiliary</title>
+<style>
+  :root {
+    --primary: #0f6b5c;
+    --primary-light: #e6f4f1;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --bg: #f7f9f9;
+    --card-bg: #ffffff;
+    --border: #e2e8e6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  header {
+    background: var(--primary);
+    color: #fff;
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0 0 0.4rem;
+    font-size: 1.8rem;
+    letter-spacing: 0.02em;
+  }
+  header p {
+    margin: 0;
+    opacity: 0.85;
+    font-size: 0.95rem;
+  }
+  main {
+    max-width: 760px;
+    margin: -1.5rem auto 3rem;
+    padding: 0 1.25rem;
+  }
+  .card-list {
+    background: var(--card-bg);
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(15, 107, 92, 0.08);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .card-list a {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1.1rem 1.3rem;
+    text-decoration: none;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s ease;
+  }
+  .card-list a:last-child { border-bottom: none; }
+  .card-list a:hover { background: var(--primary-light); }
+  .icon {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .label {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .label .title {
+    font-weight: 600;
+    font-size: 1.02rem;
+  }
+  .label .sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .chevron {
+    color: var(--muted);
+    font-size: 1.2rem;
+  }
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    padding-bottom: 2rem;
+  }
+</style>
+</head>
+<body>
 
+<header>
+  <h1>肝膽科 Hepatobiliary</h1>
+  <p>衛教資訊首頁 · Health Education Home</p>
+</header>
+
+<main>
+  <div class="card-list">
+    <a href="HepatobiliaryView.html">
+      <div class="icon">總</div>
+      <div class="label">
+        <span class="title">肝膽科總覽</span>
+        <span class="sub">HepatobiliaryView</span>
+      </div>
+      <div class="chevron">›</div>
+    </a>
+
+    <a href="FattyLiverFibroScan.html">
+      <div class="icon">肝</div>
+      <div class="label">
+        <span class="title">脂肪肝纖維化掃描</span>
+        <span class="sub">Fatty Liver FibroScan</span>
+      </div>
+      <div class="chevron">›</div>
+    </a>
+
+    <a href="GallBladderPolyp.html">
+      <div class="icon">膽</div>
+      <div class="label">
+        <span class="title">膽囊瘜肉</span>
+        <span class="sub">Gallbladder Polyp</span>
+      </div>
+      <div class="chevron">›</div>
+    </a>
+
+    <a href="GilbertSyndrome.html">
+      <div class="icon">黃</div>
+      <div class="label">
+        <span class="title">吉爾伯特氏症候群</span>
+        <span class="sub">Gilbert Syndrome</span>
+      </div>
+      <div class="chevron">›</div>
+    </a>
+
+    <a href="HBcAb.html">
+      <div class="icon">B</div>
+      <div class="label">
+        <span class="title">B型肝炎核心抗體</span>
+        <span class="sub">HBcAb</span>
+      </div>
+      <div class="chevron">›</div>
+    </a>
+  </div>
+</main>
+
+<footer>
+  DRJimmyHealthExaminationMedicalEducation
+</footer>
+
+</body>
+</html>
