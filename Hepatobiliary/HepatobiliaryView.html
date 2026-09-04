@@ -3,162 +3,241 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>肝膽科 Hepatobiliary</title>
+<title>肝臟健康知識庫</title>
 <style>
-  :root {
-    --primary: #0f6b5c;
-    --primary-light: #e6f4f1;
-    --text: #1f2937;
-    --muted: #6b7280;
-    --bg: #f7f9f9;
-    --card-bg: #ffffff;
-    --border: #e2e8e6;
+  @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600&display=swap');
+
+  :root{
+    --paper:#F5F6F0;
+    --ink:#1E2B24;
+    --ink-soft:#4B564E;
+    --gold:#A9762C;
+    --gold-soft:#EADFC7;
+    --teal:#3D5A4C;
+    --line:#D9D5C4;
+    --card:#FFFFFE;
   }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
-    background: var(--bg);
-    color: var(--text);
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans','Noto Sans TC', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
   }
-  header {
-    background: var(--primary);
-    color: #fff;
-    padding: 2.5rem 1.5rem 2rem;
-    text-align: center;
+
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:64px 24px 96px;
   }
-  header h1 {
-    margin: 0 0 0.4rem;
-    font-size: 1.8rem;
-    letter-spacing: 0.02em;
+
+  header{
+    border-bottom:1px solid var(--line);
+    padding-bottom:32px;
+    margin-bottom:48px;
   }
-  header p {
-    margin: 0;
-    opacity: 0.85;
-    font-size: 0.95rem;
+
+  .kicker{
+    font-size:14px;
+    color:var(--gold);
+    font-weight:600;
+    margin:0 0 12px;
   }
-  main {
-    max-width: 760px;
-    margin: -1.5rem auto 3rem;
-    padding: 0 1.25rem;
+
+  h1{
+    font-family:'Newsreader','Noto Serif TC', serif;
+    font-weight:500;
+    font-size:clamp(32px, 5vw, 44px);
+    line-height:1.15;
+    margin:0 0 16px;
+    max-width:14ch;
   }
-  .card-list {
-    background: var(--card-bg);
-    border-radius: 14px;
-    box-shadow: 0 6px 20px rgba(15, 107, 92, 0.08);
-    overflow: hidden;
-    border: 1px solid var(--border);
+
+  .lede{
+    font-size:17px;
+    color:var(--ink-soft);
+    max-width:52ch;
+    margin:0;
   }
-  .card-list a {
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    padding: 1.1rem 1.3rem;
-    text-decoration: none;
-    color: var(--text);
-    border-bottom: 1px solid var(--border);
-    transition: background 0.15s ease;
+
+  section{margin-bottom:56px;}
+
+  .section-title{
+    font-family:'Newsreader','Noto Serif TC', serif;
+    font-style:italic;
+    font-size:20px;
+    font-weight:500;
+    color:var(--teal);
+    margin:0 0 6px;
   }
-  .card-list a:last-child { border-bottom: none; }
-  .card-list a:hover { background: var(--primary-light); }
-  .icon {
-    flex-shrink: 0;
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    background: var(--primary-light);
-    color: var(--primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    font-weight: 600;
+
+  .section-note{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin:0 0 20px;
   }
-  .label {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
+
+  /* Pathway list — sequential (diagnosis > testing > treatment) */
+  .pathway{
+    list-style:none;
+    margin:0;
+    padding:0;
+    border-top:1px solid var(--line);
   }
-  .label .title {
-    font-weight: 600;
-    font-size: 1.02rem;
+
+  .pathway li{
+    border-bottom:1px solid var(--line);
   }
-  .label .sub {
-    font-size: 0.82rem;
-    color: var(--muted);
+
+  .pathway a{
+    display:flex;
+    align-items:baseline;
+    gap:20px;
+    padding:22px 4px;
+    text-decoration:none;
+    color:inherit;
   }
-  .chevron {
-    color: var(--muted);
-    font-size: 1.2rem;
+
+  .pathway a:hover .doc-title{color:var(--gold);}
+  .pathway a:hover .step-num{background:var(--gold);color:#fff;}
+
+  .step-num{
+    flex:none;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    border:1px solid var(--teal);
+    color:var(--teal);
+    font-family:'IBM Plex Sans','Noto Sans TC', sans-serif;
+    font-size:13px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .15s ease, color .15s ease;
   }
-  footer {
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.8rem;
-    padding-bottom: 2rem;
+
+  .doc-title{
+    font-family:'Newsreader','Noto Serif TC', serif;
+    font-weight:500;
+    font-size:19px;
+    color:var(--ink);
+    transition:color .15s ease;
+    display:block;
   }
+
+  .doc-desc{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin-top:3px;
+  }
+
+  /* Related conditions — non-sequential cards */
+  .grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:22px 24px;
+    text-decoration:none;
+    color:inherit;
+    display:block;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+
+  .card:hover{
+    border-color:var(--gold);
+    transform:translateX(2px);
+  }
+
+  .card .doc-title{font-size:18px;}
+  .card .doc-desc{margin-top:5px;}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding-top:24px;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+
+  footer strong{color:var(--ink);}
 </style>
 </head>
 <body>
-<header>
-  <h1>肝膽科 Hepatobiliary</h1>
-  <p>衛教資訊首頁 · Health Education Home</p>
-</header>
-<main>
-  <div class="card-list">
-    <a href="HepatobiliaryView.html">
-      <div class="icon">總</div>
-      <div class="label">
-        <span class="title">肝膽科總覽</span>
-        <span class="sub">HepatobiliaryView</span>
+  <div class="wrap">
+
+    <header>
+      <p class="kicker">肝臟健康知識庫</p>
+      <h1>看懂您的肝臟檢查結果</h1>
+      <p class="lede">一系列淺顯易懂的說明文件。如果您剛確診B型肝炎，建議依序閱讀；若只想了解特定病症，也可以直接點選查看。</p>
+    </header>
+
+    <section>
+      <p class="section-title">B型肝炎，一步一步了解</p>
+      <p class="section-note">大多數患者會依序閱讀以下三份指南——從最初的診斷、到看懂血液檢查，再到治療方式。</p>
+      <ol class="pathway">
+        <li>
+          <a href="HBV/HBV-Diagnosis_Guide.html">
+            <span class="step-num">1</span>
+            <span>
+              <span class="doc-title">診斷指南</span>
+              <span class="doc-desc">檢查結果呈陽性代表什麼，以及接下來該做哪些檢查。</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="HBV/HBV-Blood_Test_Guide.html">
+            <span class="step-num">2</span>
+            <span>
+              <span class="doc-title">血液檢查指南</span>
+              <span class="doc-desc">看懂病毒量、肝功能指數與抗原/抗體標記所代表的意義。</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="HBV/HBV-Treatment_Guide.html">
+            <span class="step-num">3</span>
+            <span>
+              <span class="doc-title">治療指南</span>
+              <span class="doc-desc">何時需要治療、有哪些治療選項，以及治療過程中會發生什麼。</span>
+            </span>
+          </a>
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <p class="section-title">其他相關肝臟疾病</p>
+      <p class="section-note">各自獨立的主題，皆附有專屬說明。</p>
+      <div class="grid">
+        <a class="card" href="FattyLiverFibroScan.html">
+          <span class="doc-title">脂肪肝與 FibroScan 肝纖維化掃描</span>
+          <span class="doc-desc">FibroScan 測量的是什麼，以及脂肪與硬度分數代表的意義。</span>
+        </a>
+        <a class="card" href="GallBladderPolyp.html">
+          <span class="doc-title">膽囊瘜肉</span>
+          <span class="doc-desc">瘜肉是如何被發現的、哪些大小需要追蹤觀察，以及何時應考慮手術。</span>
+        </a>
+        <a class="card" href="GilbertSyndrome.html">
+          <span class="doc-title">吉爾伯特氏症候群</span>
+          <span class="doc-desc">一種常見且無害、會使膽紅素輕微偏高的體質，與肝臟疾病有何不同。</span>
+        </a>
       </div>
-      <div class="chevron">›</div>
-    </a>
-    <a href="FattyLiverFibroScan.html">
-      <div class="icon">肝</div>
-      <div class="label">
-        <span class="title">脂肪肝纖維化掃描</span>
-        <span class="sub">Fatty Liver FibroScan</span>
-      </div>
-      <div class="chevron">›</div>
-    </a>
-    <a href="GallBladderPolyp.html">
-      <div class="icon">膽</div>
-      <div class="label">
-        <span class="title">膽囊瘜肉</span>
-        <span class="sub">Gallbladder Polyp</span>
-      </div>
-      <div class="chevron">›</div>
-    </a>
-    <a href="GallStoneManage.html">
-      <div class="icon">石</div>
-      <div class="label">
-        <span class="title">膽結石處置</span>
-        <span class="sub">Gallstone Management</span>
-      </div>
-      <div class="chevron">›</div>
-    </a>
-    <a href="GilbertSyndrome.html">
-      <div class="icon">黃</div>
-      <div class="label">
-        <span class="title">吉爾伯特氏症候群</span>
-        <span class="sub">Gilbert Syndrome</span>
-      </div>
-      <div class="chevron">›</div>
-    </a>
-    <a href="HBcAb.html">
-      <div class="icon">B</div>
-      <div class="label">
-        <span class="title">B型肝炎核心抗體</span>
-        <span class="sub">HBcAb</span>
-      </div>
-      <div class="chevron">›</div>
-    </a>
+    </section>
+
+    <footer>
+      <strong>提醒：</strong>以上內容僅供衛教參考，無法取代您個人醫師的專業診斷與建議。
+    </footer>
+
   </div>
-</main>
-<footer>
-  DRJimmyHealthExaminationMedicalEducation
-</footer>
 </body>
 </html>
