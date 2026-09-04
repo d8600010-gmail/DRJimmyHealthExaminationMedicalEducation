@@ -1,0 +1,525 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>B 型肝炎抽血報告－檢查結果解讀指南</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family:
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        Arial,
+        sans-serif;
+
+    background: #fff8f0;
+    color: #3e2723;
+    line-height: 1.8;
+}
+
+.container {
+    max-width: 1050px;
+    margin: auto;
+    padding: 30px 20px 60px;
+}
+
+.hero {
+    background: linear-gradient(135deg, #a85d00, #f59f00);
+    color: white;
+    padding: 40px 30px;
+    border-radius: 22px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.12);
+}
+
+.hero h1 {
+    margin: 0 0 10px;
+    font-size: 2.2rem;
+}
+
+.card {
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 5px 18px rgba(0,0,0,.08);
+}
+
+h2 {
+    color: #a85d00;
+    border-left: 6px solid #f59f00;
+    padding-left: 12px;
+}
+
+.info {
+    background: #fff3cd;
+    border-left: 5px solid #f59f00;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.good {
+    background: #e8f5e9;
+    border-left: 5px solid #43a047;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.alert {
+    background: #ffebee;
+    border-left: 5px solid #e53935;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th {
+    background: #a85d00;
+    color: white;
+}
+
+th, td {
+    border: 1px solid #ead9c8;
+    padding: 12px;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background: #fffaf5;
+}
+
+.positive {
+    color: #c62828;
+    font-weight: bold;
+}
+
+.negative {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #fff3cd;
+    color: #8a4b00;
+    margin: 3px;
+}
+
+.footer {
+    text-align: center;
+    color: #795548;
+    margin-top: 40px;
+    font-size: .9rem;
+}
+
+@media(max-width:700px) {
+
+    .hero h1 {
+        font-size: 1.6rem;
+    }
+
+    table {
+        font-size: .8rem;
+    }
+
+    th, td {
+        padding: 7px 5px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<section class="hero">
+
+<h1>🧪 B 型肝炎抽血報告</h1>
+
+<p>檢查結果解讀指南</p>
+
+<p>陽性、陰性到底代表什麼？</p>
+
+</section>
+
+
+<div class="card">
+
+<h2>一、先記住三個重要檢查</h2>
+
+<table>
+
+<tr>
+<th>檢查</th>
+<th>它在看什麼？</th>
+</tr>
+
+<tr>
+<td><strong>HBsAg</strong></td>
+<td>目前有沒有偵測到 B 型肝炎表面抗原</td>
+</tr>
+
+<tr>
+<td><strong>anti-HBc</strong></td>
+<td>身體過去是否曾經接觸過 HBV</td>
+</tr>
+
+<tr>
+<td><strong>anti-HBs</strong></td>
+<td>身體有沒有 B 型肝炎保護性抗體</td>
+</tr>
+
+</table>
+
+<div class="info">
+
+<strong>💡 最簡單的理解：</strong>
+
+<p>
+HBsAg = 「病毒的名牌」<br>
+anti-HBc = 「曾經遇過病毒的證據」<br>
+anti-HBs = 「身體的防禦武器」
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>二、三種最常見的結果</h2>
+
+<table>
+
+<tr>
+<th>HBsAg</th>
+<th>anti-HBc</th>
+<th>anti-HBs</th>
+<th>代表什麼？</th>
+</tr>
+
+<tr>
+
+<td class="negative">陰性</td>
+
+<td class="negative">陰性</td>
+
+<td class="negative">陰性</td>
+
+<td>
+<strong>容易感染</strong><br>
+沒有感染證據，也沒有抗體。
+通常可與醫師討論 B 型肝炎疫苗。
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="negative">陰性</td>
+
+<td class="positive">陽性</td>
+
+<td class="positive">陽性</td>
+
+<td>
+<strong>過去感染過</strong><br>
+曾經感染 HBV，目前已經產生抗體。
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="negative">陰性</td>
+
+<td class="negative">陰性</td>
+
+<td class="positive">陽性</td>
+
+<td>
+<strong>疫苗產生的免疫力</strong><br>
+通常表示接種 B 型肝炎疫苗後產生保護性抗體。
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="positive">陽性</td>
+
+<td class="positive">陽性</td>
+
+<td class="negative">陰性</td>
+
+<td>
+<strong>慢性或目前感染</strong><br>
+需要搭配 IgM anti-HBc、HBV DNA、ALT 及其他資料判斷。
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>三、急性感染與慢性感染</h2>
+
+<h3>🔴 急性感染</h3>
+
+<p>
+如果 HBsAg 陽性、anti-HBc 陽性，
+而 IgM anti-HBc 也陽性，可能表示近期急性感染。
+</p>
+
+<h3>🟠 慢性感染</h3>
+
+<p>
+如果 HBsAg 持續陽性超過 6 個月，
+通常代表慢性 B 型肝炎感染。
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>四、什麼是「單獨 anti-HBc 陽性」？</h2>
+
+<p>
+有時候會出現：
+</p>
+
+<table>
+
+<tr>
+<th>HBsAg</th>
+<th>anti-HBc</th>
+<th>anti-HBs</th>
+</tr>
+
+<tr>
+<td>陰性</td>
+<td class="positive">陽性</td>
+<td>陰性</td>
+</tr>
+
+</table>
+
+<p>
+這叫做：
+<strong>單獨 anti-HBc 陽性（Isolated anti-HBc+）</strong>。
+</p>
+
+<div class="info">
+
+<strong>可能有四種解釋：</strong>
+
+<ol>
+
+<li>
+可能正在急性 B 型肝炎感染的恢復期。
+</li>
+
+<li>
+過去曾感染過 HBV，但 anti-HBs 的濃度太低，
+目前檢測不到。
+</li>
+
+<li>
+可能沒有真正感染過，只是 anti-HBc 偽陽性。
+</li>
+
+<li>
+可能是「隱匿性 B 型肝炎感染」，
+HBsAg 測不到，但體內仍可能存在非常低量的病毒。
+</li>
+
+</ol>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>五、疫苗抗體是多少才算有保護力？</h2>
+
+<div class="good">
+
+<p>
+提供的資料指出，anti-HBs 定量結果：
+</p>
+
+<h3>≥ 10 mIU/mL</h3>
+
+<p>
+一般定義為具有保護性抗體反應。
+</p>
+
+</div>
+
+<p>
+疫苗第三劑完成後約 1～2 個月進行檢測，
+結果通常最有意義。
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>六、不要只看一個數字</h2>
+
+<p>
+B 型肝炎的判讀就像拼圖。
+醫師通常會把不同檢查放在一起看。
+</p>
+
+<p>
+
+<span class="tag">HBsAg</span>
+<span class="tag">anti-HBc</span>
+<span class="tag">anti-HBs</span>
+<span class="tag">IgM anti-HBc</span>
+<span class="tag">HBeAg</span>
+<span class="tag">HBV DNA</span>
+<span class="tag">ALT</span>
+
+</p>
+
+<p>
+因此，同樣是「陽性」，
+在不同檢查組合下，可能代表完全不同的事情。
+</p>
+
+</div>
+
+
+<div class="card alert">
+
+<h2>⚠️ 特別提醒：免疫力低下的人</h2>
+
+<p>
+如果曾經感染過 HBV，即使目前 HBsAg 陰性，
+在接受強效免疫抑制治療時仍可能發生
+<strong>HBV 再活化</strong>。
+</p>
+
+<p>
+因此，如果你曾經有 B 型肝炎感染史，
+在接受化療、移植或強效免疫抑制治療前，
+應主動告知醫師。
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>七、一張表快速記憶</h2>
+
+<table>
+
+<tr>
+<th>結果</th>
+<th>簡單理解</th>
+</tr>
+
+<tr>
+<td>
+HBsAg −<br>
+anti-HBc −<br>
+anti-HBs −
+</td>
+<td>沒有感染證據，也沒有抗體 → 容易感染</td>
+</tr>
+
+<tr>
+<td>
+HBsAg −<br>
+anti-HBc −<br>
+anti-HBs +
+</td>
+<td>疫苗產生的免疫力</td>
+</tr>
+
+<tr>
+<td>
+HBsAg −<br>
+anti-HBc +<br>
+anti-HBs +
+</td>
+<td>以前感染過，現在已有抗體</td>
+</tr>
+
+<tr>
+<td>
+HBsAg +<br>
+anti-HBc +<br>
+anti-HBs −
+</td>
+<td>目前感染，需要進一步判斷急性或慢性</td>
+</tr>
+
+<tr>
+<td>
+HBsAg −<br>
+anti-HBc +<br>
+anti-HBs −
+</td>
+<td>單獨 anti-HBc 陽性，需要進一步判斷</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="footer">
+
+<p>
+本頁為一般健康教育用途，不能取代醫師的個別診療。
+</p>
+
+<p>
+資料依使用者提供之 B 型肝炎血清學判讀內容整理。
+</p>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
+```
