@@ -6,7 +6,6 @@
 <title>肝臟健康知識庫</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600&display=swap');
-
   :root{
     --paper:#F5F6F0;
     --ink:#1E2B24;
@@ -17,9 +16,7 @@
     --line:#D9D5C4;
     --card:#FFFFFE;
   }
-
   *{box-sizing:border-box;}
-
   body{
     margin:0;
     background:var(--paper);
@@ -28,26 +25,22 @@
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
   }
-
   .wrap{
     max-width:760px;
     margin:0 auto;
     padding:64px 24px 96px;
   }
-
   header{
     border-bottom:1px solid var(--line);
     padding-bottom:32px;
     margin-bottom:48px;
   }
-
   .kicker{
     font-size:14px;
     color:var(--gold);
     font-weight:600;
     margin:0 0 12px;
   }
-
   h1{
     font-family:'Newsreader','Noto Serif TC', serif;
     font-weight:500;
@@ -56,16 +49,13 @@
     margin:0 0 16px;
     max-width:14ch;
   }
-
   .lede{
     font-size:17px;
     color:var(--ink-soft);
     max-width:52ch;
     margin:0;
   }
-
   section{margin-bottom:56px;}
-
   .section-title{
     font-family:'Newsreader','Noto Serif TC', serif;
     font-style:italic;
@@ -74,13 +64,11 @@
     color:var(--teal);
     margin:0 0 6px;
   }
-
   .section-note{
     font-size:14px;
     color:var(--ink-soft);
     margin:0 0 20px;
   }
-
   /* Pathway list — sequential (diagnosis > testing > treatment) */
   .pathway{
     list-style:none;
@@ -88,11 +76,9 @@
     padding:0;
     border-top:1px solid var(--line);
   }
-
   .pathway li{
     border-bottom:1px solid var(--line);
   }
-
   .pathway a{
     display:flex;
     align-items:baseline;
@@ -101,10 +87,8 @@
     text-decoration:none;
     color:inherit;
   }
-
   .pathway a:hover .doc-title{color:var(--gold);}
   .pathway a:hover .step-num{background:var(--gold);color:#fff;}
-
   .step-num{
     flex:none;
     width:28px;
@@ -120,7 +104,6 @@
     justify-content:center;
     transition:background .15s ease, color .15s ease;
   }
-
   .doc-title{
     font-family:'Newsreader','Noto Serif TC', serif;
     font-weight:500;
@@ -129,20 +112,17 @@
     transition:color .15s ease;
     display:block;
   }
-
   .doc-desc{
     font-size:14px;
     color:var(--ink-soft);
     margin-top:3px;
   }
-
   /* Related conditions — non-sequential cards */
   .grid{
     display:grid;
     grid-template-columns:1fr;
     gap:14px;
   }
-
   .card{
     background:var(--card);
     border:1px solid var(--line);
@@ -153,27 +133,31 @@
     display:block;
     transition:border-color .15s ease, transform .15s ease;
   }
-
   .card:hover{
     border-color:var(--gold);
     transform:translateX(2px);
   }
-
   .card .doc-title{font-size:18px;}
   .card .doc-desc{margin-top:5px;}
-
   footer{
     border-top:1px solid var(--line);
     padding-top:24px;
     font-size:13px;
     color:var(--ink-soft);
   }
-
   footer strong{color:var(--ink);}
 </style>
 </head>
 <body>
   <div class="wrap">
+    <header>
+      <p class="kicker">肝臟健康知識庫</p>
+      <h1>看懂您的肝臟檢查結果</h1>
+      <p class="lede">一系列淺顯易懂的說明文件。如果您剛確診B型肝炎，建議依序閱讀；若只想了解特定病症，也可以直接點選查看。</p>
+    </header>
+    <section>
+      <p class="section-title">B型肝炎，一步一步了解</p>
+      <p class="section-note">大多數患者會依序閱讀以下三份指南——從最初的診斷、到看懂血液檢查，再到治療方式。</p>
       <ol class="pathway">
         <li>
           <a href="HBV/HBV_Diagnosis_Guide.html">
@@ -212,7 +196,7 @@
           </a>
         </li>
         <li>
-          <a href="HBV/AntiHBcPositive.html">
+          <a href="HBV/HBV_HBcPositive.html">
             <span class="step-num">5</span>
             <span>
               <span class="doc-title">Anti-HBc 陽性代表什麼</span>
@@ -221,55 +205,7 @@
           </a>
         </li>
       </ol>
-    <header>
-      <p class="kicker">肝臟健康知識庫</p>
-      <h1>看懂您的肝臟檢查結果</h1>
-      <p class="lede">一系列淺顯易懂的說明文件。如果您剛確診B型肝炎，建議依序閱讀；若只想了解特定病症，也可以直接點選查看。</p>
-    </header>
-
-    <section>
-      <p class="section-title">B型肝炎，一步一步了解</p>
-      <p class="section-note">大多數患者會依序閱讀以下三份指南——從最初的診斷、到看懂血液檢查，再到治療方式。</p>
-      <ol class="pathway">
-        <li>
-          <a href="HBV/HBV_Diagnosis_Guide.html">
-            <span class="step-num">1</span>
-            <span>
-              <span class="doc-title">診斷指南</span>
-              <span class="doc-desc">檢查結果呈陽性代表什麼，以及接下來該做哪些檢查。</span>
-            </span>
-          </a>
-        </li>
-        <li>
-          <a href="HBV/HBV_Blood_Test_Guide.html">
-            <span class="step-num">2</span>
-            <span>
-              <span class="doc-title">血液檢查指南</span>
-              <span class="doc-desc">看懂病毒量、肝功能指數與抗原/抗體標記所代表的意義。</span>
-            </span>
-          </a>
-        </li>
-        <li>
-          <a href="HBV/HBV_Treatment_Guide.html">
-            <span class="step-num">3</span>
-            <span>
-              <span class="doc-title">治療指南</span>
-              <span class="doc-desc">何時需要治療、有哪些治療選項，以及治療過程中會發生什麼。</span>
-            </span>
-          </a>
-        </li>
-        
-      </ol>
-       <a href="HBV/HBV_HBcNegative.html">
-            <span class="step-num">4</span>
-            <span>
-              <span class="doc-title">Anti-HBc 陰性代表什麼</span>
-              <span class="doc-desc">B肝核心抗體檢驗呈陰性的意義，以及與其他B肝標記合併判讀的方式。</span>
-            </span>
-          </a>
-        </li>
     </section>
-
     <section>
       <p class="section-title">其他相關肝臟疾病</p>
       <p class="section-note">各自獨立的主題，皆附有專屬說明。</p>
@@ -288,11 +224,9 @@
         </a>
       </div>
     </section>
-
     <footer>
       <strong>提醒：</strong>以上內容僅供衛教參考，無法取代您個人醫師的專業診斷與建議。
     </footer>
-
   </div>
 </body>
 </html>
